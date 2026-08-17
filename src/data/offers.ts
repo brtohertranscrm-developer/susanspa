@@ -1,0 +1,55 @@
+import { SpecialOffer } from '@/types';
+
+export const OFFERS: SpecialOffer[] = [
+  {
+    id: 'romantic-mountain-escape',
+    slug: 'romantic-mountain-escape',
+    title: 'The Ultimate Romantic Highland Escape',
+    badge: 'Honeymoon Special',
+    validity: 'Valid through Dec 31, 2026',
+    description: 'Immerse in intimate luxury with 2 nights in the Royal Jacuzzi Suite, a private 5-course dinner at La Kana deck, and a couples spa package.',
+    inclusions: [
+      '2 Nights stay in Royal Jacuzzi Suite',
+      'Daily breakfast served in-suite or at Sky Garden',
+      '1x 120-min Couples Spa Sanctuary Session',
+      '1x Private Candlelight Dinner at La Kana Chapel Terrace',
+      'Welcome bottle of sparkling rose tea & exotic fruit basket',
+      'Complimentary airport / station transfer from Semarang',
+    ],
+    image: 'https://images.unsplash.com/photo-1591088398332-8a7791972843?q=80&w=1600&auto=format&fit=crop',
+    featured: true,
+  },
+  {
+    id: 'wellness-recharge-retreat',
+    slug: 'wellness-recharge-retreat',
+    title: '3-Day Highland Wellness & Spa Retreat',
+    badge: 'Wellness Sanctuary',
+    validity: 'Valid year-round',
+    description: 'Rejuvenate mind, body, and spirit in the cool mountain climate of Bandungan with daily spa treatments and organic dining.',
+    inclusions: [
+      '2 Nights stay in Garden Jacuzzi Villa',
+      'Daily detox botanical smoothie & organic breakfast',
+      '2x 90-min Signature Spa Treatments of choice',
+      'Unlimited access to heated infinity pool & thermal sauna',
+      'Complimentary morning sunrise yoga class',
+    ],
+    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1600&auto=format&fit=crop',
+    featured: true,
+  },
+  {
+    id: 'early-bird-mountain-stay',
+    slug: 'early-bird-mountain-stay',
+    title: 'Early Bird Highland Sanctuary Advantage',
+    badge: 'Special Advance Rate',
+    validity: 'Book 30 days in advance',
+    description: 'Plan your retreat early and enjoy up to 25% savings on all villa and suite categories with flexible date change options.',
+    inclusions: [
+      'Save 25% on standard villa & suite rates',
+      'Daily gourmet breakfast at Sky Garden Restaurant',
+      '20% Discount voucher on all spa treatment items',
+      'Flexible date change up to 7 days prior to check-in',
+    ],
+    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1600&auto=format&fit=crop',
+    featured: false,
+  },
+];

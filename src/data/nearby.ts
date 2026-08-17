@@ -1,0 +1,77 @@
+import { NearbyDestination, Testimonial } from '@/types';
+
+export const NEARBY_DESTINATIONS: NearbyDestination[] = [
+  {
+    id: 'gedong-songo',
+    name: 'Gedong Songo Temple Complex',
+    distanceKm: 3.5,
+    driveTimeMinutes: 10,
+    category: 'Historical',
+    description: 'Ancient 8th-century Hindu temples built during the Sanjaya dynasty, scattered across Mount Ungaran ridge with natural sulfur steam vents.',
+    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1600&auto=format&fit=crop',
+    tips: 'Best visited early morning (07:00 - 09:00) when mountain fog clears and weather is crisp.',
+  },
+  {
+    id: 'celosia-flower-park',
+    name: 'Taman Bunga Celosia Bandungan',
+    distanceKm: 2.8,
+    driveTimeMinutes: 8,
+    category: 'Nature',
+    description: 'Vibrant botanical garden featuring sprawling fields of colorful celosia, chrysanthemums, and European-inspired flower displays.',
+    image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1600&auto=format&fit=crop',
+    tips: 'Great for family photos and purchasing fresh potted highland flowers.',
+  },
+  {
+    id: 'ambarawa-railway-museum',
+    name: 'Ambarawa Railway Museum',
+    distanceKm: 14.0,
+    driveTimeMinutes: 25,
+    category: 'Cultural',
+    description: 'Historic colonial train station featuring vintage steam locomotives and scenic heritage train rides along Lake Rawa Pening.',
+    image: 'https://images.unsplash.com/photo-1515165562839-97840182415c?q=80&w=1600&auto=format&fit=crop',
+    tips: 'Book vintage train rides in advance for weekend departures.',
+  },
+  {
+    id: 'rawa-pening-lake',
+    name: 'Rawa Pening Lake & Floating Dining',
+    distanceKm: 16.5,
+    driveTimeMinutes: 30,
+    category: 'Nature',
+    description: 'Vast natural lake surrounded by mountain ranges. Famous for wooden boat rides, lotus blooms, and fresh fish restaurants.',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop',
+    tips: 'Visit at golden hour (16:30) for dramatic sunset reflections across the water.',
+  },
+];
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    id: 'test-1',
+    guestName: 'Maya & Hendra Kusuma',
+    stayCategory: 'Wedding Couple at La Kana Chapel',
+    origin: 'Jakarta, Indonesia',
+    rating: 5,
+    quote: 'Getting married at La Kana Chapel was a dream come true. The glass chapel overlooking the misty mountains of Bandungan took everyone’s breath away. The staff made our special day flawless.',
+    date: 'July 2026',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
+  },
+  {
+    id: 'test-2',
+    guestName: 'David & Sarah Jenkins',
+    stayCategory: 'Grand Mountain Villa Guests',
+    origin: 'Singapore',
+    rating: 5,
+    quote: 'Susan Spa & Resort is a hidden sanctuary in Central Java. The cool mountain air at 1,100 meters was so refreshing after the heat of the city. The private heated pool and spa treatments were world-class.',
+    date: 'June 2026',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop',
+  },
+  {
+    id: 'test-3',
+    guestName: 'Dr. Evelyn Wijaya',
+    stayCategory: 'Weekend Wellness Retreat',
+    origin: 'Surabaya, Indonesia',
+    rating: 5,
+    quote: 'The Royal Herbal Ritual massage melted away months of stress. Pairing daily hydrotherapy baths with Sky Garden dining was the exact restorative escape I needed.',
+    date: 'August 2026',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop',
+  },
+];
