@@ -1,5 +1,7 @@
 # Database & Entity Schema Documentation (Phase 2 & Phase 3 Ready)
 
+> **Implementation status — Demo 1 (August 2026):** dua PostgreSQL fisik/logis terpisah sudah tersedia melalui Docker Compose. `susan_cms` (host port 5433) hanya untuk Payload/content; `susan_booking` (host port 5434) untuk transaksi. Migration booking saat ini membuat tabel `inquiries`; entity reservasi, inventory, payment, dan audit di bawah tetap merupakan rancangan fase berikutnya.
+
 ## Data Architecture & Entity Relationship Overview
 
 Although the Phase 1 implementation uses a content-driven data layer (`src/data/`), the database schema below provides the complete future-ready relational structure for Phase 2 (Direct Booking System) and Phase 3 (Payments, Invoicing, PMS, and Channel Manager integration).

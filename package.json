@@ -1,32 +1,31 @@
 {
-  "name": "susan-spa-resort-website",
+  "name": "susan-spa-platform",
   "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "clsx": "^2.1.1",
-    "framer-motion": "^11.11.17",
-    "lucide-react": "^0.460.0",
-    "next": "^14.2.18",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.5.4"
+    "dev": "npm run build -w @susan/contracts && concurrently -n web,cms,booking -c green,magenta,cyan \"npm run dev -w @susan/web\" \"npm run dev -w @susan/cms\" \"npm run dev -w @susan/booking-api\"",
+    "dev:web": "npm run dev -w @susan/web",
+    "dev:cms": "npm run dev -w @susan/cms",
+    "dev:booking": "npm run dev -w @susan/booking-api",
+    "build": "npm run build -w @susan/contracts && npm run build -w @susan/web && npm run build -w @susan/cms && npm run build -w @susan/booking-api",
+    "typecheck": "npm run build -w @susan/contracts && npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "db:up": "docker compose up -d cms-db booking-db",
+    "db:down": "docker compose down",
+    "db:logs": "docker compose logs -f cms-db booking-db",
+    "db:migrate:booking": "npm run db:migrate -w @susan/booking-api",
+    "cms:migrate": "npm run payload -w @susan/cms -- migrate",
+    "cms:generate:types": "npm run generate:types -w @susan/cms",
+    "cms:generate:importmap": "npm run generate:importmap -w @susan/cms"
   },
   "devDependencies": {
-    "@types/node": "^20.17.6",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "autoprefixer": "^10.4.20",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "^14.2.18",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.15",
-    "typescript": "^5.6.3"
+    "concurrently": "^9.2.1"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   }
 }

@@ -1,17 +1,21 @@
 # Technical Architecture Document
 
+> **Implementation status — Demo 1 (August 2026):** repository telah dipisahkan menjadi `apps/web` (Next.js 16), `apps/cms` (Payload CMS 3), `apps/booking-api` (Fastify), dan `packages/contracts`. Payload memakai database PostgreSQL CMS tersendiri, sedangkan inquiry/booking memakai database transaksi yang terpisah. Diagram dan struktur implementasi aktual ada di root `README.md`.
+
 ## Overview & Technology Stack
 
 The **Susan Spa & Resort** web platform is architected as a modern, high-performance web application utilizing Next.js (App Router), TypeScript, and Tailwind CSS. The system prioritizes server-side rendering for optimal SEO and performance, while using lightweight client components for interactive reservation flows, gallery filtering, and lead capture.
 
 ### Core Technology Choices
-- **Framework**: Next.js 14+ (App Router)
+- **Framework**: Next.js 16 (App Router) untuk web dan Payload admin
 - **Language**: TypeScript (Strict Type Safety)
 - **Styling**: Tailwind CSS + Custom CSS Variables for Design Tokens ("Elevated Serenity" Theme)
 - **Icons**: Lucide React
 - **Animations**: Framer Motion & CSS Micro-interactions
 - **Image Handling**: `next/image` with WebP/AVIF optimization and responsive srcset sizing
-- **Form Handling**: Native React Hook State + Zod Schema Validation readiness
+- **Form Handling**: Native React state + kontrak Zod bersama frontend dan booking API
+- **Content Management**: Payload CMS 3 + PostgreSQL CMS
+- **Transaction Service**: Fastify 5 + PostgreSQL transaksi
 - **SEO & Structured Data**: Next.js Metadata API + Schema.org JSON-LD
 
 ---
@@ -105,7 +109,7 @@ src/
 
 ---
 
-## Future Booking Platform Architecture (Phase 2 & Phase 3)
+## Booking Platform Architecture (Foundation Implemented; Phase 2 & Phase 3 Pending)
 
 The architecture is designed to support seamless addition of backend booking APIs:
 
@@ -114,7 +118,10 @@ The architecture is designed to support seamless addition of backend booking API
          │
          ├── REST / GraphQL API Routes (/api/v1/availability)
          │
-[ Phase 2: Booking Microservice ]
+[ Booking API (Fastify foundation implemented) ]
+         ├── Inquiry Capture (implemented)
+         │
+[ Phase 2 modules ]
          ├── Room Inventory Engine
          ├── Rate Plan & Occupancy Pricing Calculator
          ├── Reservation Manager
