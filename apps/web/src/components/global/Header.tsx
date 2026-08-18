@@ -3,7 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronDown, X, Compass, Phone, ArrowUpRight, Globe } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronRight,
+  X,
+  ArrowUpRight,
+  Globe,
+  Instagram,
+  Facebook,
+  Youtube,
+  MessageCircle,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface HeaderProps {
@@ -14,6 +24,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const [language, setLanguage] = useState<'EN' | 'ID'>('EN');
+  const [expandedSection, setExpandedSection] = useState<string | null>('stay');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when mega menu is open
+  // Lock body scroll when menu is open
   useEffect(() => {
     if (megaMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -36,37 +47,84 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
     }
   }, [megaMenuOpen]);
 
-  const accommodationLinks = [
-    { href: '/stay/grand-villa', label: 'Grand Mountain Villa' },
-    { href: '/stay/royal-suite', label: 'Royal Jacuzzi Suite' },
-    { href: '/stay/jacuzzi-villa', label: 'Garden Jacuzzi Villa' },
-    { href: '/stay/family-suite', label: 'Bandungan Family Suite' },
-    { href: '/stay', label: 'View All Accommodations' },
-  ];
-
-  const wellnessLinks = [
-    { href: '/spa', label: 'Signature Spa Treatments' },
-    { href: '/spa', label: 'Thermal Hydrotherapy Baths' },
-    { href: '/facilities', label: 'Heated Infinity Pool' },
-    { href: '/facilities', label: 'Sky Garden & Sauna' },
-  ];
-
-  const celebrationLinks = [
-    { href: '/weddings', label: 'La Kana Glass Chapel' },
-    { href: '/weddings', label: 'Sky Lawn Wedding Receptions' },
-    { href: '/weddings', label: 'Pre-Wedding Photography' },
-    { href: '/events', label: 'Corporate Meetings & Retreats' },
-  ];
-
-  const discoveryLinks = [
-    { href: '/dining', label: 'Sky Garden Restaurant' },
-    { href: '/experiences', label: 'Gedong Songo Temple Trekking' },
-    { href: '/offers', label: 'Exclusive Packages' },
-    { href: '/gallery', label: 'Visual Portfolio' },
-    { href: '/nearby', label: 'Bandungan Destination Guide' },
-    { href: '/journal', label: 'The Susan Journal' },
-    { href: '/about', label: 'About Our Sanctuary' },
-    { href: '/contact', label: 'Contact & Location' },
+  const menuSections = [
+    {
+      id: 'stay',
+      label: 'Accommodations',
+      href: '/stay',
+      hasSub: true,
+      items: [
+        { href: '/stay/grand-villa', label: 'Grand Mountain Villa' },
+        { href: '/stay/royal-suite', label: 'Royal Jacuzzi Suite' },
+        { href: '/stay/jacuzzi-villa', label: 'Garden Jacuzzi Villa' },
+        { href: '/stay/family-suite', label: 'Bandungan Family Suite' },
+        { href: '/stay', label: 'View All Accommodations' },
+      ],
+    },
+    {
+      id: 'spa',
+      label: 'Wellness & Spa',
+      href: '/spa',
+      hasSub: true,
+      items: [
+        { href: '/spa', label: 'Signature Spa Treatments' },
+        { href: '/spa', label: 'Thermal Hydrotherapy Baths' },
+        { href: '/facilities', label: 'Heated Infinity Pool' },
+        { href: '/facilities', label: 'Sky Garden & Sauna' },
+      ],
+    },
+    {
+      id: 'weddings',
+      label: 'Celebrations & Weddings',
+      href: '/weddings',
+      hasSub: true,
+      items: [
+        { href: '/weddings', label: 'La Kana Glass Chapel' },
+        { href: '/weddings', label: 'Sky Lawn Wedding Receptions' },
+        { href: '/weddings', label: 'Pre-Wedding Photography' },
+        { href: '/events', label: 'Corporate Meetings & Retreats' },
+      ],
+    },
+    {
+      id: 'dining',
+      label: 'Sky Garden & Dining',
+      href: '/dining',
+      hasSub: false,
+    },
+    {
+      id: 'nearby',
+      label: 'Bandungan Destination Guide',
+      href: '/nearby',
+      hasSub: false,
+    },
+    {
+      id: 'about',
+      label: 'About Susan Spa & Resort',
+      href: '/about',
+      hasSub: false,
+    },
+    {
+      id: 'journal',
+      label: 'The Susan Journal',
+      href: '/journal',
+      hasSub: false,
+    },
+    {
+      id: 'offers',
+      label: 'Exclusive Offers & Packages',
+      href: '/offers',
+      hasSub: false,
+    },
+    {
+      id: 'contact',
+      label: 'Contact & Location',
+      href: '/contact',
+      hasSub: true,
+      items: [
+        { href: '/contact', label: 'Resort Location & Directions' },
+        { href: 'https://wa.me/62811299878', label: 'Direct WhatsApp Concierge' },
+      ],
+    },
   ];
 
   return (
@@ -80,14 +138,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
         )}
       >
         <div className="max-w-wide mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between">
-          {/* Left Side: Hamburger Icon + RESORT Trigger */}
+          {/* Left Side: Hamburger Trigger */}
           <div className="flex items-center space-x-3">
             <button
               onClick={() => setMegaMenuOpen(true)}
               className="group flex items-center space-x-2 text-ivory hover:text-champagne transition-colors focus:outline-none py-1"
-              aria-label="Open Resort Mega Menu"
+              aria-label="Open Resort Menu"
             >
-              {/* Custom Two-Line Hamburger Icon matching NIHI reference */}
               <div className="flex flex-col justify-center space-y-1.5 w-5">
                 <span className="h-[1.5px] bg-current w-full transition-all duration-300 group-hover:w-full" />
                 <span className="h-[1.5px] bg-current w-3/4 transition-all duration-300 group-hover:w-full" />
@@ -111,14 +168,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
             />
           </Link>
 
-          {/* Right Side: Outlined RESERVE Button */}
+          {/* Right Side: RESERVE Button */}
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setLanguage(language === 'EN' ? 'ID' : 'EN')}
               className="hidden md:flex items-center space-x-1 text-[11px] text-ivory/80 hover:text-champagne transition-colors uppercase tracking-wider"
               title="Toggle Language"
             >
-              <Globe className="w-3 h-3 text-champagne" />
+              <Globe className="w-3.5 h-3.5 text-champagne" />
               <span>{language}</span>
             </button>
 
@@ -132,147 +189,187 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
         </div>
       </header>
 
-      {/* Editorial Full-Screen Mega Menu Overlay */}
+      {/* NIHI-Inspired Full-Screen Menu Overlay */}
       {megaMenuOpen && (
         <div className="fixed inset-0 z-[100] bg-[#10241F] text-ivory flex flex-col animate-fade-in overflow-hidden">
-          {/* Mega Menu Top Bar */}
-          <div className="max-w-wide w-full mx-auto px-4 sm:px-8 lg:px-12 py-6 flex items-center justify-between border-b border-champagne/30 bg-[#10241F]">
-            {/* Left Close Button */}
+          {/* Top Bar matching NIHI reference */}
+          <div className="w-full px-4 sm:px-12 py-5 flex items-center justify-between border-b border-champagne/25 bg-[#10241F]">
+            {/* Left: Close Icon */}
             <button
               onClick={() => setMegaMenuOpen(false)}
-              className="flex items-center space-x-2 text-ivory hover:text-champagne transition-colors text-xs uppercase tracking-[0.2em]"
+              className="text-ivory hover:text-champagne transition-colors p-1.5 focus:outline-none"
+              aria-label="Close menu"
             >
-              <X className="w-5 h-5 text-champagne" />
-              <span className="font-medium">CLOSE</span>
+              <X className="w-7 h-7 text-champagne" />
             </button>
 
-            {/* Center Logo */}
+            {/* Center: Official Logo */}
             <Link href="/" onClick={() => setMegaMenuOpen(false)} className="flex flex-col items-center text-center">
               <Image
                 src="/images/susan-spa-logo-gold.png"
                 alt="Susan Spa & Resort"
-                width={150}
-                height={66}
-                className="h-10 w-auto object-contain"
+                width={160}
+                height={70}
+                className="h-10 sm:h-12 w-auto object-contain"
               />
             </Link>
 
-            {/* Right Action */}
+            {/* Right: Outlined RESERVE button */}
             <button
               onClick={() => {
                 setMegaMenuOpen(false);
                 if (onOpenReserve) onOpenReserve();
               }}
-              className="border border-champagne text-champagne hover:bg-champagne hover:text-forest-deep px-5 py-2 rounded-sm text-[11px] font-medium uppercase tracking-[0.2em] transition-colors"
+              className="border border-champagne/80 hover:border-champagne hover:bg-champagne hover:text-forest-deep text-champagne px-5 sm:px-7 py-2 rounded-sm text-xs font-semibold uppercase tracking-[0.25em] transition-all"
             >
-              BOOK STAY
+              RESERVE
             </button>
           </div>
 
-          {/* Mega Menu Content Grid */}
-          <div className="flex-1 overflow-y-auto max-w-wide w-full mx-auto px-4 sm:px-8 lg:px-12 py-12 bg-[#10241F]">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
-              {/* Column 1: Accommodations */}
-              <div className="space-y-4">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-bold block border-b border-champagne/40 pb-2">
-                  ACCOMMODATIONS
-                </span>
-                <ul className="space-y-3">
-                  {accommodationLinks.map((item, idx) => (
-                    <li key={idx}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setMegaMenuOpen(false)}
-                        className="font-serif text-lg sm:text-xl text-white hover:text-champagne transition-colors block leading-snug font-normal"
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+          {/* Middle Body: Left Social Sidebar + Right Primary Editorial Navigation */}
+          <div className="flex-1 overflow-y-auto flex flex-col justify-between">
+            <div className="flex min-h-[420px]">
+              {/* Left Vertical Social Media Sidebar */}
+              <div className="w-14 sm:w-20 border-r border-champagne/20 flex flex-col items-center py-8 space-y-7 shrink-0 bg-[#10241F]">
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-ivory/70 hover:text-champagne transition-colors p-1"
+                  title="Instagram"
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-ivory/70 hover:text-champagne transition-colors p-1"
+                  title="Facebook"
+                >
+                  <Facebook className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://youtube.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-ivory/70 hover:text-champagne transition-colors p-1"
+                  title="YouTube"
+                >
+                  <Youtube className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://wa.me/62811299878"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-ivory/70 hover:text-champagne transition-colors p-1"
+                  title="WhatsApp"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                </a>
               </div>
 
-              {/* Column 2: Wellness & Spa */}
-              <div className="space-y-4">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-bold block border-b border-champagne/40 pb-2">
-                  WELLNESS & SPA
-                </span>
-                <ul className="space-y-3">
-                  {wellnessLinks.map((item, idx) => (
-                    <li key={idx}>
+              {/* Right Primary Editorial Navigation List */}
+              <div className="flex-1 px-6 sm:px-12 py-8 max-w-4xl space-y-5">
+                {menuSections.map((sec) => (
+                  <div key={sec.id} className="border-b border-white/5 pb-3.5">
+                    <div className="flex items-center justify-between group">
                       <Link
-                        href={item.href}
+                        href={sec.href}
                         onClick={() => setMegaMenuOpen(false)}
-                        className="font-serif text-lg sm:text-xl text-white hover:text-champagne transition-colors block leading-snug font-normal"
+                        className="font-serif text-2xl sm:text-3xl text-white group-hover:text-champagne transition-colors tracking-wide leading-tight"
                       >
-                        {item.label}
+                        {sec.label}
                       </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
 
-              {/* Column 3: Celebrations */}
-              <div className="space-y-4">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-bold block border-b border-champagne/40 pb-2">
-                  CELEBRATIONS & EVENTS
-                </span>
-                <ul className="space-y-3">
-                  {celebrationLinks.map((item, idx) => (
-                    <li key={idx}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setMegaMenuOpen(false)}
-                        className="font-serif text-lg sm:text-xl text-white hover:text-champagne transition-colors block leading-snug font-normal"
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                      {sec.hasSub && (
+                        <button
+                          onClick={() => setExpandedSection(expandedSection === sec.id ? null : sec.id)}
+                          className="p-1.5 text-ivory/60 hover:text-champagne transition-colors"
+                        >
+                          <ChevronRight
+                            className={cn(
+                              'w-6 h-6 text-champagne transition-transform duration-300',
+                              expandedSection === sec.id && 'rotate-90'
+                            )}
+                          />
+                        </button>
+                      )}
+                    </div>
 
-              {/* Column 4: Discoveries & Experiences */}
-              <div className="space-y-4">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-bold block border-b border-champagne/40 pb-2">
-                  DISCOVERIES & JOURNAL
-                </span>
-                <ul className="space-y-2.5">
-                  {discoveryLinks.map((item, idx) => (
-                    <li key={idx}>
-                      <Link
-                        href={item.href}
-                        onClick={() => setMegaMenuOpen(false)}
-                        className="text-xs uppercase tracking-wider text-white/90 hover:text-champagne transition-colors flex items-center justify-between font-medium"
-                      >
-                        <span>{item.label}</span>
-                        <ArrowUpRight className="w-3 h-3 text-champagne" />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                    {/* Expandable Sub-items */}
+                    {sec.hasSub && expandedSection === sec.id && (
+                      <ul className="mt-3 ml-2 space-y-2 pl-4 border-l border-champagne/30 animate-fade-in">
+                        {sec.items?.map((sub, i) => (
+                          <li key={i}>
+                            <Link
+                              href={sub.href}
+                              onClick={() => setMegaMenuOpen(false)}
+                              className="text-sm font-sans text-ivory/90 hover:text-champagne transition-colors block py-1"
+                            >
+                              {sub.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Bottom Info Banner inside Mega Menu */}
-            <div className="mt-16 pt-8 border-t border-champagne/20 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-ivory/70">
-              <div className="flex items-center space-x-3">
-                <Compass className="w-4 h-4 text-champagne" />
-                <span>Bandungan, Central Java • Elevation ~1,100m ASL near Mount Ungaran</span>
+            {/* Lower Section: Property Location & Contact Info Cards */}
+            <div className="bg-[#0B1916] border-t border-champagne/20 px-6 sm:px-16 py-8 grid grid-cols-1 md:grid-cols-2 gap-8 text-xs text-ivory/80">
+              {/* Card 1: Susan Spa & Resort Main Property */}
+              <div className="space-y-2">
+                <Link
+                  href="/contact"
+                  onClick={() => setMegaMenuOpen(false)}
+                  className="font-sans font-bold text-sm text-ivory hover:text-champagne transition-colors flex items-center space-x-1 uppercase tracking-wider"
+                >
+                  <span>Susan Spa & Resort — Bandungan</span>
+                  <ChevronRight className="w-4 h-4 text-champagne" />
+                </Link>
+                <p className="text-ivory/70 leading-relaxed max-w-md">
+                  Jl. Gintungan Utara P.99, Jetis, Bandungan, Kab. Semarang, Jawa Tengah 50614{' '}
+                  <a
+                    href="https://maps.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-champagne hover:underline ml-1"
+                  >
+                    <ArrowUpRight className="w-3.5 h-3.5 inline" />
+                  </a>
+                </p>
+                <p className="text-champagne font-medium pt-1">
+                  WhatsApp: <a href="https://wa.me/62811299878" className="hover:underline">+62 811 299 878</a>
+                </p>
               </div>
 
-              <div className="flex items-center space-x-6">
-                <span className="flex items-center space-x-2">
-                  <Phone className="w-4 h-4 text-champagne" />
-                  <span>+62 298 711111</span>
-                </span>
-
-                <button
-                  onClick={() => setLanguage(language === 'EN' ? 'ID' : 'EN')}
-                  className="text-champagne underline uppercase tracking-wider"
+              {/* Card 2: La Kana Glass Chapel & Events */}
+              <div className="space-y-2">
+                <Link
+                  href="/weddings"
+                  onClick={() => setMegaMenuOpen(false)}
+                  className="font-sans font-bold text-sm text-ivory hover:text-champagne transition-colors flex items-center space-x-1 uppercase tracking-wider"
                 >
-                  Language: {language === 'EN' ? 'English' : 'Bahasa Indonesia'}
-                </button>
+                  <span>La Kana Glass Chapel & Sky Lawn</span>
+                  <ChevronRight className="w-4 h-4 text-champagne" />
+                </Link>
+                <p className="text-ivory/70 leading-relaxed max-w-md">
+                  Bandungan Highlands ~1,100m ASL near Mount Ungaran, Central Java{' '}
+                  <a
+                    href="https://maps.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-champagne hover:underline ml-1"
+                  >
+                    <ArrowUpRight className="w-3.5 h-3.5 inline" />
+                  </a>
+                </p>
+                <p className="text-champagne font-medium pt-1">
+                  Direct Line: <a href="tel:+62298711111" className="hover:underline">+62 298 711111</a>
+                </p>
               </div>
             </div>
           </div>
