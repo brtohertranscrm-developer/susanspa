@@ -75,8 +75,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
         className={cn(
           'fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-in-out',
           isScrolled
-            ? 'bg-forest-deep/95 backdrop-blur-md py-4 border-b border-champagne/20 shadow-xl'
-            : 'bg-gradient-to-b from-forest-deep/80 via-forest-deep/40 to-transparent py-6'
+            ? 'bg-[#10241F] py-4 border-b border-champagne/30 shadow-2xl'
+            : 'bg-gradient-to-b from-[#10241F] via-[#10241F]/80 to-transparent py-6'
         )}
       >
         <div className="max-w-wide mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between">
@@ -134,16 +134,16 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
 
       {/* Editorial Full-Screen Mega Menu Overlay */}
       {megaMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-forest-deep/98 backdrop-blur-2xl text-ivory flex flex-col animate-fade-in overflow-hidden">
+        <div className="fixed inset-0 z-[100] bg-[#10241F] text-ivory flex flex-col animate-fade-in overflow-hidden">
           {/* Mega Menu Top Bar */}
-          <div className="max-w-wide w-full mx-auto px-4 sm:px-8 lg:px-12 py-6 flex items-center justify-between border-b border-champagne/20">
+          <div className="max-w-wide w-full mx-auto px-4 sm:px-8 lg:px-12 py-6 flex items-center justify-between border-b border-champagne/30 bg-[#10241F]">
             {/* Left Close Button */}
             <button
               onClick={() => setMegaMenuOpen(false)}
-              className="flex items-center space-x-2 text-ivory/80 hover:text-champagne transition-colors text-xs uppercase tracking-[0.2em]"
+              className="flex items-center space-x-2 text-ivory hover:text-champagne transition-colors text-xs uppercase tracking-[0.2em]"
             >
               <X className="w-5 h-5 text-champagne" />
-              <span>CLOSE</span>
+              <span className="font-medium">CLOSE</span>
             </button>
 
             {/* Center Logo */}
@@ -163,18 +163,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                 setMegaMenuOpen(false);
                 if (onOpenReserve) onOpenReserve();
               }}
-              className="border border-champagne text-champagne hover:bg-champagne hover:text-forest-deep px-5 py-2 rounded-sm text-[11px] uppercase tracking-[0.2em] transition-colors"
+              className="border border-champagne text-champagne hover:bg-champagne hover:text-forest-deep px-5 py-2 rounded-sm text-[11px] font-medium uppercase tracking-[0.2em] transition-colors"
             >
               BOOK STAY
             </button>
           </div>
 
           {/* Mega Menu Content Grid */}
-          <div className="flex-1 overflow-y-auto max-w-wide w-full mx-auto px-4 sm:px-8 lg:px-12 py-12">
+          <div className="flex-1 overflow-y-auto max-w-wide w-full mx-auto px-4 sm:px-8 lg:px-12 py-12 bg-[#10241F]">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
               {/* Column 1: Accommodations */}
               <div className="space-y-4">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-semibold block border-b border-champagne/30 pb-2">
+                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-bold block border-b border-champagne/40 pb-2">
                   ACCOMMODATIONS
                 </span>
                 <ul className="space-y-3">
@@ -183,7 +183,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                       <Link
                         href={item.href}
                         onClick={() => setMegaMenuOpen(false)}
-                        className="font-serif text-lg sm:text-xl text-ivory/90 hover:text-champagne transition-colors block leading-snug"
+                        className="font-serif text-lg sm:text-xl text-white hover:text-champagne transition-colors block leading-snug font-normal"
                       >
                         {item.label}
                       </Link>
@@ -194,7 +194,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
 
               {/* Column 2: Wellness & Spa */}
               <div className="space-y-4">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-semibold block border-b border-champagne/30 pb-2">
+                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-bold block border-b border-champagne/40 pb-2">
                   WELLNESS & SPA
                 </span>
                 <ul className="space-y-3">
@@ -203,7 +203,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                       <Link
                         href={item.href}
                         onClick={() => setMegaMenuOpen(false)}
-                        className="font-serif text-lg sm:text-xl text-ivory/90 hover:text-champagne transition-colors block leading-snug"
+                        className="font-serif text-lg sm:text-xl text-white hover:text-champagne transition-colors block leading-snug font-normal"
                       >
                         {item.label}
                       </Link>
@@ -214,7 +214,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
 
               {/* Column 3: Celebrations */}
               <div className="space-y-4">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-semibold block border-b border-champagne/30 pb-2">
+                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-bold block border-b border-champagne/40 pb-2">
                   CELEBRATIONS & EVENTS
                 </span>
                 <ul className="space-y-3">
@@ -223,7 +223,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                       <Link
                         href={item.href}
                         onClick={() => setMegaMenuOpen(false)}
-                        className="font-serif text-lg sm:text-xl text-ivory/90 hover:text-champagne transition-colors block leading-snug"
+                        className="font-serif text-lg sm:text-xl text-white hover:text-champagne transition-colors block leading-snug font-normal"
                       >
                         {item.label}
                       </Link>
@@ -234,7 +234,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
 
               {/* Column 4: Discoveries & Experiences */}
               <div className="space-y-4">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-semibold block border-b border-champagne/30 pb-2">
+                <span className="text-[11px] uppercase tracking-[0.25em] text-champagne font-bold block border-b border-champagne/40 pb-2">
                   DISCOVERIES & JOURNAL
                 </span>
                 <ul className="space-y-2.5">
@@ -243,10 +243,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                       <Link
                         href={item.href}
                         onClick={() => setMegaMenuOpen(false)}
-                        className="text-xs uppercase tracking-wider text-ivory/80 hover:text-champagne transition-colors flex items-center justify-between"
+                        className="text-xs uppercase tracking-wider text-white/90 hover:text-champagne transition-colors flex items-center justify-between font-medium"
                       >
                         <span>{item.label}</span>
-                        <ArrowUpRight className="w-3 h-3 text-champagne/60" />
+                        <ArrowUpRight className="w-3 h-3 text-champagne" />
                       </Link>
                     </li>
                   ))}
