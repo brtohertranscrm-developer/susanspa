@@ -6,6 +6,7 @@ import Image from 'next/image';
 import {
   ChevronDown,
   ChevronRight,
+  ArrowLeft,
   X,
   ArrowUpRight,
   Globe,
@@ -24,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const [language, setLanguage] = useState<'EN' | 'ID'>('EN');
-  const [expandedSection, setExpandedSection] = useState<string | null>('stay');
+  const [activeSubCategory, setActiveSubCategory] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,6 +38,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleCloseMenu = () => {
+    setMegaMenuOpen(false);
+    setActiveSubCategory(null);
+  };
 
   // Lock body scroll when menu is open
   useEffect(() => {
@@ -58,7 +64,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
         { href: '/stay/royal-suite', label: 'Royal Jacuzzi Suite' },
         { href: '/stay/jacuzzi-villa', label: 'Garden Jacuzzi Villa' },
         { href: '/stay/family-suite', label: 'Bandungan Family Suite' },
-        { href: '/stay', label: 'View All Accommodations' },
+        { href: '/stay', label: 'View All Accommodations →' },
       ],
     },
     {
@@ -127,6 +133,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
     },
   ];
 
+  const currentActiveSection = menuSections.find((sec) => sec.id === activeSubCategory);
+
   return (
     <>
       <header
@@ -193,24 +201,24 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
       {megaMenuOpen && (
         <div className="fixed inset-0 z-[100] bg-[#10241F] text-ivory flex flex-col animate-fade-in overflow-hidden">
           {/* Top Bar matching NIHI reference */}
-          <div className="w-full px-4 sm:px-12 py-5 flex items-center justify-between border-b border-champagne/25 bg-[#10241F]">
+          <div className="w-full px-4 sm:px-12 py-4 sm:py-5 flex items-center justify-between border-b border-champagne/25 bg-[#10241F]">
             {/* Left: Close Icon */}
             <button
-              onClick={() => setMegaMenuOpen(false)}
+              onClick={handleCloseMenu}
               className="text-ivory hover:text-champagne transition-colors p-1.5 focus:outline-none"
               aria-label="Close menu"
             >
-              <X className="w-7 h-7 text-champagne" />
+              <X className="w-6 sm:w-7 h-6 sm:h-7 text-champagne" />
             </button>
 
             {/* Center: Official Logo */}
-            <Link href="/" onClick={() => setMegaMenuOpen(false)} className="flex flex-col items-center text-center">
+            <Link href="/" onClick={handleCloseMenu} className="flex flex-col items-center text-center">
               <Image
                 src="/images/susan-spa-logo-gold.png"
                 alt="Susan Spa & Resort"
                 width={160}
                 height={70}
-                className="h-10 sm:h-12 w-auto object-contain"
+                className="h-9 sm:h-11 w-auto object-contain"
               />
             </Link>
 
@@ -220,17 +228,17 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                 setMegaMenuOpen(false);
                 if (onOpenReserve) onOpenReserve();
               }}
-              className="border border-champagne/80 hover:border-champagne hover:bg-champagne hover:text-forest-deep text-champagne px-5 sm:px-7 py-2 rounded-sm text-xs font-semibold uppercase tracking-[0.25em] transition-all"
+              className="border border-champagne/80 hover:border-champagne hover:bg-champagne hover:text-forest-deep text-champagne px-4 sm:px-6 py-1.5 sm:py-2 rounded-sm text-[11px] sm:text-xs font-semibold uppercase tracking-[0.25em] transition-all"
             >
               RESERVE
             </button>
           </div>
 
-          {/* Middle Body: Left Social Sidebar + Right Primary Editorial Navigation */}
+          {/* Middle Body: Left Social Sidebar + Right Navigation (Main or Sub View) */}
           <div className="flex-1 overflow-y-auto flex flex-col justify-between">
-            <div className="flex min-h-[420px]">
+            <div className="flex min-h-[380px]">
               {/* Left Vertical Social Media Sidebar */}
-              <div className="w-14 sm:w-20 border-r border-champagne/20 flex flex-col items-center py-8 space-y-7 shrink-0 bg-[#10241F]">
+              <div className="w-14 sm:w-20 border-r border-champagne/20 flex flex-col items-center py-6 sm:py-8 space-y-6 sm:space-y-7 shrink-0 bg-[#10241F]">
                 <a
                   href="https://instagram.com"
                   target="_blank"
@@ -238,7 +246,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                   className="text-ivory/70 hover:text-champagne transition-colors p-1"
                   title="Instagram"
                 >
-                  <Instagram className="w-5 h-5" />
+                  <Instagram className="w-4 sm:w-5 h-4 sm:h-5" />
                 </a>
                 <a
                   href="https://facebook.com"
@@ -247,7 +255,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                   className="text-ivory/70 hover:text-champagne transition-colors p-1"
                   title="Facebook"
                 >
-                  <Facebook className="w-5 h-5" />
+                  <Facebook className="w-4 sm:w-5 h-4 sm:h-5" />
                 </a>
                 <a
                   href="https://youtube.com"
@@ -256,7 +264,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                   className="text-ivory/70 hover:text-champagne transition-colors p-1"
                   title="YouTube"
                 >
-                  <Youtube className="w-5 h-5" />
+                  <Youtube className="w-4 sm:w-5 h-4 sm:h-5" />
                 </a>
                 <a
                   href="https://wa.me/62811299878"
@@ -265,72 +273,95 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                   className="text-ivory/70 hover:text-champagne transition-colors p-1"
                   title="WhatsApp"
                 >
-                  <MessageCircle className="w-5 h-5" />
+                  <MessageCircle className="w-4 sm:w-5 h-4 sm:h-5" />
                 </a>
               </div>
 
-              {/* Right Primary Editorial Navigation List */}
-              <div className="flex-1 px-6 sm:px-12 py-8 max-w-4xl space-y-5">
-                {menuSections.map((sec) => (
-                  <div key={sec.id} className="border-b border-white/5 pb-3.5">
-                    <div className="flex items-center justify-between group">
-                      <Link
-                        href={sec.href}
-                        onClick={() => setMegaMenuOpen(false)}
-                        className="font-serif text-2xl sm:text-3xl text-white group-hover:text-champagne transition-colors tracking-wide leading-tight"
-                      >
-                        {sec.label}
-                      </Link>
+              {/* Right Navigation Area */}
+              <div className="flex-1 px-6 sm:px-12 py-6 sm:py-8 max-w-3xl">
+                {activeSubCategory === null ? (
+                  /* Main Menu Navigation List */
+                  <div className="space-y-2.5 sm:space-y-3.5 animate-fade-in">
+                    {menuSections.map((sec) => (
+                      <div key={sec.id} className="border-b border-white/5 pb-2.5 sm:pb-3">
+                        {sec.hasSub ? (
+                          <button
+                            onClick={() => setActiveSubCategory(sec.id)}
+                            className="w-full flex items-center justify-between group text-left focus:outline-none"
+                          >
+                            <span className="font-serif text-lg sm:text-xl lg:text-[22px] text-white group-hover:text-champagne transition-colors tracking-wide leading-tight font-normal">
+                              {sec.label}
+                            </span>
+                            <ChevronRight className="w-5 h-5 text-champagne/80 group-hover:text-champagne group-hover:translate-x-1 transition-transform" />
+                          </button>
+                        ) : (
+                          <Link
+                            href={sec.href}
+                            onClick={handleCloseMenu}
+                            className="w-full flex items-center justify-between group text-left"
+                          >
+                            <span className="font-serif text-lg sm:text-xl lg:text-[22px] text-white group-hover:text-champagne transition-colors tracking-wide leading-tight font-normal">
+                              {sec.label}
+                            </span>
+                          </Link>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  /* Dedicated Sub-Menu Panel (NIHI Pattern: ← Back + Sub-Items) */
+                  <div className="space-y-5 animate-fade-in">
+                    {/* Back Button matching NIHI reference */}
+                    <button
+                      onClick={() => setActiveSubCategory(null)}
+                      className="flex items-center space-x-2 text-ivory/80 hover:text-champagne transition-colors text-base font-medium group focus:outline-none"
+                    >
+                      <ArrowLeft className="w-5 h-5 text-champagne group-hover:-translate-x-1 transition-transform" />
+                      <span className="tracking-wide">Back</span>
+                    </button>
 
-                      {sec.hasSub && (
-                        <button
-                          onClick={() => setExpandedSection(expandedSection === sec.id ? null : sec.id)}
-                          className="p-1.5 text-ivory/60 hover:text-champagne transition-colors"
-                        >
-                          <ChevronRight
-                            className={cn(
-                              'w-6 h-6 text-champagne transition-transform duration-300',
-                              expandedSection === sec.id && 'rotate-90'
-                            )}
-                          />
-                        </button>
-                      )}
+                    {/* Category Title Badge */}
+                    <div className="pt-2 pb-1 border-b border-champagne/30">
+                      <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
+                        {currentActiveSection?.label}
+                      </span>
                     </div>
 
-                    {/* Expandable Sub-items */}
-                    {sec.hasSub && expandedSection === sec.id && (
-                      <ul className="mt-3 ml-2 space-y-2 pl-4 border-l border-champagne/30 animate-fade-in">
-                        {sec.items?.map((sub, i) => (
-                          <li key={i}>
-                            <Link
-                              href={sub.href}
-                              onClick={() => setMegaMenuOpen(false)}
-                              className="text-sm font-sans text-ivory/90 hover:text-champagne transition-colors block py-1"
-                            >
-                              {sub.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    {/* Sub-Items List */}
+                    <ul className="space-y-3.5 pt-1">
+                      {currentActiveSection?.items?.map((sub, idx) => (
+                        <li key={idx} className="border-b border-white/5 pb-2.5">
+                          <Link
+                            href={sub.href}
+                            onClick={() => {
+                              setMegaMenuOpen(false);
+                              setActiveSubCategory(null);
+                            }}
+                            className="font-serif text-lg sm:text-xl lg:text-[22px] text-white hover:text-champagne transition-colors block leading-relaxed font-normal"
+                          >
+                            {sub.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                ))}
+                )}
               </div>
             </div>
 
             {/* Lower Section: Property Location & Contact Info Cards */}
-            <div className="bg-[#0B1916] border-t border-champagne/20 px-6 sm:px-16 py-8 grid grid-cols-1 md:grid-cols-2 gap-8 text-xs text-ivory/80">
+            <div className="bg-[#0B1916] border-t border-champagne/20 px-6 sm:px-16 py-6 sm:py-8 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 text-xs text-ivory/80">
               {/* Card 1: Susan Spa & Resort Main Property */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <Link
                   href="/contact"
-                  onClick={() => setMegaMenuOpen(false)}
-                  className="font-sans font-bold text-sm text-ivory hover:text-champagne transition-colors flex items-center space-x-1 uppercase tracking-wider"
+                  onClick={handleCloseMenu}
+                  className="font-sans font-bold text-xs sm:text-sm text-ivory hover:text-champagne transition-colors flex items-center space-x-1 uppercase tracking-wider"
                 >
                   <span>Susan Spa & Resort — Bandungan</span>
                   <ChevronRight className="w-4 h-4 text-champagne" />
                 </Link>
-                <p className="text-ivory/70 leading-relaxed max-w-md">
+                <p className="text-ivory/70 leading-relaxed max-w-md text-[11px] sm:text-xs">
                   Jl. Gintungan Utara P.99, Jetis, Bandungan, Kab. Semarang, Jawa Tengah 50614{' '}
                   <a
                     href="https://maps.google.com"
@@ -341,22 +372,22 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                     <ArrowUpRight className="w-3.5 h-3.5 inline" />
                   </a>
                 </p>
-                <p className="text-champagne font-medium pt-1">
+                <p className="text-champagne font-medium pt-0.5 text-[11px] sm:text-xs">
                   WhatsApp: <a href="https://wa.me/62811299878" className="hover:underline">+62 811 299 878</a>
                 </p>
               </div>
 
               {/* Card 2: La Kana Glass Chapel & Events */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <Link
                   href="/weddings"
                   onClick={() => setMegaMenuOpen(false)}
-                  className="font-sans font-bold text-sm text-ivory hover:text-champagne transition-colors flex items-center space-x-1 uppercase tracking-wider"
+                  className="font-sans font-bold text-xs sm:text-sm text-ivory hover:text-champagne transition-colors flex items-center space-x-1 uppercase tracking-wider"
                 >
                   <span>La Kana Glass Chapel & Sky Lawn</span>
                   <ChevronRight className="w-4 h-4 text-champagne" />
                 </Link>
-                <p className="text-ivory/70 leading-relaxed max-w-md">
+                <p className="text-ivory/70 leading-relaxed max-w-md text-[11px] sm:text-xs">
                   Bandungan Highlands ~1,100m ASL near Mount Ungaran, Central Java{' '}
                   <a
                     href="https://maps.google.com"
@@ -367,7 +398,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                     <ArrowUpRight className="w-3.5 h-3.5 inline" />
                   </a>
                 </p>
-                <p className="text-champagne font-medium pt-1">
+                <p className="text-champagne font-medium pt-0.5 text-[11px] sm:text-xs">
                   Direct Line: <a href="tel:+62298711111" className="hover:underline">+62 298 711111</a>
                 </p>
               </div>
