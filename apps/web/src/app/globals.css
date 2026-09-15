@@ -47,6 +47,15 @@ html {
   border: 1px solid rgba(184, 176, 162, 0.3);
 }
 
+/* Hide scrollbar for clean swipeable carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Custom Scrollbar for Luxury Aesthetics */
 ::-webkit-scrollbar {
   width: 8px;

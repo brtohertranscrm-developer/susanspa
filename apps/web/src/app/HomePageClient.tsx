@@ -21,7 +21,7 @@ import { BookingBar, type BookingSearchParams } from '@/components/global/Bookin
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { RoomCard } from '@/components/ui/RoomCard';
-import { FEATURED_FACILITIES } from '@/data/facilities';
+import { FeaturedFacilitiesCarousel } from '@/components/ui/FeaturedFacilitiesCarousel';
 import { OFFERS } from '@/data/offers';
 import { NEARBY_DESTINATIONS } from '@/data/nearby';
 import { SITE_CONFIG } from '@/data/site';
@@ -271,69 +271,11 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 03 — SECTION: FEATURED FACILITIES */}
+      {/* 03 — SECTION: FEATURED FACILITIES (Redesigned Snap Carousel) */}
       {/* ========================================================================= */}
-      <section className="py-24 bg-forest-deep text-ivory">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="space-y-3 max-w-2xl">
-              <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">
-                RESORT EXPERIENCES
-              </span>
-              <h2 className="font-serif text-3xl sm:text-5xl text-ivory">
-                Featured Facilities
-              </h2>
-              <p className="text-sm text-ivory/70 leading-relaxed">
-                Nikmati fasilitas unggulan kami mulai dari kolam renang air hangat, relaksasi spa di atas awan, hingga kapel kaca ikonik La Kana.
-              </p>
-            </div>
-
-            <Link
-              href="/facilities"
-              className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-champagne hover:text-champagne-light font-semibold border-b border-champagne pb-1 shrink-0"
-            >
-              <span>Explore All Facilities</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          {/* 9 Featured Facilities Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {FEATURED_FACILITIES.map((facility) => (
-              <div
-                key={facility.id}
-                className="group relative aspect-[4/3] rounded-2xl overflow-hidden border border-champagne/20 shadow-lg hover:border-champagne/60 transition-all duration-500 flex flex-col justify-end p-6"
-              >
-                <Image
-                  src={facility.image}
-                  alt={facility.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/50 to-transparent" />
-
-                <div className="relative z-10 space-y-1.5">
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-champagne block font-semibold">
-                    {facility.category}
-                  </span>
-                  <h3 className="font-serif text-xl sm:text-2xl text-ivory group-hover:text-champagne transition-colors">
-                    {facility.name}
-                  </h3>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center pt-4">
-            <Link
-              href="/facilities"
-              className="inline-flex items-center space-x-2 bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg transition-colors"
-            >
-              <span>Explore All Facilities</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+      <section className="py-24 bg-forest-deep text-ivory overflow-hidden">
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
+          <FeaturedFacilitiesCarousel />
         </div>
       </section>
 
