@@ -98,11 +98,11 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
       });
       const body = (await response.json()) as InquiryReceipt | { error?: string };
       if (!response.ok || !('id' in body)) {
-        throw new Error('error' in body ? body.error : 'Inquiry belum dapat dikirim.');
+        throw new Error('error' in body ? body.error : 'Permintaan reservasi belum dapat dikirim. Silakan coba kembali.');
       }
       setReceipt(body);
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : 'Inquiry belum dapat dikirim.');
+      setSubmitError(error instanceof Error ? error.message : 'Permintaan reservasi belum dapat dikirim.');
     } finally {
       setIsSubmitting(false);
     }
@@ -123,7 +123,7 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
           ref={closeButtonRef}
           onClick={onClose}
           className="absolute top-6 right-6 p-2 text-ivory/60 hover:text-champagne transition-colors"
-          aria-label="Close reservation dialog"
+          aria-label="Tutup jendela reservasi"
         >
           <X className="w-6 h-6" />
         </button>
@@ -132,104 +132,232 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
           <div className="py-12 text-center space-y-6">
             <CheckCircle2 className="w-14 h-14 text-champagne mx-auto" />
             <div className="space-y-2">
-              <h3 id="reservation-dialog-title" className="font-serif text-2xl text-ivory">Inquiry Received</h3>
-              <p className="text-xs text-ivory/70 max-w-md mx-auto leading-relaxed">
-                Thank you, <strong className="text-champagne">{fullName}</strong>. Reference: {receipt.id.slice(0, 8).toUpperCase()}.
+              <h3 id="reservation-dialog-title" className="font-serif text-2xl sm:text-3xl text-ivory font-normal">
+                Permintaan Reservasi Telah Diterima
+              </h3>
+              <p className="text-sm text-ivory/80 max-w-md mx-auto leading-relaxed">
+                Terima kasih, Bapak/Ibu <strong className="text-champagne font-semibold">{fullName}</strong>. Permintaan Anda telah tercatat dengan nomor referensi:{' '}
+                <span className="font-mono text-champagne">{receipt.id.slice(0, 8).toUpperCase()}</span>.
+              </p>
+              <p className="text-xs text-ivory/65 max-w-md mx-auto">
+                Tim concierge Susan Spa & Resort akan segera menghubungi Anda melalui WhatsApp atau email untuk konfirmasi ketersediaan kamar dan panduan pembayaran.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <a
-                href={`https://wa.me/6281228111111?text=${encodeURIComponent(`Hi Susan Spa Resort, inquiry reference ${receipt.id}. Name: ${fullName}`)}`}
+                href={`https://wa.me/6281228111111?text=${encodeURIComponent(`Halo Susan Spa & Resort, saya telah mengirimkan permintaan reservasi dengan nomor referensi ${receipt.id.slice(0, 8).toUpperCase()} atas nama ${fullName}. Mohon konfirmasinya. Terima kasih.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto bg-[#25D366] text-white px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2"
+                className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20ba5a] text-white px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
               >
-                <MessageCircle className="w-4 h-4" /> WhatsApp Concierge
+                <MessageCircle className="w-4 h-4" /> Hubungi WhatsApp Concierge
               </a>
-              <button onClick={onClose} className="w-full sm:w-auto border border-champagne/40 px-6 py-3 rounded-full text-xs uppercase tracking-wider">
-                Close Window
+              <button
+                onClick={onClose}
+                className="w-full sm:w-auto border border-champagne/40 hover:bg-forest text-champagne px-6 py-3 rounded-full text-xs uppercase tracking-wider transition-colors"
+              >
+                Tutup Jendela
               </button>
             </div>
           </div>
         ) : (
           <div className="space-y-6">
             <div>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-champagne font-semibold">Reservation & Inquiry Portal</span>
-              <h3 id="reservation-dialog-title" className="font-serif text-2xl sm:text-3xl text-ivory mt-1">Begin Your Highland Escape</h3>
-              <p className="text-xs text-ivory/70 mt-1">Request availability directly with our concierge team.</p>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-champagne font-bold">Layanan Reservasi & Informasi</span>
+              <h3 id="reservation-dialog-title" className="font-serif text-2xl sm:text-3xl text-ivory mt-1 font-normal">
+                Rencanakan Kunjungan Istimewa Anda
+              </h3>
+              <p className="text-xs text-ivory/75 mt-1 font-light">
+                Silakan lengkapi formulir di bawah ini. Tim concierge kami akan dengan senang hati memeriksa ketersediaan dan menghubungi Anda secara pribadi.
+              </p>
             </div>
 
-            <div className="grid grid-cols-4 gap-2 bg-forest/80 p-1.5 rounded-xl border border-white/10 text-xs">
-              {(['room', 'spa', 'wedding', 'event'] as const).map((type) => (
-                <button key={type} type="button" onClick={() => setInquiryType(type)} aria-pressed={inquiryType === type}
-                  className={`py-2 rounded-lg uppercase tracking-wider text-[10px] sm:text-xs font-medium ${inquiryType === type ? 'bg-champagne text-forest-deep' : 'text-ivory/70'}`}>
-                  {type}
+            {/* Type Switcher Tabs */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-forest/80 p-1.5 rounded-2xl border border-white/10 text-xs">
+              {[
+                { key: 'room', label: 'Kamar & Villa' },
+                { key: 'spa', label: 'Spa Ritual' },
+                { key: 'wedding', label: 'Pernikahan' },
+                { key: 'event', label: 'Acara / Meeting' },
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setInquiryType(tab.key as InquiryType)}
+                  aria-pressed={inquiryType === tab.key}
+                  className={`py-2 px-2 rounded-xl uppercase tracking-wider text-[10px] sm:text-xs font-medium transition-all ${
+                    inquiryType === tab.key
+                      ? 'bg-champagne text-forest-deep font-bold shadow-sm'
+                      : 'text-ivory/70 hover:text-ivory'
+                  }`}
+                >
+                  {tab.label}
                 </button>
               ))}
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field label="Full Name" id="inquiry-name">
-                  <input id="inquiry-name" required minLength={2} value={fullName} onChange={(e) => setFullName(e.target.value)} className="field" />
+                <Field label="Nama Lengkap" id="inquiry-name">
+                  <input
+                    id="inquiry-name"
+                    required
+                    minLength={2}
+                    placeholder="Contoh: Bapak Hendra Kusuma"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="field"
+                  />
                 </Field>
-                <Field label="WhatsApp / Phone" id="inquiry-phone">
-                  <input id="inquiry-phone" type="tel" required minLength={8} value={phone} onChange={(e) => setPhone(e.target.value)} className="field" />
+                <Field label="Nomor WhatsApp / Telepon" id="inquiry-phone">
+                  <input
+                    id="inquiry-phone"
+                    type="tel"
+                    required
+                    minLength={8}
+                    placeholder="Contoh: 08123456789"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="field"
+                  />
                 </Field>
               </div>
-              <Field label="Email Address" id="inquiry-email">
-                <input id="inquiry-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="field" />
+
+              <Field label="Alamat Email" id="inquiry-email">
+                <input
+                  id="inquiry-email"
+                  type="email"
+                  required
+                  placeholder="Contoh: hendra@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="field"
+                />
               </Field>
 
               {inquiryType === 'room' ? (
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Field label="Check In" id="inquiry-check-in">
-                      <input id="inquiry-check-in" type="date" required min={defaults.minimumDate} value={checkIn} onChange={(e) => setCheckIn(e.target.value)} className="field" />
+                    <Field label="Tanggal Check-In" id="inquiry-check-in">
+                      <input
+                        id="inquiry-check-in"
+                        type="date"
+                        required
+                        min={defaults.minimumDate}
+                        value={checkIn}
+                        onChange={(e) => setCheckIn(e.target.value)}
+                        className="field"
+                      />
                     </Field>
-                    <Field label="Check Out" id="inquiry-check-out">
-                      <input id="inquiry-check-out" type="date" required min={checkIn} value={checkOut} onChange={(e) => setCheckOut(e.target.value)} className="field" />
+                    <Field label="Tanggal Check-Out" id="inquiry-check-out">
+                      <input
+                        id="inquiry-check-out"
+                        type="date"
+                        required
+                        min={checkIn}
+                        value={checkOut}
+                        onChange={(e) => setCheckOut(e.target.value)}
+                        className="field"
+                      />
                     </Field>
                   </div>
-                  <Field label="Accommodation Choice" id="inquiry-room">
-                    <select id="inquiry-room" value={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)} className="field">
-                      {rooms.map((room) => <option key={room.id} value={room.slug}>{room.name} ({roomCategoryLabel(room.category)})</option>)}
+                  <Field label="Pilihan Akomodasi" id="inquiry-room">
+                    <select
+                      id="inquiry-room"
+                      value={selectedRoom}
+                      onChange={(e) => setSelectedRoom(e.target.value)}
+                      className="field"
+                    >
+                      {rooms.map((room) => (
+                        <option key={room.id} value={room.slug} className="bg-forest-deep text-ivory">
+                          {room.name} ({roomCategoryLabel(room.category)})
+                        </option>
+                      ))}
                     </select>
                   </Field>
                 </>
               ) : (
-                <Field label={inquiryType === 'spa' ? 'Preferred Treatment Date' : 'Target Event Date'} id="inquiry-target-date">
-                  <input id="inquiry-target-date" type="date" min={defaults.minimumDate} value={targetDate} onChange={(e) => setTargetDate(e.target.value)} className="field" />
+                <Field
+                  label={inquiryType === 'spa' ? 'Rencana Tanggal Perawatan' : 'Perkiraan Tanggal Acara'}
+                  id="inquiry-target-date"
+                >
+                  <input
+                    id="inquiry-target-date"
+                    type="date"
+                    min={defaults.minimumDate}
+                    value={targetDate}
+                    onChange={(e) => setTargetDate(e.target.value)}
+                    className="field"
+                  />
                 </Field>
               )}
 
               {inquiryType === 'spa' && (
-                <Field label="Treatment Preference" id="inquiry-treatment">
-                  <select id="inquiry-treatment" value={treatmentPreference} onChange={(e) => setTreatmentPreference(e.target.value)} className="field">
-                    <option value="">Let the concierge recommend</option>
-                    {SPA_TREATMENTS.map((treatment) => <option key={treatment.id} value={treatment.title}>{treatment.title}</option>)}
+                <Field label="Pilihan Perawatan Spa" id="inquiry-treatment">
+                  <select
+                    id="inquiry-treatment"
+                    value={treatmentPreference}
+                    onChange={(e) => setTreatmentPreference(e.target.value)}
+                    className="field"
+                  >
+                    <option value="" className="bg-forest-deep text-ivory">Konsultasikan rekomendasi terbaik dengan terapis</option>
+                    {SPA_TREATMENTS.map((treatment) => (
+                      <option key={treatment.id} value={treatment.title} className="bg-forest-deep text-ivory">
+                        {treatment.title}
+                      </option>
+                    ))}
                   </select>
                 </Field>
               )}
 
               {(inquiryType === 'wedding' || inquiryType === 'event') && (
-                <Field label="Venue Preference" id="inquiry-venue">
-                  <input id="inquiry-venue" value={venuePreference} onChange={(e) => setVenuePreference(e.target.value)} className="field" placeholder="La Kana Chapel, Sky Lawn, Ballroom..." />
+                <Field label="Preferensi Venue / Lokasi" id="inquiry-venue">
+                  <input
+                    id="inquiry-venue"
+                    value={venuePreference}
+                    onChange={(e) => setVenuePreference(e.target.value)}
+                    className="field"
+                    placeholder="Contoh: La Kana Chapel, Sky Garden Outdoor, Frangipani Ballroom..."
+                  />
                 </Field>
               )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field label="Estimated Guests" id="inquiry-guests">
-                  <input id="inquiry-guests" type="number" min={1} max={1000} value={guests} onChange={(e) => setGuests(Number(e.target.value))} className="field" />
+                <Field label="Perkiraan Jumlah Tamu" id="inquiry-guests">
+                  <input
+                    id="inquiry-guests"
+                    type="number"
+                    min={1}
+                    max={1000}
+                    value={guests}
+                    onChange={(e) => setGuests(Number(e.target.value))}
+                    className="field"
+                  />
                 </Field>
-                <Field label="Special Requests / Notes" id="inquiry-notes">
-                  <textarea id="inquiry-notes" rows={2} value={specialRequests} onChange={(e) => setSpecialRequests(e.target.value)} className="field" />
+                <Field label="Catatan Tambahan / Permintaan Khusus" id="inquiry-notes">
+                  <textarea
+                    id="inquiry-notes"
+                    rows={2}
+                    placeholder="Contoh: Permintaan ranjang bayi, preferensi lantai, dsb."
+                    value={specialRequests}
+                    onChange={(e) => setSpecialRequests(e.target.value)}
+                    className="field"
+                  />
                 </Field>
               </div>
 
-              {submitError && <p role="alert" className="text-xs text-red-200 bg-red-950/40 border border-red-300/30 rounded-xl p-3">{submitError}</p>}
-              <button type="submit" disabled={isSubmitting} className="w-full bg-champagne disabled:opacity-60 text-forest-deep py-3 rounded-full font-semibold uppercase tracking-wider text-xs flex items-center justify-center gap-2">
-                <Send className="w-4 h-4" /> {isSubmitting ? 'Sending Inquiry...' : 'Submit Inquiry'}
+              {submitError && (
+                <p role="alert" className="text-xs text-red-200 bg-red-950/40 border border-red-300/30 rounded-xl p-3">
+                  {submitError}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-champagne hover:bg-champagne-light disabled:opacity-60 text-forest-deep py-3.5 rounded-full font-bold uppercase tracking-[0.18em] text-xs flex items-center justify-center gap-2 transition-colors shadow-md"
+              >
+                <Send className="w-4 h-4" /> {isSubmitting ? 'Mengirimkan Permintaan...' : 'Kirimkan Permintaan Reservasi'}
               </button>
             </form>
           </div>
@@ -241,7 +369,9 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
 
 const Field = ({ label, id, children }: { label: string; id: string; children: React.ReactNode }) => (
   <div className="space-y-1">
-    <label htmlFor={id} className="text-[11px] uppercase tracking-wider text-champagne">{label}</label>
+    <label htmlFor={id} className="text-[11px] uppercase tracking-wider text-champagne font-medium">
+      {label}
+    </label>
     {children}
   </div>
 );

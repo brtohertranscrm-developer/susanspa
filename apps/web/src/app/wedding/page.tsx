@@ -43,13 +43,13 @@ export default function WeddingPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            DESTINATION WEDDINGS & CELEBRATIONS
+            PERNIKAHAN & PERAYAAN ISTIMEWA
           </span>
           <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Wedding at Susan Spa & Resort
+            Pernikahan di Susan Spa & Resort
           </h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Wedding destination di kawasan pegunungan Bandungan untuk Holy Matrimony, wedding reception dan pre-wedding experience di atas awan.
+            Wujudkan momen ikrar janji suci dan perayaan cinta berlatar keindahan panorama lereng Gunung Ungaran yang romantis dan sejuk.
           </p>
 
           <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
@@ -57,13 +57,13 @@ export default function WeddingPage() {
               onClick={() => handleInquire('wedding-package')}
               className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-lg transition-transform hover:scale-105"
             >
-              Wedding Inquiry
+              Konsultasi Pernikahan
             </button>
             <a
               href="#packages"
               className="border border-champagne/40 hover:bg-forest/60 text-ivory px-6 py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors"
             >
-              View Packages
+              Lihat Paket Pernikahan
             </a>
           </div>
         </div>
@@ -73,13 +73,13 @@ export default function WeddingPage() {
       <section id="packages" className="py-20 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-            EXCLUSIVE CELEBRATION PACKAGES
+            PILIHAN PAKET PERNIKAHAN
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep">
-            Wedding Packages
+            Paket Pernikahan Pilihan
           </h2>
           <p className="text-sm text-charcoal/70 leading-relaxed">
-            Pilihan paket pernikahan terpadu dengan venue ikonis La Kana Chapel, jamuan prasmanan istimewa, serta layanan profesional.
+            Pilihan paket pernikahan terpadu di Kapel Kaca La Kana, didukung jamuan prasmanan istimewa serta pendampingan wedding coordinator profesional.
           </p>
         </div>
 
@@ -119,7 +119,7 @@ export default function WeddingPage() {
                 {/* Inclusions Highlights */}
                 <div className="space-y-2 border-t border-white/10 pt-4 text-xs">
                   <span className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
-                    Main Inclusions:
+                    Fasilitas & Inklusi Utama:
                   </span>
                   <ul className="space-y-1.5 text-ivory/80">
                     {pkg.inclusions.slice(0, 4).map((inc, i) => (
@@ -137,13 +137,13 @@ export default function WeddingPage() {
                     href={`/wedding/${pkg.slug}`}
                     className="flex-1 border border-champagne/40 hover:bg-forest text-ivory text-xs uppercase tracking-wider font-semibold py-2.5 rounded-xl text-center transition-colors"
                   >
-                    View Details
+                    Detail Paket
                   </Link>
                   <button
                     onClick={() => handleInquire(pkg.slug)}
                     className="bg-champagne hover:bg-champagne-light text-forest-deep text-xs uppercase tracking-wider font-bold py-2.5 px-4 rounded-xl transition-colors shadow-sm"
                   >
-                    Wedding Inquiry
+                    Konsultasi
                   </button>
                 </div>
               </div>
@@ -157,10 +157,10 @@ export default function WeddingPage() {
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-10 text-center">
           <div className="max-w-2xl mx-auto space-y-2">
             <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-              MEMORABLE SPACES
+              VENUE PERNIKAHAN IKONIK
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-forest-deep">
-              Iconic Wedding Venues
+              Pilihan Venue Pernikahan Ikonik
             </h2>
           </div>
 

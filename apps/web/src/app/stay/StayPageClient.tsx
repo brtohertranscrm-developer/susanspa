@@ -45,13 +45,13 @@ export default function StayPageClient({ rooms }: { rooms: Room[] }) {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">
-            ACCOMMODATIONS & VILLAS
+            PILIHAN AKOMODASI RESORT
           </span>
           <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Rooms, Suites & Villas
+            Kamar, Suite & Villa
           </h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Find your stay in Bandungan, from Aurora Junior Suite and family rooms to Grand Suite with a private jacuzzi and Villa 1 Big Room for eight guests.
+            Temukan tempat peristirahatan ideal Anda di lereng Gunung Ungaran. Dari keintiman kamar suite dengan balkon dan jacuzzi pribadi, hingga villa keluarga luas berkapasitas besar.
           </p>
         </div>
       </section>
@@ -71,7 +71,7 @@ export default function StayPageClient({ rooms }: { rooms: Room[] }) {
                   : 'bg-ivory-warm text-charcoal/80 hover:text-forest border border-stone/30'
               }`}
             >
-              {cat === 'All' ? `All Accommodations (${rooms.length})` : cat === 'Family' ? 'Family Rooms' : `${roomCategoryLabel(cat)}s`}
+              {cat === 'All' ? `Semua Pilihan (${rooms.length})` : cat === 'Family' ? 'Kamar Keluarga' : `${roomCategoryLabel(cat)}`}
             </button>
           ))}
         </div>

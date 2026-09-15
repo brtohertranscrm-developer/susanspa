@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
-  title: 'La Kana Chapel Weddings',
-  description: 'Plan a mountain wedding at the iconic La Kana glass chapel and Sky Lawn at Susan Spa & Resort.',
+  title: 'Pernikahan La Kana Glass Chapel | Susan Spa & Resort',
+  description: 'Rencanakan momen pernikahan sakral di kapel kaca ikonik La Kana dan Sky Lawn Susan Spa & Resort Bandungan.',
 };
 
 export default function WeddingsLayout({ children }: { children: ReactNode }) {

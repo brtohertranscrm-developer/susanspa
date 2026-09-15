@@ -25,48 +25,48 @@ export const Footer: React.FC = () => {
             </Link>
 
             <p className="text-xs sm:text-sm text-ivory/70 leading-relaxed">
-              Susan Spa & Resort merupakan resort dan spa destination di Bandungan, Semarang, Jawa Tengah. Berada ~1,100 meter di atas permukaan laut di lereng Gunung Ungaran dengan suasana pegunungan yang menenangkan.
+              Susan Spa & Resort menyambut Anda di kawasan sejuk Bandungan, Kabupaten Semarang. Berada pada ketinggian ~1.100 meter di atas permukaan laut di lereng Gunung Ungaran dengan suasana peristirahatan yang menenangkan.
             </p>
           </div>
 
-          {/* Column 2: Explore */}
+          {/* Column 2: Jelajahi */}
           <div className="space-y-4">
             <h4 className="font-serif text-ivory text-base tracking-wider uppercase text-champagne">
-              Explore
+              Jelajahi
             </h4>
             <ul className="space-y-2.5 text-xs text-ivory/80">
               <li>
                 <Link href="/rooms" className="hover:text-champagne transition-colors">
-                  Rooms
+                  Kamar & Villa
                 </Link>
               </li>
               <li>
                 <Link href="/facilities" className="hover:text-champagne transition-colors">
-                  Facilities
+                  Fasilitas
                 </Link>
               </li>
               <li>
                 <Link href="/wedding" className="hover:text-champagne transition-colors">
-                  Wedding
+                  Pernikahan
                 </Link>
               </li>
               <li>
                 <Link href="/gallery" className="hover:text-champagne transition-colors">
-                  Gallery
+                  Galeri
                 </Link>
               </li>
               <li>
                 <Link href="/nearby" className="hover:text-champagne transition-colors">
-                  Nearby
+                  Wisata Sekitar
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Contact */}
+          {/* Column 3: Kontak */}
           <div className="space-y-4">
             <h4 className="font-serif text-ivory text-base tracking-wider uppercase text-champagne">
-              Contact
+              Kontak Kami
             </h4>
             <div className="space-y-3 text-xs text-ivory/80">
               <div className="flex items-start space-x-2.5">
@@ -96,10 +96,10 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Column 4: Social Media */}
+          {/* Column 4: Media Sosial */}
           <div className="space-y-4">
             <h4 className="font-serif text-ivory text-base tracking-wider uppercase text-champagne">
-              Social Media
+              Media Sosial
             </h4>
             <p className="text-xs text-ivory/70">
               Ikuti kabar terbaru dan keindahan visual harian kami di media sosial.
@@ -141,7 +141,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar: Copyright */}
         <div className="pt-8 text-center text-xs text-ivory/50">
-          <p>Copyright © Susan Spa & Resort. All rights reserved.</p>
+          <p>Hak Cipta © Susan Spa & Resort. Seluruh hak cipta dilindungi undang-undang.</p>
         </div>
       </div>
     </footer>

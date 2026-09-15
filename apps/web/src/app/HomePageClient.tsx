@@ -30,77 +30,77 @@ import type { Room } from '@/types';
 const HERO_SLIDES = [
   {
     image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2000&auto=format&fit=crop',
-    title: 'Resort & Mountain View',
-    subtitle: 'Where the Mountains Invite You to Slow Down',
-    tag: 'Bandungan Highlands ~1,100m ASL',
+    title: 'Kesejukan Lereng Gunung Ungaran',
+    subtitle: 'Menikmati Udara Pegunungan yang Menenangkan & Asri',
+    tag: 'Kawasan Sejuk Bandungan ~1.100 mdpl',
   },
   {
     image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop',
-    title: 'La Kana Glass Chapel',
-    subtitle: 'Your Dream Wedding Above the Clouds',
-    tag: 'Sacred Celebrations',
+    title: 'Kapel Kaca La Kana',
+    subtitle: 'Ikrarkan Janji Suci Pernikahan Berlatar Awan & Perbukitan',
+    tag: 'Momen Pernikahan Khidmat',
   },
   {
     image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop',
-    title: 'Heated Infinity Pool & Valley',
-    subtitle: 'Warm Springs & Gentle Highland Air',
-    tag: 'Restorative Leisure',
+    title: 'Kolam Renang Air Hangat & Lembah',
+    subtitle: 'Kenyamanan Berendam Air Hangat di Ketinggian Bukit',
+    tag: 'Relaksasi & Rekreasi Keluarga',
   },
   {
     image: 'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/32b5388a-b0ce-4bce-b95c-5efd4da8c259_1726474989.JPG',
-    title: 'Luxury Suites & Villas',
-    subtitle: 'Comfort, Elegance & Mountain Serenity',
-    tag: 'Grand Suite Private Jacuzzi',
+    title: 'Koleksi Kamar & Villa Eksklusif',
+    subtitle: 'Ruang Beristirahat Nyaman dengan Balkon Alam Pegunungan',
+    tag: 'Pilihan Suite & Villa Nyaman',
   },
   {
     image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=2000&auto=format&fit=crop',
     title: 'Spa on the Sky Sanctuary',
-    subtitle: 'Centuries-Old Javanese Botanical Healing',
-    tag: 'Holistic Wellness',
+    subtitle: 'Ritual Perawatan Tradisional Jawa di Ketinggian',
+    tag: 'Kebugaran Alami & Holistik',
   },
 ];
 
 const USP_LIST = [
-  'Mountain Resort',
-  'Wellness & Relaxation',
-  'Spa on the Sky',
-  'Luxury Suites & Villas',
-  'Family Getaway',
-  'La Kana Wedding',
-  'Highland Leisure',
+  'Resort Lereng Pegunungan',
+  'Kebugaran & Relaksasi Holistik',
+  'Spa on the Sky 1.100 mdpl',
+  'Suite & Villa Keluarga Nyaman',
+  'Kolam Renang Air Hangat',
+  'Kapel Kaca Ikonik La Kana',
+  'Panorama Lembah & Udara Sejuk',
 ];
 
-// Curated wellness offerings (multi-column list format inspired by reference)
+// Curated wellness offerings (multi-column list format)
 const SPA_OFFERINGS_COL1 = [
-  'Private Hydrotherapy Jacuzzi',
-  'Javanese Herbal Thermal Sauna',
-  'Traditional Aromatherapy Massage',
-  'Botanical Body Scrubs (Lulur Tradisional)',
+  'Jacuzzi Hidroterapi Air Hangat Pribadi',
+  'Sauna Herbal Aromatik Khas Jawa',
+  'Pijat Tradisional Aromaterapi Menenangkan',
+  'Lulur Tradisional Rempah Alami',
 ];
 
 const SPA_OFFERINGS_COL2 = [
-  'Certified Mountain Wellness Therapists',
-  'Romantic Couple Treatment Suites',
-  'Heated Indoor Panoramic Swimming Pool',
-  'Sky Garden Herbal Tea Lounge',
+  'Terapis Berpengalaman & Tersertifikasi',
+  'Ruang Perawatan Privat Pasangan (Couple Suite)',
+  'Kolam Renang Air Hangat Menghadap Lembah',
+  'Seduhan Teh Herbal di Sky Garden',
 ];
 
 const SPA_GALLERY_STRIP = [
   {
     image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop',
-    title: 'Herbal Massage Therapy',
+    title: 'Pijat Herbal Tradisional',
   },
   {
     image: 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=800&auto=format&fit=crop',
-    title: 'Warm Water Hydrotherapy',
+    title: 'Hidroterapi Air Hangat',
   },
   {
     image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop',
-    title: 'Thermal Sauna Rituals',
+    title: 'Relaksasi Sauna Rempah',
   },
   {
     image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop',
-    title: 'Highland Fresh Atmosphere',
+    title: 'Udara Sejuk Pegunungan',
   },
 ];
 
@@ -183,14 +183,14 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
           </div>
 
           <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.12] text-ivory tracking-tight max-w-4xl mx-auto">
-            A highland sanctuary in Bandungan offering{' '}
+            Peristirahatan menenangkan di lereng Bandungan dengan{' '}
             <span className="italic font-normal text-champagne">
-              world-class serenity
+              ketenangan jiwa sejati
             </span>
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-ivory/85 max-w-2xl mx-auto font-light leading-relaxed">
-            Committed to restorative mountain stays, centuries-old Javanese botanical wellness, and sacred celebrations above the clouds.
+            Menghadirkan kenyamanan menginap di sejuknya hawa pegunungan ~1.100 mdpl, ritual herbal luhur di Spa on the Sky, dan perayaan pernikahan khidmat di Kapel La Kana.
           </p>
 
           <div className="pt-2 flex items-center justify-center space-x-4">
@@ -198,24 +198,24 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               onClick={() => handleOpenReserve('room')}
               className="bg-ivory hover:bg-champagne text-forest-deep px-8 py-3.5 rounded-full font-semibold uppercase tracking-[0.18em] text-xs transition-all duration-300 transform hover:scale-105"
             >
-              Book Your Stay
+              Reservasi Kamar
             </button>
 
             <a
               href="#intro"
               className="border border-white/30 hover:border-champagne hover:text-champagne text-ivory px-6 py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors"
             >
-              Our Philosophy
+              Mengenal Susan Spa
             </a>
           </div>
 
-          {/* Direct Sub-Nav Links with Arrows (like reference design) */}
+          {/* Direct Sub-Nav Links with Arrows */}
           <div className="pt-8 hidden sm:flex items-center justify-center space-x-8 text-xs uppercase tracking-wider text-ivory/75 font-medium">
             <a
               href="#rooms"
               className="hover:text-champagne transition-colors flex items-center space-x-1.5 border-b border-transparent hover:border-champagne pb-1"
             >
-              <span>Curated Suites</span>
+              <span>Pilihan Kamar</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-champagne" />
             </a>
             <span className="text-white/25">•</span>
@@ -231,7 +231,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               href="#wedding"
               className="hover:text-champagne transition-colors flex items-center space-x-1.5 border-b border-transparent hover:border-champagne pb-1"
             >
-              <span>La Kana Chapel</span>
+              <span>Kapel La Kana</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-champagne" />
             </a>
           </div>
@@ -255,7 +255,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
 
           {/* Desktop Clean Flat Booking Widget */}
           <div className="hidden md:block">
-            <BookingBar onSearch={handleBookingSearch} ctaText="Book Now" />
+            <BookingBar onSearch={handleBookingSearch} ctaText="Cek Ketersediaan" />
           </div>
         </div>
 
@@ -282,7 +282,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
 
       {/* Mobile Booking Widget */}
       <div className="md:hidden p-4 bg-forest-deep border-b border-white/15">
-        <BookingBar onSearch={handleBookingSearch} ctaText="Book Now" />
+        <BookingBar onSearch={handleBookingSearch} ctaText="Cek Ketersediaan" />
       </div>
 
       {/* ========================================================================= */}
@@ -294,16 +294,16 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
           <div className="lg:col-span-6 space-y-8">
             <div className="space-y-4 max-w-xl">
               <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-                WELCOME TO SUSAN SPA & RESORT
+                SELAMAT DATANG DI SUSAN SPA & RESORT
               </span>
               <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep leading-tight font-normal">
-                Serenity Above the Clouds, 1,100 Meters Altitude.
+                Ketenangan di Atas Awan, Ketinggian 1.100 Meter
               </h2>
               <p className="editorial-body">
-                Susan Spa & Resort merupakan destinasi peristirahatan dan pemulihan jiwa di lereng Gunung Ungaran, Bandungan. Dikelilingi udara pegunungan yang senantiasa sejuk dan panorama lembah hijau yang membentang luas, kami menghadirkan perpaduan kenyamanan akomodasi modern dan ketenangan alam.
+                Susan Spa & Resort merupakan destinasi peristirahatan dan pemulihan jiwa di lereng Gunung Ungaran, Bandungan. Dikelilingi udara pegunungan yang senantiasa sejuk dan panorama lembah hijau yang membentang luas, kami menyambut kehadiran Bapak/Ibu untuk menikmati perpaduan kenyamanan akomodasi modern serta ketenangan alam yang bersahaja.
               </p>
               <p className="editorial-body">
-                Setiap sudut resort dirancang untuk memberikan ruang bernapas yang leluasa, memulihkan energi dari hiruk-pikuk keseharian, serta merayakan momen-momen paling berharga bersama orang terkasih.
+                Setiap sudut resort dirancang secara cermat guna memberikan ruang bernapas yang leluasa, melepaskan kepenatan dari kesibukan harian, serta merayakan momen-momen berharga bersama keluarga dan orang terkasih.
               </p>
             </div>
 
@@ -317,7 +317,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                 className="object-cover"
               />
               <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-stone-200 text-[11px] text-forest-deep font-medium tracking-wide">
-                Established Sanctuary • Bandungan, Central Java
+                Destinasi Peristirahatan Sejuk • Bandungan, Jawa Tengah
               </div>
             </div>
           </div>
@@ -338,13 +338,13 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
             {/* Editorial Philosophy Statement */}
             <div className="space-y-4 max-w-xl">
               <h3 className="font-serif text-2xl sm:text-3xl text-forest-deep font-normal leading-snug">
-                <span className="italic">Our approach to restorative wellness is different.</span>
+                <span className="italic">Pendekatan kami dalam merawat kebugaran dan kenyamanan Anda.</span>
               </h3>
               <p className="editorial-body">
-                Alih-alih sekadar tempat menginap, kami mengajak Anda menyelami ritme hidup yang lebih perlahan dan sadar. Dari sentuhan botanical spa tradisional khas Jawa, kehangatan kolam renang air hangat berlatar perbukitan, hingga udara bersih pegunungan yang menyegarkan raga.
+                Lebih dari sekadar tempat menginap, kami mengundang Anda menyelami ritme istirahat yang lebih tenang dan bermakna. Mulai dari sentuhan lulur dan rempah botanical khas Jawa, kehangatan kolam renang indoor berlatar bukit hijau, hingga udara bersih pegunungan yang memulihkan kesegaran raga.
               </p>
               <p className="editorial-body">
-                Di sini, kemewahan tidak didefinisikan oleh kemegahan yang berlebih, melainkan oleh keheningan, privasi, dan keasrian alam yang meremajakan seluruh indra Anda.
+                Bagi kami, esensi keramahan sejati hadir dari keheningan yang menentramkan, privasi yang terjaga, serta keasrian alam yang meremajakan seluruh panca indra.
               </p>
 
               <div className="pt-2">
@@ -352,7 +352,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                   href="/facilities"
                   className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-bold border-b border-forest-deep hover:border-champagne pb-1 transition-colors"
                 >
-                  <span>Discover All Resort Experiences</span>
+                  <span>Jelajahi Seluruh Pengalaman Resort</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -408,16 +408,16 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
             {/* Left: Headline & Narrative */}
             <div className="lg:col-span-5 space-y-6">
               <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-                SIGNATURE WELLNESS
+                KEBUGARAN & SPA ALAMI
               </span>
               <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep leading-tight font-normal">
                 Spa on the Sky Sanctuary
               </h2>
               <p className="editorial-body">
-                Terletak di titik tertinggi resort pada ketinggian 1,100 meter di atas permukaan laut, Spa on the Sky memadukan warisan resep herbal luhur Jawa dengan fasilitas hidroterapi modern.
+                Terletak di titik tertinggi resort pada ketinggian 1.100 meter di atas permukaan laut, Spa on the Sky memadukan kebaikan ramuan herbal tradisional Jawa dengan fasilitas hidroterapi modern.
               </p>
               <p className="editorial-body">
-                Lepaskan kepenatan tubuh Anda dalam hangatnya private jacuzzi berlatar kabut gunung, nikmati sauna herbal aromatik, dan rasakan sentuhan terapis profesional bersertifikat.
+                Lepaskan kepenatan tubuh Anda dalam kehangatan private jacuzzi berlatar kabut pegunungan, nikmati sauna herbal aromatik, dan rasakan sentuhan relaksasi dari para terapis berpengalaman kami.
               </p>
 
               <div className="pt-2 flex flex-col sm:flex-row gap-3">
@@ -425,13 +425,13 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                   href="/facilities"
                   className="bg-forest-deep hover:bg-forest text-champagne px-7 py-3 rounded-full font-semibold uppercase tracking-[0.18em] text-xs text-center transition-colors"
                 >
-                  Explore Spa Rituals
+                  Lihat Menu Perawatan
                 </Link>
                 <button
                   onClick={() => handleOpenReserve('spa')}
                   className="border border-stone-300 hover:border-forest text-forest hover:bg-forest hover:text-ivory px-7 py-3 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors"
                 >
-                  Inquire Spa Concierge
+                  Hubungi Spa Concierge
                 </button>
               </div>
             </div>
@@ -440,10 +440,10 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
             <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-3xl border border-stone-200/80 space-y-6">
               <div className="space-y-1">
                 <span className="text-[10px] uppercase tracking-[0.2em] text-champagne-dark font-bold block">
-                  HOLISTIC BOTANICAL REPERTOIRE
+                  PILIHAN RITUAL KEBUGARAN
                 </span>
                 <h3 className="font-serif text-2xl text-forest-deep font-normal">
-                  Our Signature Treatments & Rituals
+                  Perawatan & Terapi Unggulan Kami
                 </h3>
               </div>
 
@@ -470,22 +470,22 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               </div>
 
               <div className="pt-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
-                <span>Available daily for in-house guests & day visitors</span>
+                <span>Tersedia setiap hari untuk tamu menginap maupun kunjungan harian</span>
                 <Link
                   href="/facilities"
                   className="text-forest hover:text-champagne font-semibold tracking-wide flex items-center space-x-1"
                 >
-                  <span>Full Spa Menu</span>
+                  <span>Daftar Perawatan Lengkap</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* Bottom Strip: 4 Editorial Photos ("What We Offer" horizontal visual showcase) */}
+          {/* Bottom Strip: 4 Editorial Photos */}
           <div className="space-y-4">
             <span className="text-[11px] uppercase tracking-[0.2em] text-stone-500 font-bold block">
-              VISUAL REPERTOIRE
+              GALERI PENGALAMAN SPA
             </span>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {SPA_GALLERY_STRIP.map((item, idx) => (
@@ -529,13 +529,13 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
 
             <div className="absolute bottom-8 left-8 right-8 text-ivory space-y-1.5">
               <span className="text-[10px] uppercase tracking-[0.25em] text-champagne block font-semibold">
-                ICONIC HIGHLAND GLASS CHAPEL
+                KAPEL KACA IKONIK HIGHLAND
               </span>
               <h3 className="font-serif text-2xl sm:text-3xl text-ivory font-normal">
-                La Kana Glass Chapel
+                Kapel Kaca La Kana
               </h3>
               <p className="text-xs text-ivory/80 font-light">
-                Altar kaca transparan berpanorama pegunungan di atas awan.
+                Altar kaca transparan dengan panorama pegunungan yang menyejukkan.
               </p>
             </div>
           </div>
@@ -543,13 +543,13 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
           {/* Copy Column */}
           <div className="lg:col-span-6 space-y-6">
             <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-              SACRED CELEBRATIONS
+              MOMEN PERNIKAHAN SAKRAL
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl text-ivory leading-tight font-normal">
-              Your Dream Wedding Above the Clouds
+              Wujudkan Ikrar Janji Suci di Ketinggian Lereng Bandungan
             </h2>
             <p className="text-sm sm:text-base text-ivory/85 leading-relaxed font-light">
-              Susan Spa & Resort menawarkan venue pernikahan sakral Holy Matrimony, outdoor garden celebration, dan pre-wedding session di kawasan pegunungan Bandungan yang romantis dan sejuk.
+              Susan Spa & Resort menghadirkan venue pernikahan sakral untuk Holy Matrimony, jamuan makan elegan di ballroom maupun outdoor garden, hingga sesi pemotretan pre-wedding berlatar panorama perbukitan yang sejuk dan menawan.
             </p>
 
             {/* Inclusions List */}
@@ -558,25 +558,25 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                 <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
                   <Church className="w-3 h-3" />
                 </div>
-                <span>La Kana Glass Chapel — Altar Kaca Ikonik Penuh Cahaya</span>
+                <span>Kapel Kaca La Kana — Dinding Kaca Transparan Menghadap Panorama Bebas</span>
               </li>
               <li className="flex items-center space-x-3">
                 <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
                   <Sparkles className="w-3 h-3" />
                 </div>
-                <span>Outdoor Wedding di Sky Garden & Balcony Area</span>
+                <span>Outdoor Sky Garden & Balcony — Pesta Terbuka Bernuansa Asri & Romantis</span>
               </li>
               <li className="flex items-center space-x-3">
                 <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
                   <Church className="w-3 h-3" />
                 </div>
-                <span>Frangipani Grand Ballroom untuk Jamuan Resepsi</span>
+                <span>Frangipani Grand Ballroom — Ruang Resepsi Nyaman dengan Penataan Elegan</span>
               </li>
               <li className="flex items-center space-x-3">
                 <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
                   <Calendar className="w-3 h-3" />
                 </div>
-                <span>Curated Holy Matrimony & Complete Wedding Packages</span>
+                <span>Paket Pernikahan Terencana — Didampingi Wedding Coordinator Berpengalaman</span>
               </li>
             </ul>
 
@@ -586,13 +586,13 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                 href="/wedding"
                 className="w-full sm:w-auto bg-ivory hover:bg-champagne text-forest-deep px-8 py-3.5 rounded-full font-semibold uppercase tracking-[0.18em] text-xs transition-colors text-center"
               >
-                Explore Wedding Packages
+                Pelajari Paket Pernikahan
               </Link>
               <button
                 onClick={() => handleOpenReserve('wedding')}
                 className="w-full sm:w-auto border border-white/30 text-ivory hover:border-champagne hover:text-champagne px-8 py-3.5 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors"
               >
-                Wedding Inquiry
+                Konsultasi Pernikahan
               </button>
             </div>
           </div>
@@ -608,13 +608,13 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-stone-200/70">
               <div className="space-y-3 max-w-2xl">
                 <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-                  EXCLUSIVE OFFERS
+                  PENAWARAN KHUSUS
                 </span>
                 <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep font-normal">
-                  Special Offers & Seasonal Packages
+                  Paket Menginap & Promo Musiman
                 </h2>
                 <p className="editorial-body text-sm sm:text-base">
-                  Penawaran musiman eksklusif untuk pengalaman liburan dan relaksasi terbaik di Bandungan.
+                  Penawaran istimewa untuk pengalaman berlibur keluarga, momen romantis pasangan, dan relaksasi spa di lereng Bandungan.
                 </p>
               </div>
             </div>
@@ -655,7 +655,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                       onClick={() => handleOpenReserve('room')}
                       className="w-full border border-stone-300 hover:border-forest text-forest hover:bg-forest hover:text-ivory py-2.5 px-4 rounded-full text-xs uppercase tracking-wider font-semibold transition-colors flex items-center justify-center space-x-1"
                     >
-                      <span>View Offer</span>
+                      <span>Detail Penawaran</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -674,13 +674,13 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-stone-200/70">
             <div className="space-y-3 max-w-2xl">
               <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-                DESTINATION HIGHLIGHTS
+                DESTINASI SEKITAR RESORT
               </span>
               <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep font-normal">
-                Nearby Attractions in Bandungan
+                Pesona Wisata di Kawasan Bandungan
               </h2>
               <p className="editorial-body text-sm sm:text-base">
-                Jelajahi atraksi wisata populer di sekitar Susan Spa & Resort, mulai dari taman bunga highland hingga candi bersejarah.
+                Lengkapi liburan Anda dengan menjelajahi aneka objek wisata menarik di sekitar resort, mulai dari taman bunga warna-warni hingga candi bersejarah.
               </p>
             </div>
 
@@ -688,7 +688,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               href="/nearby"
               className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-bold border-b border-forest-deep hover:border-champagne pb-1 shrink-0 transition-colors"
             >
-              <span>Explore Nearby Attractions</span>
+              <span>Jelajahi Wisata Sekitar</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -728,7 +728,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                       href={`/nearby/${dest.slug}`}
                       className="flex-1 bg-forest-deep text-champagne text-center py-2 px-3 rounded-full text-[11px] font-semibold uppercase tracking-wider hover:bg-forest transition-colors"
                     >
-                      Explore
+                      Pelajari
                     </Link>
 
                     {dest.mapUrl && (
@@ -737,7 +737,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-2 border border-stone-300 rounded-full text-stone-600 hover:text-forest hover:border-forest transition-colors"
-                        title="Get Direction"
+                        title="Buka Petunjuk Arah"
                       >
                         <MapPin className="w-4 h-4" />
                       </a>
@@ -757,10 +757,10 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
             <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-              LOCATION & ACCESS
+              LOKASI & AKSES RESORT
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl text-ivory font-normal">
-              Find Us in Bandungan Highlands
+              Temukan Kami di Dataran Tinggi Bandungan
             </h2>
           </div>
 
@@ -769,7 +769,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
             <div className="bg-forest p-8 sm:p-9 rounded-3xl border border-white/15 space-y-6">
               <div className="space-y-2">
                 <span className="text-[10px] uppercase tracking-[0.2em] text-champagne block font-semibold">
-                  Official Address
+                  Alamat Resmi Resort
                 </span>
                 <p className="font-serif text-lg text-ivory leading-relaxed font-normal">
                   {SITE_CONFIG.address.street}
@@ -784,7 +784,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
 
               <div className="space-y-1 pt-2 border-t border-white/10">
                 <span className="text-[10px] uppercase tracking-[0.2em] text-champagne block font-semibold">
-                  Phone Concierge
+                  Layanan Telepon & Informasi
                 </span>
                 <a
                   href={`tel:${SITE_CONFIG.contact.phone}`}
@@ -802,7 +802,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                   className="w-full bg-ivory hover:bg-champagne text-forest-deep py-3 rounded-full text-xs uppercase tracking-[0.18em] font-semibold text-center transition-colors flex items-center justify-center space-x-2"
                 >
                   <MapPin className="w-4 h-4" />
-                  <span>Get Directions</span>
+                  <span>Petunjuk Arah Google Maps</span>
                 </a>
 
                 <a

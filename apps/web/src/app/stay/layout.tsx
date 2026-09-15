@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Luxury Rooms, Suites & Villas',
-  description: 'Explore Aurora Junior Suite, Family Room, Family Suite Room, Grand Deluxe, Grand Suite, President Suite, Prime Room, Prince Suite, Princess Suite and Villa 1 Big Room at Susan Spa & Resort.',
+  title: 'Pilihan Kamar, Suite & Villa | Susan Spa & Resort',
+  description: 'Temukan kenyamanan menginap di Susan Spa & Resort: Aurora Junior Suite, Family Room, Family Suite Room, Grand Deluxe, Grand Suite, President Suite, Prime Room, Prince Suite, Princess Suite, Villa 1 Big Room, dan Villa 4 Bedrooms.',
 };
 
 export default function StayLayout({ children }: { children: ReactNode }) {

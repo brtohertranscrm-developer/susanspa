@@ -46,13 +46,13 @@ export default function RoomsPageClient({ rooms }: { rooms: Room[] }) {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            ACCOMMODATION
+            PILIHAN AKOMODASI RESORT
           </span>
           <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Rooms & Suites
+            Koleksi Kamar & Villa
           </h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Comfort, elegance and mountain serenity in Bandungan.
+            Kenyamanan beristirahat di tengah ketenangan dan segarnya udara pegunungan Bandungan.
           </p>
         </div>
       </section>
@@ -73,10 +73,10 @@ export default function RoomsPageClient({ rooms }: { rooms: Room[] }) {
               }`}
             >
               {cat === 'All'
-                ? `All Rooms (${rooms.length})`
+                ? `Semua Kamar (${rooms.length})`
                 : cat === 'Family'
-                ? 'Family Rooms'
-                : `${roomCategoryLabel(cat)}s`}
+                ? 'Kamar Keluarga'
+                : roomCategoryLabel(cat)}
             </button>
           ))}
         </div>

@@ -55,10 +55,10 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
             className="inline-flex items-center space-x-2 text-champagne hover:text-champagne-light transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to All Rooms</span>
+            <span>Kembali ke Semua Kamar</span>
           </Link>
           <span className="text-ivory/60 hidden sm:inline">
-            Rooms / {roomCategoryLabel(room.category)} / {room.name}
+            Kamar / {roomCategoryLabel(room.category)} / {room.name}
           </span>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
               className="w-full bg-champagne hover:bg-champagne-light text-forest-deep font-bold uppercase tracking-wider text-xs py-3 px-6 rounded-full shadow-lg transition-colors flex items-center justify-center space-x-2"
             >
               <Calendar className="w-4 h-4" />
-              <span>Book This Room</span>
+              <span>Reservasi Kamar Ini</span>
             </button>
           </div>
         </div>
@@ -136,7 +136,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-ivory-warm p-6 rounded-3xl border border-stone/30 text-center shadow-sm">
           <div className="space-y-1">
             <Users className="w-5 h-5 text-champagne mx-auto mb-1" />
-            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Guests</span>
+            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Kapasitas Tamu</span>
             <span className="font-serif text-lg text-forest-deep font-semibold block">
               {roomCapacity(room)}
             </span>
@@ -144,25 +144,25 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
 
           <div className="space-y-1">
             <Maximize2 className="w-5 h-5 text-champagne mx-auto mb-1" />
-            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Room Size</span>
+            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Luas Kamar</span>
             <span className="font-serif text-lg text-forest-deep font-semibold block">
-              {room.sizeSqm ? `${room.sizeSqm} sqm` : 'Please confirm'}
+              {room.sizeSqm ? `${room.sizeSqm} m²` : 'Sesuai konfirmasi'}
             </span>
           </div>
 
           <div className="space-y-1">
             <BedDouble className="w-5 h-5 text-champagne mx-auto mb-1" />
-            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Bed Type</span>
+            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Tipe Kasur</span>
             <span className="font-serif text-lg text-forest-deep font-semibold block">
-              {room.bedType || 'Please confirm'}
+              {room.bedType || 'Sesuai konfirmasi'}
             </span>
           </div>
 
           <div className="space-y-1">
             <Eye className="w-5 h-5 text-champagne mx-auto mb-1" />
-            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">View</span>
+            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Pemandangan</span>
             <span className="font-serif text-lg text-forest-deep font-semibold block">
-              {room.view || 'Mountain / Garden'}
+              {room.view || 'Pegunungan & Lembah Asri'}
             </span>
           </div>
         </div>
@@ -172,7 +172,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
           {/* Left 2 Cols: Description & Amenities */}
           <div className="lg:col-span-2 space-y-8">
             <div className="space-y-4">
-              <h2 className="font-serif text-2xl text-forest-deep">Room Description</h2>
+              <h2 className="font-serif text-2xl text-forest-deep">Deskripsi Kamar</h2>
               <p className="text-sm text-charcoal/85 leading-relaxed font-normal">
                 {room.longDescription || room.description || 'Silakan hubungi tim reservasi kami untuk informasi lebih lengkap mengenai tipe kamar ini.'}
               </p>
@@ -180,7 +180,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
 
             {/* Room Facilities */}
             <div className="space-y-4 pt-4 border-t border-stone/20">
-              <h3 className="font-serif text-2xl text-forest-deep">Room Facilities</h3>
+              <h3 className="font-serif text-2xl text-forest-deep">Fasilitas Kamar</h3>
               {room.amenities.length === 0 ? (
                 <p className="text-sm text-charcoal/70">
                   Data fasilitas kamar sedang diperbarui oleh tim hotel. Silakan hubungi reservasi kami untuk detail lengkap.
@@ -206,16 +206,16 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
             <div className="bg-forest-deep text-ivory p-8 rounded-3xl border border-champagne/30 space-y-6 shadow-xl sticky top-28">
               <div className="space-y-1">
                 <span className="text-[10px] uppercase tracking-wider text-champagne block font-semibold">
-                  CHECK AVAILABILITY
+                  CEK KETERSEDIAAN
                 </span>
-                <h3 className="font-serif text-2xl text-ivory">Book Your Stay</h3>
+                <h3 className="font-serif text-2xl text-ivory">Rencanakan Menginap Anda</h3>
               </div>
 
               {/* Date Inputs */}
               <div className="space-y-3 text-xs">
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase text-champagne/80 font-semibold block">
-                    Check-in Date
+                    Tanggal Check-In
                   </label>
                   <input
                     type="date"
@@ -228,7 +228,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
 
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase text-champagne/80 font-semibold block">
-                    Check-out Date
+                    Tanggal Check-Out
                   </label>
                   <input
                     type="date"
@@ -247,7 +247,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
                   className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-3.5 rounded-full font-bold uppercase tracking-wider text-xs shadow-lg transition-colors flex items-center justify-center space-x-2"
                 >
                   <Calendar className="w-4 h-4" />
-                  <span>Inquire Availability</span>
+                  <span>Cek Ketersediaan Kamar</span>
                 </button>
 
                 <a
@@ -259,7 +259,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
                   className="w-full border border-champagne/50 text-champagne hover:bg-forest py-3 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors flex items-center justify-center space-x-2 text-center"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Chat WhatsApp</span>
+                  <span>Konsultasi via WhatsApp</span>
                 </a>
               </div>
 
@@ -280,10 +280,10 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-                  EXPLORE MORE
+                  PILIHAN LAINNYA
                 </span>
                 <h2 className="font-serif text-3xl text-forest-deep">
-                  Related Accommodations
+                  Pilihan Kamar Terkait
                 </h2>
               </div>
 
@@ -291,7 +291,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
                 href="/rooms"
                 className="text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-semibold flex items-center space-x-1"
               >
-                <span>All Rooms</span>
+                <span>Lihat Semua Kamar</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

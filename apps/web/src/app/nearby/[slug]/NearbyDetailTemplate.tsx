@@ -29,10 +29,10 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
             className="inline-flex items-center space-x-2 text-champagne hover:text-champagne-light transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to All Nearby Destinations</span>
+            <span>Kembali ke Wisata Sekitar</span>
           </Link>
           <span className="text-ivory/60 hidden sm:inline">
-            Explore Bandungan / {destination.name}
+            Wisata Bandungan / {destination.name}
           </span>
         </div>
       </div>
@@ -53,7 +53,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 space-y-4 text-center">
           <div className="inline-flex items-center space-x-2 bg-forest-deep/90 text-champagne text-xs uppercase tracking-[0.2em] px-4 py-1.5 rounded-full border border-champagne/30 font-semibold">
             <MapPin className="w-3.5 h-3.5" />
-            <span>{destination.distance} from Susan Spa & Resort</span>
+            <span>{destination.distance} dari Susan Spa & Resort</span>
           </div>
 
           <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
@@ -73,7 +73,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
                 className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-lg transition-transform hover:scale-105 inline-flex items-center space-x-2"
               >
                 <Navigation className="w-4 h-4" />
-                <span>Get Direction (Google Maps)</span>
+                <span>Petunjuk Arah (Google Maps)</span>
               </a>
             )}
 
@@ -82,7 +82,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
               className="border border-champagne/50 hover:bg-forest text-champagne px-8 py-3.5 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors inline-flex items-center space-x-2"
             >
               <Hotel className="w-4 h-4" />
-              <span>Stay at Susan Spa & Resort</span>
+              <span>Menginap di Susan Spa & Resort</span>
             </button>
           </div>
         </div>
@@ -117,7 +117,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
                 <Lightbulb className="w-5 h-5 text-champagne shrink-0 mt-0.5" />
                 <div className="space-y-1 text-xs">
                   <strong className="text-forest-deep block font-semibold uppercase tracking-wider">
-                    Traveler Tips
+                    Tips Kunjungan & Kenyamanan
                   </strong>
                   <p className="text-charcoal/80 leading-relaxed">{destination.tips}</p>
                 </div>
@@ -130,7 +130,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
             <div className="bg-forest-deep text-ivory p-8 rounded-3xl border border-champagne/30 space-y-6 shadow-xl sticky top-28">
               <div className="space-y-1">
                 <span className="text-[10px] uppercase tracking-wider text-champagne block font-semibold">
-                  DESTINATION DETAILS
+                  INFORMASI DESTINASI
                 </span>
                 <h3 className="font-serif text-2xl text-ivory">{destination.name}</h3>
               </div>
@@ -138,7 +138,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
               <div className="space-y-3 text-xs border-y border-white/10 py-4 text-ivory/80">
                 <div>
                   <span className="text-[10px] uppercase text-champagne/80 font-semibold block">
-                    Distance from Resort
+                    Jarak Tempuh
                   </span>
                   <span className="font-serif text-lg text-ivory font-medium">
                     {destination.distance}
@@ -148,7 +148,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
                 {destination.address && (
                   <div>
                     <span className="text-[10px] uppercase text-champagne/80 font-semibold block">
-                      Address
+                      Alamat Lokasi
                     </span>
                     <span className="text-xs text-ivory/80 leading-relaxed block">
                       {destination.address}
@@ -166,7 +166,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
                     className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-3.5 rounded-full font-bold uppercase tracking-wider text-xs shadow-lg transition-colors flex items-center justify-center space-x-2 text-center"
                   >
                     <Navigation className="w-4 h-4" />
-                    <span>Get Direction</span>
+                    <span>Buka Petunjuk Arah</span>
                   </a>
                 )}
 
@@ -175,7 +175,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
                   className="w-full border border-champagne/50 text-champagne hover:bg-forest py-3.5 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors flex items-center justify-center space-x-2 text-center"
                 >
                   <Hotel className="w-4 h-4" />
-                  <span>Stay at Susan Spa & Resort</span>
+                  <span>Menginap di Susan Spa & Resort</span>
                 </button>
               </div>
             </div>
@@ -185,10 +185,10 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
         {/* Bottom Banner */}
         <div className="bg-forest-deep text-ivory rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-champagne/30 shadow-2xl">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            HIGHLAND GETAWAY
+            LIBURAN PEGUNUNGAN NYAMAN
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl text-ivory max-w-2xl mx-auto">
-            Stay at Susan Spa & Resort
+            Istirahat Nyaman di Susan Spa & Resort
           </h2>
           <p className="text-sm text-ivory/75 max-w-xl mx-auto">
             Jadikan Susan Spa & Resort sebagai tempat peristirahatan sempurna setelah seharian menjelajahi keindahan Bandungan.
@@ -198,7 +198,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
               href="/rooms"
               className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-lg transition-transform hover:scale-105 inline-flex items-center space-x-2"
             >
-              <span>Explore All Rooms</span>
+              <span>Pilihan Kamar & Villa</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

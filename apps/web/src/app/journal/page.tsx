@@ -19,9 +19,9 @@ export default function JournalPage() {
 
       <section className="pt-32 pb-16 bg-forest-deep text-ivory text-center">
         <div className="max-w-4xl mx-auto px-4 space-y-3">
-          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">EDITORIAL & STORIES</span>
-          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">The Susan Journal</h1>
-          <p className="text-sm text-ivory/80 max-w-xl mx-auto">Wellness guides, wedding inspirations, and Bandungan mountain travel stories.</p>
+          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">ARTIKEL & INSPIRASI</span>
+          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">Jurnal Susan Spa & Resort</h1>
+          <p className="text-sm text-ivory/80 max-w-xl mx-auto">Inspirasi kebugaran alami, panduan pernikahan impian, dan kisah perjalanan di lereng pegunungan Bandungan.</p>
         </div>
       </section>
 
@@ -51,7 +51,7 @@ export default function JournalPage() {
                   href={`/journal/${article.slug}`}
                   className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-champagne hover:text-champagne-light font-semibold pt-2 border-t border-white/10"
                 >
-                  <span>Read Full Article</span>
+                  <span>Baca Selengkapnya</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>

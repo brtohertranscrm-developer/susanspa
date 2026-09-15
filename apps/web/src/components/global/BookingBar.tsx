@@ -19,7 +19,7 @@ interface BookingBarProps {
 
 export const BookingBar: React.FC<BookingBarProps> = ({
   onSearch,
-  ctaText = 'Book Now',
+  ctaText = 'Cek Ketersediaan',
 }) => {
   const defaults = getDefaultStayDates();
   const [checkIn, setCheckIn] = useState(defaults.checkIn);
@@ -41,7 +41,7 @@ export const BookingBar: React.FC<BookingBarProps> = ({
         <div className="space-y-1.5">
           <label className="text-[11px] font-semibold uppercase tracking-[0.15em] text-champagne flex items-center space-x-1.5">
             <CalendarIcon className="w-3.5 h-3.5" />
-            <span>Arrival Date</span>
+            <span>Tanggal Check-In</span>
           </label>
           <div className="bg-forest/90 border border-white/10 focus-within:border-champagne rounded-xl px-3.5 py-2.5 text-xs text-ivory transition-colors">
             <input
@@ -53,7 +53,7 @@ export const BookingBar: React.FC<BookingBarProps> = ({
                 setCheckIn(e.target.value);
                 if (checkOut <= e.target.value) setCheckOut('');
               }}
-              aria-label="Arrival Date"
+              aria-label="Tanggal Check-In"
               className="bg-transparent text-ivory text-xs focus:outline-none w-full"
             />
           </div>
@@ -63,7 +63,7 @@ export const BookingBar: React.FC<BookingBarProps> = ({
         <div className="space-y-1.5">
           <label className="text-[11px] font-semibold uppercase tracking-[0.15em] text-champagne flex items-center space-x-1.5">
             <CalendarIcon className="w-3.5 h-3.5" />
-            <span>Departure Date</span>
+            <span>Tanggal Check-Out</span>
           </label>
           <div className="bg-forest/90 border border-white/10 focus-within:border-champagne rounded-xl px-3.5 py-2.5 text-xs text-ivory transition-colors">
             <input
@@ -72,7 +72,7 @@ export const BookingBar: React.FC<BookingBarProps> = ({
               min={checkIn || defaults.minimumDate}
               value={checkOut}
               onChange={(e) => setCheckOut(e.target.value)}
-              aria-label="Departure Date"
+              aria-label="Tanggal Check-Out"
               className="bg-transparent text-ivory text-xs focus:outline-none w-full"
             />
           </div>
@@ -82,12 +82,12 @@ export const BookingBar: React.FC<BookingBarProps> = ({
         <div className="space-y-1.5">
           <label className="text-[11px] font-semibold uppercase tracking-[0.15em] text-champagne flex items-center space-x-1.5">
             <Tag className="w-3.5 h-3.5" />
-            <span>Promo Code</span>
+            <span>Kode Promo (Opsional)</span>
           </label>
           <div className="bg-forest/90 border border-white/10 focus-within:border-champagne rounded-xl px-3.5 py-2.5 text-xs text-ivory transition-colors">
             <input
               type="text"
-              placeholder="Optional code"
+              placeholder="Contoh: PROMO2026"
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
               className="bg-transparent text-ivory placeholder:text-ivory/40 text-xs focus:outline-none w-full uppercase tracking-wider"

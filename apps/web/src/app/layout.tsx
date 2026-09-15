@@ -4,30 +4,30 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.susansparesort.com'),
   title: {
-    default: 'Susan Spa & Resort — Luxury Mountain Retreat in Bandungan',
+    default: 'Susan Spa & Resort — Peristirahatan Menenangkan di Lereng Bandungan',
     template: '%s | Susan Spa & Resort',
   },
   description:
-    'Discover restorative stays, elevated wellness spa rituals, and romantic weddings at La Kana Chapel, surrounded by Mount Ungaran at ~1,100 meters elevation in Bandungan, Central Java.',
+    'Rasakan kenyamanan menginap di ketinggian ±1.100 mdpl lereng Gunung Ungaran, ritual spa herbal tradisional Jawa, dan momen sakral pernikahan di La Kana Glass Chapel, Bandungan, Jawa Tengah.',
   keywords: [
     'Susan Spa & Resort',
     'Resort Bandungan',
-    'Luxury Hotel Semarang',
+    'Hotel Bandungan Semarang',
     'La Kana Chapel Wedding',
-    'Bandungan Spa Retreat',
-    'Mount Ungaran Hotel',
-    'Central Java Mountain Resort',
+    'Spa Bandungan',
+    'Hotel Lereng Gunung Ungaran',
+    'Resort Pegunungan Jawa Tengah',
   ],
   authors: [{ name: 'Susan Spa & Resort' }],
   creator: 'Susan Spa & Resort',
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'id_ID',
     url: 'https://www.susansparesort.com/',
     siteName: 'Susan Spa & Resort',
-    title: 'Susan Spa & Resort — Luxury Mountain Retreat in Bandungan',
+    title: 'Susan Spa & Resort — Peristirahatan Menenangkan di Lereng Bandungan',
     description:
-      'Elevated serenity at ~1,100m ASL. Restorative luxury accommodation, spa sanctuary, and iconic La Kana Chapel weddings.',
+      'Kesejukan udara pegunungan di ketinggian ±1.100 mdpl. Akomodasi suite & villa yang nyaman, spa on the sky, dan kapel pernikahan ikonik La Kana di Bandungan.',
     images: [
       {
         url: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200',
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Susan Spa & Resort — Luxury Mountain Retreat in Bandungan',
-    description: 'Elevated serenity at ~1,100m ASL in Central Java, Indonesia.',
+    title: 'Susan Spa & Resort — Peristirahatan Menenangkan di Lereng Bandungan',
+    description: 'Kesejukan udara pegunungan di ketinggian ±1.100 mdpl lereng Gunung Ungaran, Bandungan, Jawa Tengah.',
     images: ['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200'],
   },
 };
@@ -81,7 +81,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html lang="id">
       <head>
         <script
           type="application/ld+json"

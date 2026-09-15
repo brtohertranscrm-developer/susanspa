@@ -41,10 +41,10 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
             className="inline-flex items-center space-x-2 text-champagne hover:text-champagne-light transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to All Wedding Packages</span>
+            <span>Kembali ke Pilihan Paket Pernikahan</span>
           </Link>
           <span className="text-ivory/60 hidden sm:inline">
-            Wedding / {pkg.name}
+            Pernikahan / {pkg.name}
           </span>
         </div>
       </div>
@@ -55,7 +55,7 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-stone/30">
           <div className="space-y-2 max-w-2xl">
             <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-              WEDDING & CELEBRATIONS
+              PERNIKAHAN & PERAYAAN SAKRAL
             </span>
             <h1 className="font-serif text-3xl sm:text-5xl text-forest-deep leading-tight">
               {pkg.name}
@@ -67,14 +67,14 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
 
           <div className="text-left md:text-right shrink-0 bg-forest-deep text-ivory p-6 rounded-3xl border border-champagne/30 space-y-3">
             <span className="text-[10px] uppercase tracking-wider text-champagne block font-semibold">
-              KONSULTASI WEDDING
+              KONSULTASI PERNIKAHAN
             </span>
             <button
               onClick={() => setIsReserveModalOpen(true)}
               className="w-full bg-champagne hover:bg-champagne-light text-forest-deep font-bold uppercase tracking-wider text-xs py-3 px-6 rounded-full shadow-lg transition-colors flex items-center justify-center space-x-2"
             >
               <Calendar className="w-4 h-4" />
-              <span>Wedding Inquiry</span>
+              <span>Konsultasi Pernikahan</span>
             </button>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-ivory-warm p-6 rounded-3xl border border-stone/30 text-center shadow-sm">
           <div className="space-y-1">
             <Users className="w-5 h-5 text-champagne mx-auto mb-1" />
-            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Guest Capacity</span>
+            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Kapasitas Tamu</span>
             <span className="font-serif text-lg text-forest-deep font-semibold block">
               {pkg.capacity || pkg.guestCapacity || 'Sesuai reservasi'}
             </span>
@@ -129,7 +129,7 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
 
           <div className="space-y-1">
             <MapPin className="w-5 h-5 text-champagne mx-auto mb-1" />
-            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Main Venue</span>
+            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Venue Utama</span>
             <span className="font-serif text-lg text-forest-deep font-semibold block">
               {Array.isArray(pkg.venue) ? pkg.venue.join(', ') : pkg.venue || 'La Kana Chapel'}
             </span>
@@ -137,9 +137,9 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
 
           <div className="space-y-1">
             <Clock className="w-5 h-5 text-champagne mx-auto mb-1" />
-            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Schedule / Session</span>
+            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Jadwal & Sesi Acara</span>
             <span className="font-serif text-sm sm:text-base text-forest-deep font-semibold block">
-              {pkg.schedule && pkg.schedule.length > 0 ? pkg.schedule.join(' • ') : 'Morning / Evening'}
+              {pkg.schedule && pkg.schedule.length > 0 ? pkg.schedule.join(' • ') : 'Pagi / Sore'}
             </span>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 pt-4">
           <div className="lg:col-span-2 space-y-8">
             <div className="space-y-4">
-              <h2 className="font-serif text-2xl sm:text-3xl text-forest-deep">Package Description</h2>
+              <h2 className="font-serif text-2xl sm:text-3xl text-forest-deep">Deskripsi Paket</h2>
               <p className="text-sm sm:text-base text-charcoal/85 leading-relaxed font-normal">
                 {pkg.description}
               </p>
@@ -156,7 +156,7 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
 
             {/* What's Included */}
             <div className="space-y-4 pt-4 border-t border-stone/20">
-              <h3 className="font-serif text-2xl text-forest-deep">What’s Included</h3>
+              <h3 className="font-serif text-2xl text-forest-deep">Fasilitas & Inklusi Paket</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {pkg.inclusions.map((inclusion, idx) => (
                   <div
@@ -176,9 +176,9 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
             <div className="bg-forest-deep text-ivory p-8 rounded-3xl border border-champagne/30 space-y-6 shadow-xl sticky top-28">
               <div className="space-y-1">
                 <span className="text-[10px] uppercase tracking-wider text-champagne block font-semibold">
-                  WEDDING CONSULTATION
+                  KONSULTASI PERNIKAHAN
                 </span>
-                <h3 className="font-serif text-2xl text-ivory">Plan Your Special Day</h3>
+                <h3 className="font-serif text-2xl text-ivory">Rencanakan Momen Bahagia Anda</h3>
                 <p className="text-xs text-ivory/70 leading-relaxed pt-1">
                   Konsultasikan konsep pernikahan impian Anda bersama tim wedding coordinator Susan Spa & Resort.
                 </p>
@@ -190,7 +190,7 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
                   className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-3.5 rounded-full font-bold uppercase tracking-wider text-xs shadow-lg transition-colors flex items-center justify-center space-x-2"
                 >
                   <Calendar className="w-4 h-4" />
-                  <span>Request Proposal</span>
+                  <span>Ajukan Konsultasi & Proposal</span>
                 </button>
 
                 <a
@@ -202,7 +202,7 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
                   className="w-full border border-champagne/50 text-champagne hover:bg-forest py-3 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors flex items-center justify-center space-x-2 text-center"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Chat WhatsApp Wedding</span>
+                  <span>Chat WhatsApp Wedding Specialist</span>
                 </a>
               </div>
             </div>

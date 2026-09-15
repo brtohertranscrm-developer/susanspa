@@ -45,10 +45,10 @@ export default function ContactPage() {
       <section className="pt-36 pb-20 bg-forest-deep text-ivory text-center">
         <div className="max-w-4xl mx-auto px-4 space-y-4">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            GET IN TOUCH
+            HUBUNGI KAMI
           </span>
           <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Contact & Location
+            Kontak & Lokasi Resort
           </h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-xl mx-auto font-light leading-relaxed">
             Kami siap melayani kebutuhan informasi, reservasi kamar, jadwal spa, hingga konsultasi pernikahan Anda di Susan Spa & Resort.
@@ -63,13 +63,13 @@ export default function ContactPage() {
           <div className="space-y-8">
             <div className="space-y-3">
               <span className="text-xs uppercase tracking-[0.2em] text-botanical font-bold block">
-                OFFICIAL ADDRESS & CONCIERGE
+                ALAMAT RESMI & LAYANAN CONCIERGE
               </span>
               <h2 className="font-serif text-3xl text-forest-deep">
-                Find Us in Bandungan
+                Lokasi di Dataran Tinggi Bandungan
               </h2>
               <p className="text-sm text-charcoal/80 leading-relaxed">
-                Susan Spa & Resort terletak di dataran tinggi lereng Gunung Ungaran (~1,100 meter ASL) dengan suasana sejuk dan pemandangan memukau.
+                Susan Spa & Resort terletak di dataran tinggi lereng Gunung Ungaran (~1.100 mdpl) dengan suasana sejuk dan pemandangan lembah yang memukau.
               </p>
             </div>
 
@@ -79,7 +79,7 @@ export default function ContactPage() {
                 <MapPin className="w-5 h-5 text-champagne shrink-0 mt-1" />
                 <div className="space-y-1">
                   <span className="font-serif text-lg text-champagne block">
-                    Resort Address
+                    Alamat Susan Spa & Resort
                   </span>
                   <p className="text-xs sm:text-sm text-ivory/80 leading-relaxed">
                     {SITE_CONFIG.address.street}
@@ -118,13 +118,13 @@ export default function ContactPage() {
             <div className="p-6 bg-ivory-warm rounded-3xl border border-stone/30 flex items-center justify-between shadow-sm">
               <div className="space-y-1">
                 <span className="text-xs uppercase tracking-wider text-botanical font-bold block">
-                  Quick Response
+                  Respon Cepat
                 </span>
                 <h4 className="font-serif text-lg text-forest-deep">
                   WhatsApp Concierge
                 </h4>
                 <p className="text-xs text-charcoal/70">
-                  Konsultasi cepat dengan staf reservasi kami.
+                  Konsultasi cepat dan ramah bersama staf reservasi kami.
                 </p>
               </div>
 
@@ -146,13 +146,13 @@ export default function ContactPage() {
           <div className="bg-forest-deep text-ivory p-8 sm:p-10 rounded-3xl border border-champagne/30 shadow-2xl space-y-6">
             <div className="space-y-2">
               <span className="text-[10px] uppercase tracking-[0.2em] text-champagne font-bold block">
-                ONLINE INQUIRY FORM
+                FORMULIR PERTANYAAN & RESERVASI
               </span>
               <h3 className="font-serif text-2xl sm:text-3xl text-ivory">
-                Send Us a Message
+                Kirim Pesan Kepada Kami
               </h3>
               <p className="text-xs text-ivory/70">
-                Isi formulir di bawah ini dan tim concierge kami akan segera menghubungi Anda.
+                Silakan sampaikan pertanyaan atau rencana kunjungan Anda, tim concierge kami akan segera merespons dengan senang hati.
               </p>
             </div>
 
@@ -181,7 +181,7 @@ export default function ContactPage() {
                 {/* Full Name */}
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
-                    Full Name *
+                    Nama Lengkap *
                   </label>
                   <input
                     type="text"
@@ -195,7 +195,7 @@ export default function ContactPage() {
                 {/* Email */}
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
-                    Email *
+                    Alamat Email *
                   </label>
                   <input
                     type="email"
@@ -209,7 +209,7 @@ export default function ContactPage() {
                 {/* Phone / WhatsApp */}
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
-                    Phone / WhatsApp *
+                    Nomor Telepon / WhatsApp *
                   </label>
                   <input
                     type="tel"
@@ -223,7 +223,7 @@ export default function ContactPage() {
                 {/* Subject */}
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
-                    Subject
+                    Topik Pertanyaan / Keperluan
                   </label>
                   <input
                     type="text"
@@ -236,7 +236,7 @@ export default function ContactPage() {
                 {/* Message */}
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
-                    Message *
+                    Pesan / Detail Kebutuhan Anda *
                   </label>
                   <textarea
                     name="message"
@@ -255,7 +255,7 @@ export default function ContactPage() {
                     className="w-full bg-champagne hover:bg-champagne-light text-forest-deep font-bold uppercase tracking-[0.2em] text-xs py-3.5 rounded-full shadow-lg transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
                   >
                     <Send className="w-4 h-4" />
-                    <span>{submitting ? 'Sending...' : 'Send Message'}</span>
+                    <span>{submitting ? 'Sedang Mengirim...' : 'Kirim Pesan'}</span>
                   </button>
                 </div>
               </form>
@@ -268,10 +268,10 @@ export default function ContactPage() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div className="space-y-2">
               <span className="text-xs uppercase tracking-[0.2em] text-botanical font-bold block">
-                INTERACTIVE MAP
+                PETA LOKASI INTERAKTIF
               </span>
               <h3 className="font-serif text-2xl sm:text-3xl text-forest-deep">
-                Location on Google Maps
+                Petunjuk Arah Google Maps
               </h3>
             </div>
 
@@ -282,7 +282,7 @@ export default function ContactPage() {
               className="bg-champagne hover:bg-champagne-light text-forest-deep px-6 py-3 rounded-full text-xs uppercase tracking-[0.2em] font-bold shadow-md transition-all inline-flex items-center space-x-2 shrink-0 self-start"
             >
               <Navigation className="w-4 h-4" />
-              <span>Get Directions</span>
+              <span>Buka Rute Perjalanan</span>
             </a>
           </div>
 

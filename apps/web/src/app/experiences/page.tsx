@@ -27,10 +27,10 @@ export default function ExperiencesPage() {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
-          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">CURATED ACTIVITIES</span>
-          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">Highland Experiences</h1>
+          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">AKTIVITAS & EKSPLORASI RESORT</span>
+          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">Pengalaman Berkesan di Dataran Tinggi</h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Immerse in Bandungan’s natural wonders with guided temple treks, sunrise sky yoga, organic flower harvesting, and private romantic dining.
+            Lengkapi liburan Anda di Bandungan dengan kegiatan menyenangkan: trekking candi bersejarah bersama pemandu lokal, yoga saat fajar di Sky Deck, dan wisata edukasi ke kebun bunga asri.
           </p>
         </div>
       </section>
@@ -55,9 +55,9 @@ export default function ExperiencesPage() {
 
                 <button
                   onClick={() => setIsReserveModalOpen(true)}
-                  className="w-full bg-champagne text-forest-deep py-2.5 rounded-xl font-semibold uppercase text-xs tracking-wider"
+                  className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-2.5 rounded-xl font-semibold uppercase text-xs tracking-wider transition-colors"
                 >
-                  Book Activity
+                  Reservasi Aktivitas
                 </button>
               </div>
             </div>

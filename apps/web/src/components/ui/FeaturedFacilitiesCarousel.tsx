@@ -66,13 +66,13 @@ export const FeaturedFacilitiesCarousel: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-3 max-w-2xl">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            RESORT EXPERIENCES
+            PENGALAMAN RESORT
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl text-ivory">
-            Featured Facilities
+            Fasilitas Unggulan Resort
           </h2>
           <p className="text-sm text-ivory/75 leading-relaxed font-normal">
-            Nikmati fasilitas unggulan kami mulai dari kolam renang air hangat, relaksasi spa di atas awan, hingga kapel kaca ikonik La Kana.
+            Nikmati kenyamanan fasilitas istimewa kami, mulai dari kolam renang air hangat, kebugaran Spa on the Sky, hingga keanggunan Kapel Kaca La Kana.
           </p>
         </div>
 
@@ -82,7 +82,7 @@ export const FeaturedFacilitiesCarousel: React.FC = () => {
             href="/facilities"
             className="text-xs uppercase tracking-wider text-champagne hover:text-champagne-light font-semibold border-b border-champagne pb-1 transition-colors flex items-center space-x-1.5"
           >
-            <span>Explore All Facilities</span>
+            <span>Lihat Semua Fasilitas</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
 
@@ -172,7 +172,7 @@ export const FeaturedFacilitiesCarousel: React.FC = () => {
                 </div>
 
                 <div className="pt-2 flex items-center text-xs text-champagne font-semibold tracking-wider uppercase space-x-2 group-hover:translate-x-1 transition-transform">
-                  <span>Explore Facility</span>
+                  <span>Lihat Fasilitas</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </div>
@@ -199,7 +199,7 @@ export const FeaturedFacilitiesCarousel: React.FC = () => {
 
         {/* Mobile Swipe Cue */}
         <div className="flex md:hidden items-center space-x-1.5 text-[11px] text-champagne/80">
-          <span className="tracking-wider uppercase">Swipe to see more</span>
+          <span className="tracking-wider uppercase">Geser untuk melihat lainnya</span>
           <ArrowRight className="w-3 h-3 animate-pulse" />
         </div>
 
@@ -209,7 +209,7 @@ export const FeaturedFacilitiesCarousel: React.FC = () => {
             href="/facilities"
             className="text-[11px] uppercase tracking-wider text-champagne font-semibold border-b border-champagne pb-0.5"
           >
-            All Facilities →
+            Semua Fasilitas →
           </Link>
         </div>
       </div>

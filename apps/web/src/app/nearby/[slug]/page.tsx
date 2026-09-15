@@ -8,10 +8,10 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const dest = NEARBY_DESTINATIONS.find((d) => d.slug === slug);
-  if (!dest) return { title: 'Destination Not Found | Susan Spa & Resort' };
+  if (!dest) return { title: 'Destinasi Tidak Ditemukan | Susan Spa & Resort' };
 
   return {
-    title: `${dest.name} | Explore Bandungan`,
+    title: `${dest.name} | Wisata Sekitar Bandungan`,
     description: dest.description,
   };
 }

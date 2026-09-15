@@ -3,8 +3,8 @@ import { getRooms } from '@/lib/cms';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Rooms & Suites | Susan Spa & Resort',
-  description: 'Comfort, elegance and mountain serenity in Bandungan. Discover our suites, villas, and family rooms.',
+  title: 'Kamar, Suite & Villa | Susan Spa & Resort',
+  description: 'Kenyamanan, kehangatan, dan ketenangan lereng pegunungan Bandungan. Jelajahi 11 pilihan suite, villa, dan kamar keluarga kami.',
 };
 
 export default async function RoomsPage() {

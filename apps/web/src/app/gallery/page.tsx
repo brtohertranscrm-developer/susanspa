@@ -30,13 +30,13 @@ export default function GalleryPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            VISUAL SANCTUARY
+            GALERI RESORT
           </span>
           <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Resort Gallery
+            Galeri Susan Spa & Resort
           </h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-xl mx-auto font-light leading-relaxed">
-            Keindahan visual Susan Spa & Resort: kapel kaca La Kana, suite & villa mewah, ketenangan spa di atas awan, dan lanskap pegunungan Bandungan.
+            Dokumentasi visual sudut keindahan Susan Spa & Resort: kapel kaca La Kana, kenyamanan suite & villa, ketenangan spa di atas awan, dan panorama pegunungan Bandungan.
           </p>
         </div>
       </section>

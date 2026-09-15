@@ -31,7 +31,7 @@ export const WeddingCard: React.FC<WeddingCardProps> = ({ pkg, onInquire }) => {
 
         {pkg.priceStartingIdr ? (
           <div className="absolute bottom-4 right-4 text-right">
-            <span className="text-[10px] uppercase tracking-wider text-ivory/70 block">Starting From</span>
+            <span className="text-[10px] uppercase tracking-wider text-ivory/70 block">Mulai dari</span>
             <span className="font-serif text-lg text-champagne font-bold">
               {formatCurrencyIdr(pkg.priceStartingIdr)}
             </span>
@@ -52,7 +52,7 @@ export const WeddingCard: React.FC<WeddingCardProps> = ({ pkg, onInquire }) => {
 
         {/* Inclusions */}
         <div className="space-y-2 pt-3 border-t border-white/10">
-          <span className="text-[10px] uppercase tracking-wider text-champagne font-semibold block">Package Highlights</span>
+          <span className="text-[10px] uppercase tracking-wider text-champagne font-semibold block">Fasilitas & Inklusi Utama</span>
           <ul className="space-y-1.5 text-xs text-ivory/80">
             {pkg.inclusions.slice(0, 3).map((item, i) => (
               <li key={i} className="flex items-start space-x-2">
@@ -67,7 +67,7 @@ export const WeddingCard: React.FC<WeddingCardProps> = ({ pkg, onInquire }) => {
           onClick={() => onInquire && onInquire(pkg.slug)}
           className="w-full bg-champagne hover:bg-champagne-light text-forest-deep text-xs uppercase tracking-wider font-semibold py-3 rounded-xl transition-colors flex items-center justify-center shadow-md"
         >
-          <span>Request Wedding Proposal</span>
+          <span>Konsultasi & Proposal Acara</span>
         </button>
       </div>
     </div>

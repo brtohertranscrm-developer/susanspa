@@ -27,10 +27,10 @@ export default function DiningPage() {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
-          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">HIGHLAND CULINARY EXPERIENCE</span>
-          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">Sky Garden Dining</h1>
+          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">PENGALAMAN KULINER PEGUNUNGAN</span>
+          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">Restoran & Kuliner Pilihan</h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Savor authentic Javanese heritage recipes and international dishes prepared with fresh organic vegetables sourced from Bandungan mountain farms.
+            Nikmati kelezatan sajian khas Nusantara, cita rasa Jawa autentik, dan hidangan Barat yang diolah dengan bahan-bahan segar dari perkebunan pegunungan Bandungan.
           </p>
         </div>
       </section>
@@ -49,7 +49,7 @@ export default function DiningPage() {
               <p className="text-xs text-ivory/80 leading-relaxed">{venue.description}</p>
 
               <div className="space-y-2 pt-2 border-t border-white/10">
-                <span className="text-[10px] uppercase tracking-wider text-champagne block">Signature Dishes</span>
+                <span className="text-[10px] uppercase tracking-wider text-champagne block">Menu Pilihan</span>
                 <ul className="space-y-1 text-xs text-ivory/90">
                   {venue.menuHighlights.map((dish, idx) => (
                     <li key={idx} className="flex items-center space-x-2">
@@ -64,7 +64,7 @@ export default function DiningPage() {
                 onClick={() => setIsReserveModalOpen(true)}
                 className="bg-champagne hover:bg-champagne-light text-forest-deep px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors shadow-lg"
               >
-                Reserve Dining Table
+                Reservasi Meja Restoran
               </button>
             </div>
           </div>
@@ -72,7 +72,7 @@ export default function DiningPage() {
       </section>
 
       <Footer />
-      <WhatsAppCTA message="Hello Susan Spa Dining Concierge, I would like to reserve a table at Sky Garden Restaurant." />
+      <WhatsAppCTA message="Halo Concierge Restoran Susan Spa, saya ingin menanyakan reservasi meja di Sky Garden Restaurant." />
       <ReservationModal isOpen={isReserveModalOpen} onClose={() => setIsReserveModalOpen(false)} />
     </div>
   );

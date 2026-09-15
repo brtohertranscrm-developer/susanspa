@@ -8,7 +8,7 @@ interface WhatsAppCTAProps {
 }
 
 export const WhatsAppCTA: React.FC<WhatsAppCTAProps> = ({
-  message = 'Hello Susan Spa & Resort, I would like to inquire about room availability and spa packages.',
+  message = 'Halo Susan Spa & Resort, perkenalkan saya ingin menanyakan ketersediaan kamar dan paket reservasi. Mohon informasinya, terima kasih.',
 }) => {
   const whatsappNumber = '6281228111111';
   const encodedMessage = encodeURIComponent(message);

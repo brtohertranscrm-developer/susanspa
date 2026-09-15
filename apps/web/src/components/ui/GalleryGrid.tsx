@@ -10,12 +10,12 @@ import {
 } from '@/data/gallery';
 
 export const GalleryGrid: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<GalleryCategory>('All');
+  const [activeCategory, setActiveCategory] = useState<GalleryCategory>('Semua');
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState<number>(12);
 
   const filteredItems =
-    activeCategory === 'All'
+    activeCategory === 'Semua'
       ? GALLERY_ITEMS
       : GALLERY_ITEMS.filter((item) => item.category === activeCategory);
 
@@ -45,8 +45,7 @@ export const GalleryGrid: React.FC = () => {
 
   return (
     <div className="space-y-10">
-      {/* Category Filter Tabs per brief:
-          All, Rooms, Resort, Spa & Wellness, Wedding, Dining, Facilities, Landscape */}
+      {/* Category Filter Tabs */}
       <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
         {GALLERY_CATEGORIES.map((cat) => (
           <button
@@ -100,7 +99,7 @@ export const GalleryGrid: React.FC = () => {
                 </h4>
                 <div className="mt-3 flex items-center text-xs text-champagne font-semibold space-x-1">
                   <Maximize2 className="w-3.5 h-3.5" />
-                  <span>Enlarge View</span>
+                  <span>Perbesar Foto</span>
                 </div>
               </div>
             </div>
@@ -115,7 +114,7 @@ export const GalleryGrid: React.FC = () => {
             onClick={() => setVisibleCount((prev) => prev + 6)}
             className="bg-forest-deep hover:bg-forest text-champagne px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-md transition-colors"
           >
-            Load More Photos
+            Muat Foto Lainnya
           </button>
         </div>
       )}
@@ -127,7 +126,7 @@ export const GalleryGrid: React.FC = () => {
           <button
             onClick={closeLightbox}
             className="absolute top-6 right-6 p-3 text-ivory hover:text-champagne transition-colors z-50 focus:outline-none"
-            aria-label="Close Lightbox"
+            aria-label="Tutup Galeri"
           >
             <X className="w-8 h-8" />
           </button>
@@ -139,7 +138,7 @@ export const GalleryGrid: React.FC = () => {
               prevImage();
             }}
             className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 p-3 text-ivory hover:text-champagne bg-forest/60 hover:bg-forest rounded-full transition-colors z-50"
-            aria-label="Previous image"
+            aria-label="Foto Sebelumnya"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
@@ -151,7 +150,7 @@ export const GalleryGrid: React.FC = () => {
               nextImage();
             }}
             className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 p-3 text-ivory hover:text-champagne bg-forest/60 hover:bg-forest rounded-full transition-colors z-50"
-            aria-label="Next image"
+            aria-label="Foto Berikutnya"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -176,7 +175,7 @@ export const GalleryGrid: React.FC = () => {
                 {filteredItems[selectedImageIndex].title}
               </h3>
               <p className="text-xs text-ivory/60">
-                {selectedImageIndex + 1} of {filteredItems.length}
+                {selectedImageIndex + 1} dari {filteredItems.length}
               </p>
             </div>
           </div>

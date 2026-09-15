@@ -46,13 +46,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
   }, [mobileMenuOpen]);
 
   const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'Rooms', href: '/rooms' },
-    { label: 'Facilities', href: '/facilities' },
-    { label: 'Wedding', href: '/wedding' },
-    { label: 'Gallery', href: '/gallery' },
-    { label: 'Nearby', href: '/nearby' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Beranda', href: '/' },
+    { label: 'Kamar & Villa', href: '/rooms' },
+    { label: 'Fasilitas', href: '/facilities' },
+    { label: 'Pernikahan', href: '/wedding' },
+    { label: 'Galeri', href: '/gallery' },
+    { label: 'Wisata Sekitar', href: '/nearby' },
+    { label: 'Kontak', href: '/contact' },
   ];
 
   return (
@@ -120,7 +120,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
               onClick={onOpenReserve}
               className="bg-champagne hover:bg-champagne-light text-forest-deep px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-md hover:shadow-champagne/20 hover:scale-105"
             >
-              BOOK NOW
+              Reservasi
             </button>
           </div>
 
@@ -130,7 +130,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
               onClick={onOpenReserve}
               className="bg-champagne text-forest-deep px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm"
             >
-              BOOK NOW
+              Reservasi
             </button>
 
             <button
@@ -214,7 +214,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                 }}
                 className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-3.5 rounded-xl font-bold uppercase tracking-[0.2em] text-xs text-center shadow-lg transition-colors"
               >
-                BOOK NOW
+                Reservasi Kamar
               </button>
 
               <a

@@ -22,9 +22,9 @@ export default function JournalDetailPage() {
       <div className="min-h-screen bg-ivory text-charcoal flex flex-col justify-between">
         <Header />
         <div className="py-32 text-center space-y-4">
-          <h1 className="font-serif text-3xl text-forest-deep">Article Not Found</h1>
+          <h1 className="font-serif text-3xl text-forest-deep">Artikel Tidak Ditemukan</h1>
           <Link href="/journal" className="inline-block bg-champagne text-forest-deep px-6 py-2.5 rounded-full text-xs font-semibold uppercase">
-            Return to Journal
+            Kembali ke Jurnal
           </Link>
         </div>
         <Footer />
@@ -40,7 +40,7 @@ export default function JournalDetailPage() {
         <div className="max-w-4xl mx-auto px-4 flex items-center justify-between text-xs">
           <Link href="/journal" className="inline-flex items-center space-x-2 text-champagne hover:text-champagne-light">
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Journal</span>
+            <span>Kembali ke Jurnal</span>
           </Link>
           <span className="text-ivory/60">{article.category}</span>
         </div>
@@ -52,7 +52,7 @@ export default function JournalDetailPage() {
           <h1 className="font-serif text-3xl sm:text-5xl text-forest-deep leading-tight">{article.title}</h1>
 
           <div className="flex items-center justify-center space-x-4 text-xs text-charcoal/60 pt-2">
-            <span>By {article.author.name} ({article.author.role})</span>
+            <span>Oleh {article.author.name} ({article.author.role})</span>
             <span>•</span>
             <span>{article.publishedAt}</span>
           </div>

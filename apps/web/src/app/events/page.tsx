@@ -26,10 +26,10 @@ export default function EventsPage() {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
-          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">CORPORATE & GATHERINGS</span>
-          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">Meetings & Private Events</h1>
+          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">PERTEMUAN BISNIS & GATHERING</span>
+          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">Ruang Pertemuan & Acara Privat</h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Inspire your executive team with high-altitude corporate retreats, strategy workshops, and memorable family anniversaries in Bandungan.
+            Hadirkan suasana baru bagi tim dan relasi bisnis Anda melalui retreat korporat, rapat kerja strategis, maupun perayaan gathering keluarga di lingkungan pegunungan Bandungan yang sejuk.
           </p>
         </div>
       </section>
@@ -37,37 +37,37 @@ export default function EventsPage() {
       <section className="py-20 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-forest-deep text-ivory p-8 rounded-3xl border border-champagne/30 space-y-4 shadow-xl">
-            <span className="text-xs uppercase tracking-wider text-champagne font-semibold block">BALLROOM & FUNCTION HALLS</span>
+            <span className="text-xs uppercase tracking-wider text-champagne font-semibold block">BALLROOM & RUANG PERTEMUAN</span>
             <h2 className="font-serif text-3xl text-ivory">Grand Mountain Ballroom</h2>
             <p className="text-xs text-ivory/70 leading-relaxed">
-              Equipped with modern audio-visual systems, high-speed Wi-Fi, and climate control. Accommodates up to 350 delegates in theatre setup.
+              Dilengkapi sistem audio visual modern, koneksi Wi-Fi stabil, dan tata pendingin udara. Siap mengakomodasi hingga 350 peserta dalam susunan teater.
             </p>
             <button
               onClick={() => setIsReserveModalOpen(true)}
-              className="bg-champagne text-forest-deep px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider"
+              className="bg-champagne hover:bg-champagne-light text-forest-deep px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors"
             >
-              Request Event Proposal
+              Konsultasi Acara
             </button>
           </div>
 
           <div className="bg-forest-deep text-ivory p-8 rounded-3xl border border-champagne/30 space-y-4 shadow-xl">
-            <span className="text-xs uppercase tracking-wider text-champagne font-semibold block">OUTDOOR TEAM BUILDING</span>
+            <span className="text-xs uppercase tracking-wider text-champagne font-semibold block">AREA OUTDOOR & TEAM BUILDING</span>
             <h2 className="font-serif text-3xl text-ivory">Sky Lawn Outward Bound</h2>
             <p className="text-xs text-ivory/70 leading-relaxed">
-              Expansive manicured lawn ideal for team-building games, morning stretch sessions, and outdoor BBQ networking nights under starry mountain skies.
+              Hamparan rumput hijau asri yang luas, ideal untuk aktivitas team-building, peregangan pagi, serta acara malam ramah tamah bernuansa alam terbuka.
             </p>
             <button
               onClick={() => setIsReserveModalOpen(true)}
-              className="bg-champagne text-forest-deep px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider"
+              className="bg-champagne hover:bg-champagne-light text-forest-deep px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors"
             >
-              Request Proposal
+              Konsultasi Acara
             </button>
           </div>
         </div>
       </section>
 
       <Footer />
-      <WhatsAppCTA message="Hello Susan Spa Events Team, I would like to inquire about hosting a meeting/event." />
+      <WhatsAppCTA message="Halo Tim Acara Susan Spa & Resort, saya ingin berkonsultasi mengenai penyelenggaraan meeting/gathering." />
       <ReservationModal isOpen={isReserveModalOpen} onClose={() => setIsReserveModalOpen(false)} preselectedType="event" />
     </div>
   );

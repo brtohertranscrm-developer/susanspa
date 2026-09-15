@@ -39,7 +39,7 @@ export const TreatmentCard: React.FC<TreatmentCardProps> = ({ treatment, onBook 
         <div className="space-y-2">
           <div className="flex items-center space-x-2 text-xs text-champagne">
             <Clock className="w-3.5 h-3.5" />
-            <span>{treatment.durationMinutes} Minutes Session</span>
+            <span>{treatment.durationMinutes} Menit Perawatan</span>
           </div>
 
           <h3 className="font-serif text-xl sm:text-2xl text-ivory">{treatment.title}</h3>
@@ -48,7 +48,7 @@ export const TreatmentCard: React.FC<TreatmentCardProps> = ({ treatment, onBook 
 
         {/* Benefits list */}
         <div className="space-y-1.5 pt-2 border-t border-white/10">
-          <span className="text-[10px] uppercase tracking-wider text-champagne font-semibold block">Key Benefits</span>
+          <span className="text-[10px] uppercase tracking-wider text-champagne font-semibold block">Manfaat Utama</span>
           <ul className="space-y-1 text-xs text-ivory/80">
             {treatment.benefits.slice(0, 2).map((benefit, i) => (
               <li key={i} className="flex items-start space-x-1.5">
@@ -63,7 +63,7 @@ export const TreatmentCard: React.FC<TreatmentCardProps> = ({ treatment, onBook 
           onClick={() => onBook && onBook(treatment.slug)}
           className="w-full bg-champagne hover:bg-champagne-light text-forest-deep text-xs uppercase tracking-wider font-semibold py-2.5 rounded-xl transition-colors flex items-center justify-center"
         >
-          <span>Reserve Treatment</span>
+          <span>Reservasi Perawatan</span>
         </button>
       </div>
     </div>

@@ -58,13 +58,13 @@ export default function WeddingsPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">
-            SACRED CELEBRATIONS AT LA KANA CHAPEL
+            PEMBERKATAN & PERNIKAHAN SAKRAL
           </span>
           <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Weddings Above the Clouds
+            Pernikahan Megah di Atas Awan
           </h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Central Java’s premier glass altar wedding venue. Say &quot;I Do&quot; surrounded by panoramic mountain slopes, cool air, and romantic garden fairy lights.
+            Venue pernikahan altar kaca La Kana yang ikonik di Jawa Tengah. Ikrarkan janji suci berlatar panorama lembah, kesejukan lereng Gunung Ungaran, dan kehangatan tata lampu taman yang romantis.
           </p>
         </div>
       </section>
@@ -73,22 +73,22 @@ export default function WeddingsPage() {
       <section className="py-20 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
           <span className="text-xs uppercase tracking-[0.25em] text-botanical font-semibold block">
-            ARCHITECTURAL HARMONY
+            HARMONI ARSITEKTUR & ALAM
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl text-forest-deep">
-            The Iconic La Kana Glass Chapel
+            Kapel Kaca Ikonik La Kana
           </h2>
           <p className="text-sm text-charcoal/80 leading-relaxed">
-            La Kana Chapel stands as an emblem of timeless romance at Susan Spa & Resort. Featuring full floor-to-ceiling transparent glass walls, the chapel allows natural sunlight and mountain horizons to illuminate your ceremony.
+            La Kana Chapel berdiri anggun sebagai simbol cinta abadi di Susan Spa & Resort. Dinding kaca transparan setinggi langit-langit menghadirkan pencahayaan alami dan siluet megah pegunungan langsung ke altar pernikahan Anda.
           </p>
           <div className="grid grid-cols-2 gap-4 pt-2 text-xs text-forest-deep">
             <div className="p-4 bg-ivory-warm rounded-2xl border border-stone/30">
-              <span className="font-serif text-xl font-bold text-champagne block">100 Guests</span>
-              <span>Chapel Seating Capacity</span>
+              <span className="font-serif text-xl font-bold text-champagne block">Hingga 100 Tamu</span>
+              <span>Kapasitas Tempat Duduk Kapel</span>
             </div>
             <div className="p-4 bg-ivory-warm rounded-2xl border border-stone/30">
-              <span className="font-serif text-xl font-bold text-champagne block">800 Guests</span>
-              <span>Sky Lawn Reception Capacity</span>
+              <span className="font-serif text-xl font-bold text-champagne block">Hingga 800 Tamu</span>
+              <span>Kapasitas Resepsi di Sky Lawn</span>
             </div>
           </div>
         </div>
@@ -107,8 +107,8 @@ export default function WeddingsPage() {
       <section className="py-20 bg-forest-deep text-ivory">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">CURATED PACKAGES</span>
-            <h2 className="font-serif text-3xl sm:text-5xl text-ivory">Wedding & Pre-Wedding Collections</h2>
+            <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">PILIHAN PAKET ISTIMEWA</span>
+            <h2 className="font-serif text-3xl sm:text-5xl text-ivory">Koleksi Paket Pernikahan & Pre-Wedding</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -123,18 +123,18 @@ export default function WeddingsPage() {
       <section className="py-20 bg-ivory max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-forest-deep text-ivory rounded-3xl p-8 sm:p-12 border border-champagne/40 shadow-2xl space-y-6">
           <div className="text-center space-y-2">
-            <span className="text-xs uppercase tracking-[0.2em] text-champagne font-semibold">CUSTOM PROPOSAL</span>
-            <h3 className="font-serif text-3xl text-ivory">Request Your Custom Wedding Proposal</h3>
+            <span className="text-xs uppercase tracking-[0.2em] text-champagne font-semibold">KONSULTASI & PROPOSAL ACARA</span>
+            <h3 className="font-serif text-3xl text-ivory">Konsultasikan Rencana Pernikahan Anda</h3>
             <p className="text-xs text-ivory/70 max-w-lg mx-auto">
-              Our lead wedding stylist will tailor a bespoke itinerary and package quote for your dream wedding at Susan Spa & Resort.
+              Tim wedding specialist kami siap mendampingi perencanaan hari bahagia Anda, mulai dari pemilihan venue kapel, tata sesi acara, hingga penyesuaian detail paket yang paling sesuai.
             </p>
           </div>
 
           {leadSubmitted ? (
             <div className="p-8 text-center bg-forest rounded-2xl border border-champagne/40 space-y-3">
               <CheckCircle2 className="w-10 h-10 text-champagne mx-auto" />
-              <h4 className="font-serif text-xl text-ivory">Proposal Request Received</h4>
-              <p className="text-xs text-ivory/80">Thank you! Our wedding team will reach out via WhatsApp and Email shortly.</p>
+              <h4 className="font-serif text-xl text-ivory">Permohonan Proposal Diterima</h4>
+              <p className="text-xs text-ivory/80">Terima kasih atas kepercayaan Anda. Tim wedding specialist Susan Spa & Resort akan segera menghubungi Anda melalui WhatsApp atau Email untuk berdiskusi lebih lanjut.</p>
             </div>
           ) : (
             <form onSubmit={handleLeadSubmit} className="space-y-4">
@@ -143,14 +143,14 @@ export default function WeddingsPage() {
                   name="fullName"
                   type="text"
                   required
-                  placeholder="Full Name (Bride / Groom) *"
+                  placeholder="Nama Lengkap (Calon Pengantin) *"
                   className="w-full bg-forest border border-white/10 rounded-xl px-4 py-3 text-xs text-ivory focus:border-champagne focus:outline-none"
                 />
                 <input
                   name="phone"
                   type="tel"
                   required
-                  placeholder="WhatsApp Number *"
+                  placeholder="Nomor WhatsApp Aktif *"
                   className="w-full bg-forest border border-white/10 rounded-xl px-4 py-3 text-xs text-ivory focus:border-champagne focus:outline-none"
                 />
               </div>
@@ -160,7 +160,7 @@ export default function WeddingsPage() {
                   name="email"
                   type="email"
                   required
-                  placeholder="Email Address *"
+                  placeholder="Alamat Email *"
                   className="w-full bg-forest border border-white/10 rounded-xl px-4 py-3 text-xs text-ivory focus:border-champagne focus:outline-none"
                 />
                 <input
@@ -174,7 +174,7 @@ export default function WeddingsPage() {
               <textarea
                 name="notes"
                 rows={3}
-                placeholder="Estimated guest count, preferred venue (La Kana / Sky Lawn), and special desires..."
+                placeholder="Perkiraan jumlah undangan, pilihan venue (La Kana / Sky Lawn), dan kebutuhan khusus lainnya..."
                 className="w-full bg-forest border border-white/10 rounded-xl px-4 py-3 text-xs text-ivory focus:border-champagne focus:outline-none"
               />
 
@@ -185,7 +185,7 @@ export default function WeddingsPage() {
                 className="w-full bg-champagne disabled:opacity-60 hover:bg-champagne-light text-forest-deep font-semibold uppercase tracking-wider text-xs py-3.5 rounded-full shadow-lg transition-colors flex items-center justify-center space-x-2"
               >
                 <Send className="w-4 h-4" />
-                <span>{leadSubmitting ? 'Sending...' : 'Submit Proposal Request'}</span>
+                <span>{leadSubmitting ? 'Mengirim Permohonan...' : 'Kirim Permohonan Proposal'}</span>
               </button>
             </form>
           )}
@@ -193,7 +193,7 @@ export default function WeddingsPage() {
       </section>
 
       <Footer />
-      <WhatsAppCTA message="Hello Susan Spa Wedding Team, I would like to request information on La Kana Chapel wedding packages." />
+      <WhatsAppCTA message="Halo Tim Wedding Susan Spa & Resort, saya ingin berkonsultasi mengenai paket pernikahan di La Kana Chapel." />
       <ReservationModal
         isOpen={isReserveModalOpen}
         onClose={() => setIsReserveModalOpen(false)}

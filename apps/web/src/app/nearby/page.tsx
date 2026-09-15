@@ -32,10 +32,10 @@ export default function NearbyPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            DESTINATION GUIDE
+            PANDUAN DESTINASI
           </span>
           <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Explore Bandungan
+            Wisata Menarik Sekitar Bandungan
           </h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
             Kawasan pegunungan Bandungan kaya akan destinasi wisata alam, budaya bersejarah, taman bunga highland, dan rekreasi keluarga yang dapat ditempuh dalam hitungan menit dari Susan Spa & Resort.
@@ -61,7 +61,7 @@ export default function NearbyPage() {
                 />
                 <div className="absolute top-4 left-4 bg-forest-deep/90 text-champagne text-[10px] uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-champagne/30 flex items-center space-x-1.5 font-semibold">
                   <MapPin className="w-3.5 h-3.5" />
-                  <span>{dest.distance} from Resort</span>
+                  <span>{dest.distance} dari Resort</span>
                 </div>
               </div>
 
@@ -84,7 +84,7 @@ export default function NearbyPage() {
                     href={`/nearby/${dest.slug}`}
                     className="flex-1 bg-champagne hover:bg-champagne-light text-forest-deep py-3 px-5 rounded-xl text-xs font-bold uppercase tracking-wider text-center transition-colors shadow-sm flex items-center justify-center space-x-1.5"
                   >
-                    <span>Explore</span>
+                    <span>Lihat Detail</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
 
@@ -96,7 +96,7 @@ export default function NearbyPage() {
                       className="border border-champagne/40 hover:bg-forest text-ivory py-3 px-5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors flex items-center space-x-1.5"
                     >
                       <Navigation className="w-3.5 h-3.5 text-champagne" />
-                      <span>Get Direction</span>
+                      <span>Petunjuk Arah</span>
                     </a>
                   )}
                 </div>

@@ -37,9 +37,9 @@ export interface SiteConfig {
 
 export const SITE_CONFIG: SiteConfig = {
   name: 'Susan Spa & Resort',
-  tagline: 'Where the Mountains Invite You to Slow Down',
+  tagline: 'Peristirahatan Menenangkan di Lereng Gunung Ungaran',
   description:
-    'Susan Spa & Resort merupakan resort dan spa destination yang berlokasi di Bandungan, Semarang, Jawa Tengah. Berada sekitar 1,100 meter di atas permukaan laut di kawasan Gunung Ungaran, resort menawarkan suasana pegunungan dan panorama dari dataran tinggi.',
+    'Susan Spa & Resort menyambut Anda di kawasan sejuk Bandungan, Semarang, pada ketinggian sekitar 1.100 meter di atas permukaan laut. Menghadirkan perpaduan ketenangan alam pegunungan, relaksasi spa herbal khas Jawa, kenyamanan akomodasi keluarga, serta keindahan kapel kaca La Kana untuk momen berharga Anda.',
   altitudeMeters: 1100,
   locationName: 'Bandungan, Kabupaten Semarang',
   address: {

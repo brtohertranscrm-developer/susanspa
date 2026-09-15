@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Journal & Stories',
-  description: 'Read wellness stories, wedding inspiration, and destination guides from Susan Spa & Resort.',
+  title: 'Jurnal & Inspirasi | Susan Spa & Resort',
+  description: 'Inspirasi kebugaran alami, panduan pernikahan sakral, dan kisah perjalanan di lereng pegunungan Bandungan.',
 };
 
 export default function JournalLayout({ children }: { children: ReactNode }) {

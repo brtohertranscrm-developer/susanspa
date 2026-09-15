@@ -47,15 +47,15 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
         <div className="grid grid-cols-3 gap-2 py-3 border-y border-stone-200/70 text-[11px] text-[#333D39] text-center">
           <div className="space-y-1">
             <Maximize2 className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-            <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Size</span>
+            <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Luas Kamar</span>
             <span className="font-semibold text-forest-deep">
-              {room.sizeSqm ? `${room.sizeSqm} sqm` : '—'}
+              {room.sizeSqm ? `${room.sizeSqm} m²` : '—'}
             </span>
           </div>
 
           <div className="space-y-1 border-x border-stone-200/60 px-1">
             <Users className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-            <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Capacity</span>
+            <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Kapasitas</span>
             <span className="font-semibold text-forest-deep">
               {roomCapacity(room)}
             </span>
@@ -63,7 +63,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
 
           <div className="space-y-1">
             <BedDouble className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-            <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Bed Type</span>
+            <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Tipe Kasur</span>
             <span className="font-semibold text-forest-deep line-clamp-1">
               {room.bedType || '—'}
             </span>
@@ -74,7 +74,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
         {room.amenities.length > 0 && (
           <div className="space-y-1.5 pt-1">
             <span className="text-[10px] uppercase tracking-wider text-botanical font-bold block">
-              Key Facilities
+              Fasilitas Kamar
             </span>
             <div className="flex flex-wrap gap-1.5">
               {room.amenities.slice(0, 3).map((facility, idx) => (
@@ -96,7 +96,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
             href={`/rooms/${room.slug}`}
             className="flex-1 border border-stone-300 hover:border-forest text-forest hover:bg-forest hover:text-ivory text-xs uppercase tracking-wider font-semibold py-2.5 rounded-full text-center transition-all duration-300 flex items-center justify-center space-x-1"
           >
-            <span>View Details</span>
+            <span>Detail Kamar</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </Link>
 
@@ -104,7 +104,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
             onClick={() => onInquire && onInquire(room.slug)}
             className="bg-forest-deep hover:bg-forest text-champagne hover:text-champagne-light text-xs uppercase tracking-wider font-bold py-2.5 px-5 rounded-full transition-colors"
           >
-            Book Now
+            Pesan Kamar
           </button>
         </div>
       </div>

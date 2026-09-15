@@ -28,10 +28,10 @@ export default function OffersPage() {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
-          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">EXCLUSIVES & PROMOTIONS</span>
-          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">Special Retreat Packages</h1>
+          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">PENAWARAN SPESIAL</span>
+          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">Paket Menginap Pilihan</h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Enhance your mountain stay with curated honeymoon escapes, wellness spa packages, and early bird sanctuary rates.
+            Nikmati liburan pegunungan yang lebih berkesan dengan penawaran paket bulan madu romantis, perawatan spa relaksasi, dan paket menginap keluarga.
           </p>
         </div>
       </section>
@@ -54,7 +54,7 @@ export default function OffersPage() {
                   <p className="text-xs text-ivory/70 leading-relaxed">{offer.description}</p>
 
                   <div className="pt-3 border-t border-white/10 space-y-1.5">
-                    <span className="text-[10px] uppercase tracking-wider text-champagne font-semibold block">Package Inclusions</span>
+                    <span className="text-[10px] uppercase tracking-wider text-champagne font-semibold block">Inklusi Paket</span>
                     {offer.inclusions.map((inc, idx) => (
                       <div key={idx} className="flex items-start space-x-2 text-xs text-ivory/90">
                         <CheckCircle2 className="w-3.5 h-3.5 text-champagne shrink-0 mt-0.5" />
@@ -68,7 +68,7 @@ export default function OffersPage() {
                   onClick={() => setIsReserveModalOpen(true)}
                   className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-3 rounded-full text-xs uppercase tracking-wider font-semibold shadow-lg transition-colors flex items-center justify-center space-x-2"
                 >
-                  <span>Inquire Package</span>
+                  <span>Tanya Ketersediaan Paket</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>

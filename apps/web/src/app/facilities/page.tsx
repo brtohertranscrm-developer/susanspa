@@ -54,13 +54,13 @@ export default function FacilitiesPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            RESORT AMENITIES & LEISURE
+            FASILITAS & PENGALAMAN RESORT
           </span>
           <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Facilities & Experiences
+            Fasilitas & Layanan Unggulan
           </h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Temukan ragam fasilitas lengkap kami yang dikelompokkan khusus untuk relaksasi kebugaran, santap kuliner, kegembiraan keluarga, perayaan istimewa, hingga kenyamanan layanan menginap Anda.
+            Temukan ragam fasilitas lengkap kami yang dirancang untuk relaksasi kebugaran, santap kuliner, keceriaan keluarga, perayaan istimewa, hingga kenyamanan layanan menginap Anda.
           </p>
 
           <div className="pt-4">
@@ -68,7 +68,7 @@ export default function FacilitiesPage() {
               onClick={() => setIsReserveModalOpen(true)}
               className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-lg transition-transform hover:scale-105"
             >
-              Book Your Stay
+              Reservasi Sekarang
             </button>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function FacilitiesPage() {
                 : 'bg-ivory-warm text-charcoal/80 hover:text-forest border border-stone/30'
             }`}
           >
-            All Facilities
+            Semua Fasilitas
           </button>
           {FACILITY_GROUPS.map((group) => {
             const Icon = CATEGORY_ICONS[group.category] || Sparkles;
@@ -188,13 +188,13 @@ export default function FacilitiesPage() {
         {/* Global Bottom CTA: Book Your Stay */}
         <div className="bg-forest-deep text-ivory rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-champagne/30 shadow-2xl">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            EXPERIENCE BANDUNGAN HIGHLANDS
+            PERISTIRAHATAN MENENANGKAN DI BANDUNGAN
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl text-ivory max-w-2xl mx-auto">
-            Ready to Experience Our Facilities?
+            Nikmati Pengalaman Menenangkan Bersama Kami
           </h2>
           <p className="text-sm text-ivory/75 max-w-xl mx-auto">
-            Nikmati seluruh fasilitas eksklusif kami dengan menginap di Susan Spa & Resort.
+            Kami mengundang Bapak/Ibu untuk menikmati seluruh fasilitas unggulan Susan Spa & Resort dalam suasana pegunungan yang asri dan sejuk.
           </p>
           <div className="pt-2">
             <button
@@ -202,7 +202,7 @@ export default function FacilitiesPage() {
               className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-lg transition-transform hover:scale-105 inline-flex items-center space-x-2"
             >
               <Calendar className="w-4 h-4" />
-              <span>Book Your Stay</span>
+              <span>Reservasi Kamar Sekarang</span>
             </button>
           </div>
         </div>
