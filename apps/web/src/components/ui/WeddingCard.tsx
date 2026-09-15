@@ -14,7 +14,7 @@ export const WeddingCard: React.FC<WeddingCardProps> = ({ pkg, onInquire }) => {
     <div className="bg-forest-deep/80 border border-champagne/20 rounded-2xl overflow-hidden hover:border-champagne/60 transition-all duration-500 flex flex-col h-full shadow-lg">
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
-          src={pkg.image}
+          src={pkg.image || 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop'}
           alt={pkg.name}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
@@ -23,18 +23,20 @@ export const WeddingCard: React.FC<WeddingCardProps> = ({ pkg, onInquire }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-transparent to-transparent opacity-80" />
 
         <div className="absolute top-4 left-4">
-          <span className="bg-forest-deep/90 text-champagne text-[10px] uppercase tracking-[0.2em] px-3 py-1 rounded-full border border-champagne/30 backdrop-blur-md flex items-center space-x-1">
+          <span className="bg-forest-deep/90 text-champagne text-[10px] uppercase tracking-[0.2em] px-3 py-1 rounded-full border border-champagne/30 backdrop-blur-md flex items-center space-x-1 font-semibold">
             <Church className="w-3 h-3" />
-            <span>{pkg.venue}</span>
+            <span>{Array.isArray(pkg.venue) ? pkg.venue.join(' • ') : pkg.venue || 'La Kana Chapel'}</span>
           </span>
         </div>
 
-        <div className="absolute bottom-4 right-4 text-right">
-          <span className="text-[10px] uppercase tracking-wider text-ivory/70 block">Starting From</span>
-          <span className="font-serif text-lg text-champagne font-bold">
-            {formatCurrencyIdr(pkg.priceStartingIdr)}
-          </span>
-        </div>
+        {pkg.priceStartingIdr ? (
+          <div className="absolute bottom-4 right-4 text-right">
+            <span className="text-[10px] uppercase tracking-wider text-ivory/70 block">Starting From</span>
+            <span className="font-serif text-lg text-champagne font-bold">
+              {formatCurrencyIdr(pkg.priceStartingIdr)}
+            </span>
+          </div>
+        ) : null}
       </div>
 
       <div className="p-6 flex-1 flex flex-col justify-between space-y-4 text-ivory">

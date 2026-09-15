@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { CheckCircle2, MessageCircle, Send, X } from 'lucide-react';
 import type { InquiryReceipt, InquirySubmission } from '@susan/contracts';
 import { ROOMS } from '@/data/rooms';
+import { roomCategoryLabel } from '@/lib/room-display';
 import { SPA_TREATMENTS } from '@/data/spa';
 import { getDefaultStayDates } from '@/lib/dates';
 import type { Room } from '@/types';
@@ -192,7 +193,7 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
                   </div>
                   <Field label="Accommodation Choice" id="inquiry-room">
                     <select id="inquiry-room" value={selectedRoom} onChange={(e) => setSelectedRoom(e.target.value)} className="field">
-                      {rooms.map((room) => <option key={room.id} value={room.slug}>{room.name} ({room.category})</option>)}
+                      {rooms.map((room) => <option key={room.id} value={room.slug}>{room.name} ({roomCategoryLabel(room.category)})</option>)}
                     </select>
                   </Field>
                 </>

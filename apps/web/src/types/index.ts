@@ -6,12 +6,12 @@ export interface Room {
   tagline: string;
   description: string;
   longDescription: string;
-  sizeSqm: number;
-  capacityAdults: number;
-  capacityChildren: number;
-  bedType: string;
-  view: string;
-  startingPriceIdr: number;
+  sizeSqm: number | null;
+  capacityAdults: number | null;
+  capacityChildren: number | null;
+  bedType: string | null;
+  view: string | null;
+  startingPriceIdr: number | null;
   featured: boolean;
   images: string[];
   amenities: string[];
@@ -37,24 +37,29 @@ export interface WeddingPackage {
   id: string;
   slug: string;
   name: string;
-  venue: 'La Kana Chapel' | 'Sky Garden Lawn' | 'Grand Ballroom' | 'Poolside Oasis';
-  guestCapacity: string;
-  priceStartingIdr: number;
-  tagline: string;
+  category?: string;
+  capacity?: string;
+  venue?: string | string[];
+  guestCapacity?: string;
+  priceStartingIdr?: number;
+  tagline?: string;
   description: string;
   inclusions: string[];
-  image: string;
-  featured: boolean;
+  schedule?: string[];
+  image?: string;
+  images?: string[];
+  featured?: boolean;
 }
 
 export interface Facility {
   id: string;
   title: string;
-  category: 'Wellness' | 'Leisure' | 'Dining' | 'Events' | 'Family';
+  category: 'Wellness' | 'Leisure' | 'Dining' | 'Events' | 'Family' | 'Family & Recreation' | 'Guest Services';
   description: string;
-  operatingHours: string;
-  image: string;
-  highlights: string[];
+  operatingHours?: string;
+  image?: string;
+  highlights?: string[];
+  iconName?: string;
 }
 
 export interface DiningVenue {
@@ -113,13 +118,18 @@ export interface JournalArticle {
 
 export interface NearbyDestination {
   id: string;
+  slug: string;
   name: string;
-  distanceKm: number;
-  driveTimeMinutes: number;
-  category: 'Historical' | 'Nature' | 'Family' | 'Cultural';
+  distance: string;
+  distanceKm?: number;
+  driveTimeMinutes?: number;
+  address?: string;
+  category?: 'Historical' | 'Nature' | 'Family' | 'Cultural' | string;
   description: string;
   image: string;
-  tips: string;
+  images?: string[];
+  tips?: string;
+  mapUrl?: string;
 }
 
 export interface Testimonial {

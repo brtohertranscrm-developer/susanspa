@@ -17,6 +17,7 @@ import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { formatCurrencyIdr } from '@/lib/utils';
+import { roomCapacity, roomCategoryLabel } from '@/lib/room-display';
 import type { Room } from '@/types';
 
 export default function RoomDetailClient({ room, rooms }: { room: Room; rooms: Room[] }) {
@@ -25,7 +26,7 @@ export default function RoomDetailClient({ room, rooms }: { room: Room; rooms: R
 
   return (
     <div className="min-h-screen bg-ivory text-charcoal font-sans">
-      <Header onOpenReserve={() => setIsReserveModalOpen(true)} />
+      <Header rooms={rooms} onOpenReserve={() => setIsReserveModalOpen(true)} />
 
       {/* Breadcrumb Navigation Bar */}
       <div className="pt-28 pb-4 bg-forest-deep text-ivory border-b border-champagne/20">
@@ -35,7 +36,7 @@ export default function RoomDetailClient({ room, rooms }: { room: Room; rooms: R
             <span>Back to All Accommodations</span>
           </Link>
           <span className="text-ivory/60 hidden sm:inline">
-            Stay / {room.category} / {room.name}
+            Stay / {roomCategoryLabel(room.category)} / {room.name}
           </span>
         </div>
       </div>
@@ -46,7 +47,7 @@ export default function RoomDetailClient({ room, rooms }: { room: Room; rooms: R
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-stone/30">
           <div className="space-y-2 max-w-2xl">
             <span className="text-xs uppercase tracking-[0.25em] text-botanical font-semibold block">
-              {room.category} SANCTUARY
+              {roomCategoryLabel(room.category)}
             </span>
             <h1 className="font-serif text-3xl sm:text-5xl text-forest-deep leading-tight">
               {room.name}
@@ -55,9 +56,9 @@ export default function RoomDetailClient({ room, rooms }: { room: Room; rooms: R
           </div>
 
           <div className="text-left md:text-right shrink-0 bg-forest-deep text-ivory p-6 rounded-2xl border border-champagne/30 space-y-2">
-            <span className="text-[10px] uppercase tracking-wider text-ivory/70 block">Starting Nightly Rate</span>
+            <span className="text-[10px] uppercase tracking-wider text-ivory/70 block">Rates & Availability</span>
             <div className="font-serif text-3xl text-champagne font-bold">
-              {formatCurrencyIdr(room.startingPriceIdr)}
+              {room.startingPriceIdr != null && room.startingPriceIdr > 0 ? formatCurrencyIdr(room.startingPriceIdr) : 'Contact for rates'}
             </div>
             <button
               onClick={() => setIsReserveModalOpen(true)}
@@ -75,7 +76,8 @@ export default function RoomDetailClient({ room, rooms }: { room: Room; rooms: R
               src={room.images[selectedImageIndex]}
               alt={room.name}
               fill
-              priority
+              preload
+              sizes="(max-width: 1280px) 100vw, 1280px"
               className="object-cover"
             />
           </div>
@@ -84,12 +86,14 @@ export default function RoomDetailClient({ room, rooms }: { room: Room; rooms: R
             {room.images.map((img, idx) => (
               <button
                 key={idx}
+                aria-label={`View ${room.name} photo ${idx + 1}`}
+                aria-pressed={selectedImageIndex === idx}
                 onClick={() => setSelectedImageIndex(idx)}
                 className={`relative aspect-[4/3] rounded-xl overflow-hidden border-2 transition-all ${
                   selectedImageIndex === idx ? 'border-champagne scale-95 shadow-lg' : 'border-transparent opacity-70 hover:opacity-100'
                 }`}
               >
-                <Image src={img} alt={`${room.name} preview ${idx}`} fill className="object-cover" />
+                <Image src={img} alt={`${room.name} photo ${idx + 1}`} fill sizes="(max-width: 1280px) 25vw, 320px" className="object-cover" />
               </button>
             ))}
           </div>
@@ -107,27 +111,28 @@ export default function RoomDetailClient({ room, rooms }: { room: Room; rooms: R
             </div>
 
             {/* Specs Bar */}
-            <div className="grid grid-cols-3 gap-4 bg-ivory-warm p-6 rounded-2xl border border-stone/30 text-center">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-ivory-warm p-6 rounded-2xl border border-stone/30 text-center">
               <div>
                 <Maximize2 className="w-5 h-5 text-champagne mx-auto mb-1" />
                 <span className="text-[10px] uppercase text-charcoal/60 block">Room Size</span>
-                <span className="font-serif text-lg text-forest-deep font-semibold">{room.sizeSqm} Sqm</span>
+                <span className="font-serif text-lg text-forest-deep font-semibold">{room.sizeSqm ? `${room.sizeSqm} sqm` : 'Please confirm'}</span>
               </div>
               <div>
                 <Users className="w-5 h-5 text-champagne mx-auto mb-1" />
                 <span className="text-[10px] uppercase text-charcoal/60 block">Capacity</span>
-                <span className="font-serif text-lg text-forest-deep font-semibold">{room.capacityAdults} Adults, {room.capacityChildren} Child</span>
+                <span className="font-serif text-lg text-forest-deep font-semibold">{roomCapacity(room)}</span>
               </div>
               <div>
                 <BedDouble className="w-5 h-5 text-champagne mx-auto mb-1" />
                 <span className="text-[10px] uppercase text-charcoal/60 block">Bed Layout</span>
-                <span className="font-serif text-lg text-forest-deep font-semibold truncate block">{room.bedType}</span>
+                <span className="font-serif text-lg text-forest-deep font-semibold block">{room.bedType || 'Please confirm'}</span>
               </div>
             </div>
 
             {/* Amenities Grid */}
             <div className="space-y-4 pt-4">
-              <h3 className="font-serif text-2xl text-forest-deep">Bespoke Room Amenities</h3>
+              <h3 className="font-serif text-2xl text-forest-deep">Room Amenities</h3>
+              {room.amenities.length === 0 && <p className="text-sm text-charcoal/80">Please contact our reservation team for the available room amenities.</p>}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {room.amenities.map((amenity, i) => (
                   <div key={i} className="flex items-center space-x-3 p-3 rounded-xl bg-white border border-stone/20 text-xs text-charcoal/90">
@@ -145,6 +150,7 @@ export default function RoomDetailClient({ room, rooms }: { room: Room; rooms: R
               <h3 className="font-serif text-2xl text-champagne">Resort Policies</h3>
 
               <div className="space-y-3 text-xs text-ivory/80">
+                {room.policies.length === 0 && <p>Please confirm check-in times, child and extra-bed arrangements, and cancellation terms with our reservation team.</p>}
                 {room.policies.map((pol, idx) => (
                   <div key={idx} className="flex items-start space-x-2">
                     <ShieldCheck className="w-4 h-4 text-champagne shrink-0 mt-0.5" />

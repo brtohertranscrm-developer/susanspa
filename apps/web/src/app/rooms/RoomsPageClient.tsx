@@ -10,16 +10,17 @@ import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import type { Room } from '@/types';
 import { roomCategoryLabel } from '@/lib/room-display';
 
-export default function StayPageClient({ rooms }: { rooms: Room[] }) {
+export default function RoomsPageClient({ rooms }: { rooms: Room[] }) {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [selectedRoomSlug, setSelectedRoomSlug] = useState<string | undefined>();
 
   const categories = [...new Set(rooms.map((room) => room.category))];
 
-  const filteredRooms = activeCategory === 'All'
-    ? rooms
-    : rooms.filter((room) => room.category === activeCategory);
+  const filteredRooms =
+    activeCategory === 'All'
+      ? rooms
+      : rooms.filter((room) => room.category === activeCategory);
 
   const handleInquire = (slug: string) => {
     setSelectedRoomSlug(slug);
@@ -31,27 +32,27 @@ export default function StayPageClient({ rooms }: { rooms: Room[] }) {
       <Header rooms={rooms} onOpenReserve={() => setIsReserveModalOpen(true)} />
 
       {/* Hero Header */}
-      <section className="relative pt-32 pb-20 bg-forest-deep text-ivory text-center overflow-hidden">
+      <section className="relative pt-36 pb-24 bg-forest-deep text-ivory text-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src={rooms[0].images[0]}
-            alt="Susan Spa Accommodations"
+            src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2000&auto=format&fit=crop"
+            alt="Susan Spa Rooms & Suites"
             fill
-            sizes="100vw"
-            className="object-cover opacity-30"
+            priority
+            className="object-cover opacity-35"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/80 to-forest-deep/60" />
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
-          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">
-            ACCOMMODATIONS & VILLAS
+          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
+            ACCOMMODATION
           </span>
           <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Rooms, Suites & Villas
+            Rooms & Suites
           </h1>
           <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Find your stay in Bandungan, from Aurora Junior Suite and family rooms to Grand Suite with a private jacuzzi and Villa 1 Big Room for eight guests.
+            Comfort, elegance and mountain serenity in Bandungan.
           </p>
         </div>
       </section>
@@ -71,7 +72,11 @@ export default function StayPageClient({ rooms }: { rooms: Room[] }) {
                   : 'bg-ivory-warm text-charcoal/80 hover:text-forest border border-stone/30'
               }`}
             >
-              {cat === 'All' ? `All Accommodations (${rooms.length})` : cat === 'Family' ? 'Family Rooms' : `${roomCategoryLabel(cat)}s`}
+              {cat === 'All'
+                ? `All Rooms (${rooms.length})`
+                : cat === 'Family'
+                ? 'Family Rooms'
+                : `${roomCategoryLabel(cat)}s`}
             </button>
           ))}
         </div>

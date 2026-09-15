@@ -13,6 +13,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.susansparesort.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'dksw6vf0i66fe.cloudfront.net',
+        pathname: '/room_type_image/image/**',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
   },
@@ -37,14 +42,44 @@ const nextConfig = {
               scriptPolicy,
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com data:",
-              "img-src 'self' data: blob: https://images.unsplash.com https://www.susansparesort.com http://localhost:3001",
+              "img-src 'self' data: blob: https://images.unsplash.com https://www.susansparesort.com https://dksw6vf0i66fe.cloudfront.net http://localhost:3001",
               "connect-src 'self' http://localhost:3001 http://localhost:4000",
+              "frame-src 'self' https://www.google.com https://maps.google.com",
               "frame-ancestors 'self'",
               "base-uri 'self'",
               "form-action 'self'",
             ].join('; '),
           },
         ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      {
+        source: '/stay',
+        destination: '/rooms',
+        permanent: true,
+      },
+      {
+        source: '/stay/:slug',
+        destination: '/rooms/:slug',
+        permanent: true,
+      },
+      {
+        source: '/weddings',
+        destination: '/wedding',
+        permanent: true,
+      },
+      {
+        source: '/weddings/:slug',
+        destination: '/wedding/:slug',
+        permanent: true,
+      },
+      {
+        source: '/news-and-event',
+        destination: '/wedding',
+        permanent: true,
       },
     ];
   },

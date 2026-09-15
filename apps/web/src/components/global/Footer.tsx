@@ -3,134 +3,145 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Phone, Mail, Instagram, Facebook, Compass, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react';
+import { SITE_CONFIG } from '@/data/site';
 
 export const Footer: React.FC = () => {
   return (
     <footer className="bg-forest-deep text-ivory/80 pt-20 pb-12 border-t border-champagne/20">
       <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Upper Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b border-white/10">
-          {/* Col 1: Brand Column */}
-          <div className="lg:col-span-2 space-y-6">
+        {/* 4-Column Grid per Specification */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 pb-16 border-b border-white/10">
+          {/* Column 1: Susan Spa & Resort logo & Short brand description */}
+          <div className="space-y-5">
             <Link href="/" className="inline-block">
               <Image
                 src="/images/susan-spa-logo-gold.png"
-                alt="Susan Spa & Resort"
-                width={200}
-                height={88}
+                alt={SITE_CONFIG.name}
+                width={190}
+                height={84}
                 className="h-12 w-auto object-contain drop-shadow-md"
               />
             </Link>
 
-            <p className="text-sm text-ivory/70 leading-relaxed max-w-md">
-              Situated ~1,100 meters above sea level near Mount Ungaran, Central Java. Susan Spa & Resort offers restorative stays, signature wellness therapies, and romantic weddings at the iconic La Kana Chapel.
+            <p className="text-xs sm:text-sm text-ivory/70 leading-relaxed">
+              Susan Spa & Resort merupakan resort dan spa destination di Bandungan, Semarang, Jawa Tengah. Berada ~1,100 meter di atas permukaan laut di lereng Gunung Ungaran dengan suasana pegunungan yang menenangkan.
             </p>
+          </div>
 
-            <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-forest border border-champagne/30 text-champagne text-xs">
-              <Compass className="w-4 h-4" />
-              <span>Altitude ~1,100m ASL • Bandungan Highlands</span>
+          {/* Column 2: Explore */}
+          <div className="space-y-4">
+            <h4 className="font-serif text-ivory text-base tracking-wider uppercase text-champagne">
+              Explore
+            </h4>
+            <ul className="space-y-2.5 text-xs text-ivory/80">
+              <li>
+                <Link href="/rooms" className="hover:text-champagne transition-colors">
+                  Rooms
+                </Link>
+              </li>
+              <li>
+                <Link href="/facilities" className="hover:text-champagne transition-colors">
+                  Facilities
+                </Link>
+              </li>
+              <li>
+                <Link href="/wedding" className="hover:text-champagne transition-colors">
+                  Wedding
+                </Link>
+              </li>
+              <li>
+                <Link href="/gallery" className="hover:text-champagne transition-colors">
+                  Gallery
+                </Link>
+              </li>
+              <li>
+                <Link href="/nearby" className="hover:text-champagne transition-colors">
+                  Nearby
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Contact */}
+          <div className="space-y-4">
+            <h4 className="font-serif text-ivory text-base tracking-wider uppercase text-champagne">
+              Contact
+            </h4>
+            <div className="space-y-3 text-xs text-ivory/80">
+              <div className="flex items-start space-x-2.5">
+                <MapPin className="w-4 h-4 text-champagne shrink-0 mt-0.5" />
+                <span className="leading-relaxed">
+                  {SITE_CONFIG.address.fullFormatted}
+                </span>
+              </div>
+              <div className="flex items-center space-x-2.5">
+                <Phone className="w-4 h-4 text-champagne shrink-0" />
+                <a
+                  href={`tel:${SITE_CONFIG.contact.phone}`}
+                  className="hover:text-champagne transition-colors"
+                >
+                  {SITE_CONFIG.contact.phoneFormatted}
+                </a>
+              </div>
+              <div className="flex items-center space-x-2.5">
+                <Mail className="w-4 h-4 text-champagne shrink-0" />
+                <a
+                  href={`mailto:${SITE_CONFIG.contact.email}`}
+                  className="hover:text-champagne transition-colors"
+                >
+                  {SITE_CONFIG.contact.email}
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Col 2: Navigation Links */}
+          {/* Column 4: Social Media */}
           <div className="space-y-4">
-            <h4 className="font-serif text-ivory text-base tracking-wide uppercase text-champagne">
-              The Resort
-            </h4>
-            <ul className="space-y-2.5 text-xs text-ivory/80">
-              <li><Link href="/stay" className="hover:text-champagne transition-colors">Accommodations</Link></li>
-              <li><Link href="/spa" className="hover:text-champagne transition-colors">Spa & Wellness</Link></li>
-              <li><Link href="/facilities" className="hover:text-champagne transition-colors">Resort Facilities</Link></li>
-              <li><Link href="/dining" className="hover:text-champagne transition-colors">Sky Garden Dining</Link></li>
-              <li><Link href="/experiences" className="hover:text-champagne transition-colors">Resort Experiences</Link></li>
-              <li><Link href="/offers" className="hover:text-champagne transition-colors">Offers & Packages</Link></li>
-            </ul>
-          </div>
-
-          {/* Col 3: Celebrations & Destinations */}
-          <div className="space-y-4">
-            <h4 className="font-serif text-ivory text-base tracking-wide uppercase text-champagne">
-              Celebrations
-            </h4>
-            <ul className="space-y-2.5 text-xs text-ivory/80">
-              <li><Link href="/weddings" className="hover:text-champagne transition-colors">La Kana Chapel Weddings</Link></li>
-              <li><Link href="/events" className="hover:text-champagne transition-colors">Meetings & Events</Link></li>
-              <li><Link href="/gallery" className="hover:text-champagne transition-colors">Visual Gallery</Link></li>
-              <li><Link href="/nearby" className="hover:text-champagne transition-colors">Gedong Songo & Nearby</Link></li>
-              <li><Link href="/journal" className="hover:text-champagne transition-colors">Journal & Stories</Link></li>
-              <li><Link href="/about" className="hover:text-champagne transition-colors">About Our Sanctuary</Link></li>
-            </ul>
-          </div>
-
-          {/* Col 4: Newsletter & Contact */}
-          <div className="space-y-4">
-            <h4 className="font-serif text-ivory text-base tracking-wide uppercase text-champagne">
-              Newsletter
+            <h4 className="font-serif text-ivory text-base tracking-wider uppercase text-champagne">
+              Social Media
             </h4>
             <p className="text-xs text-ivory/70">
-              Receive exclusive seasonal retreat offers and wellness stories from Bandungan.
+              Ikuti kabar terbaru dan keindahan visual harian kami di media sosial.
             </p>
-            <form onSubmit={(e) => e.preventDefault()} className="flex items-center space-x-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full bg-forest text-ivory text-xs px-3 py-2 rounded border border-white/10 focus:border-champagne focus:outline-none placeholder:text-ivory/40"
-              />
-              <button
-                type="submit"
-                aria-label="Subscribe to newsletter"
-                className="bg-champagne hover:bg-champagne-light text-forest-deep p-2 rounded transition-colors"
+            <div className="flex items-center space-x-3 pt-2">
+              <a
+                href={SITE_CONFIG.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="w-10 h-10 rounded-full bg-forest border border-champagne/30 text-champagne hover:bg-champagne hover:text-forest-deep flex items-center justify-center transition-all duration-300 shadow-sm"
               >
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* Middle Contact Row */}
-        <div className="py-8 border-b border-white/10 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-ivory/80">
-          <div className="flex items-start space-x-3">
-            <MapPin className="w-5 h-5 text-champagne shrink-0 mt-0.5" />
-            <div>
-              <span className="font-medium text-ivory block">Resort Location</span>
-              <span>Dusun Piyoto, Bandungan, Semarang Regency, Central Java 50614</span>
-            </div>
-          </div>
-
-          <div className="flex items-start space-x-3">
-            <Phone className="w-5 h-5 text-champagne shrink-0 mt-0.5" />
-            <div>
-              <span className="font-medium text-ivory block">Reservations & Concierge</span>
-              <span>+62 298 711111 • WhatsApp: +62 812 2811 1111</span>
-            </div>
-          </div>
-
-          <div className="flex items-start space-x-3">
-            <Mail className="w-5 h-5 text-champagne shrink-0 mt-0.5" />
-            <div>
-              <span className="font-medium text-ivory block">Email Inquiries</span>
-              <span>info@susansparesort.com • reservation@susansparesort.com</span>
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a
+                href={SITE_CONFIG.social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="w-10 h-10 rounded-full bg-forest border border-champagne/30 text-champagne hover:bg-champagne hover:text-forest-deep flex items-center justify-center transition-all duration-300 shadow-sm"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a
+                href={SITE_CONFIG.social.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="w-10 h-10 rounded-full bg-forest border border-champagne/30 text-champagne hover:bg-champagne hover:text-forest-deep flex items-center justify-center transition-all duration-300 shadow-sm"
+              >
+                {/* TikTok Icon */}
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.89 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.38 6.38 0 0 0-.79-.05A6.34 6.34 0 0 0 3 15.67 6.34 6.34 0 0 0 9.34 22a6.34 6.34 0 0 0 6.34-6.33V9.05a8.16 8.16 0 0 0 4.91 1.64V7.24a4.84 4.84 0 0 1-1-.55z" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Lower Legal & Copyright Row */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-ivory/50 space-y-4 sm:space-y-0">
-          <div className="flex items-center space-x-2">
-            <span>© {new Date().getFullYear()} Susan Spa & Resort. All rights reserved.</span>
-          </div>
-
-          <div className="flex items-center space-x-6">
-            <Link href="/privacy" className="hover:text-champagne transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-champagne transition-colors">Terms of Service</Link>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-champagne text-ivory/80 transition-colors">
-              <Instagram className="w-4 h-4" />
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-champagne text-ivory/80 transition-colors">
-              <Facebook className="w-4 h-4" />
-            </a>
-          </div>
+        {/* Bottom Bar: Copyright */}
+        <div className="pt-8 text-center text-xs text-ivory/50">
+          <p>Copyright © Susan Spa & Resort. All rights reserved.</p>
         </div>
       </div>
     </footer>

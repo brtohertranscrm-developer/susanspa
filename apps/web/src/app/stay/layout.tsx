@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
   title: 'Luxury Rooms, Suites & Villas',
-  description: 'Explore mountain villas, jacuzzi suites, deluxe rooms, and family accommodation at Susan Spa & Resort in Bandungan.',
+  description: 'Explore Aurora Junior Suite, Family Room, Family Suite Room, Grand Deluxe, Grand Suite, President Suite, Prime Room, Prince Suite, Princess Suite and Villa 1 Big Room at Susan Spa & Resort.',
 };
 
 export default function StayLayout({ children }: { children: ReactNode }) {
