@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import {
-  Sparkles,
+  Flower2,
   Utensils,
   Smile,
   Church,
@@ -19,7 +19,7 @@ import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { FACILITY_GROUPS } from '@/data/facilities';
 
 const CATEGORY_ICONS = {
-  Wellness: Sparkles,
+  Wellness: Flower2,
   Dining: Utensils,
   'Family & Recreation': Smile,
   Events: Church,
@@ -88,7 +88,7 @@ export default function FacilitiesPage() {
             Semua Fasilitas
           </button>
           {FACILITY_GROUPS.map((group) => {
-            const Icon = CATEGORY_ICONS[group.category] || Sparkles;
+            const Icon = CATEGORY_ICONS[group.category] || Flower2;
             return (
               <button
                 key={group.category}
@@ -110,7 +110,7 @@ export default function FacilitiesPage() {
       {/* Categorized Groups Sections */}
       <section className="py-16 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
         {filteredGroups.map((group) => {
-          const Icon = CATEGORY_ICONS[group.category] || Sparkles;
+          const Icon = CATEGORY_ICONS[group.category] || Flower2;
           return (
             <div key={group.category} className="space-y-8">
               {/* Category Header */}

@@ -17,7 +17,7 @@ export const FACILITIES: Facility[] = [
     operatingHours: '09:00 - 21:00 WIB Setiap Hari',
     image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1600&auto=format&fit=crop',
     highlights: ['Ritual herbal tradisional Jawa', 'Ruang perawatan privat yang tenang', 'Terapis bersertifikat dan berpengalaman'],
-    iconName: 'Sparkles',
+    iconName: 'Flower2',
   },
   {
     id: 'sauna',

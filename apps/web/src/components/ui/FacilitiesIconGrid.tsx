@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
-  Sparkles,
+  Flower2,
   Flame,
   Waves,
   Dumbbell,
@@ -31,7 +31,7 @@ import type { Facility } from '@/types';
 
 // Icon mapping per facility iconName
 const ICON_MAP: Record<string, LucideIcon> = {
-  Sparkles,
+  Flower2,
   Flame,
   Waves,
   Dumbbell,
@@ -79,12 +79,9 @@ export const FacilitiesIconGrid: React.FC = () => {
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2 border-b border-white/10">
         <div className="space-y-3 max-w-2xl">
-          <div className="inline-flex items-center space-x-2 text-champagne">
-            <Sparkles className="w-4 h-4" />
-            <span className="text-xs uppercase tracking-[0.25em] font-bold">
-              FASILITAS & LAYANAN RESORT
-            </span>
-          </div>
+          <span className="text-xs uppercase tracking-[0.25em] font-bold text-champagne block">
+            FASILITAS & LAYANAN RESORT
+          </span>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-ivory font-normal leading-tight">
             Kenyamanan Lengkap di Lereng Pegunungan
           </h2>
@@ -132,7 +129,7 @@ export const FacilitiesIconGrid: React.FC = () => {
       {/* Icon Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
         {displayedFacilities.map((facility) => {
-          const IconComponent = (facility.iconName && ICON_MAP[facility.iconName]) || Sparkles;
+          const IconComponent = (facility.iconName && ICON_MAP[facility.iconName]) || Flower2;
           const firstHighlight = facility.highlights?.[0] || facility.category;
 
           return (

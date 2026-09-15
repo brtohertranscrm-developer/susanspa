@@ -6,7 +6,6 @@ import Image from 'next/image';
 import {
   ArrowRight,
   ArrowUpRight,
-  Sparkles,
   Church,
   Compass,
   MapPin,
@@ -560,7 +559,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               </li>
               <li className="flex items-center space-x-3">
                 <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
-                  <Sparkles className="w-3 h-3" />
+                  <Compass className="w-3 h-3" />
                 </div>
                 <span>Outdoor Sky Garden & Balcony — Pesta Terbuka Bernuansa Asri & Romantis</span>
               </li>

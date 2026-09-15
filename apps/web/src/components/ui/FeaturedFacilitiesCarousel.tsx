@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FEATURED_FACILITIES } from '@/data/facilities';
 
 export const FeaturedFacilitiesCarousel: React.FC = () => {
@@ -159,7 +159,6 @@ export const FeaturedFacilitiesCarousel: React.FC = () => {
                 <div className="flex items-center space-x-2 text-champagne/70 text-[11px] font-mono">
                   <span>0{index + 1}</span>
                   <span className="h-[1px] w-6 bg-champagne/40" />
-                  <Sparkles className="w-3 h-3 text-champagne" />
                 </div>
 
                 <div className="space-y-1.5">

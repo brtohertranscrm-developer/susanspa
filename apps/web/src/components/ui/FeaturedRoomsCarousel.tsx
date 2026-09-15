@@ -9,7 +9,6 @@ import {
   Maximize2,
   Users,
   BedDouble,
-  Sparkles,
 } from 'lucide-react';
 import { Room } from '@/types';
 import { roomCapacity, roomCategoryLabel } from '@/lib/room-display';
@@ -210,7 +209,6 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
       {/* Navigation Banner for Remaining Accommodations ("Selebihnya pindah halaman") */}
       <div className="mt-8 pt-8 border-t border-stone-200/70 text-center space-y-4">
         <div className="inline-flex items-center space-x-2 text-xs text-stone-500 font-medium tracking-wide">
-          <Sparkles className="w-3.5 h-3.5 text-champagne-dark" />
           <span>Menampilkan 3 dari 11 tipe akomodasi resmi Susan Spa & Resort</span>
         </div>
 

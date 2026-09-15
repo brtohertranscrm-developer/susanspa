@@ -7,7 +7,7 @@ import {
   Users,
   MapPin,
   CheckCircle2,
-  Sparkles,
+  Church,
 } from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
@@ -166,7 +166,7 @@ export default function WeddingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-6 bg-white rounded-2xl border border-stone/20 space-y-3 shadow-sm text-left">
-              <Sparkles className="w-6 h-6 text-champagne" />
+              <Church className="w-6 h-6 text-champagne" />
               <h3 className="font-serif text-xl text-forest-deep">La Kana Chapel</h3>
               <p className="text-xs text-charcoal/70 leading-relaxed">
                 Kapel kaca berarsitektur segitiga modern dengan altar bening berlatar pegunungan Ungaran, menciptakan momen janji suci yang sakral dan megah.
