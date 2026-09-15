@@ -22,8 +22,6 @@ import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { FeaturedRoomsCarousel } from '@/components/ui/FeaturedRoomsCarousel';
 import { FeaturedFacilitiesCarousel } from '@/components/ui/FeaturedFacilitiesCarousel';
-import { OFFERS } from '@/data/offers';
-import { NEARBY_DESTINATIONS } from '@/data/nearby';
 import { SITE_CONFIG } from '@/data/site';
 import type { Room } from '@/types';
 
@@ -600,237 +598,44 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 07 — SECTION: SPECIAL OFFERS (Clean Pure White `#FFFFFF` - if active) */}
+      {/* 06 — COMPACT LOCATION & ACCESS STRIP (Solid Luxury Forest Green `#10241F`) */}
       {/* ========================================================================= */}
-      {OFFERS.length > 0 && (
-        <section className="py-24 sm:py-32 bg-white text-forest-deep border-b border-stone-200/70">
-          <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-stone-200/70">
-              <div className="space-y-3 max-w-2xl">
-                <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-                  PENAWARAN KHUSUS
-                </span>
-                <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep font-normal">
-                  Paket Menginap & Promo Musiman
-                </h2>
-                <p className="editorial-body text-sm sm:text-base">
-                  Penawaran istimewa untuk pengalaman berlibur keluarga, momen romantis pasangan, dan relaksasi spa di lereng Bandungan.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {OFFERS.map((offer) => (
-                <div
-                  key={offer.id}
-                  className="bg-white rounded-3xl overflow-hidden border border-stone-200/90 flex flex-col justify-between hover:border-champagne transition-colors"
-                >
-                  <div className="relative aspect-[16/10] bg-stone-100">
-                    <Image
-                      src={offer.image}
-                      alt={offer.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-forest-deep text-champagne text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-champagne/30">
-                        {offer.badge}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-4">
-                    <div className="space-y-2">
-                      <span className="text-[10px] text-champagne-dark uppercase tracking-wider block font-bold">
-                        {offer.validity}
-                      </span>
-                      <h3 className="font-serif text-xl sm:text-2xl text-forest-deep font-normal">
-                        {offer.title}
-                      </h3>
-                      <p className="text-xs text-[#4A5852] line-clamp-3 leading-relaxed font-normal">
-                        {offer.description}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => handleOpenReserve('room')}
-                      className="w-full border border-stone-300 hover:border-forest text-forest hover:bg-forest hover:text-ivory py-2.5 px-4 rounded-full text-xs uppercase tracking-wider font-semibold transition-colors flex items-center justify-center space-x-1"
-                    >
-                      <span>Detail Penawaran</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ========================================================================= */}
-      {/* 08 — SECTION: NEARBY DESTINATIONS (Clean Warm Off-White `#FAF8F5`) */}
-      {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 bg-[#FAF8F5] text-forest-deep">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-stone-200/70">
-            <div className="space-y-3 max-w-2xl">
-              <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-                DESTINASI SEKITAR RESORT
+      <section className="py-16 sm:py-20 bg-forest-deep text-ivory border-t border-white/10">
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-forest rounded-3xl p-8 sm:p-12 border border-white/10 flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="space-y-3 text-center lg:text-left max-w-xl">
+              <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
+                LOKASI & AKSES RESORT
               </span>
-              <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep font-normal">
-                Pesona Wisata di Kawasan Bandungan
+              <h2 className="font-serif text-2xl sm:text-4xl text-ivory font-normal">
+                Kunjungi Susan Spa & Resort di Bandungan
               </h2>
-              <p className="editorial-body text-sm sm:text-base">
-                Lengkapi liburan Anda dengan menjelajahi aneka objek wisata menarik di sekitar resort, mulai dari taman bunga warna-warni hingga candi bersejarah.
+              <p className="text-xs sm:text-sm text-ivory/80 leading-relaxed font-light">
+                {SITE_CONFIG.address.fullFormatted}. Berada di ketinggian ±1.100 mdpl lereng Gunung Ungaran dengan udara sejuk dan pemandangan asri.
               </p>
             </div>
 
-            <Link
-              href="/nearby"
-              className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-bold border-b border-forest-deep hover:border-champagne pb-1 shrink-0 transition-colors"
-            >
-              <span>Jelajahi Wisata Sekitar</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          {/* 4 Clean Flat Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {NEARBY_DESTINATIONS.map((dest) => (
-              <div
-                key={dest.id}
-                className="group bg-white border border-stone-200/80 rounded-3xl overflow-hidden hover:border-champagne transition-all duration-300 flex flex-col justify-between"
+            <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full lg:w-auto shrink-0">
+              <a
+                href={SITE_CONFIG.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto bg-ivory hover:bg-champagne text-forest-deep px-7 py-3.5 rounded-full text-xs uppercase tracking-[0.18em] font-semibold text-center transition-colors flex items-center justify-center space-x-2 shadow-md"
               >
-                <div className="relative aspect-[16/10] overflow-hidden bg-stone-100">
-                  <Image
-                    src={dest.image}
-                    alt={dest.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 25vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute top-3 left-3 bg-forest-deep/90 text-champagne text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full border border-champagne/20 font-semibold">
-                    {dest.distance}
-                  </div>
-                </div>
+                <MapPin className="w-4 h-4" />
+                <span>Buka Google Maps</span>
+              </a>
 
-                <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                  <div className="space-y-2">
-                    <h3 className="font-serif text-lg text-forest-deep group-hover:text-champagne transition-colors font-medium">
-                      {dest.name}
-                    </h3>
-                    <p className="text-xs text-[#4A5852] line-clamp-2 leading-relaxed font-normal">
-                      {dest.description}
-                    </p>
-                  </div>
-
-                  <div className="pt-2 flex items-center space-x-2">
-                    <Link
-                      href={`/nearby/${dest.slug}`}
-                      className="flex-1 bg-forest-deep text-champagne text-center py-2 px-3 rounded-full text-[11px] font-semibold uppercase tracking-wider hover:bg-forest transition-colors"
-                    >
-                      Pelajari
-                    </Link>
-
-                    {dest.mapUrl && (
-                      <a
-                        href={dest.mapUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 border border-stone-300 rounded-full text-stone-600 hover:text-forest hover:border-forest transition-colors"
-                        title="Buka Petunjuk Arah"
-                      >
-                        <MapPin className="w-4 h-4" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 09 — SECTION: LOCATION & ACCESS (Solid Luxury Forest Green `#10241F`) */}
-      {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 bg-forest-deep text-ivory border-t border-white/15">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="max-w-3xl space-y-3">
-            <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-              LOKASI & AKSES RESORT
-            </span>
-            <h2 className="font-serif text-3xl sm:text-5xl text-ivory font-normal">
-              Temukan Kami di Dataran Tinggi Bandungan
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
-            {/* Address & Contact Info Card with Flat Clean Hairline Border */}
-            <div className="bg-forest p-8 sm:p-9 rounded-3xl border border-white/15 space-y-6">
-              <div className="space-y-2">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-champagne block font-semibold">
-                  Alamat Resmi Resort
-                </span>
-                <p className="font-serif text-lg text-ivory leading-relaxed font-normal">
-                  {SITE_CONFIG.address.street}
-                  <br />
-                  {SITE_CONFIG.address.village}, {SITE_CONFIG.address.district}
-                  <br />
-                  {SITE_CONFIG.address.regency}
-                  <br />
-                  {SITE_CONFIG.address.province} {SITE_CONFIG.address.postalCode}
-                </p>
-              </div>
-
-              <div className="space-y-1 pt-2 border-t border-white/10">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-champagne block font-semibold">
-                  Layanan Telepon & Informasi
-                </span>
-                <a
-                  href={`tel:${SITE_CONFIG.contact.phone}`}
-                  className="font-serif text-xl text-ivory hover:text-champagne transition-colors block"
-                >
-                  {SITE_CONFIG.contact.phoneFormatted}
-                </a>
-              </div>
-
-              <div className="pt-4 flex flex-col gap-3">
-                <a
-                  href={SITE_CONFIG.googleMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full bg-ivory hover:bg-champagne text-forest-deep py-3 rounded-full text-xs uppercase tracking-[0.18em] font-semibold text-center transition-colors flex items-center justify-center space-x-2"
-                >
-                  <MapPin className="w-4 h-4" />
-                  <span>Petunjuk Arah Google Maps</span>
-                </a>
-
-                <a
-                  href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
-                    'Halo Susan Spa & Resort, mohon panduan arah menuju lokasi resort.'
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full border border-white/20 text-ivory hover:border-champagne hover:text-champagne py-3 rounded-full text-xs uppercase tracking-wider font-semibold text-center transition-colors"
-                >
-                  Chat WhatsApp Concierge
-                </a>
-              </div>
-            </div>
-
-            {/* Google Maps Embed Container with Clean Hairline Border */}
-            <div className="lg:col-span-2 relative aspect-[16/10] sm:aspect-[16/9] rounded-3xl overflow-hidden border border-white/15 bg-forest">
-              <iframe
-                title="Susan Spa & Resort Google Maps Location"
-                src={SITE_CONFIG.mapEmbedUrl}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-full grayscale contrast-125 opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
-              />
+              <a
+                href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
+                  'Halo Susan Spa & Resort, mohon panduan arah menuju lokasi resort.'
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto border border-white/30 text-ivory hover:border-champagne hover:text-champagne px-7 py-3.5 rounded-full text-xs uppercase tracking-wider font-semibold text-center transition-colors"
+              >
+                Chat Petunjuk Arah
+              </a>
             </div>
           </div>
         </div>
