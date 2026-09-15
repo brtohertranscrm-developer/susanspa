@@ -104,13 +104,10 @@ const SPA_GALLERY_STRIP = [
   },
 ];
 
-// Featured rooms to display on homepage
+// Featured rooms to display on homepage (Top 3 flagship categories)
 const FEATURED_ROOM_SLUGS = [
   'aurora-junior-suite',
-  'family-suite-room',
   'grand-suite',
-  'prince-suite',
-  'president-suite',
   'villa-4-bedrooms',
 ];
 
@@ -140,7 +137,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
     handleOpenReserve('room');
   };
 
-  // Filter 6 featured rooms
+  // Filter top 3 featured rooms
   const featuredRooms = rooms
     .filter((room) => FEATURED_ROOM_SLUGS.includes(room.slug))
     .sort(
@@ -148,7 +145,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
         FEATURED_ROOM_SLUGS.indexOf(a.slug) - FEATURED_ROOM_SLUGS.indexOf(b.slug)
     );
 
-  const displayRooms = featuredRooms.length >= 4 ? featuredRooms : rooms.slice(0, 6);
+  const displayRooms = featuredRooms.length === 3 ? featuredRooms : rooms.slice(0, 3);
 
   return (
     <div className="min-h-screen bg-white text-[#252A28] font-sans selection:bg-champagne selection:text-forest-deep">
