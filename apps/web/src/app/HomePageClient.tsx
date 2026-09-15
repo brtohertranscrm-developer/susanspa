@@ -20,7 +20,7 @@ import { Footer } from '@/components/global/Footer';
 import { BookingBar, type BookingSearchParams } from '@/components/global/BookingBar';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { ReservationModal } from '@/components/global/ReservationModal';
-import { RoomCard } from '@/components/ui/RoomCard';
+import { FeaturedRoomsCarousel } from '@/components/ui/FeaturedRoomsCarousel';
 import { FeaturedFacilitiesCarousel } from '@/components/ui/FeaturedFacilitiesCarousel';
 import { OFFERS } from '@/data/offers';
 import { NEARBY_DESTINATIONS } from '@/data/nearby';
@@ -389,54 +389,14 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 04 — SECTION: FEATURED ROOMS & SUITES (Clean Pure White `#FFFFFF`) */}
+      {/* 04 — SECTION: FEATURED ROOMS & SUITES (Compact Horizontal Snap Scroll) */}
       {/* ========================================================================= */}
-      <section id="rooms" className="py-24 sm:py-32 bg-white text-forest-deep">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          {/* Header Row */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-stone-200/70">
-            <div className="space-y-3 max-w-2xl">
-              <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-                ACCOMMODATION SELECTION
-              </span>
-              <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep font-normal">
-                Suites & Villas Tailored for Rejuvenation
-              </h2>
-              <p className="editorial-body text-sm sm:text-base">
-                Pilihan akomodasi unggulan dengan kenyamanan elegan, balkon berpanorama asri, serta privasi eksklusif di lereng Gunung Ungaran.
-              </p>
-            </div>
-
-            <Link
-              href="/rooms"
-              className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-bold border-b border-forest-deep hover:border-champagne pb-1 shrink-0 transition-colors"
-            >
-              <span>View All 11 Room Types</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          {/* Clean Flat Room Cards Grid (6 curated rooms) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {displayRooms.map((room) => (
-              <RoomCard
-                key={room.id}
-                room={room}
-                onInquire={(slug) => handleOpenReserve('room', slug)}
-              />
-            ))}
-          </div>
-
-          {/* Bottom Link */}
-          <div className="text-center pt-6">
-            <Link
-              href="/rooms"
-              className="inline-flex items-center space-x-2 border border-stone-300 hover:border-forest text-forest hover:bg-forest hover:text-champagne px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] transition-all duration-300"
-            >
-              <span>Explore All Rooms & Villas</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+      <section id="rooms" className="py-24 sm:py-32 bg-white text-forest-deep overflow-hidden">
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
+          <FeaturedRoomsCarousel
+            rooms={displayRooms}
+            onInquire={(slug) => handleOpenReserve('room', slug)}
+          />
         </div>
       </section>
 
