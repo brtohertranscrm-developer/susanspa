@@ -134,7 +134,8 @@ export default function FacilitiesPage() {
                 {group.items.map((facility) => (
                   <div
                     key={facility.id}
-                    className="bg-forest-deep text-ivory rounded-3xl overflow-hidden border border-champagne/25 shadow-xl flex flex-col justify-between group hover:border-champagne/60 transition-all duration-300"
+                    id={facility.id}
+                    className="bg-forest-deep text-ivory rounded-3xl overflow-hidden border border-champagne/25 shadow-xl flex flex-col justify-between group hover:border-champagne/60 transition-all duration-300 scroll-mt-28"
                   >
                     {facility.image && (
                       <div className="relative aspect-[16/10] overflow-hidden">

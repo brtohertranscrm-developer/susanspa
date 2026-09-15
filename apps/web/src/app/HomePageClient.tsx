@@ -21,7 +21,7 @@ import { BookingBar, type BookingSearchParams } from '@/components/global/Bookin
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { FeaturedRoomsCarousel } from '@/components/ui/FeaturedRoomsCarousel';
-import { FeaturedFacilitiesCarousel } from '@/components/ui/FeaturedFacilitiesCarousel';
+import { FacilitiesIconGrid } from '@/components/ui/FacilitiesIconGrid';
 import { SITE_CONFIG } from '@/data/site';
 import type { Room } from '@/types';
 
@@ -375,11 +375,11 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 03 — SECTION: FEATURED FACILITIES (Solid Luxury Forest Green `#19372F`) */}
+      {/* 03 — SECTION: ALL RESORT FACILITIES (Editorial Icon Grid with Categories) */}
       {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 bg-forest text-ivory overflow-hidden">
+      <section id="facilities" className="py-20 sm:py-28 bg-forest text-ivory overflow-hidden">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
-          <FeaturedFacilitiesCarousel />
+          <FacilitiesIconGrid />
         </div>
       </section>
 
