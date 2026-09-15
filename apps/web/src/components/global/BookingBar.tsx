@@ -32,7 +32,7 @@ export const BookingBar: React.FC<BookingBarProps> = ({
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto bg-forest-deep/95 backdrop-blur-xl border border-champagne/40 rounded-2xl p-4 sm:p-5 shadow-2xl relative z-20">
+    <div className="w-full max-w-5xl mx-auto bg-forest-deep/95 backdrop-blur-xl border border-champagne/30 rounded-2xl p-4 sm:p-5 relative z-20">
       <form
         onSubmit={handleSubmit}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end"

@@ -5,13 +5,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   ArrowRight,
+  ArrowUpRight,
   Sparkles,
   Church,
   Compass,
   MapPin,
   ChevronLeft,
   ChevronRight,
-  ExternalLink,
   CheckCircle2,
   Calendar,
 } from 'lucide-react';
@@ -61,13 +61,47 @@ const HERO_SLIDES = [
 ];
 
 const USP_LIST = [
-  'Mountain resort',
-  'Wellness & relaxation',
+  'Mountain Resort',
+  'Wellness & Relaxation',
   'Spa on the Sky',
-  'Accommodation',
-  'Family getaway',
-  'Wedding destination',
-  'Leisure experience',
+  'Luxury Suites & Villas',
+  'Family Getaway',
+  'La Kana Wedding',
+  'Highland Leisure',
+];
+
+// Curated wellness offerings (multi-column list format inspired by reference)
+const SPA_OFFERINGS_COL1 = [
+  'Private Hydrotherapy Jacuzzi',
+  'Javanese Herbal Thermal Sauna',
+  'Traditional Aromatherapy Massage',
+  'Botanical Body Scrubs (Lulur Tradisional)',
+];
+
+const SPA_OFFERINGS_COL2 = [
+  'Certified Mountain Wellness Therapists',
+  'Romantic Couple Treatment Suites',
+  'Heated Indoor Panoramic Swimming Pool',
+  'Sky Garden Herbal Tea Lounge',
+];
+
+const SPA_GALLERY_STRIP = [
+  {
+    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop',
+    title: 'Herbal Massage Therapy',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=800&auto=format&fit=crop',
+    title: 'Warm Water Hydrotherapy',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop',
+    title: 'Thermal Sauna Rituals',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop',
+    title: 'Highland Fresh Atmosphere',
+  },
 ];
 
 // Featured rooms to display on homepage
@@ -91,7 +125,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 6000);
+    }, 6500);
     return () => clearInterval(timer);
   }, []);
 
@@ -106,7 +140,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
     handleOpenReserve('room');
   };
 
-  // Filter 4-6 featured rooms
+  // Filter 6 featured rooms
   const featuredRooms = rooms
     .filter((room) => FEATURED_ROOM_SLUGS.includes(room.slug))
     .sort(
@@ -117,15 +151,15 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
   const displayRooms = featuredRooms.length >= 4 ? featuredRooms : rooms.slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-ivory text-charcoal font-sans selection:bg-champagne selection:text-forest-deep">
+    <div className="min-h-screen bg-white text-[#252A28] font-sans selection:bg-champagne selection:text-forest-deep">
       {/* Global Navigation Header */}
       <Header rooms={rooms} onOpenReserve={() => handleOpenReserve('room')} />
 
       {/* ========================================================================= */}
-      {/* 01 — HERO CAROUSEL & BOOKING WIDGET */}
+      {/* 01 — HERO SECTION (Atmospheric Scenic & Clean Editorial Presentation) */}
       {/* ========================================================================= */}
-      <section className="relative min-h-[92vh] flex items-center justify-center pt-24 pb-20 overflow-hidden bg-forest-deep">
-        {/* Carousel Background Images */}
+      <section className="relative min-h-[94vh] flex flex-col justify-between pt-28 pb-12 overflow-hidden bg-forest-deep">
+        {/* Background Image Carousel with Soft Gradient Overlay */}
         {HERO_SLIDES.map((slide, index) => (
           <div
             key={index}
@@ -140,51 +174,100 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               priority={index === 0}
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/60 to-forest-deep/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/55 to-forest-deep/35" />
           </div>
         ))}
 
-        {/* Hero Copy Content */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center text-ivory space-y-6 pt-10">
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-forest-deep/80 border border-champagne/40 text-champagne text-xs uppercase tracking-[0.25em] backdrop-blur-md">
+        {/* Hero Central Content */}
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center text-ivory space-y-6 my-auto pt-8">
+          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-forest-deep/75 border border-white/20 text-champagne text-xs uppercase tracking-[0.25em] backdrop-blur-md">
             <Compass className="w-3.5 h-3.5" />
             <span>{HERO_SLIDES[currentHeroSlide].tag}</span>
           </div>
 
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.1] text-ivory tracking-tight max-w-4xl mx-auto">
-            {HERO_SLIDES[currentHeroSlide].subtitle.split(' ').slice(0, -2).join(' ')}{' '}
-            <span className="italic text-champagne">
-              {HERO_SLIDES[currentHeroSlide].subtitle.split(' ').slice(-2).join(' ')}
+          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.12] text-ivory tracking-tight max-w-4xl mx-auto">
+            A highland sanctuary in Bandungan offering{' '}
+            <span className="italic font-normal text-champagne">
+              world-class serenity
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg md:text-xl text-ivory/85 max-w-2xl mx-auto font-light leading-relaxed">
-            Susan Spa & Resort — destinasi resort dan relaksasi spa di kawasan Gunung Ungaran, Bandungan.
+          <p className="text-sm sm:text-base md:text-lg text-ivory/85 max-w-2xl mx-auto font-light leading-relaxed">
+            Committed to restorative mountain stays, centuries-old Javanese botanical wellness, and sacred celebrations above the clouds.
           </p>
 
           <div className="pt-2 flex items-center justify-center space-x-4">
             <button
               onClick={() => handleOpenReserve('room')}
-              className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-xl transition-all duration-300 transform hover:scale-105"
+              className="bg-ivory hover:bg-champagne text-forest-deep px-8 py-3.5 rounded-full font-semibold uppercase tracking-[0.18em] text-xs transition-all duration-300 transform hover:scale-105"
             >
               Book Your Stay
             </button>
 
             <a
               href="#intro"
-              className="border border-champagne/40 hover:bg-forest/60 text-ivory px-6 py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors"
+              className="border border-white/30 hover:border-champagne hover:text-champagne text-ivory px-6 py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors"
             >
-              Discover More
+              Our Philosophy
+            </a>
+          </div>
+
+          {/* Direct Sub-Nav Links with Arrows (like reference design) */}
+          <div className="pt-8 hidden sm:flex items-center justify-center space-x-8 text-xs uppercase tracking-wider text-ivory/75 font-medium">
+            <a
+              href="#rooms"
+              className="hover:text-champagne transition-colors flex items-center space-x-1.5 border-b border-transparent hover:border-champagne pb-1"
+            >
+              <span>Curated Suites</span>
+              <ArrowUpRight className="w-3.5 h-3.5 text-champagne" />
+            </a>
+            <span className="text-white/25">•</span>
+            <a
+              href="#spa"
+              className="hover:text-champagne transition-colors flex items-center space-x-1.5 border-b border-transparent hover:border-champagne pb-1"
+            >
+              <span>Spa on the Sky</span>
+              <ArrowUpRight className="w-3.5 h-3.5 text-champagne" />
+            </a>
+            <span className="text-white/25">•</span>
+            <a
+              href="#wedding"
+              className="hover:text-champagne transition-colors flex items-center space-x-1.5 border-b border-transparent hover:border-champagne pb-1"
+            >
+              <span>La Kana Chapel</span>
+              <ArrowUpRight className="w-3.5 h-3.5 text-champagne" />
             </a>
           </div>
         </div>
 
-        {/* Carousel Navigation Arrows */}
+        {/* Carousel Navigation Controls */}
+        <div className="relative z-10 w-full max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+          {/* Slide Indicator Dots */}
+          <div className="flex justify-center space-x-2 pb-2">
+            {HERO_SLIDES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentHeroSlide(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`h-1 rounded-full transition-all duration-300 ${
+                  currentHeroSlide === i ? 'w-8 bg-champagne' : 'w-2 bg-white/40 hover:bg-white/70'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Desktop Clean Flat Booking Widget */}
+          <div className="hidden md:block">
+            <BookingBar onSearch={handleBookingSearch} ctaText="Book Now" />
+          </div>
+        </div>
+
+        {/* Carousel Arrows */}
         <button
           onClick={() =>
             setCurrentHeroSlide((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1))
           }
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-forest-deep/60 hover:bg-forest-deep text-ivory hover:text-champagne border border-white/10 hidden md:flex items-center justify-center transition-colors"
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-forest-deep/60 hover:bg-forest-deep text-ivory hover:text-champagne border border-white/15 hidden lg:flex items-center justify-center transition-colors"
           aria-label="Previous Slide"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -193,120 +276,147 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
           onClick={() =>
             setCurrentHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length)
           }
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-forest-deep/60 hover:bg-forest-deep text-ivory hover:text-champagne border border-white/10 hidden md:flex items-center justify-center transition-colors"
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-forest-deep/60 hover:bg-forest-deep text-ivory hover:text-champagne border border-white/15 hidden lg:flex items-center justify-center transition-colors"
           aria-label="Next Slide"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
-
-        {/* Slide Indicator Dots */}
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex space-x-2">
-          {HERO_SLIDES.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentHeroSlide(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                currentHeroSlide === i ? 'w-8 bg-champagne' : 'w-2 bg-white/40 hover:bg-white/70'
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Desktop Booking Widget */}
-        <div className="absolute bottom-4 left-4 right-4 z-20 hidden md:block">
-          <BookingBar onSearch={handleBookingSearch} ctaText="Book Now" />
-        </div>
       </section>
 
       {/* Mobile Booking Widget */}
-      <div className="md:hidden p-4 bg-forest-deep border-b border-champagne/20">
+      <div className="md:hidden p-4 bg-forest-deep border-b border-white/15">
         <BookingBar onSearch={handleBookingSearch} ctaText="Book Now" />
       </div>
 
       {/* ========================================================================= */}
-      {/* 02 — SECTION 2: INTRODUCTION */}
+      {/* 02 — SECTION: WELCOME & EDITORIAL PHILOSOPHY (Clean Pure White `#FFFFFF`) */}
       {/* ========================================================================= */}
-      <section id="intro" className="py-24 px-4 sm:px-6 lg:px-8 max-w-wide mx-auto space-y-10">
-        <div className="max-w-3xl mx-auto text-center space-y-5">
-          <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-            BRAND INTRODUCTION
-          </span>
-          <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep leading-tight">
-            Susan Spa & Resort
-          </h2>
-          <div className="w-16 h-[2px] bg-champagne mx-auto my-3" />
-          <p className="text-sm sm:text-base text-charcoal/85 leading-relaxed font-normal">
-            Susan Spa & Resort merupakan resort dan spa destination yang berlokasi di Bandungan, Semarang, Jawa Tengah.
-          </p>
-          <p className="text-sm sm:text-base text-charcoal/75 leading-relaxed font-normal">
-            Berada sekitar <strong className="text-forest-deep font-semibold">1,100 meter di atas permukaan laut di kawasan Gunung Ungaran</strong>, resort menawarkan suasana pegunungan dan panorama dari dataran tinggi.
-          </p>
+      <section id="intro" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 max-w-wide mx-auto bg-white">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Asymmetric Column: Brand Story & Portrait Image */}
+          <div className="lg:col-span-6 space-y-8">
+            <div className="space-y-4 max-w-xl">
+              <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
+                WELCOME TO SUSAN SPA & RESORT
+              </span>
+              <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep leading-tight font-normal">
+                Serenity Above the Clouds, 1,100 Meters Altitude.
+              </h2>
+              <p className="editorial-body">
+                Susan Spa & Resort merupakan destinasi peristirahatan dan pemulihan jiwa di lereng Gunung Ungaran, Bandungan. Dikelilingi udara pegunungan yang senantiasa sejuk dan panorama lembah hijau yang membentang luas, kami menghadirkan perpaduan kenyamanan akomodasi modern dan ketenangan alam.
+              </p>
+              <p className="editorial-body">
+                Setiap sudut resort dirancang untuk memberikan ruang bernapas yang leluasa, memulihkan energi dari hiruk-pikuk keseharian, serta merayakan momen-momen paling berharga bersama orang terkasih.
+              </p>
+            </div>
+
+            {/* Portrait Image with subtle hairline border */}
+            <div className="relative aspect-[4/5] max-w-md rounded-3xl overflow-hidden border border-stone-200/90 bg-stone-100">
+              <Image
+                src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1000&auto=format&fit=crop"
+                alt="Spa and relaxation at Susan Spa & Resort"
+                fill
+                sizes="(max-width: 1024px) 100vw, 500px"
+                className="object-cover"
+              />
+              <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-stone-200 text-[11px] text-forest-deep font-medium tracking-wide">
+                Established Sanctuary • Bandungan, Central Java
+              </div>
+            </div>
+          </div>
+
+          {/* Right Asymmetric Column: Landscape Architecture & Philosophy */}
+          <div className="lg:col-span-6 space-y-8 pt-4 lg:pt-12">
+            {/* Architectural Heritage Photo */}
+            <div className="relative aspect-[16/11] rounded-3xl overflow-hidden border border-stone-200/90 bg-stone-100">
+              <Image
+                src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop"
+                alt="Resort landscape in Bandungan highlands"
+                fill
+                sizes="(max-width: 1024px) 100vw, 600px"
+                className="object-cover"
+              />
+            </div>
+
+            {/* Editorial Philosophy Statement */}
+            <div className="space-y-4 max-w-xl">
+              <h3 className="font-serif text-2xl sm:text-3xl text-forest-deep font-normal leading-snug">
+                <span className="italic">Our approach to restorative wellness is different.</span>
+              </h3>
+              <p className="editorial-body">
+                Alih-alih sekadar tempat menginap, kami mengajak Anda menyelami ritme hidup yang lebih perlahan dan sadar. Dari sentuhan botanical spa tradisional khas Jawa, kehangatan kolam renang air hangat berlatar perbukitan, hingga udara bersih pegunungan yang menyegarkan raga.
+              </p>
+              <p className="editorial-body">
+                Di sini, kemewahan tidak didefinisikan oleh kemegahan yang berlebih, melainkan oleh keheningan, privasi, dan keasrian alam yang meremajakan seluruh indra Anda.
+              </p>
+
+              <div className="pt-2">
+                <Link
+                  href="/facilities"
+                  className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-bold border-b border-forest-deep hover:border-champagne pb-1 transition-colors"
+                >
+                  <span>Discover All Resort Experiences</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* 7 Core USPs */}
-        <div className="pt-4">
-          <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+        {/* 7 Core USPs in Minimalist Badges */}
+        <div className="mt-16 pt-10 border-t border-stone-200/70">
+          <div className="flex flex-wrap justify-center gap-3 max-w-5xl mx-auto">
             {USP_LIST.map((usp, idx) => (
               <div
                 key={idx}
-                className="inline-flex items-center space-x-2 bg-ivory-warm border border-stone/30 hover:border-champagne px-4 py-2.5 rounded-full text-xs font-medium text-forest-deep shadow-sm transition-colors"
+                className="inline-flex items-center space-x-2 bg-[#FAF8F5] border border-stone-200/80 px-4 py-2.5 rounded-full text-xs font-medium text-forest-deep transition-colors hover:border-champagne"
               >
-                <CheckCircle2 className="w-4 h-4 text-champagne shrink-0" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-champagne-dark shrink-0" />
                 <span>{usp}</span>
               </div>
             ))}
           </div>
         </div>
-
-        <div className="text-center pt-2">
-          <Link
-            href="/facilities"
-            className="inline-flex items-center space-x-2 bg-forest-deep hover:bg-forest text-champagne px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg transition-all duration-300"
-          >
-            <span>Discover Susan Spa & Resort</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 03 — SECTION: FEATURED FACILITIES (Redesigned Snap Carousel) */}
+      {/* 03 — SECTION: FEATURED FACILITIES (Solid Luxury Forest Green `#19372F`) */}
       {/* ========================================================================= */}
-      <section className="py-24 bg-forest-deep text-ivory overflow-hidden">
+      <section className="py-24 sm:py-32 bg-forest text-ivory overflow-hidden">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
           <FeaturedFacilitiesCarousel />
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 04 — SECTION: FEATURED ROOMS (4-6 Kamar) */}
+      {/* 04 — SECTION: FEATURED ROOMS & SUITES (Clean Pure White `#FFFFFF`) */}
       {/* ========================================================================= */}
-      <section className="py-24 bg-ivory text-charcoal">
+      <section id="rooms" className="py-24 sm:py-32 bg-white text-forest-deep">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          {/* Header Row */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-stone-200/70">
             <div className="space-y-3 max-w-2xl">
-              <span className="text-xs uppercase tracking-[0.25em] text-botanical font-semibold block">
+              <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
                 ACCOMMODATION SELECTION
               </span>
-              <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep">
-                Featured Rooms & Suites
+              <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep font-normal">
+                Suites & Villas Tailored for Rejuvenation
               </h2>
-              <p className="text-sm text-charcoal/75 leading-relaxed">
+              <p className="editorial-body text-sm sm:text-base">
                 Pilihan akomodasi unggulan dengan kenyamanan elegan, balkon berpanorama asri, serta privasi eksklusif di lereng Gunung Ungaran.
               </p>
             </div>
 
             <Link
               href="/rooms"
-              className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-semibold border-b border-forest-deep pb-1 shrink-0 transition-colors"
+              className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-bold border-b border-forest-deep hover:border-champagne pb-1 shrink-0 transition-colors"
             >
-              <span>View All Rooms</span>
+              <span>View All 11 Room Types</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          {/* Room Cards Grid (4-6 rooms) */}
+          {/* Clean Flat Room Cards Grid (6 curated rooms) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {displayRooms.map((room) => (
               <RoomCard
@@ -317,12 +427,13 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
             ))}
           </div>
 
-          <div className="text-center pt-4">
+          {/* Bottom Link */}
+          <div className="text-center pt-6">
             <Link
               href="/rooms"
-              className="inline-flex items-center space-x-2 bg-forest-deep hover:bg-forest text-champagne px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg transition-colors"
+              className="inline-flex items-center space-x-2 border border-stone-300 hover:border-forest text-forest hover:bg-forest hover:text-champagne px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] transition-all duration-300"
             >
-              <span>View All Rooms</span>
+              <span>Explore All Rooms & Villas</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -330,94 +441,126 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 05 — SECTION: SPA / WELLNESS HIGHLIGHT */}
+      {/* 05 — SECTION: SIGNATURE WELLNESS & SPA (Clean Warm White `#FAF8F5`) */}
+      {/* (Inspired by the structured "What We Treat / What We Offer" reference design) */}
       {/* ========================================================================= */}
-      <section className="py-24 bg-forest text-ivory relative overflow-hidden">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Visual Stack */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-4">
-              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl border border-champagne/20">
-                <Image
-                  src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop"
-                  alt="Spa Treatment"
-                  fill
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl border border-champagne/20">
-                <Image
-                  src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=800&auto=format&fit=crop"
-                  alt="Jacuzzi Hydrotherapy"
-                  fill
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
+      <section id="spa" className="py-24 sm:py-32 bg-[#FAF8F5] text-forest-deep border-y border-stone-200/70">
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          {/* Top Row: Editorial Narrative on Left & Structured Curated List on Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            {/* Left: Headline & Narrative */}
+            <div className="lg:col-span-5 space-y-6">
+              <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
+                SIGNATURE WELLNESS
+              </span>
+              <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep leading-tight font-normal">
+                Spa on the Sky Sanctuary
+              </h2>
+              <p className="editorial-body">
+                Terletak di titik tertinggi resort pada ketinggian 1,100 meter di atas permukaan laut, Spa on the Sky memadukan warisan resep herbal luhur Jawa dengan fasilitas hidroterapi modern.
+              </p>
+              <p className="editorial-body">
+                Lepaskan kepenatan tubuh Anda dalam hangatnya private jacuzzi berlatar kabut gunung, nikmati sauna herbal aromatik, dan rasakan sentuhan terapis profesional bersertifikat.
+              </p>
+
+              <div className="pt-2 flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/facilities"
+                  className="bg-forest-deep hover:bg-forest text-champagne px-7 py-3 rounded-full font-semibold uppercase tracking-[0.18em] text-xs text-center transition-colors"
+                >
+                  Explore Spa Rituals
+                </Link>
+                <button
+                  onClick={() => handleOpenReserve('spa')}
+                  className="border border-stone-300 hover:border-forest text-forest hover:bg-forest hover:text-ivory px-7 py-3 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors"
+                >
+                  Inquire Spa Concierge
+                </button>
               </div>
             </div>
-            <div className="space-y-4 pt-8">
-              <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl border border-champagne/20">
-                <Image
-                  src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop"
-                  alt="Treatment Room"
-                  fill
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
+
+            {/* Right: Structured 2-Column Scannable Offerings List with Delicate Luxury Dots */}
+            <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-3xl border border-stone-200/80 space-y-6">
+              <div className="space-y-1">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-champagne-dark font-bold block">
+                  HOLISTIC BOTANICAL REPERTOIRE
+                </span>
+                <h3 className="font-serif text-2xl text-forest-deep font-normal">
+                  Our Signature Treatments & Rituals
+                </h3>
               </div>
-              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl border border-champagne/20">
-                <Image
-                  src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop"
-                  alt="Mountain Atmosphere"
-                  fill
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 pt-2 text-sm text-[#2C3833]">
+                {/* Column 1 */}
+                <ul className="space-y-3.5">
+                  {SPA_OFFERINGS_COL1.map((item, idx) => (
+                    <li key={idx} className="flex items-center space-x-3">
+                      <span className="luxury-bullet" />
+                      <span className="font-medium">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Column 2 */}
+                <ul className="space-y-3.5">
+                  {SPA_OFFERINGS_COL2.map((item, idx) => (
+                    <li key={idx} className="flex items-center space-x-3">
+                      <span className="luxury-bullet" />
+                      <span className="font-medium">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="pt-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
+                <span>Available daily for in-house guests & day visitors</span>
+                <Link
+                  href="/facilities"
+                  className="text-forest hover:text-champagne font-semibold tracking-wide flex items-center space-x-1"
+                >
+                  <span>Full Spa Menu</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
             </div>
           </div>
 
-          {/* Copy Column */}
-          <div className="space-y-6 lg:pl-6">
-            <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-              SIGNATURE WELLNESS
+          {/* Bottom Strip: 4 Editorial Photos ("What We Offer" horizontal visual showcase) */}
+          <div className="space-y-4">
+            <span className="text-[11px] uppercase tracking-[0.2em] text-stone-500 font-bold block">
+              VISUAL REPERTOIRE
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl text-ivory leading-tight">
-              Spa on the Sky
-            </h2>
-            <p className="text-sm sm:text-base text-ivory/80 leading-relaxed font-normal">
-              Luxury wellness experience dengan panorama pegunungan Bandungan. Menggabungkan tradisi herbal luhur Jawa dengan kenyamanan modern di ketinggian 1,100 meter di atas permukaan laut.
-            </p>
-            <p className="text-sm text-ivory/70 leading-relaxed">
-              Manjakan diri Anda dengan private jacuzzi hydrotherapy, herbal thermal sauna, serta terapis profesional bersertifikat dalam suasana pegunungan yang sejuk dan menenangkan.
-            </p>
-
-            <div className="pt-2 flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/facilities"
-                className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs text-center shadow-lg transition-colors"
-              >
-                Discover Our Spa
-              </Link>
-              <button
-                onClick={() => handleOpenReserve('spa')}
-                className="border border-champagne/50 hover:bg-forest-deep text-champagne px-8 py-3.5 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors"
-              >
-                Inquire Spa Ritual
-              </button>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {SPA_GALLERY_STRIP.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="group relative aspect-[4/3] rounded-2xl overflow-hidden border border-stone-200/80 bg-stone-100"
+                >
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-forest-deep/70 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+                  <div className="absolute bottom-3 left-3 right-3 text-ivory text-xs font-serif">
+                    {item.title}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 06 — SECTION: WEDDING HIGHLIGHT */}
+      {/* 06 — SECTION: SACRED WEDDINGS AT LA KANA (Solid Luxury Forest Green `#19372F`) */}
       {/* ========================================================================= */}
-      <section className="py-24 bg-ivory text-charcoal relative overflow-hidden">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Media Stack (La Kana Chapel) */}
-          <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border border-stone/30 group">
+      <section id="wedding" className="py-24 sm:py-32 bg-forest text-ivory relative overflow-hidden">
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Media Stack (La Kana Chapel) with Hairline Border & Zero Muddy Shadow */}
+          <div className="lg:col-span-6 relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/20 group bg-forest-deep">
             <Image
               src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop"
               alt="La Kana Chapel Susan Spa & Resort"
@@ -425,76 +568,72 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover group-hover:scale-105 transition-transform duration-700"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-transparent to-transparent opacity-60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-transparent to-transparent opacity-50" />
 
-            <div className="absolute bottom-8 left-8 right-8 text-ivory space-y-2">
+            <div className="absolute bottom-8 left-8 right-8 text-ivory space-y-1.5">
               <span className="text-[10px] uppercase tracking-[0.25em] text-champagne block font-semibold">
-                ICONIC WEDDING VENUE
+                ICONIC HIGHLAND GLASS CHAPEL
               </span>
-              <h3 className="font-serif text-2xl sm:text-3xl text-ivory">
+              <h3 className="font-serif text-2xl sm:text-3xl text-ivory font-normal">
                 La Kana Glass Chapel
               </h3>
-              <p className="text-xs text-ivory/80">
-                Altar kaca transparan dengan panorama pegunungan di atas awan.
+              <p className="text-xs text-ivory/80 font-light">
+                Altar kaca transparan berpanorama pegunungan di atas awan.
               </p>
             </div>
           </div>
 
           {/* Copy Column */}
-          <div className="space-y-6">
-            <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
+          <div className="lg:col-span-6 space-y-6">
+            <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
               SACRED CELEBRATIONS
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep leading-tight">
+            <h2 className="font-serif text-3xl sm:text-5xl text-ivory leading-tight font-normal">
               Your Dream Wedding Above the Clouds
             </h2>
-            <p className="text-sm sm:text-base text-charcoal/80 leading-relaxed font-normal">
-              Susan Spa & Resort menawarkan venue wedding, Holy Matrimony, outdoor celebration, dan pre-wedding experience di kawasan pegunungan Bandungan yang romantis dan sejuk.
+            <p className="text-sm sm:text-base text-ivory/85 leading-relaxed font-light">
+              Susan Spa & Resort menawarkan venue pernikahan sakral Holy Matrimony, outdoor garden celebration, dan pre-wedding session di kawasan pegunungan Bandungan yang romantis dan sejuk.
             </p>
 
-            <ul className="space-y-3 text-xs sm:text-sm text-charcoal/90 pt-2">
+            {/* Inclusions List */}
+            <ul className="space-y-3 text-xs sm:text-sm text-ivory/90 pt-2 font-light">
               <li className="flex items-center space-x-3">
-                <div className="w-6 h-6 rounded-full bg-forest text-champagne flex items-center justify-center shrink-0">
-                  <Church className="w-3.5 h-3.5" />
+                <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
+                  <Church className="w-3 h-3" />
                 </div>
-                <span className="font-medium">La Kana Chapel — Kapel Kaca Ikonik</span>
+                <span>La Kana Glass Chapel — Altar Kaca Ikonik Penuh Cahaya</span>
               </li>
               <li className="flex items-center space-x-3">
-                <div className="w-6 h-6 rounded-full bg-forest text-champagne flex items-center justify-center shrink-0">
-                  <Sparkles className="w-3.5 h-3.5" />
+                <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
+                  <Sparkles className="w-3 h-3" />
                 </div>
-                <span className="font-medium">Outdoor Wedding di Sky Garden Area</span>
+                <span>Outdoor Wedding di Sky Garden & Balcony Area</span>
               </li>
               <li className="flex items-center space-x-3">
-                <div className="w-6 h-6 rounded-full bg-forest text-champagne flex items-center justify-center shrink-0">
-                  <Church className="w-3.5 h-3.5" />
+                <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
+                  <Church className="w-3 h-3" />
                 </div>
-                <span className="font-medium">Frangipani Grand Ballroom</span>
+                <span>Frangipani Grand Ballroom untuk Jamuan Resepsi</span>
               </li>
               <li className="flex items-center space-x-3">
-                <div className="w-6 h-6 rounded-full bg-forest text-champagne flex items-center justify-center shrink-0">
-                  <Calendar className="w-3.5 h-3.5" />
+                <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
+                  <Calendar className="w-3 h-3" />
                 </div>
-                <span className="font-medium">Curated Wedding Packages</span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <div className="w-6 h-6 rounded-full bg-forest text-champagne flex items-center justify-center shrink-0">
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </div>
-                <span className="font-medium">Scenic Pre-Wedding Locations</span>
+                <span>Curated Holy Matrimony & Complete Wedding Packages</span>
               </li>
             </ul>
 
+            {/* Action Buttons */}
             <div className="pt-4 flex flex-col sm:flex-row items-center gap-4">
               <Link
                 href="/wedding"
-                className="w-full sm:w-auto bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-lg transition-colors text-center"
+                className="w-full sm:w-auto bg-ivory hover:bg-champagne text-forest-deep px-8 py-3.5 rounded-full font-semibold uppercase tracking-[0.18em] text-xs transition-colors text-center"
               >
                 Explore Wedding Packages
               </Link>
               <button
                 onClick={() => handleOpenReserve('wedding')}
-                className="w-full sm:w-auto border border-forest-deep text-forest-deep hover:bg-forest-deep hover:text-champagne px-8 py-3.5 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors"
+                className="w-full sm:w-auto border border-white/30 text-ivory hover:border-champagne hover:text-champagne px-8 py-3.5 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors"
               >
                 Wedding Inquiry
               </button>
@@ -504,20 +643,20 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 07 — SECTION: SPECIAL OFFERS (Dynamic, hide if empty) */}
+      {/* 07 — SECTION: SPECIAL OFFERS (Clean Pure White `#FFFFFF` - if active) */}
       {/* ========================================================================= */}
       {OFFERS.length > 0 && (
-        <section className="py-24 bg-forest-deep text-ivory">
+        <section className="py-24 sm:py-32 bg-white text-forest-deep border-b border-stone-200/70">
           <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-stone-200/70">
               <div className="space-y-3 max-w-2xl">
-                <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">
+                <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
                   EXCLUSIVE OFFERS
                 </span>
-                <h2 className="font-serif text-3xl sm:text-5xl text-ivory">
-                  Special Offers & Packages
+                <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep font-normal">
+                  Special Offers & Seasonal Packages
                 </h2>
-                <p className="text-sm text-ivory/70 leading-relaxed">
+                <p className="editorial-body text-sm sm:text-base">
                   Penawaran musiman eksklusif untuk pengalaman liburan dan relaksasi terbaik di Bandungan.
                 </p>
               </div>
@@ -527,9 +666,9 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               {OFFERS.map((offer) => (
                 <div
                   key={offer.id}
-                  className="bg-forest rounded-3xl overflow-hidden border border-champagne/30 shadow-xl flex flex-col justify-between"
+                  className="bg-white rounded-3xl overflow-hidden border border-stone-200/90 flex flex-col justify-between hover:border-champagne transition-colors"
                 >
-                  <div className="relative aspect-[16/10]">
+                  <div className="relative aspect-[16/10] bg-stone-100">
                     <Image
                       src={offer.image}
                       alt={offer.title}
@@ -538,26 +677,26 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                       className="object-cover"
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="bg-champagne text-forest-deep text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
+                      <span className="bg-forest-deep text-champagne text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-champagne/30">
                         {offer.badge}
                       </span>
                     </div>
                   </div>
                   <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-4">
                     <div className="space-y-2">
-                      <span className="text-[10px] text-champagne uppercase tracking-wider block font-medium">
+                      <span className="text-[10px] text-champagne-dark uppercase tracking-wider block font-bold">
                         {offer.validity}
                       </span>
-                      <h3 className="font-serif text-xl sm:text-2xl text-ivory">
+                      <h3 className="font-serif text-xl sm:text-2xl text-forest-deep font-normal">
                         {offer.title}
                       </h3>
-                      <p className="text-xs text-ivory/70 line-clamp-3 leading-relaxed">
+                      <p className="text-xs text-[#4A5852] line-clamp-3 leading-relaxed font-normal">
                         {offer.description}
                       </p>
                     </div>
                     <button
                       onClick={() => handleOpenReserve('room')}
-                      className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider font-bold transition-colors flex items-center justify-center space-x-1 shadow-sm"
+                      className="w-full border border-stone-300 hover:border-forest text-forest hover:bg-forest hover:text-ivory py-2.5 px-4 rounded-full text-xs uppercase tracking-wider font-semibold transition-colors flex items-center justify-center space-x-1"
                     >
                       <span>View Offer</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -571,40 +710,40 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       )}
 
       {/* ========================================================================= */}
-      {/* 08 — SECTION: NEARBY DESTINATIONS (4 Destinasi) */}
+      {/* 08 — SECTION: NEARBY DESTINATIONS (Clean Warm Off-White `#FAF8F5`) */}
       {/* ========================================================================= */}
-      <section className="py-24 bg-ivory text-charcoal">
+      <section className="py-24 sm:py-32 bg-[#FAF8F5] text-forest-deep">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-stone-200/70">
             <div className="space-y-3 max-w-2xl">
-              <span className="text-xs uppercase tracking-[0.25em] text-botanical font-semibold block">
+              <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
                 DESTINATION HIGHLIGHTS
               </span>
-              <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep">
-                Nearby Destinations
+              <h2 className="font-serif text-3xl sm:text-5xl text-forest-deep font-normal">
+                Nearby Attractions in Bandungan
               </h2>
-              <p className="text-sm text-charcoal/75 leading-relaxed">
+              <p className="editorial-body text-sm sm:text-base">
                 Jelajahi atraksi wisata populer di sekitar Susan Spa & Resort, mulai dari taman bunga highland hingga candi bersejarah.
               </p>
             </div>
 
             <Link
               href="/nearby"
-              className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-semibold border-b border-forest-deep pb-1 shrink-0 transition-colors"
+              className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-bold border-b border-forest-deep hover:border-champagne pb-1 shrink-0 transition-colors"
             >
               <span>Explore Nearby Attractions</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          {/* 4 Cards */}
+          {/* 4 Clean Flat Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {NEARBY_DESTINATIONS.map((dest) => (
               <div
                 key={dest.id}
-                className="group bg-ivory-warm border border-stone/30 rounded-3xl overflow-hidden hover:border-champagne transition-all shadow-md flex flex-col justify-between"
+                className="group bg-white border border-stone-200/80 rounded-3xl overflow-hidden hover:border-champagne transition-all duration-300 flex flex-col justify-between"
               >
-                <div className="relative aspect-[16/10] overflow-hidden">
+                <div className="relative aspect-[16/10] overflow-hidden bg-stone-100">
                   <Image
                     src={dest.image}
                     alt={dest.name}
@@ -619,10 +758,10 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
 
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
-                    <h3 className="font-serif text-lg text-forest-deep group-hover:text-champagne transition-colors font-semibold">
+                    <h3 className="font-serif text-lg text-forest-deep group-hover:text-champagne transition-colors font-medium">
                       {dest.name}
                     </h3>
-                    <p className="text-xs text-charcoal/70 line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-[#4A5852] line-clamp-2 leading-relaxed font-normal">
                       {dest.description}
                     </p>
                   </div>
@@ -630,7 +769,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                   <div className="pt-2 flex items-center space-x-2">
                     <Link
                       href={`/nearby/${dest.slug}`}
-                      className="flex-1 bg-forest-deep text-champagne text-center py-2 px-3 rounded-xl text-[11px] font-semibold uppercase tracking-wider hover:bg-forest transition-colors"
+                      className="flex-1 bg-forest-deep text-champagne text-center py-2 px-3 rounded-full text-[11px] font-semibold uppercase tracking-wider hover:bg-forest transition-colors"
                     >
                       Explore
                     </Link>
@@ -640,7 +779,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                         href={dest.mapUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 border border-stone/30 rounded-xl text-charcoal/80 hover:text-champagne hover:border-champagne transition-colors"
+                        className="p-2 border border-stone-300 rounded-full text-stone-600 hover:text-forest hover:border-forest transition-colors"
                         title="Get Direction"
                       >
                         <MapPin className="w-4 h-4" />
@@ -651,41 +790,31 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               </div>
             ))}
           </div>
-
-          <div className="text-center pt-2">
-            <Link
-              href="/nearby"
-              className="inline-flex items-center space-x-2 bg-forest-deep hover:bg-forest text-champagne px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg transition-colors"
-            >
-              <span>Explore Nearby Attractions</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 09 — SECTION: LOCATION (Find Us in Bandungan) */}
+      {/* 09 — SECTION: LOCATION & ACCESS (Solid Luxury Forest Green `#10241F`) */}
       {/* ========================================================================= */}
-      <section className="py-24 bg-forest-deep text-ivory border-t border-champagne/20">
+      <section className="py-24 sm:py-32 bg-forest-deep text-ivory border-t border-white/15">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div className="max-w-3xl space-y-3">
             <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
               LOCATION & ACCESS
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl text-ivory">
-              Find Us in Bandungan
+            <h2 className="font-serif text-3xl sm:text-5xl text-ivory font-normal">
+              Find Us in Bandungan Highlands
             </h2>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
-            {/* Address & Contact Info Card */}
-            <div className="bg-forest p-8 rounded-3xl border border-champagne/30 space-y-6 shadow-xl">
+            {/* Address & Contact Info Card with Flat Clean Hairline Border */}
+            <div className="bg-forest p-8 sm:p-9 rounded-3xl border border-white/15 space-y-6">
               <div className="space-y-2">
                 <span className="text-[10px] uppercase tracking-[0.2em] text-champagne block font-semibold">
                   Official Address
                 </span>
-                <p className="font-serif text-lg text-ivory leading-relaxed">
+                <p className="font-serif text-lg text-ivory leading-relaxed font-normal">
                   {SITE_CONFIG.address.street}
                   <br />
                   {SITE_CONFIG.address.village}, {SITE_CONFIG.address.district}
@@ -713,7 +842,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                   href={SITE_CONFIG.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-3 rounded-full text-xs uppercase tracking-[0.2em] font-bold text-center transition-colors shadow-md flex items-center justify-center space-x-2"
+                  className="w-full bg-ivory hover:bg-champagne text-forest-deep py-3 rounded-full text-xs uppercase tracking-[0.18em] font-semibold text-center transition-colors flex items-center justify-center space-x-2"
                 >
                   <MapPin className="w-4 h-4" />
                   <span>Get Directions</span>
@@ -725,15 +854,15 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full border border-champagne/40 text-ivory hover:bg-forest-deep py-3 rounded-full text-xs uppercase tracking-wider font-semibold text-center transition-colors"
+                  className="w-full border border-white/20 text-ivory hover:border-champagne hover:text-champagne py-3 rounded-full text-xs uppercase tracking-wider font-semibold text-center transition-colors"
                 >
                   Chat WhatsApp Concierge
                 </a>
               </div>
             </div>
 
-            {/* Google Maps Embed Container */}
-            <div className="lg:col-span-2 relative aspect-[16/10] sm:aspect-[16/9] rounded-3xl overflow-hidden border border-champagne/30 shadow-2xl bg-forest">
+            {/* Google Maps Embed Container with Clean Hairline Border */}
+            <div className="lg:col-span-2 relative aspect-[16/10] sm:aspect-[16/9] rounded-3xl overflow-hidden border border-white/15 bg-forest">
               <iframe
                 title="Susan Spa & Resort Google Maps Location"
                 src={SITE_CONFIG.mapEmbedUrl}

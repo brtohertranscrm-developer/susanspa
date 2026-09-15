@@ -89,6 +89,23 @@ textarea:focus-visible {
   .field {
     @apply w-full bg-forest border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-ivory focus:border-champagne focus:outline-none;
   }
+
+  /* Editorial Luxury & Anti-Fatigue Utilities */
+  .editorial-body {
+    @apply text-[#2C3833] font-light leading-[1.85] text-[15px] sm:text-[16px];
+  }
+
+  .hairline-border-light {
+    @apply border border-stone-200/80;
+  }
+
+  .hairline-border-dark {
+    @apply border border-white/15;
+  }
+
+  .luxury-bullet {
+    @apply inline-block w-1.5 h-1.5 rounded-full bg-botanical shrink-0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

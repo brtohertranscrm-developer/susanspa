@@ -93,12 +93,12 @@ export const FeaturedFacilitiesCarousel: React.FC = () => {
               disabled={!canScrollLeft}
               className={`p-3 rounded-full border transition-all duration-300 ${
                 canScrollLeft
-                  ? 'border-champagne/40 bg-forest hover:bg-champagne hover:text-forest-deep text-champagne cursor-pointer shadow-md'
-                  : 'border-white/10 bg-forest-deep/50 text-white/25 cursor-not-allowed'
+                  ? 'border-champagne/40 bg-forest-deep hover:bg-champagne hover:text-forest-deep text-champagne cursor-pointer'
+                  : 'border-white/10 bg-forest-deep/40 text-white/20 cursor-not-allowed'
               }`}
               aria-label="Scroll facilities left"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4" />
             </button>
 
             <button
@@ -106,12 +106,12 @@ export const FeaturedFacilitiesCarousel: React.FC = () => {
               disabled={!canScrollRight}
               className={`p-3 rounded-full border transition-all duration-300 ${
                 canScrollRight
-                  ? 'border-champagne/40 bg-forest hover:bg-champagne hover:text-forest-deep text-champagne cursor-pointer shadow-md'
-                  : 'border-white/10 bg-forest-deep/50 text-white/25 cursor-not-allowed'
+                  ? 'border-champagne/40 bg-forest-deep hover:bg-champagne hover:text-forest-deep text-champagne cursor-pointer'
+                  : 'border-white/10 bg-forest-deep/40 text-white/20 cursor-not-allowed'
               }`}
               aria-label="Scroll facilities right"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -121,13 +121,13 @@ export const FeaturedFacilitiesCarousel: React.FC = () => {
       <div className="relative -mx-4 sm:-mx-6 lg:-mx-8">
         <div
           ref={scrollContainerRef}
-          className="flex space-x-5 sm:space-x-6 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 lg:px-8 py-4 no-scrollbar scroll-smooth"
+          className="flex space-x-5 sm:space-x-6 overflow-x-auto snap-x snap-mandatory px-4 sm:px-6 lg:px-8 py-2 no-scrollbar scroll-smooth"
         >
           {FEATURED_FACILITIES.map((facility, index) => (
             <Link
               key={facility.id}
               href="/facilities"
-              className="group relative w-[82vw] max-w-[310px] sm:w-[320px] lg:w-[350px] shrink-0 snap-start aspect-[3/4] rounded-3xl overflow-hidden border border-champagne/25 hover:border-champagne/70 transition-all duration-500 shadow-xl flex flex-col justify-between p-6 sm:p-7 bg-forest cursor-pointer transform hover:-translate-y-1"
+              className="group relative w-[82vw] max-w-[310px] sm:w-[320px] lg:w-[350px] shrink-0 snap-start aspect-[3/4] rounded-3xl overflow-hidden border border-white/15 hover:border-champagne/70 transition-all duration-500 flex flex-col justify-between p-6 sm:p-7 bg-forest-deep cursor-pointer transform hover:-translate-y-1"
             >
               {/* Background Photo */}
               <Image
