@@ -16,7 +16,6 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'dksw6vf0i66fe.cloudfront.net',
-        pathname: '/room_type_image/image/**',
       },
     ],
     formats: ['image/avif', 'image/webp'],

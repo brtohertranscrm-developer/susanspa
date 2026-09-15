@@ -26,34 +26,22 @@ import type { Room } from '@/types';
 
 const HERO_SLIDES = [
   {
-    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2000&auto=format&fit=crop',
+    image: 'https://dksw6vf0i66fe.cloudfront.net/website_page_image/image/12d19f0e-b71c-4715-8fef-8955de6a998d_1726641103.webp',
     title: 'Kesejukan Lereng Gunung Ungaran',
-    subtitle: 'Menikmati Udara Pegunungan yang Menenangkan & Asri',
+    subtitle: 'Menikmati Panorama Pegunungan yang Menenangkan & Asri di Ketinggian ±1.100 mdpl',
     tag: 'Kawasan Sejuk Bandungan ~1.100 mdpl',
   },
   {
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop',
-    title: 'Kapel Kaca La Kana',
-    subtitle: 'Ikrarkan Janji Suci Pernikahan Berlatar Awan & Perbukitan',
-    tag: 'Momen Pernikahan Khidmat',
+    image: 'https://dksw6vf0i66fe.cloudfront.net/website_page_image/image/13c64aea-a3c8-4ad7-a0de-c03ba7d12f43_1726641104.webp',
+    title: 'Kemegahan Alam & Kapel Kaca La Kana',
+    subtitle: 'Ikrarkan Momen Sakral Berlatar Keindahan Gunung Ungaran yang Memukau',
+    tag: 'Ikon Eksklusif Jawa Tengah',
   },
   {
-    image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop',
-    title: 'Kolam Renang Air Hangat & Lembah',
-    subtitle: 'Kenyamanan Berendam Air Hangat di Ketinggian Bukit',
-    tag: 'Relaksasi & Rekreasi Keluarga',
-  },
-  {
-    image: 'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/32b5388a-b0ce-4bce-b95c-5efd4da8c259_1726474989.JPG',
-    title: 'Koleksi Kamar & Villa Eksklusif',
-    subtitle: 'Ruang Beristirahat Nyaman dengan Balkon Alam Pegunungan',
-    tag: 'Pilihan Suite & Villa Nyaman',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=2000&auto=format&fit=crop',
-    title: 'Spa on the Sky Sanctuary',
-    subtitle: 'Ritual Perawatan Tradisional Jawa di Ketinggian',
-    tag: 'Kebugaran Alami & Holistik',
+    image: 'https://dksw6vf0i66fe.cloudfront.net/website_page_image/image/7d9e523a-c43f-4322-b4a5-8cc24fe1b2b4_1726648300.jpg',
+    title: 'Peristirahatan Nyaman di Atas Awan',
+    subtitle: 'Harmoni Kebugaran Tradisional, Akomodasi Nyaman, dan Udara Sejuk Pegunungan',
+    tag: 'Sanctuary Relaksasi Keluarga',
   },
 ];
 
