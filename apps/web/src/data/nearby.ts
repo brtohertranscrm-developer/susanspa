@@ -1,4 +1,4 @@
-import { NearbyDestination, Testimonial } from '@/types';
+import { NearbyDestination } from '@/types';
 
 export const NEARBY_DESTINATIONS: NearbyDestination[] = [
   {
@@ -76,41 +76,5 @@ export const NEARBY_DESTINATIONS: NearbyDestination[] = [
     ],
     tips: 'Saran kami: Pilih tiket terusan agar Anda dan keluarga dapat menikmati seluruh wahana dengan leluasa tanpa antrean pembelian ulang.',
     mapUrl: 'https://maps.google.com/?q=Saloka+Theme+Park',
-  },
-];
-
-export const TESTIMONIALS: Testimonial[] = [
-  {
-    id: 'test-1',
-    guestName: 'Maya & Hendra Kusuma',
-    stayCategory: 'Pasangan Pengantin di La Kana Chapel',
-    origin: 'Jakarta, Indonesia',
-    rating: 5,
-    quote:
-      'Pemberkatan pernikahan kami di La Kana Chapel berlangsung sangat khidmat dan indah. Pemandangan kabut pegunungan Bandungan melalui altar kaca menciptakan momen sakral yang tak terlupakan bagi seluruh keluarga besar kami.',
-    date: 'Juli 2026',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
-  },
-  {
-    id: 'test-2',
-    guestName: 'David & Sarah Jenkins',
-    stayCategory: 'Tamu Menginap di Grand Suite',
-    origin: 'Singapura',
-    rating: 5,
-    quote:
-      'Susan Spa & Resort is a peaceful sanctuary. The cool 1,100m ASL mountain breeze was truly refreshing. The private jacuzzi and authentic Javanese herbal spa rituals provided complete relaxation.',
-    date: 'Juni 2026',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop',
-  },
-  {
-    id: 'test-3',
-    guestName: 'Dr. Evelyn Wijaya & Keluarga',
-    stayCategory: 'Liburan Keluarga di Villa 4 Bedrooms',
-    origin: 'Surabaya, Indonesia',
-    rating: 5,
-    quote:
-      'Menghabiskan akhir pekan di Villa bersama keluarga besar sangat nyaman dan privat. Suasana Bandungan yang sejuk, kolam renang air hangat untuk anak-anak, dan perawatan spa membuat kami kembali bugar.',
-    date: 'Agustus 2026',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop',
   },
 ];

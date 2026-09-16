@@ -38,6 +38,7 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
 }) => {
   const defaults = useMemo(() => getDefaultStayDates(), []);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const [inquiryType, setInquiryType] = useState<InquiryType>(preselectedType);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -58,9 +59,36 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     closeButtonRef.current?.focus();
+
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
+      if (event.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      if (event.key === 'Tab' && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+
+        const firstEl = focusable[0];
+        const lastEl = focusable[focusable.length - 1];
+
+        if (event.shiftKey) {
+          if (document.activeElement === firstEl) {
+            event.preventDefault();
+            lastEl.focus();
+          }
+        } else {
+          if (document.activeElement === lastEl) {
+            event.preventDefault();
+            firstEl.focus();
+          }
+        }
+      }
     };
+
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
@@ -114,6 +142,7 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
       onMouseDown={(event) => event.target === event.currentTarget && onClose()}
     >
       <div
+        ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="reservation-dialog-title"

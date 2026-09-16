@@ -80,7 +80,7 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
         <div className="hidden md:flex items-center space-x-6 shrink-0">
           <Link
             href="/rooms"
-            className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-bold border-b border-forest-deep hover:border-champagne pb-1 transition-colors"
+            className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-botanical font-bold border-b border-forest-deep hover:border-botanical pb-1 transition-colors"
           >
             <span>Lihat Semua 11 Tipe Akomodasi</span>
             <ArrowRight className="w-4 h-4" />
@@ -125,7 +125,7 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
               {/* Content Area (Generous & Breathable) */}
               <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
-                  <h3 className="font-serif text-2xl sm:text-[26px] text-forest-deep group-hover:text-champagne transition-colors font-normal leading-snug">
+                  <h3 className="font-serif text-2xl sm:text-[26px] text-forest-deep group-hover:text-botanical transition-colors font-normal leading-snug">
                     {room.name}
                   </h3>
                   <p className="text-xs sm:text-sm text-[#4A5852] line-clamp-2 leading-relaxed font-normal">
@@ -137,15 +137,15 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
                 <div className="grid grid-cols-3 gap-2 py-3 border-y border-stone-200/70 text-center">
                   <div className="space-y-1">
                     <Maximize2 className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-                    <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Luas Kamar</span>
+                    <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-medium">Luas Kamar</span>
                     <span className="font-semibold text-forest-deep text-xs sm:text-sm">
-                      {room.sizeSqm ? `${room.sizeSqm}m²` : '—'}
+                      {room.sizeSqm ? `${room.sizeSqm}m²` : '-'}
                     </span>
                   </div>
 
                   <div className="space-y-1 border-x border-stone-200/60 px-1">
                     <Users className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-                    <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Kapasitas</span>
+                    <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-medium">Kapasitas</span>
                     <span className="font-semibold text-forest-deep text-xs sm:text-sm">
                       {roomCapacity(room)}
                     </span>
@@ -153,9 +153,9 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
 
                   <div className="space-y-1">
                     <BedDouble className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-                    <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Tipe Kasur</span>
+                    <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-medium">Tipe Kasur</span>
                     <span className="font-semibold text-forest-deep text-xs sm:text-sm line-clamp-1">
-                      {room.bedType || '—'}
+                      {room.bedType || '-'}
                     </span>
                   </div>
                 </div>

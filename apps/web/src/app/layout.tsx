@@ -4,7 +4,7 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.susansparesort.com'),
   title: {
-    default: 'Susan Spa & Resort — Peristirahatan Menenangkan di Lereng Bandungan',
+    default: 'Susan Spa & Resort: Peristirahatan Menenangkan di Lereng Bandungan',
     template: '%s | Susan Spa & Resort',
   },
   description:
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     locale: 'id_ID',
     url: 'https://www.susansparesort.com/',
     siteName: 'Susan Spa & Resort',
-    title: 'Susan Spa & Resort — Peristirahatan Menenangkan di Lereng Bandungan',
+    title: 'Susan Spa & Resort: Peristirahatan Menenangkan di Lereng Bandungan',
     description:
       'Kesejukan udara pegunungan di ketinggian ±1.100 mdpl. Akomodasi suite & villa yang nyaman, spa on the sky, dan kapel pernikahan ikonik La Kana di Bandungan.',
     images: [
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Susan Spa & Resort — Peristirahatan Menenangkan di Lereng Bandungan',
+    title: 'Susan Spa & Resort: Peristirahatan Menenangkan di Lereng Bandungan',
     description: 'Kesejukan udara pegunungan di ketinggian ±1.100 mdpl lereng Gunung Ungaran, Bandungan, Jawa Tengah.',
     images: ['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200'],
   },

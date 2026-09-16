@@ -41,6 +41,12 @@ const config: Config = {
           DEFAULT: "#252A28",
           soft: "#3A403D",
         },
+        terracotta: {
+          DEFAULT: "#A45138",
+          hover: "#8C3F29",
+          light: "#C0654C",
+          dark: "#7A311E",
+        },
       },
       fontFamily: {
         serif: ["var(--font-playfair)", "Georgia", "serif"],

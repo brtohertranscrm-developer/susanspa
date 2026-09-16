@@ -3,20 +3,28 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
-import { TESTIMONIALS } from '@/data/nearby';
+import { Testimonial } from '@/types';
 
-export const TestimonialCarousel: React.FC = () => {
+interface TestimonialCarouselProps {
+  testimonials?: Testimonial[];
+}
+
+export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  if (!testimonials || testimonials.length === 0) {
+    return null;
+  }
+
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
-  const current = TESTIMONIALS[currentIndex];
+  const current = testimonials[currentIndex];
 
   return (
     <div className="bg-forest/60 border border-champagne/30 rounded-3xl p-8 md:p-12 relative overflow-hidden backdrop-blur-md shadow-2xl">
@@ -58,7 +66,7 @@ export const TestimonialCarousel: React.FC = () => {
             <ChevronLeft className="w-5 h-5" />
           </button>
           <div className="flex space-x-2">
-            {TESTIMONIALS.map((_, i) => (
+            {testimonials.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}

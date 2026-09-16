@@ -2,11 +2,13 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { MessageCircle } from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { DINING_VENUES } from '@/data/dining';
+import { SITE_CONFIG } from '@/data/site';
 
 export default function DiningPage() {
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
@@ -60,12 +62,17 @@ export default function DiningPage() {
                 </ul>
               </div>
 
-              <button
-                onClick={() => setIsReserveModalOpen(true)}
-                className="bg-champagne hover:bg-champagne-light text-forest-deep px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors shadow-lg"
+              <a
+                href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
+                  `Halo Tim Restoran Susan Spa & Resort, saya ingin reservasi meja di ${venue.name}.`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center space-x-2 bg-champagne hover:bg-champagne-light text-forest-deep px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors shadow-lg"
               >
-                Reservasi Meja Restoran
-              </button>
+                <MessageCircle className="w-4 h-4" />
+                <span>Reservasi Meja Restoran</span>
+              </a>
             </div>
           </div>
         ))}

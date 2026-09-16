@@ -180,10 +180,11 @@ export default function ContactPage() {
 
                 {/* Full Name */}
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
+                  <label htmlFor="contact-fullName" className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
                     Nama Lengkap *
                   </label>
                   <input
+                    id="contact-fullName"
                     type="text"
                     name="fullName"
                     required
@@ -194,10 +195,11 @@ export default function ContactPage() {
 
                 {/* Email */}
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
+                  <label htmlFor="contact-email" className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
                     Alamat Email *
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     name="email"
                     required
@@ -208,10 +210,11 @@ export default function ContactPage() {
 
                 {/* Phone / WhatsApp */}
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
+                  <label htmlFor="contact-phone" className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
                     Nomor Telepon / WhatsApp *
                   </label>
                   <input
+                    id="contact-phone"
                     type="tel"
                     name="phone"
                     required
@@ -222,10 +225,11 @@ export default function ContactPage() {
 
                 {/* Subject */}
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
+                  <label htmlFor="contact-subject" className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
                     Topik Pertanyaan / Keperluan
                   </label>
                   <input
+                    id="contact-subject"
                     type="text"
                     name="subject"
                     placeholder="Contoh: Reservasi Kamar, Paket Wedding, Spa"
@@ -235,10 +239,11 @@ export default function ContactPage() {
 
                 {/* Message */}
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
+                  <label htmlFor="contact-message" className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
                     Pesan / Detail Kebutuhan Anda *
                   </label>
                   <textarea
+                    id="contact-message"
                     name="message"
                     required
                     rows={4}

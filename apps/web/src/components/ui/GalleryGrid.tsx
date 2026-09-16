@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
@@ -30,18 +30,42 @@ export const GalleryGrid: React.FC = () => {
   };
 
   const nextImage = () => {
-    if (selectedImageIndex !== null) {
-      setSelectedImageIndex((selectedImageIndex + 1) % filteredItems.length);
-    }
+    setSelectedImageIndex((prev) =>
+      prev !== null ? (prev + 1) % filteredItems.length : null
+    );
   };
 
   const prevImage = () => {
-    if (selectedImageIndex !== null) {
-      setSelectedImageIndex(
-        (selectedImageIndex - 1 + filteredItems.length) % filteredItems.length
-      );
-    }
+    setSelectedImageIndex((prev) =>
+      prev !== null ? (prev - 1 + filteredItems.length) % filteredItems.length : null
+    );
   };
+
+  useEffect(() => {
+    if (selectedImageIndex === null) return;
+
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedImageIndex(null);
+      } else if (e.key === 'ArrowRight') {
+        setSelectedImageIndex((prev) =>
+          prev !== null ? (prev + 1) % filteredItems.length : null
+        );
+      } else if (e.key === 'ArrowLeft') {
+        setSelectedImageIndex((prev) =>
+          prev !== null ? (prev - 1 + filteredItems.length) % filteredItems.length : null
+        );
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedImageIndex, filteredItems.length]);
 
   return (
     <div className="space-y-10">
@@ -121,11 +145,20 @@ export const GalleryGrid: React.FC = () => {
 
       {/* Fullscreen Lightbox Modal */}
       {selectedImageIndex !== null && filteredItems[selectedImageIndex] && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/95 backdrop-blur-xl animate-fade-in">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Tampilan Foto Penuh"
+          onClick={closeLightbox}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/95 backdrop-blur-xl animate-fade-in cursor-zoom-out"
+        >
           {/* Close Button */}
           <button
-            onClick={closeLightbox}
-            className="absolute top-6 right-6 p-3 text-ivory hover:text-champagne transition-colors z-50 focus:outline-none"
+            onClick={(e) => {
+              e.stopPropagation();
+              closeLightbox();
+            }}
+            className="absolute top-6 right-6 p-3 text-ivory hover:text-champagne transition-colors z-50 focus:outline-none cursor-pointer"
             aria-label="Tutup Galeri"
           >
             <X className="w-8 h-8" />
@@ -137,7 +170,7 @@ export const GalleryGrid: React.FC = () => {
               e.stopPropagation();
               prevImage();
             }}
-            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 p-3 text-ivory hover:text-champagne bg-forest/60 hover:bg-forest rounded-full transition-colors z-50"
+            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 p-3 text-ivory hover:text-champagne bg-forest/60 hover:bg-forest rounded-full transition-colors z-50 cursor-pointer"
             aria-label="Foto Sebelumnya"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -149,14 +182,17 @@ export const GalleryGrid: React.FC = () => {
               e.stopPropagation();
               nextImage();
             }}
-            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 p-3 text-ivory hover:text-champagne bg-forest/60 hover:bg-forest rounded-full transition-colors z-50"
+            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 p-3 text-ivory hover:text-champagne bg-forest/60 hover:bg-forest rounded-full transition-colors z-50 cursor-pointer"
             aria-label="Foto Berikutnya"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
 
           {/* Image & Caption Container */}
-          <div className="max-w-5xl w-full space-y-4">
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="max-w-5xl w-full space-y-4 cursor-default"
+          >
             <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-champagne/40 shadow-2xl bg-black/40">
               <Image
                 src={filteredItems[selectedImageIndex].image}

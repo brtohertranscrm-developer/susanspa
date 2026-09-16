@@ -1,45 +1,86 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   Menu,
   X,
-  Globe,
   Instagram,
   Facebook,
   MessageCircle,
   Phone,
   ChevronRight,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { SITE_CONFIG } from '@/data/site';
-import type { Room } from '@/types';
+import { cn } from '@/lib/utils';
+import { Room } from '@/types';
 
 interface HeaderProps {
-  onOpenReserve?: () => void;
   rooms?: Room[];
+  onOpenReserve?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [language, setLanguage] = useState<'EN' | 'ID'>('ID');
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 40);
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setMobileMenuOpen(false);
+          return;
+        }
+
+        if (e.key === 'Tab' && mobileMenuRef.current) {
+          const focusable = mobileMenuRef.current.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (focusable.length === 0) return;
+
+          const firstEl = focusable[0];
+          const lastEl = focusable[focusable.length - 1];
+
+          if (e.shiftKey) {
+            if (document.activeElement === firstEl) {
+              e.preventDefault();
+              lastEl.focus();
+            }
+          } else {
+            if (document.activeElement === lastEl) {
+              e.preventDefault();
+              firstEl.focus();
+            }
+          }
+        }
+      };
+
+      const timer = setTimeout(() => {
+        const closeBtn = mobileMenuRef.current?.querySelector<HTMLElement>('button[aria-label="Close menu"]');
+        closeBtn?.focus();
+      }, 50);
+
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        clearTimeout(timer);
+        document.body.style.overflow = 'unset';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
     } else {
       document.body.style.overflow = 'unset';
     }
@@ -48,6 +89,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
   const navLinks = [
     { label: 'Beranda', href: '/' },
     { label: 'Kamar & Villa', href: '/rooms' },
+    { label: 'Spa', href: '/spa' },
     { label: 'Fasilitas', href: '/facilities' },
     { label: 'Pernikahan', href: '/wedding' },
     { label: 'Galeri', href: '/gallery' },
@@ -105,17 +147,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
             })}
           </nav>
 
-          {/* Desktop Right Side CTA & Lang */}
-          <div className="hidden lg:flex items-center space-x-5">
-            <button
-              onClick={() => setLanguage(language === 'EN' ? 'ID' : 'EN')}
-              className="flex items-center space-x-1.5 text-xs text-ivory/80 hover:text-champagne transition-colors uppercase tracking-wider"
-              title="Toggle Language"
-            >
-              <Globe className="w-3.5 h-3.5 text-champagne" />
-              <span>{language}</span>
-            </button>
-
+          {/* Desktop Right Side CTA */}
+          <div className="hidden lg:flex items-center">
             <button
               onClick={onOpenReserve}
               className="bg-champagne hover:bg-champagne-light text-forest-deep px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-md hover:shadow-champagne/20 hover:scale-105"
@@ -125,17 +158,17 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
           </div>
 
           {/* Mobile Right Controls: Book Now & Hamburger */}
-          <div className="flex lg:hidden items-center space-x-3">
+          <div className="flex lg:hidden items-center space-x-2">
             <button
               onClick={onOpenReserve}
-              className="bg-champagne text-forest-deep px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm"
+              className="bg-champagne hover:bg-champagne-light text-forest-deep min-h-[44px] px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm flex items-center justify-center transition-colors"
             >
               Reservasi
             </button>
 
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="text-ivory hover:text-champagne p-2 focus:outline-none"
+              className="text-ivory hover:text-champagne p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none"
               aria-label="Open navigation menu"
             >
               <Menu className="w-6 h-6 text-champagne" />
@@ -146,7 +179,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
 
       {/* Mobile / Tablet Full-Screen Navigation Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#10241F] text-ivory flex flex-col animate-fade-in lg:hidden">
+        <div
+          ref={mobileMenuRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu Navigasi Mobile"
+          className="fixed inset-0 z-50 bg-[#10241F] text-ivory flex flex-col animate-fade-in lg:hidden"
+        >
           {/* Top Bar */}
           <div className="px-5 py-4 flex items-center justify-between border-b border-champagne/20">
             <Link
@@ -165,7 +204,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
 
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="text-ivory hover:text-champagne p-2"
+              className="text-ivory hover:text-champagne p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none"
               aria-label="Close menu"
             >
               <X className="w-7 h-7 text-champagne" />

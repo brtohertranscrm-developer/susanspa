@@ -35,7 +35,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
       {/* Content Area */}
       <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-4">
         <div className="space-y-2">
-          <h3 className="font-serif text-2xl text-forest-deep group-hover:text-champagne transition-colors font-normal">
+          <h3 className="font-serif text-2xl text-forest-deep group-hover:text-botanical transition-colors font-normal">
             {room.name}
           </h3>
           <p className="text-xs text-[#4A5852] line-clamp-2 leading-relaxed font-normal">
@@ -47,15 +47,15 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
         <div className="grid grid-cols-3 gap-2 py-3 border-y border-stone-200/70 text-[11px] text-[#333D39] text-center">
           <div className="space-y-1">
             <Maximize2 className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-            <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Luas Kamar</span>
+            <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-semibold">Luas Kamar</span>
             <span className="font-semibold text-forest-deep">
-              {room.sizeSqm ? `${room.sizeSqm} m²` : '—'}
+              {room.sizeSqm ? `${room.sizeSqm} m²` : '-'}
             </span>
           </div>
 
           <div className="space-y-1 border-x border-stone-200/60 px-1">
             <Users className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-            <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Kapasitas</span>
+            <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-semibold">Kapasitas</span>
             <span className="font-semibold text-forest-deep">
               {roomCapacity(room)}
             </span>
@@ -63,9 +63,9 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
 
           <div className="space-y-1">
             <BedDouble className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-            <span className="text-[10px] text-stone-500 uppercase block tracking-wider font-medium">Tipe Kasur</span>
+            <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-semibold">Tipe Kasur</span>
             <span className="font-semibold text-forest-deep line-clamp-1">
-              {room.bedType || '—'}
+              {room.bedType || '-'}
             </span>
           </div>
         </div>

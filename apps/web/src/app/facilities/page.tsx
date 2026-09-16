@@ -75,11 +75,11 @@ export default function FacilitiesPage() {
       </section>
 
       {/* Category Navigation Pills */}
-      <div className="sticky top-20 z-30 bg-ivory/95 backdrop-blur-md border-b border-stone/20 py-4 shadow-sm">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+      <div className="sticky top-20 z-30 bg-ivory/95 backdrop-blur-md border-b border-stone/20 py-3 sm:py-4 shadow-sm">
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 flex items-center sm:justify-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar scroll-smooth">
           <button
             onClick={() => setActiveCategory('All')}
-            className={`px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold transition-all ${
+            className={`shrink-0 px-4 sm:px-5 py-2 min-h-[40px] rounded-full text-xs uppercase tracking-wider font-semibold transition-all flex items-center justify-center ${
               activeCategory === 'All'
                 ? 'bg-forest-deep text-champagne border border-champagne shadow-md'
                 : 'bg-ivory-warm text-charcoal/80 hover:text-forest border border-stone/30'
@@ -93,7 +93,7 @@ export default function FacilitiesPage() {
               <button
                 key={group.category}
                 onClick={() => setActiveCategory(group.category)}
-                className={`inline-flex items-center space-x-1.5 px-4 sm:px-5 py-2 rounded-full text-xs uppercase tracking-wider font-semibold transition-all ${
+                className={`shrink-0 inline-flex items-center space-x-1.5 px-4 sm:px-5 py-2 min-h-[40px] rounded-full text-xs uppercase tracking-wider font-semibold transition-all ${
                   activeCategory === group.category
                     ? 'bg-forest-deep text-champagne border border-champagne shadow-md'
                     : 'bg-ivory-warm text-charcoal/80 hover:text-forest border border-stone/30'

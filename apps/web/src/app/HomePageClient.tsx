@@ -13,6 +13,8 @@ import {
   ChevronRight,
   CheckCircle2,
   Calendar,
+  Pause,
+  Play,
 } from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
@@ -98,18 +100,27 @@ const FEATURED_ROOM_SLUGS = [
 
 export default function HomePageClient({ rooms }: { rooms: Room[] }) {
   const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
+  const [isHeroAutoplayPaused, setIsHeroAutoplayPaused] = useState(() => {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    return false;
+  });
+  const [isHeroHovered, setIsHeroHovered] = useState(false);
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [modalRoomSlug, setModalRoomSlug] = useState<string | undefined>();
   const [modalType, setModalType] = useState<'room' | 'spa' | 'wedding' | 'event'>('room');
   const [bookingSearch, setBookingSearch] = useState<BookingSearchParams | undefined>();
 
-  // Auto cycle hero carousel
+  // Auto cycle hero carousel with user pause and reduced motion respect
   useEffect(() => {
+    if (isHeroAutoplayPaused || isHeroHovered) return;
+
     const timer = setInterval(() => {
       setCurrentHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 6500);
+    }, 7000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isHeroAutoplayPaused, isHeroHovered]);
 
   const handleOpenReserve = (type: 'room' | 'spa' | 'wedding' | 'event' = 'room', roomSlug?: string) => {
     setModalType(type);
@@ -138,9 +149,13 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       <Header rooms={rooms} onOpenReserve={() => handleOpenReserve('room')} />
 
       {/* ========================================================================= */}
-      {/* 01 — HERO SECTION (Atmospheric Scenic & Clean Editorial Presentation) */}
+      {/* 01: HERO SECTION (Atmospheric Scenic & Clean Editorial Presentation) */}
       {/* ========================================================================= */}
-      <section className="relative min-h-[94vh] flex flex-col justify-between pt-28 pb-12 overflow-hidden bg-forest-deep">
+      <section
+        onMouseEnter={() => setIsHeroHovered(true)}
+        onMouseLeave={() => setIsHeroHovered(false)}
+        className="relative min-h-[94vh] flex flex-col justify-between pt-28 pb-12 overflow-hidden bg-forest-deep"
+      >
         {/* Background Image Carousel with Soft Gradient Overlay */}
         {HERO_SLIDES.map((slide, index) => (
           <div
@@ -224,18 +239,32 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
 
         {/* Carousel Navigation Controls */}
         <div className="relative z-10 w-full max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-          {/* Slide Indicator Dots */}
-          <div className="flex justify-center space-x-2 pb-2">
-            {HERO_SLIDES.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentHeroSlide(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                className={`h-1 rounded-full transition-all duration-300 ${
-                  currentHeroSlide === i ? 'w-8 bg-champagne' : 'w-2 bg-white/40 hover:bg-white/70'
-                }`}
-              />
-            ))}
+          {/* Slide Indicator Dots & Pause/Play Control */}
+          <div className="flex items-center justify-center space-x-3 pb-2">
+            <div className="flex space-x-2">
+              {HERO_SLIDES.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentHeroSlide(i)}
+                  aria-label={`Pindah ke slide ${i + 1}`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    currentHeroSlide === i ? 'w-8 bg-champagne' : 'w-2 bg-white/40 hover:bg-white/70'
+                  }`}
+                />
+              ))}
+            </div>
+            <button
+              onClick={() => setIsHeroAutoplayPaused((prev) => !prev)}
+              className="text-ivory/60 hover:text-champagne p-1 rounded-full transition-colors focus:outline-none"
+              aria-label={isHeroAutoplayPaused ? 'Putar rotasi slide' : 'Jeda rotasi slide'}
+              title={isHeroAutoplayPaused ? 'Putar rotasi slide' : 'Jeda rotasi slide'}
+            >
+              {isHeroAutoplayPaused ? (
+                <Play className="w-3.5 h-3.5 fill-current" />
+              ) : (
+                <Pause className="w-3.5 h-3.5 fill-current" />
+              )}
+            </button>
           </div>
 
           {/* Desktop Clean Flat Booking Widget */}
@@ -271,7 +300,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </div>
 
       {/* ========================================================================= */}
-      {/* 02 — SECTION: WELCOME & EDITORIAL PHILOSOPHY (Clean Pure White `#FFFFFF`) */}
+      {/* 02: SECTION: WELCOME & EDITORIAL PHILOSOPHY (Clean Pure White `#FFFFFF`) */}
       {/* ========================================================================= */}
       <section id="intro" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 max-w-wide mx-auto bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -335,7 +364,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               <div className="pt-2">
                 <Link
                   href="/facilities"
-                  className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-bold border-b border-forest-deep hover:border-champagne pb-1 transition-colors"
+                  className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-forest-deep hover:text-botanical font-bold border-b border-forest-deep hover:border-botanical pb-1 transition-colors"
                 >
                   <span>Jelajahi Seluruh Pengalaman Resort</span>
                   <ArrowRight className="w-4 h-4" />
@@ -362,7 +391,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 03 — SECTION: ALL RESORT FACILITIES (Editorial Icon Grid with Categories) */}
+      {/* 03: SECTION: ALL RESORT FACILITIES (Editorial Icon Grid with Categories) */}
       {/* ========================================================================= */}
       <section id="facilities" className="py-20 sm:py-28 bg-forest text-ivory overflow-hidden">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
@@ -371,7 +400,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 04 — SECTION: FEATURED ROOMS & SUITES (Compact Horizontal Snap Scroll) */}
+      {/* 04: SECTION: FEATURED ROOMS & SUITES (Compact Horizontal Snap Scroll) */}
       {/* ========================================================================= */}
       <section id="rooms" className="py-24 sm:py-32 bg-white text-forest-deep overflow-hidden">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
@@ -383,7 +412,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 05 — SECTION: SIGNATURE WELLNESS & SPA (Clean Warm White `#FAF8F5`) */}
+      {/* 05: SECTION: SIGNATURE WELLNESS & SPA (Clean Warm White `#FAF8F5`) */}
       {/* (Inspired by the structured "What We Treat / What We Offer" reference design) */}
       {/* ========================================================================= */}
       <section id="spa" className="py-24 sm:py-32 bg-[#FAF8F5] text-forest-deep border-y border-stone-200/70">
@@ -407,7 +436,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
 
               <div className="pt-2 flex flex-col sm:flex-row gap-3">
                 <Link
-                  href="/facilities"
+                  href="/spa"
                   className="bg-forest-deep hover:bg-forest text-champagne px-7 py-3 rounded-full font-semibold uppercase tracking-[0.18em] text-xs text-center transition-colors"
                 >
                   Lihat Menu Perawatan
@@ -424,7 +453,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
             {/* Right: Structured 2-Column Scannable Offerings List with Delicate Luxury Dots */}
             <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-3xl border border-stone-200/80 space-y-6">
               <div className="space-y-1">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-champagne-dark font-bold block">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-forest-deep font-bold block">
                   PILIHAN RITUAL KEBUGARAN
                 </span>
                 <h3 className="font-serif text-2xl text-forest-deep font-normal">
@@ -457,8 +486,8 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               <div className="pt-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
                 <span>Tersedia setiap hari untuk tamu menginap maupun kunjungan harian</span>
                 <Link
-                  href="/facilities"
-                  className="text-forest hover:text-champagne font-semibold tracking-wide flex items-center space-x-1"
+                  href="/spa"
+                  className="text-forest hover:text-botanical font-semibold tracking-wide flex items-center space-x-1"
                 >
                   <span>Daftar Perawatan Lengkap</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -497,7 +526,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 06 — SECTION: SACRED WEDDINGS AT LA KANA (Solid Luxury Forest Green `#19372F`) */}
+      {/* 06: SECTION: SACRED WEDDINGS AT LA KANA (Solid Luxury Forest Green `#19372F`) */}
       {/* ========================================================================= */}
       <section id="wedding" className="py-24 sm:py-32 bg-forest text-ivory relative overflow-hidden">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -543,25 +572,25 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                 <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
                   <Church className="w-3 h-3" />
                 </div>
-                <span>Kapel Kaca La Kana — Dinding Kaca Transparan Menghadap Panorama Bebas</span>
+                <span>Kapel Kaca La Kana: Dinding Kaca Transparan Menghadap Panorama Bebas</span>
               </li>
               <li className="flex items-center space-x-3">
                 <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
                   <Compass className="w-3 h-3" />
                 </div>
-                <span>Outdoor Sky Garden & Balcony — Pesta Terbuka Bernuansa Asri & Romantis</span>
+                <span>Outdoor Sky Garden & Balcony: Pesta Terbuka Bernuansa Asri & Romantis</span>
               </li>
               <li className="flex items-center space-x-3">
                 <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
                   <Church className="w-3 h-3" />
                 </div>
-                <span>Frangipani Grand Ballroom — Ruang Resepsi Nyaman dengan Penataan Elegan</span>
+                <span>Frangipani Grand Ballroom: Ruang Resepsi Nyaman dengan Penataan Elegan</span>
               </li>
               <li className="flex items-center space-x-3">
                 <div className="w-6 h-6 rounded-full bg-forest-deep border border-champagne/30 text-champagne flex items-center justify-center shrink-0">
                   <Calendar className="w-3 h-3" />
                 </div>
-                <span>Paket Pernikahan Terencana — Didampingi Wedding Coordinator Berpengalaman</span>
+                <span>Paket Pernikahan Terencana: Didampingi Wedding Coordinator Berpengalaman</span>
               </li>
             </ul>
 
@@ -585,7 +614,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 06 — COMPACT LOCATION & ACCESS STRIP (Solid Luxury Forest Green `#10241F`) */}
+      {/* 07: COMPACT LOCATION & ACCESS STRIP (Solid Luxury Forest Green `#10241F`) */}
       {/* ========================================================================= */}
       <section className="py-16 sm:py-20 bg-forest-deep text-ivory border-t border-white/10">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
