@@ -22,7 +22,6 @@ import { BookingBar, type BookingSearchParams } from '@/components/global/Bookin
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { FeaturedRoomsCarousel } from '@/components/ui/FeaturedRoomsCarousel';
-import { FacilitiesIconGrid } from '@/components/ui/FacilitiesIconGrid';
 import { SITE_CONFIG } from '@/data/site';
 import type { Room } from '@/types';
 
@@ -391,16 +390,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 03: SECTION: ALL RESORT FACILITIES (Editorial Icon Grid with Categories) */}
-      {/* ========================================================================= */}
-      <section id="facilities" className="py-20 sm:py-28 bg-forest text-ivory overflow-hidden">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
-          <FacilitiesIconGrid />
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 04: SECTION: FEATURED ROOMS & SUITES (Compact Horizontal Snap Scroll) */}
+      {/* 03: SECTION: FEATURED ROOMS & SUITES (Compact Horizontal Snap Scroll) */}
       {/* ========================================================================= */}
       <section id="rooms" className="py-24 sm:py-32 bg-white text-forest-deep overflow-hidden">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
@@ -412,7 +402,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 05: SECTION: SIGNATURE WELLNESS & SPA (Clean Warm White `#FAF8F5`) */}
+      {/* 04: SECTION: SIGNATURE WELLNESS & SPA (Clean Warm White `#FAF8F5`) */}
       {/* (Inspired by the structured "What We Treat / What We Offer" reference design) */}
       {/* ========================================================================= */}
       <section id="spa" className="py-24 sm:py-32 bg-[#FAF8F5] text-forest-deep border-y border-stone-200/70">
@@ -526,7 +516,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 06: SECTION: SACRED WEDDINGS AT LA KANA (Solid Luxury Forest Green `#19372F`) */}
+      {/* 05: SECTION: SACRED WEDDINGS AT LA KANA (Solid Luxury Forest Green `#19372F`) */}
       {/* ========================================================================= */}
       <section id="wedding" className="py-24 sm:py-32 bg-forest text-ivory relative overflow-hidden">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -614,7 +604,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 07: COMPACT LOCATION & ACCESS STRIP (Solid Luxury Forest Green `#10241F`) */}
+      {/* 06: COMPACT LOCATION & ACCESS STRIP (Solid Luxury Forest Green `#10241F`) */}
       {/* ========================================================================= */}
       <section className="py-16 sm:py-20 bg-forest-deep text-ivory border-t border-white/10">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
