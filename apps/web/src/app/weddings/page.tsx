@@ -93,7 +93,7 @@ export default function WeddingsPage() {
           </div>
         </div>
 
-        <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-stone/30">
+        <div className="relative aspect-[4/3] overflow-hidden shadow-2xl border border-stone/30">
           <Image
             src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1600&auto=format&fit=crop"
             alt="La Kana Chapel Entrance"

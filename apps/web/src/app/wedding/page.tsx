@@ -88,7 +88,7 @@ export default function WeddingPage() {
           {WEDDING_PACKAGES.map((pkg) => (
             <div
               key={pkg.id}
-              className="bg-forest-deep text-ivory rounded-3xl overflow-hidden border border-champagne/30 shadow-xl flex flex-col justify-between group hover:border-champagne/70 transition-all duration-300"
+              className="bg-forest-deep text-ivory overflow-hidden border border-champagne/30 shadow-xl flex flex-col justify-between group hover:border-champagne/70 transition-all duration-300"
             >
               <div className="relative aspect-[16/10] overflow-hidden">
                 <Image

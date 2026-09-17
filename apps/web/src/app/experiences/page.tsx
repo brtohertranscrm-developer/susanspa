@@ -38,7 +38,7 @@ export default function ExperiencesPage() {
       <section className="py-20 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {EXPERIENCES.map((exp) => (
-            <div key={exp.id} className="bg-forest-deep text-ivory rounded-3xl overflow-hidden border border-champagne/30 shadow-xl flex flex-col justify-between">
+            <div key={exp.id} className="bg-forest-deep text-ivory overflow-hidden border border-champagne/30 shadow-xl flex flex-col justify-between">
               <div className="relative aspect-[16/10]">
                 <Image src={exp.image} alt={exp.title} fill className="object-cover" />
                 <div className="absolute top-4 left-4 bg-forest-deep/90 text-champagne text-[10px] uppercase tracking-wider px-3 py-1 rounded-full border border-champagne/30">

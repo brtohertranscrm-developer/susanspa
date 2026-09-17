@@ -127,7 +127,7 @@ export const FeaturedFacilitiesCarousel: React.FC = () => {
             <Link
               key={facility.id}
               href="/facilities"
-              className="group relative w-[82vw] max-w-[310px] sm:w-[320px] lg:w-[350px] shrink-0 snap-start aspect-[3/4] rounded-3xl overflow-hidden border border-white/15 hover:border-champagne/70 transition-all duration-500 flex flex-col justify-between p-6 sm:p-7 bg-forest-deep cursor-pointer transform hover:-translate-y-1"
+              className="group relative w-[82vw] max-w-[310px] sm:w-[320px] lg:w-[350px] shrink-0 snap-start aspect-[3/4] overflow-hidden border border-white/15 hover:border-champagne/70 transition-all duration-500 flex flex-col justify-between p-6 sm:p-7 bg-forest-deep cursor-pointer transform hover:-translate-y-1"
             >
               {/* Background Photo */}
               <Image

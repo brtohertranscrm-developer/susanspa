@@ -95,7 +95,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
 
         {/* 1. Hero Gallery & Interactive Switcher */}
         <div className="space-y-4">
-          <div className="relative aspect-[16/9] w-full rounded-3xl overflow-hidden shadow-2xl border border-stone/30">
+          <div className="relative aspect-[16/9] w-full overflow-hidden shadow-2xl border border-stone/30">
             <Image
               src={room.images[selectedImageIndex] || room.images[0]}
               alt={room.name}
@@ -113,7 +113,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
                 <button
                   key={idx}
                   onClick={() => setSelectedImageIndex(idx)}
-                  className={`relative aspect-[4/3] rounded-xl overflow-hidden border-2 transition-all ${
+                  className={`relative aspect-[4/3] overflow-hidden border-2 transition-all ${
                     selectedImageIndex === idx
                       ? 'border-champagne scale-95 shadow-md'
                       : 'border-transparent opacity-70 hover:opacity-100'

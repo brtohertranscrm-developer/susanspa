@@ -11,7 +11,7 @@ interface WeddingCardProps {
 
 export const WeddingCard: React.FC<WeddingCardProps> = ({ pkg, onInquire }) => {
   return (
-    <div className="bg-forest-deep/80 border border-champagne/20 rounded-2xl overflow-hidden hover:border-champagne/60 transition-all duration-500 flex flex-col h-full shadow-lg">
+    <div className="bg-forest-deep/80 border border-champagne/20 overflow-hidden hover:border-champagne/60 transition-all duration-500 flex flex-col h-full shadow-lg">
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
           src={pkg.image || 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop'}

@@ -71,7 +71,7 @@ export default function RoomDetailClient({ room, rooms }: { room: Room; rooms: R
 
         {/* Gallery Showcase */}
         <div className="space-y-4">
-          <div className="relative aspect-[16/9] w-full rounded-3xl overflow-hidden shadow-2xl border border-stone/30">
+          <div className="relative aspect-[16/9] w-full overflow-hidden shadow-2xl border border-stone/30">
             <Image
               src={room.images[selectedImageIndex]}
               alt={room.name}
@@ -89,7 +89,7 @@ export default function RoomDetailClient({ room, rooms }: { room: Room; rooms: R
                 aria-label={`View ${room.name} photo ${idx + 1}`}
                 aria-pressed={selectedImageIndex === idx}
                 onClick={() => setSelectedImageIndex(idx)}
-                className={`relative aspect-[4/3] rounded-xl overflow-hidden border-2 transition-all ${
+                className={`relative aspect-[4/3] overflow-hidden border-2 transition-all ${
                   selectedImageIndex === idx ? 'border-champagne scale-95 shadow-lg' : 'border-transparent opacity-70 hover:opacity-100'
                 }`}
               >

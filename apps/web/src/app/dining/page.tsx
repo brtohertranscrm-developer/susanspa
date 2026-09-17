@@ -39,8 +39,8 @@ export default function DiningPage() {
 
       <section className="py-20 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {DINING_VENUES.map((venue) => (
-          <div key={venue.id} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-forest-deep text-ivory rounded-3xl p-8 sm:p-12 border border-champagne/30 shadow-2xl">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+          <div key={venue.id} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-forest-deep text-ivory p-8 sm:p-12 border border-champagne/30 shadow-2xl">
+            <div className="relative aspect-[4/3] overflow-hidden">
               <Image src={venue.image} alt={venue.name} fill className="object-cover" />
             </div>
 

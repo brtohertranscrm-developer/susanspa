@@ -81,7 +81,7 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
 
         {/* 2. Hero Image & Switcher */}
         <div className="space-y-4">
-          <div className="relative aspect-[16/9] w-full rounded-3xl overflow-hidden shadow-2xl border border-stone/30">
+          <div className="relative aspect-[16/9] w-full overflow-hidden shadow-2xl border border-stone/30">
             <Image
               src={images[selectedImageIndex] || images[0]}
               alt={pkg.name}
@@ -98,7 +98,7 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
                 <button
                   key={idx}
                   onClick={() => setSelectedImageIndex(idx)}
-                  className={`relative aspect-[4/3] rounded-xl overflow-hidden border-2 transition-all ${
+                  className={`relative aspect-[4/3] overflow-hidden border-2 transition-all ${
                     selectedImageIndex === idx
                       ? 'border-champagne scale-95 shadow-md'
                       : 'border-transparent opacity-70 hover:opacity-100'

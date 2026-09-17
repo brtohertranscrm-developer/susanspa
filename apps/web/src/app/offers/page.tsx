@@ -39,7 +39,7 @@ export default function OffersPage() {
       <section className="py-20 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {OFFERS.map((offer) => (
-            <div key={offer.id} className="bg-forest-deep text-ivory rounded-3xl overflow-hidden border border-champagne/30 shadow-2xl flex flex-col justify-between">
+            <div key={offer.id} className="bg-forest-deep text-ivory overflow-hidden border border-champagne/30 shadow-2xl flex flex-col justify-between">
               <div className="relative aspect-[16/9]">
                 <Image src={offer.image} alt={offer.title} fill className="object-cover" />
                 <div className="absolute top-4 left-4 bg-champagne text-forest-deep text-[10px] uppercase font-semibold tracking-wider px-3 py-1 rounded-full">

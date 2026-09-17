@@ -103,7 +103,7 @@ export const GalleryGrid: React.FC = () => {
             <div
               key={item.id}
               onClick={() => openLightbox(idx)}
-              className={`group relative rounded-3xl overflow-hidden cursor-pointer border border-stone/30 hover:border-champagne shadow-md hover:shadow-2xl transition-all duration-500 bg-forest-deep ${aspectClass}`}
+              className={`group relative overflow-hidden cursor-pointer border border-stone/30 hover:border-champagne shadow-md hover:shadow-2xl transition-all duration-500 bg-forest-deep ${aspectClass}`}
             >
               {item.image && (
                 <Image
@@ -193,7 +193,7 @@ export const GalleryGrid: React.FC = () => {
             onClick={(e) => e.stopPropagation()}
             className="max-w-5xl w-full space-y-4 cursor-default"
           >
-            <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-champagne/40 shadow-2xl bg-black/40">
+            <div className="relative aspect-[16/10] w-full overflow-hidden border border-champagne/40 shadow-2xl bg-black/40">
               <Image
                 src={filteredItems[selectedImageIndex].image}
                 alt={filteredItems[selectedImageIndex].title}

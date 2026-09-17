@@ -11,7 +11,7 @@ interface TreatmentCardProps {
 
 export const TreatmentCard: React.FC<TreatmentCardProps> = ({ treatment, onBook }) => {
   return (
-    <div className="bg-forest-deep/80 border border-champagne/20 rounded-2xl overflow-hidden hover:border-champagne/60 transition-all duration-500 flex flex-col h-full shadow-lg">
+    <div className="bg-forest-deep/80 border border-champagne/20 overflow-hidden hover:border-champagne/60 transition-all duration-500 flex flex-col h-full shadow-lg">
       <div className="relative aspect-[16/9] overflow-hidden">
         <Image
           src={treatment.image}

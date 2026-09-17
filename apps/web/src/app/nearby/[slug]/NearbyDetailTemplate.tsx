@@ -93,7 +93,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main Content & Visual */}
           <div className="lg:col-span-2 space-y-8">
-            <div className="relative aspect-[16/10] w-full rounded-3xl overflow-hidden shadow-2xl border border-stone/30">
+            <div className="relative aspect-[16/10] w-full overflow-hidden shadow-2xl border border-stone/30">
               <Image
                 src={destination.image}
                 alt={destination.name}

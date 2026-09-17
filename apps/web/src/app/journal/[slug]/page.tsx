@@ -58,7 +58,7 @@ export default function JournalDetailPage() {
           </div>
         </div>
 
-        <div className="relative aspect-[16/9] w-full rounded-3xl overflow-hidden shadow-2xl border border-stone/30">
+        <div className="relative aspect-[16/9] w-full overflow-hidden shadow-2xl border border-stone/30">
           <Image src={article.coverImage} alt={article.title} fill priority className="object-cover" />
         </div>
 

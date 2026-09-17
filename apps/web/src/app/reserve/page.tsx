@@ -394,8 +394,8 @@ export default function ReservePage() {
           <div className="lg:col-span-5 space-y-6">
             {/* Selected Room Preview Card */}
             {serviceType === 'room' && currentRoom && (
-              <div className="bg-white border border-stone-200/90 rounded-3xl overflow-hidden shadow-lg space-y-4 p-5 sm:p-6">
-                <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-forest-deep">
+              <div className="bg-white border border-stone-200/90 overflow-hidden shadow-lg space-y-4 p-5 sm:p-6">
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-forest-deep">
                   <Image
                     src={currentRoom.images[0] || 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200'}
                     alt={currentRoom.name}

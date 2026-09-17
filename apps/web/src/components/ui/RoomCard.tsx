@@ -12,7 +12,7 @@ interface RoomCardProps {
 
 export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
   return (
-    <div className="group bg-white border border-stone-200/90 hover:border-champagne/80 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col h-full hover:-translate-y-1">
+    <div className="group bg-white border border-stone-200/90 hover:border-champagne/80 overflow-hidden transition-all duration-500 flex flex-col h-full hover:-translate-y-1">
       {/* Image Container */}
       <div className="relative aspect-[16/10] overflow-hidden bg-forest-deep">
         <Image

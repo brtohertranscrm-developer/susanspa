@@ -291,7 +291,7 @@ export default function ContactPage() {
             </a>
           </div>
 
-          <div className="relative aspect-[16/10] sm:aspect-[21/9] rounded-3xl overflow-hidden border border-stone/30 shadow-xl bg-forest-deep">
+          <div className="relative aspect-[16/10] sm:aspect-[21/9] overflow-hidden border border-stone/30 shadow-xl bg-forest-deep">
             <iframe
               title="Susan Spa & Resort Map Embed"
               src={SITE_CONFIG.mapEmbedUrl}
