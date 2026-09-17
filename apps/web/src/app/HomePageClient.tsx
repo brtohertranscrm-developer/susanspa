@@ -313,7 +313,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
 
           {/* Right Photographic Visual */}
           <div className="lg:col-span-6">
-            <div className="relative aspect-[16/11] rounded-3xl overflow-hidden border border-stone-200/90 bg-stone-100 shadow-sm">
+            <div className="relative aspect-[16/11] overflow-hidden border border-stone-200/90 bg-stone-100 shadow-sm">
               <Image
                 src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop"
                 alt="Resort landscape in Bandungan highlands"
@@ -349,7 +349,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left Photographic Showcase */}
             <div className="lg:col-span-5 order-2 lg:order-1">
-              <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-stone-200/90 bg-stone-100 shadow-sm">
+              <div className="relative aspect-[4/3] overflow-hidden border border-stone-200/90 bg-stone-100 shadow-sm">
                 <Image
                   src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1000&auto=format&fit=crop"
                   alt="Spa and wellness at Susan Spa & Resort"
@@ -469,7 +469,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
 
           {/* Right Chapel Visual */}
           <div className="lg:col-span-5">
-            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-white/20 bg-forest-deep shadow-md">
+            <div className="relative aspect-[4/3] overflow-hidden border border-white/20 bg-forest-deep shadow-md">
               <Image
                 src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop"
                 alt="La Kana Chapel Susan Spa & Resort"

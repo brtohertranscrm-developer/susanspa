@@ -97,7 +97,7 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
           {displayRooms.map((room, idx) => (
             <div
               key={room.id}
-              className="group relative w-[85vw] max-w-[340px] sm:w-[360px] md:w-full shrink-0 snap-start bg-white border border-stone-200/90 hover:border-champagne/80 rounded-3xl overflow-hidden transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5"
+              className="group relative w-[85vw] max-w-[340px] sm:w-[360px] md:w-full shrink-0 snap-start bg-white border border-stone-200/90 hover:border-champagne/80 overflow-hidden transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5"
             >
               {/* Photo Container (Slightly Larger & Crisp) */}
               <div className="relative aspect-[16/10] overflow-hidden bg-forest-deep">
