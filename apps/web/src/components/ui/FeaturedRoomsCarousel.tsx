@@ -128,7 +128,7 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
                   <h3 className="font-serif text-2xl sm:text-[26px] text-forest-deep group-hover:text-botanical transition-colors font-normal leading-snug">
                     {room.name}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#4A5852] line-clamp-2 leading-relaxed font-normal">
+                  <p className="text-xs sm:text-sm text-[#23332B] line-clamp-2 leading-relaxed font-normal">
                     {room.description || room.tagline || 'Kenyamanan eksklusif di dataran tinggi Bandungan.'}
                   </p>
                 </div>
@@ -137,7 +137,7 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
                 <div className="grid grid-cols-3 gap-2 py-3 border-y border-stone-200/70 text-center">
                   <div className="space-y-1">
                     <Maximize2 className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-                    <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-medium">Luas Kamar</span>
+                    <span className="text-[10px] text-[#3B4C43] uppercase block tracking-wider font-semibold">Luas Kamar</span>
                     <span className="font-semibold text-forest-deep text-xs sm:text-sm">
                       {room.sizeSqm ? `${room.sizeSqm}m²` : '-'}
                     </span>
@@ -145,7 +145,7 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
 
                   <div className="space-y-1 border-x border-stone-200/60 px-1">
                     <Users className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-                    <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-medium">Kapasitas</span>
+                    <span className="text-[10px] text-[#3B4C43] uppercase block tracking-wider font-semibold">Kapasitas</span>
                     <span className="font-semibold text-forest-deep text-xs sm:text-sm">
                       {roomCapacity(room)}
                     </span>
@@ -153,7 +153,7 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
 
                   <div className="space-y-1">
                     <BedDouble className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-                    <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-medium">Tipe Kasur</span>
+                    <span className="text-[10px] text-[#3B4C43] uppercase block tracking-wider font-semibold">Tipe Kasur</span>
                     <span className="font-semibold text-forest-deep text-xs sm:text-sm line-clamp-1">
                       {room.bedType || '-'}
                     </span>
@@ -194,28 +194,28 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
             />
           </div>
 
-          <span className="text-xs font-mono text-stone-500">
-            0{currentIndex + 1} <span className="text-stone-300">/</span> 0{displayRooms.length}
+          <span className="text-xs font-mono text-[#3B4C43] font-medium">
+            0{currentIndex + 1} <span className="text-stone-400">/</span> 0{displayRooms.length}
           </span>
         </div>
 
         {/* Mobile Swipe Cue */}
-        <div className="flex items-center space-x-1.5 text-[11px] text-botanical font-medium">
-          <span className="tracking-wider uppercase">Geser untuk melihat 3 pilihan</span>
+        <div className="flex items-center space-x-1.5 text-[11px] text-[#1E5638] font-semibold">
+          <span className="tracking-wider uppercase">Geser pilihan</span>
           <ArrowRight className="w-3 h-3 animate-pulse" />
         </div>
       </div>
 
-      {/* Navigation Banner for Remaining Accommodations ("Selebihnya pindah halaman") */}
-      <div className="mt-8 pt-8 border-t border-stone-200/70 text-center space-y-4">
-        <div className="inline-flex items-center space-x-2 text-xs text-stone-500 font-medium tracking-wide">
-          <span>Menampilkan 3 dari 11 tipe akomodasi resmi Susan Spa & Resort</span>
+      {/* Mobile Navigation Banner for Remaining Accommodations (Hidden on Desktop to prevent duplicate scroll) */}
+      <div className="md:hidden mt-6 pt-6 border-t border-stone-200/70 text-center space-y-3">
+        <div className="inline-flex items-center space-x-2 text-xs text-[#3B4C43] font-medium tracking-wide">
+          <span>Menampilkan 3 dari 11 tipe akomodasi</span>
         </div>
 
         <div>
           <Link
             href="/rooms"
-            className="inline-flex items-center space-x-2.5 bg-forest-deep hover:bg-forest text-champagne hover:text-champagne-light px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] transition-all duration-300 transform hover:scale-105 shadow-sm"
+            className="inline-flex items-center space-x-2 bg-forest-deep hover:bg-forest text-champagne hover:text-champagne-light px-7 py-3 rounded-full text-xs font-bold uppercase tracking-[0.16em] transition-all shadow-sm"
           >
             <span>Jelajahi 11 Pilihan Kamar & Villa</span>
             <ArrowRight className="w-4 h-4" />
