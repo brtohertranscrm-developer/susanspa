@@ -11,7 +11,6 @@ import {
   ChevronRight,
   Pause,
   Play,
-  Compass,
 } from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
@@ -27,25 +26,21 @@ const HERO_SLIDES = [
     image: 'https://dksw6vf0i66fe.cloudfront.net/website_page_image/image/12d19f0e-b71c-4715-8fef-8955de6a998d_1726641103.webp',
     title: 'Kesejukan Lereng Gunung Ungaran',
     subtitle: 'Menikmati Panorama Pegunungan yang Menenangkan & Asri di Ketinggian ±1.100 mdpl',
-    tag: 'Kawasan Sejuk Bandungan ~1.100 mdpl',
   },
   {
     image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=2000&auto=format&fit=crop',
     title: 'Relaksasi Spa on the Sky',
     subtitle: 'Sentuhan Tradisi Herbal Keraton Jawa Berpadu Kemurnian Udara Pegunungan',
-    tag: 'Wellness & Herbal Spa Alami',
   },
   {
     image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop',
     title: 'Kemegahan Kapel Kaca La Kana',
     subtitle: 'Mewujudkan Momen Sakral Bersejarah Berlatar Lanskap Lembah & Langit Terbuka',
-    tag: 'Kapel Pernikahan Ikonik',
   },
   {
     image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2000&auto=format&fit=crop',
     title: 'Kenyamanan Menginap di Atas Awan',
     subtitle: 'Harmoni Kebugaran Tradisional, Akomodasi Nyaman, dan Udara Sejuk Pegunungan',
-    tag: 'Sanctuary Relaksasi Keluarga',
   },
 ];
 
@@ -128,12 +123,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
         ))}
 
         {/* Hero Central Content */}
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center text-ivory space-y-5 my-auto pt-6">
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-forest-deep/80 border border-white/20 text-champagne text-xs uppercase tracking-[0.25em] backdrop-blur-md">
-            <Compass className="w-3.5 h-3.5" />
-            <span>{HERO_SLIDES[currentHeroSlide].tag}</span>
-          </div>
-
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center text-ivory space-y-6 my-auto pt-6">
           <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal leading-[1.14] text-white tracking-tight max-w-3xl mx-auto">
             Peristirahatan menenangkan di lereng Bandungan dengan{' '}
             <span className="italic font-normal text-champagne">
