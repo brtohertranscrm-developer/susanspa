@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { Menu } from 'lucide-react';
 import { SITE_CONFIG } from '@/data/site';
 import { cn } from '@/lib/utils';
@@ -16,13 +15,9 @@ interface HeaderProps {
   hideDesktopNav?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenReserve, hideDesktopNav }) => {
-  const pathname = usePathname();
+export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const isHomePage = pathname === '/';
-  const shouldHideNav = hideDesktopNav ?? isHomePage;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,17 +27,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve, hideDesktopNav })
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const navLinks = [
-    { label: 'Beranda', href: '/' },
-    { label: 'Kamar & Villa', href: '/rooms' },
-    { label: 'Spa', href: '/spa' },
-    { label: 'Fasilitas', href: '/facilities' },
-    { label: 'Pernikahan', href: '/wedding' },
-    { label: 'Galeri', href: '/gallery' },
-    { label: 'Wisata Sekitar', href: '/nearby' },
-    { label: 'Kontak', href: '/contact' },
-  ];
 
   return (
     <>
@@ -66,35 +50,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve, hideDesktopNav })
               className="h-10 sm:h-12 w-auto object-contain transition-all duration-300 group-hover:scale-105 drop-shadow-md"
             />
           </Link>
-
-          {/* Desktop Main Navigation (Hidden on homepage in favor of full overlay menu) */}
-          {!shouldHideNav && (
-            <nav className="hidden lg:flex items-center space-x-7 xl:space-x-8">
-              {navLinks.map((link) => {
-                const isActive =
-                  link.href === '/'
-                    ? pathname === '/'
-                    : pathname === link.href || pathname.startsWith(`${link.href}/`);
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      'text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300 relative py-1',
-                      isActive
-                        ? 'text-champagne font-semibold'
-                        : 'text-ivory/90 hover:text-champagne'
-                    )}
-                  >
-                    {link.label}
-                    {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-champagne rounded-full" />
-                    )}
-                  </Link>
-                );
-              })}
-            </nav>
-          )}
 
           {/* Desktop Right Side CTA & Menu Trigger */}
           <div className="hidden lg:flex items-center space-x-3 xl:space-x-4">
