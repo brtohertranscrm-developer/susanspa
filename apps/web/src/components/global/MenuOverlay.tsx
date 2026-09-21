@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import {
   X,
   ChevronRight,
+  ChevronDown,
   Instagram,
   Facebook,
   MessageCircle,
@@ -32,6 +33,18 @@ interface WeatherData {
   condition: string;
 }
 
+interface SubMenuItem {
+  label: string;
+  href: string;
+}
+
+interface MenuCategory {
+  id: string;
+  label: string;
+  href?: string;
+  subItems?: SubMenuItem[];
+}
+
 export const MenuOverlay: React.FC<MenuOverlayProps> = ({
   isOpen,
   onClose,
@@ -40,6 +53,13 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
   const pathname = usePathname();
   const overlayRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Active category for the 2-column desktop layout
+  const [activeCategoryId, setActiveCategoryId] = useState<string>('rooms');
+  // Expanded categories for mobile accordion layout
+  const [expandedMobileCategories, setExpandedMobileCategories] = useState<Record<string, boolean>>({
+    rooms: true,
+  });
 
   // Live Bandungan weather state with verified highland fallback
   const [weather, setWeather] = useState<WeatherData>({
@@ -142,18 +162,82 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
 
   if (!isOpen) return null;
 
-  const navLinks = [
-    { label: 'Kamar & Villa', href: '/rooms' },
-    { label: 'Spa & Kebugaran', href: '/spa' },
-    { label: 'Restoran & Kuliner', href: '/dining' },
-    { label: 'Fasilitas Resort', href: '/facilities' },
-    { label: 'La Kana Chapel & Wedding', href: '/wedding' },
-    { label: 'Paket & Penawaran', href: '/offers' },
-    { label: 'Pengalaman & Rekreasi', href: '/experiences' },
-    { label: 'Galeri Foto & Video', href: '/gallery' },
-    { label: 'Wisata Sekitar Bandungan', href: '/nearby' },
-    { label: 'Tentang Susan Spa', href: '/about' },
-    { label: 'Kontak & Lokasi', href: '/contact' },
+  // Categorized navigation hierarchy
+  const menuCategories: MenuCategory[] = [
+    {
+      id: 'rooms',
+      label: 'Kamar & Villa',
+      href: '/rooms',
+      subItems: [
+        { label: 'Semua Kamar & Villa', href: '/rooms' },
+        { label: 'Villa Kolam Renang Privat', href: '/rooms' },
+        { label: 'Suite Keluarga & Mewah', href: '/rooms' },
+        { label: 'Reservasi Menginap', href: '/reserve' },
+      ],
+    },
+    {
+      id: 'spa',
+      label: 'Wellness & Spa',
+      href: '/spa',
+      subItems: [
+        { label: 'Susan Spa & Signature Rituals', href: '/spa' },
+        { label: 'Kolam Air Hangat Semispoor', href: '/facilities' },
+        { label: 'Fasilitas Kebugaran & Sauna', href: '/facilities' },
+        { label: 'Reservasi Perawatan Spa', href: '/spa' },
+      ],
+    },
+    {
+      id: 'dining',
+      label: 'Restoran & Kuliner',
+      href: '/dining',
+      subItems: [
+        { label: 'Sky Garden Cafe & Resto', href: '/dining' },
+        { label: 'Menu & Pengalaman Bersantap', href: '/dining' },
+        { label: 'Romantic Mountain Dinner', href: '/dining' },
+      ],
+    },
+    {
+      id: 'experiences',
+      label: 'Pengalaman & Rekreasi',
+      href: '/experiences',
+      subItems: [
+        { label: 'Aktivitas & Fasilitas Resort', href: '/facilities' },
+        { label: 'Eden Park Bandungan', href: '/facilities' },
+        { label: 'Wisata Sekitar Bandungan', href: '/nearby' },
+        { label: 'Galeri Foto & Video', href: '/gallery' },
+      ],
+    },
+    {
+      id: 'wedding',
+      label: 'La Kana Chapel & Events',
+      href: '/wedding',
+      subItems: [
+        { label: 'La Kana Wedding Chapel', href: '/wedding' },
+        { label: 'Paket & Venue Pernikahan', href: '/wedding' },
+        { label: 'Pertemuan & Acara Privat', href: '/events' },
+        { label: 'Konsultasi Wedding & Event', href: '/wedding' },
+      ],
+    },
+    {
+      id: 'offers',
+      label: 'Paket & Penawaran',
+      href: '/offers',
+    },
+    {
+      id: 'about',
+      label: 'Tentang Susan Spa',
+      href: '/about',
+      subItems: [
+        { label: 'Kisah & Filosofi Resort', href: '/about' },
+        { label: 'Jurnal & Inspirasi Liburan', href: '/journal' },
+        { label: 'Galeri Resort', href: '/gallery' },
+      ],
+    },
+    {
+      id: 'contact',
+      label: 'Kontak & Lokasi',
+      href: '/contact',
+    },
   ];
 
   const subLinks = [
@@ -169,6 +253,16 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
     { name: 'EDEN PARK BANDUNGAN', href: '/facilities' },
   ];
 
+  const activeCategory =
+    menuCategories.find((cat) => cat.id === activeCategoryId) || menuCategories[0];
+
+  const toggleMobileCategory = (id: string) => {
+    setExpandedMobileCategories((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
   return (
     <div
       ref={overlayRef}
@@ -177,7 +271,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
       aria-label="Menu Navigasi Susan Spa & Resort"
       className="fixed inset-0 z-50 overflow-y-auto bg-white text-forest-deep animate-fade-in flex flex-col justify-between"
     >
-      {/* 1. TOP BAR (WHITE BACKGROUND) */}
+      {/* 1. TOP BAR */}
       <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm border-b border-stone/20">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-12 py-4 flex items-center justify-between">
           {/* Close button with clear icon and text */}
@@ -222,10 +316,11 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
         </div>
       </div>
 
-      {/* 2. MAIN CONTENT AREA (WHITE BACKGROUND) */}
+      {/* 2. MAIN CONTENT AREA (2-COLUMN SPLIT DESKTOP / ACCORDION MOBILE) */}
       <div className="flex-1 bg-white">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-12 py-8 lg:py-12">
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-14 xl:gap-20">
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8 lg:py-12">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-16">
+            
             {/* 2A. Far-Left Social Rail (Desktop vertical rail, mobile horizontal) */}
             <div className="flex lg:flex-col items-center lg:items-start space-x-6 lg:space-x-0 lg:space-y-6 shrink-0 lg:pt-2 border-b lg:border-b-0 lg:border-r border-stone/20 pb-4 lg:pb-0 lg:pr-8">
               <a
@@ -266,46 +361,232 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
               </a>
             </div>
 
-            {/* 2B. Navigation Links Column (Serif typography with chevrons) */}
-            <div className="flex-1">
-              <nav aria-label="Menu Utama">
-                <ul className="space-y-1 sm:space-y-1.5">
-                  {navLinks.map((link) => {
-                    const isActive =
-                      link.href === '/'
-                        ? pathname === '/'
-                        : pathname === link.href || pathname.startsWith(`${link.href}/`);
-                    return (
-                      <li key={link.href} className="border-b border-stone/15 last:border-b-0">
-                        <Link
-                          href={link.href}
-                          onClick={onClose}
-                          className={cn(
-                            'group flex items-center justify-between py-2 sm:py-2.5 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-sm min-h-[44px]',
-                            isActive
-                              ? 'text-terracotta font-semibold'
-                              : 'text-forest-deep hover:text-terracotta'
+            {/* 2B. Desktop Two-Column Layout (Hidden on Mobile) */}
+            <div className="hidden lg:flex flex-1 gap-10 xl:gap-16">
+              
+              {/* Primary Categories Column (Left) */}
+              <div className="w-[45%] xl:w-[42%] shrink-0 pr-8 border-r border-stone/20">
+                <nav aria-label="Kategori Menu Utama">
+                  <ul className="space-y-1">
+                    {menuCategories.map((category) => {
+                      const isSelected = activeCategoryId === category.id;
+                      const hasSubmenu = Boolean(category.subItems && category.subItems.length > 0);
+
+                      return (
+                        <li key={category.id}>
+                          {hasSubmenu ? (
+                            <button
+                              type="button"
+                              onClick={() => setActiveCategoryId(category.id)}
+                              onMouseEnter={() => setActiveCategoryId(category.id)}
+                              onFocus={() => setActiveCategoryId(category.id)}
+                              className={cn(
+                                'group w-full flex items-center justify-between py-2 xl:py-2.5 text-left transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-sm min-h-[44px]',
+                                isSelected
+                                  ? 'text-terracotta font-semibold'
+                                  : 'text-forest-deep hover:text-terracotta'
+                              )}
+                              aria-expanded={isSelected}
+                            >
+                              <div className="flex items-center space-x-3">
+                                {isSelected ? (
+                                  <span className="w-2 h-2 rounded-full bg-terracotta shrink-0 animate-pulse" />
+                                ) : (
+                                  <span className="w-2 h-2 rounded-full bg-transparent shrink-0" />
+                                )}
+                                <span className="font-serif text-2xl xl:text-3xl tracking-tight group-hover:translate-x-1 transition-transform duration-200">
+                                  {category.label}
+                                </span>
+                              </div>
+                              <ChevronRight
+                                className={cn(
+                                  'w-5 h-5 transition-all duration-200 shrink-0 ml-4',
+                                  isSelected
+                                    ? 'text-terracotta translate-x-1'
+                                    : 'text-forest-deep/40 group-hover:text-terracotta group-hover:translate-x-1'
+                                )}
+                              />
+                            </button>
+                          ) : (
+                            <Link
+                              href={category.href || '#'}
+                              onClick={onClose}
+                              onMouseEnter={() => setActiveCategoryId(category.id)}
+                              onFocus={() => setActiveCategoryId(category.id)}
+                              className={cn(
+                                'group flex items-center justify-between py-2 xl:py-2.5 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-sm min-h-[44px]',
+                                pathname === category.href
+                                  ? 'text-terracotta font-semibold'
+                                  : 'text-forest-deep hover:text-terracotta'
+                              )}
+                            >
+                              <div className="flex items-center space-x-3">
+                                <span className="w-2 h-2 rounded-full bg-transparent shrink-0" />
+                                <span className="font-serif text-2xl xl:text-3xl tracking-tight group-hover:translate-x-1 transition-transform duration-200">
+                                  {category.label}
+                                </span>
+                              </div>
+                              <ChevronRight className="w-5 h-5 text-forest-deep/40 group-hover:text-terracotta group-hover:translate-x-1 transition-all duration-200 shrink-0 ml-4" />
+                            </Link>
                           )}
-                        >
-                          <span className="font-serif text-xl sm:text-2xl lg:text-[28px] xl:text-[32px] tracking-tight group-hover:translate-x-1 transition-transform duration-200">
-                            {link.label}
-                          </span>
-                          <ChevronRight className="w-4 sm:w-5 h-4 sm:h-5 text-forest-deep/40 group-hover:text-terracotta group-hover:translate-x-1 transition-all duration-200 shrink-0 ml-4" />
-                        </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </nav>
+
+                {/* Sub-links with left arrow indicator */}
+                <div className="mt-8 pt-6 border-t border-stone/20 flex flex-wrap gap-6 text-xs uppercase font-bold tracking-[0.18em]">
+                  {subLinks.map((sub) => (
+                    <Link
+                      key={sub.label}
+                      href={sub.href}
+                      onClick={onClose}
+                      className="inline-flex items-center text-forest-deep/70 hover:text-terracotta transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-sm"
+                    >
+                      <span className="mr-1 text-sm font-light">‹</span>
+                      <span>{sub.label}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Sub-Menu Column (Right Column) */}
+              <div className="flex-1 pl-4 xl:pl-6">
+                <div className="mb-4 pb-2 border-b border-stone/15 flex items-center justify-between">
+                  <span className="text-xs uppercase font-bold tracking-[0.2em] text-forest-deep/60">
+                    {activeCategory.label}
+                  </span>
+                  {activeCategory.href && (
+                    <Link
+                      href={activeCategory.href}
+                      onClick={onClose}
+                      className="text-xs uppercase font-bold tracking-[0.18em] text-terracotta hover:underline"
+                    >
+                      Lihat Halaman Utama ›
+                    </Link>
+                  )}
+                </div>
+
+                {activeCategory.subItems && activeCategory.subItems.length > 0 ? (
+                  <nav aria-label={`Sub-menu ${activeCategory.label}`}>
+                    <ul className="space-y-2">
+                      {activeCategory.subItems.map((subItem) => {
+                        const isSubActive =
+                          pathname === subItem.href &&
+                          (subItem.href !== '/rooms' || subItem.label === 'Semua Kamar & Villa');
+
+                        return (
+                          <li key={subItem.label}>
+                            <Link
+                              href={subItem.href}
+                              onClick={onClose}
+                              className={cn(
+                                'group flex items-center justify-between py-3 px-4 rounded-md transition-all duration-200 min-h-[50px] focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none',
+                                isSubActive
+                                  ? 'bg-ivory-warm/60 text-terracotta font-semibold'
+                                  : 'text-forest-deep hover:text-terracotta hover:bg-stone/10'
+                              )}
+                            >
+                              <span className="font-serif text-xl xl:text-2xl tracking-tight group-hover:translate-x-1.5 transition-transform duration-200">
+                                {subItem.label}
+                              </span>
+                              <ChevronRight className="w-5 h-5 text-forest-deep/35 group-hover:text-terracotta group-hover:translate-x-1.5 transition-all duration-200 shrink-0" />
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </nav>
+                ) : (
+                  <div className="py-8 text-forest-deep/70">
+                    <p className="font-serif text-xl mb-4">
+                      Temukan informasi lengkap mengenai {activeCategory.label} di Susan Spa & Resort.
+                    </p>
+                    <Link
+                      href={activeCategory.href || '#'}
+                      onClick={onClose}
+                      className="inline-flex items-center text-xs uppercase font-bold tracking-[0.2em] text-forest-deep hover:text-terracotta border-b border-forest-deep pb-1 transition-colors"
+                    >
+                      Kunjungi Halaman
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* 2C. Mobile Accordion Navigation (Visible on Small & Medium Screens) */}
+            <div className="lg:hidden flex-1">
+              <nav aria-label="Menu Mobile">
+                <ul className="space-y-1">
+                  {menuCategories.map((category) => {
+                    const hasSubmenu = Boolean(category.subItems && category.subItems.length > 0);
+                    const isExpanded = Boolean(expandedMobileCategories[category.id]);
+
+                    return (
+                      <li key={category.id} className="border-b border-stone/15 last:border-b-0 pb-1">
+                        {hasSubmenu ? (
+                          <div>
+                            <button
+                              type="button"
+                              onClick={() => toggleMobileCategory(category.id)}
+                              className="w-full flex items-center justify-between py-3 text-left transition-colors min-h-[48px] focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none"
+                              aria-expanded={isExpanded}
+                            >
+                              <span className="font-serif text-2xl text-forest-deep">
+                                {category.label}
+                              </span>
+                              {isExpanded ? (
+                                <ChevronDown className="w-5 h-5 text-terracotta" />
+                              ) : (
+                                <ChevronRight className="w-5 h-5 text-forest-deep/40" />
+                              )}
+                            </button>
+
+                            {isExpanded && category.subItems && (
+                              <div className="pl-4 pb-3 pt-1 space-y-1 bg-stone/5 rounded-md mb-2">
+                                {category.subItems.map((subItem) => (
+                                  <Link
+                                    key={subItem.label}
+                                    href={subItem.href}
+                                    onClick={onClose}
+                                    className="flex items-center justify-between py-2.5 pr-3 text-forest-deep/90 hover:text-terracotta transition-colors min-h-[44px]"
+                                  >
+                                    <span className="text-base font-serif">
+                                      {subItem.label}
+                                    </span>
+                                    <ChevronRight className="w-4 h-4 text-forest-deep/30 shrink-0" />
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <Link
+                            href={category.href || '#'}
+                            onClick={onClose}
+                            className="flex items-center justify-between py-3 text-forest-deep hover:text-terracotta transition-colors min-h-[48px] focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none"
+                          >
+                            <span className="font-serif text-2xl">
+                              {category.label}
+                            </span>
+                            <ChevronRight className="w-5 h-5 text-forest-deep/40" />
+                          </Link>
+                        )}
                       </li>
                     );
                   })}
                 </ul>
               </nav>
 
-              {/* Sub-links with left arrow indicator */}
-              <div className="mt-8 pt-6 border-t border-stone/20 flex flex-wrap gap-6 text-xs uppercase font-bold tracking-[0.18em]">
+              {/* Sub-links mobile */}
+              <div className="mt-8 pt-6 border-t border-stone/20 flex flex-wrap gap-4 text-xs uppercase font-bold tracking-[0.18em]">
                 {subLinks.map((sub) => (
                   <Link
                     key={sub.label}
                     href={sub.href}
                     onClick={onClose}
-                    className="inline-flex items-center text-forest-deep/70 hover:text-terracotta transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-sm"
+                    className="inline-flex items-center text-forest-deep/70 hover:text-terracotta transition-colors min-h-[44px]"
                   >
                     <span className="mr-1 text-sm font-light">‹</span>
                     <span>{sub.label}</span>
@@ -314,89 +595,22 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
               </div>
             </div>
 
-            {/* 2C. Featured Cards Column (Right side on desktop) */}
-            <div className="w-full lg:w-[380px] xl:w-[420px] shrink-0 flex flex-col gap-6 pt-2">
-              {/* Card 1: Featured Package */}
-              <div className="group border border-stone/25 rounded-md overflow-hidden bg-ivory-warm/40 hover:bg-ivory-warm/80 transition-all duration-300 shadow-sm hover:shadow-md">
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  <Image
-                    src="https://images.unsplash.com/photo-1591088398332-8a7791972843?q=80&w=1600&auto=format&fit=crop"
-                    alt="Paket Liburan Romantis Pegunungan di Susan Spa & Resort"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 420px"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute top-3 left-3 bg-forest-deep/85 backdrop-blur-sm text-ivory text-[10px] uppercase font-bold tracking-[0.2em] px-2.5 py-1 rounded-sm">
-                    PENAWARAN SPESIAL
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-serif text-lg sm:text-xl font-bold text-forest-deep leading-snug group-hover:text-terracotta transition-colors">
-                    Paket Liburan Romantis Pegunungan
-                  </h3>
-                  <p className="text-xs text-charcoal-soft leading-relaxed mt-2 line-clamp-2">
-                    Momen istimewa berdua di Grand Suite dengan fasilitas private jacuzzi air hangat dan santap malam romantis di udara sejuk Bandungan.
-                  </p>
-                  <div className="mt-4 pt-3 border-t border-stone/20">
-                    <Link
-                      href="/offers"
-                      onClick={onClose}
-                      className="inline-flex items-center text-xs uppercase font-bold tracking-[0.2em] text-forest-deep group-hover:text-terracotta border-b border-forest-deep group-hover:border-terracotta pb-0.5 transition-colors focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none"
-                    >
-                      LIHAT DETAIL
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 2: Featured Spa Ritual */}
-              <div className="group border border-stone/25 rounded-md overflow-hidden bg-ivory-warm/40 hover:bg-ivory-warm/80 transition-all duration-300 shadow-sm hover:shadow-md">
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  <Image
-                    src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1600&auto=format&fit=crop"
-                    alt="Susan Royal Herbal Ritual"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 420px"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute top-3 left-3 bg-forest-deep/85 backdrop-blur-sm text-ivory text-[10px] uppercase font-bold tracking-[0.2em] px-2.5 py-1 rounded-sm">
-                    WELLNESS & SPA RITUAL
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-serif text-lg sm:text-xl font-bold text-forest-deep leading-snug group-hover:text-terracotta transition-colors">
-                    Susan Royal Herbal Ritual
-                  </h3>
-                  <p className="text-xs text-charcoal-soft leading-relaxed mt-2 line-clamp-2">
-                    Ritual perawatan tubuh warisan tradisi keraton Jawa yang menenangkan, memadukan lulur rempah aromatik dan berendam kelopak mawar.
-                  </p>
-                  <div className="mt-4 pt-3 border-t border-stone/20">
-                    <Link
-                      href="/spa"
-                      onClick={onClose}
-                      className="inline-flex items-center text-xs uppercase font-bold tracking-[0.2em] text-forest-deep group-hover:text-terracotta border-b border-forest-deep group-hover:border-terracotta pb-0.5 transition-colors focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none"
-                    >
-                      LIHAT DETAIL
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
       {/* 3. BOTTOM BAR (GREEN BACKGROUND #10241F) */}
       <div className="bg-[#10241F] text-ivory border-t border-champagne/25">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-12 py-10 lg:py-12">
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-12 py-8 lg:py-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+            
             {/* 3A. Weather Widget Column */}
             <div className="space-y-3">
               <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-ivory/70 block">
                 BANDUNGAN, KAB. SEMARANG
               </span>
               <div className="flex items-baseline space-x-3">
-                <span className="font-serif text-4xl lg:text-5xl font-light text-white tracking-tight">
+                <span className="font-serif text-3xl lg:text-4xl font-light text-white tracking-tight">
                   {weather.temperature}°C
                 </span>
                 <span className="text-xs font-medium text-ivory/80">
@@ -486,8 +700,8 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
           </div>
 
           {/* 3D. Our Properties / Facilities Bottom Bar */}
-          <div className="mt-10 pt-6 border-t border-white/15">
-            <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-ivory/60 block mb-4">
+          <div className="mt-8 pt-6 border-t border-white/15">
+            <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-ivory/60 block mb-3">
               FASILITAS & DESTINASI KAMI
             </span>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-xs uppercase font-semibold tracking-wider text-ivory/80">
