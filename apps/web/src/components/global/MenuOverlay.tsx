@@ -15,7 +15,11 @@ import {
   CloudFog,
   Wind,
   Droplets,
-  Sparkles,
+  Hotel,
+  Church,
+  UtensilsCrossed,
+  Waves,
+  Trees,
 } from 'lucide-react';
 import { SITE_CONFIG } from '@/data/site';
 import { cn } from '@/lib/utils';
@@ -246,11 +250,11 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
   ];
 
   const properties = [
-    { name: 'SUSAN SPA & RESORT', href: '/' },
-    { name: 'LA KANA WEDDING CHAPEL', href: '/wedding' },
-    { name: 'SKY GARDEN RESTAURANT', href: '/dining' },
-    { name: 'SEMISPOOR WARM POOL', href: '/facilities' },
-    { name: 'EDEN PARK BANDUNGAN', href: '/facilities' },
+    { name: 'SUSAN SPA & RESORT', href: '/', icon: Hotel },
+    { name: 'LA KANA WEDDING CHAPEL', href: '/wedding', icon: Church },
+    { name: 'SKY GARDEN RESTAURANT', href: '/dining', icon: UtensilsCrossed },
+    { name: 'SEMISPOOR WARM POOL', href: '/facilities', icon: Waves },
+    { name: 'EDEN PARK BANDUNGAN', href: '/facilities', icon: Trees },
   ];
 
   const activeCategory =
@@ -705,17 +709,20 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
               FASILITAS & DESTINASI KAMI
             </span>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-xs uppercase font-semibold tracking-wider text-ivory/80">
-              {properties.map((prop) => (
-                <Link
-                  key={prop.name}
-                  href={prop.href}
-                  onClick={onClose}
-                  className="hover:text-champagne flex items-center space-x-1.5 transition-colors focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-sm min-h-[32px]"
-                >
-                  <Sparkles className="w-3 h-3 text-champagne/70 shrink-0" />
-                  <span>{prop.name}</span>
-                </Link>
-              ))}
+              {properties.map((prop) => {
+                const IconComponent = prop.icon;
+                return (
+                  <Link
+                    key={prop.name}
+                    href={prop.href}
+                    onClick={onClose}
+                    className="hover:text-champagne flex items-center space-x-2 transition-colors focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-sm min-h-[32px]"
+                  >
+                    <IconComponent className="w-3.5 h-3.5 text-champagne/80 shrink-0" />
+                    <span>{prop.name}</span>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>
