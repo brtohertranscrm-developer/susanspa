@@ -1,32 +1,28 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import {
-  Menu,
-  X,
-  Instagram,
-  Facebook,
-  MessageCircle,
-  Phone,
-  ChevronRight,
-} from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { SITE_CONFIG } from '@/data/site';
 import { cn } from '@/lib/utils';
 import { Room } from '@/types';
+import { MenuOverlay } from './MenuOverlay';
 
 interface HeaderProps {
   rooms?: Room[];
   onOpenReserve?: () => void;
+  hideDesktopNav?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenReserve, hideDesktopNav }) => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const isHomePage = pathname === '/';
+  const shouldHideNav = hideDesktopNav ?? isHomePage;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,55 +32,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-          setMobileMenuOpen(false);
-          return;
-        }
-
-        if (e.key === 'Tab' && mobileMenuRef.current) {
-          const focusable = mobileMenuRef.current.querySelectorAll<HTMLElement>(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-          );
-          if (focusable.length === 0) return;
-
-          const firstEl = focusable[0];
-          const lastEl = focusable[focusable.length - 1];
-
-          if (e.shiftKey) {
-            if (document.activeElement === firstEl) {
-              e.preventDefault();
-              lastEl.focus();
-            }
-          } else {
-            if (document.activeElement === lastEl) {
-              e.preventDefault();
-              firstEl.focus();
-            }
-          }
-        }
-      };
-
-      const timer = setTimeout(() => {
-        const closeBtn = mobileMenuRef.current?.querySelector<HTMLElement>('button[aria-label="Close menu"]');
-        closeBtn?.focus();
-      }, 50);
-
-      window.addEventListener('keydown', handleKeyDown);
-      return () => {
-        clearTimeout(timer);
-        document.body.style.overflow = 'unset';
-        window.removeEventListener('keydown', handleKeyDown);
-      };
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [mobileMenuOpen]);
 
   const navLinks = [
     { label: 'Beranda', href: '/' },
@@ -120,40 +67,51 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
             />
           </Link>
 
-          {/* Desktop Proposed Main Navigation */}
-          <nav className="hidden lg:flex items-center space-x-7 xl:space-x-8">
-            {navLinks.map((link) => {
-              const isActive =
-                link.href === '/'
-                  ? pathname === '/'
-                  : pathname === link.href || pathname.startsWith(`${link.href}/`);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    'text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300 relative py-1',
-                    isActive
-                      ? 'text-champagne font-semibold'
-                      : 'text-ivory/90 hover:text-champagne'
-                  )}
-                >
-                  {link.label}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-champagne rounded-full" />
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
+          {/* Desktop Main Navigation (Hidden on homepage in favor of full overlay menu) */}
+          {!shouldHideNav && (
+            <nav className="hidden lg:flex items-center space-x-7 xl:space-x-8">
+              {navLinks.map((link) => {
+                const isActive =
+                  link.href === '/'
+                    ? pathname === '/'
+                    : pathname === link.href || pathname.startsWith(`${link.href}/`);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      'text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300 relative py-1',
+                      isActive
+                        ? 'text-champagne font-semibold'
+                        : 'text-ivory/90 hover:text-champagne'
+                    )}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-champagne rounded-full" />
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
+          )}
 
-          {/* Desktop Right Side CTA */}
-          <div className="hidden lg:flex items-center">
+          {/* Desktop Right Side CTA & Menu Trigger */}
+          <div className="hidden lg:flex items-center space-x-3 xl:space-x-4">
             <button
               onClick={onOpenReserve}
-              className="bg-champagne hover:bg-champagne-light text-forest-deep px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-md hover:shadow-champagne/20 hover:scale-105"
+              className="bg-champagne hover:bg-champagne-light text-forest-deep px-5 xl:px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-md hover:shadow-champagne/20 hover:scale-105"
             >
               Reservasi
+            </button>
+
+            <button
+              onClick={() => setIsMenuOpen(true)}
+              className="flex items-center space-x-2 text-ivory hover:text-champagne px-3.5 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em] border border-champagne/35 hover:border-champagne hover:bg-forest-deep/60 transition-all duration-300 min-h-[40px]"
+              aria-label="Buka Menu Navigasi Lengkap"
+            >
+              <Menu className="w-4 h-4 text-champagne" />
+              <span>Menu</span>
             </button>
           </div>
 
@@ -167,9 +125,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
             </button>
 
             <button
-              onClick={() => setMobileMenuOpen(true)}
-              className="text-ivory hover:text-champagne p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none"
-              aria-label="Open navigation menu"
+              onClick={() => setIsMenuOpen(true)}
+              className="text-ivory hover:text-champagne p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-champagne rounded-md"
+              aria-label="Buka Menu Navigasi"
             >
               <Menu className="w-6 h-6 text-champagne" />
             </button>
@@ -177,133 +135,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
         </div>
       </header>
 
-      {/* Mobile / Tablet Full-Screen Navigation Overlay */}
-      {mobileMenuOpen && (
-        <div
-          ref={mobileMenuRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Menu Navigasi Mobile"
-          className="fixed inset-0 z-50 bg-[#10241F] text-ivory flex flex-col animate-fade-in lg:hidden"
-        >
-          {/* Top Bar */}
-          <div className="px-5 py-4 flex items-center justify-between border-b border-champagne/20">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center"
-            >
-              <Image
-                src="/images/susan-spa-logo-gold.png"
-                alt={SITE_CONFIG.name}
-                width={150}
-                height={65}
-                className="h-10 w-auto object-contain"
-              />
-            </Link>
-
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-ivory hover:text-champagne p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none"
-              aria-label="Close menu"
-            >
-              <X className="w-7 h-7 text-champagne" />
-            </button>
-          </div>
-
-          {/* Nav List */}
-          <div className="flex-1 overflow-y-auto px-6 py-8 space-y-6">
-            <div className="space-y-4">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-champagne block font-semibold">
-                Menu Navigasi
-              </span>
-              <ul className="space-y-3">
-                {navLinks.map((link) => {
-                  const isActive =
-                    link.href === '/'
-                      ? pathname === '/'
-                      : pathname === link.href || pathname.startsWith(`${link.href}/`);
-                  return (
-                    <li key={link.href} className="border-b border-white/5 pb-2">
-                      <Link
-                        href={link.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={cn(
-                          'font-serif text-2xl flex items-center justify-between transition-colors',
-                          isActive
-                            ? 'text-champagne font-semibold'
-                            : 'text-ivory hover:text-champagne'
-                        )}
-                      >
-                        <span>{link.label}</span>
-                        <ChevronRight className="w-5 h-5 text-champagne/60" />
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            {/* Quick Action CTA */}
-            <div className="pt-4 space-y-3">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  if (onOpenReserve) onOpenReserve();
-                }}
-                className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-3.5 rounded-xl font-bold uppercase tracking-[0.2em] text-xs text-center shadow-lg transition-colors"
-              >
-                Reservasi Kamar
-              </button>
-
-              <a
-                href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
-                  'Halo Susan Spa & Resort, saya ingin reservasi kamar / paket.'
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full border border-champagne/50 text-champagne hover:bg-forest py-3 rounded-xl font-semibold uppercase tracking-wider text-xs flex items-center justify-center space-x-2 transition-colors"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>Chat WhatsApp</span>
-              </a>
-            </div>
-
-            {/* Contact & Socials */}
-            <div className="pt-6 border-t border-white/10 space-y-3 text-xs text-ivory/70">
-              <div className="flex items-center space-x-2">
-                <Phone className="w-4 h-4 text-champagne shrink-0" />
-                <a href={`tel:${SITE_CONFIG.contact.phone}`} className="hover:text-champagne">
-                  {SITE_CONFIG.contact.phoneFormatted}
-                </a>
-              </div>
-              <p className="text-[11px] leading-relaxed">
-                {SITE_CONFIG.address.fullFormatted}
-              </p>
-              <div className="flex items-center space-x-4 pt-2">
-                <a
-                  href={SITE_CONFIG.social.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-ivory hover:text-champagne p-1"
-                  aria-label="Instagram"
-                >
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <a
-                  href={SITE_CONFIG.social.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-ivory hover:text-champagne p-1"
-                  aria-label="Facebook"
-                >
-                  <Facebook className="w-5 h-5" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Full-Screen Luxury Navigation Overlay (Nihi Sumba Style) */}
+      <MenuOverlay
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        onOpenReserve={onOpenReserve}
+      />
     </>
   );
 };

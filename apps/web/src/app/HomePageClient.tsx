@@ -15,10 +15,10 @@ import {
 } from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
-import { BookingBar, type BookingSearchParams } from '@/components/global/BookingBar';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { FeaturedRoomsCarousel } from '@/components/ui/FeaturedRoomsCarousel';
+import { BestOfShowcase } from '@/components/ui/BestOfShowcase';
 import { SITE_CONFIG } from '@/data/site';
 import type { Room } from '@/types';
 
@@ -30,46 +30,22 @@ const HERO_SLIDES = [
     tag: 'Kawasan Sejuk Bandungan ~1.100 mdpl',
   },
   {
-    image: 'https://dksw6vf0i66fe.cloudfront.net/website_page_image/image/13c64aea-a3c8-4ad7-a0de-c03ba7d12f43_1726641104.webp',
-    title: 'Kemegahan Alam & Kapel Kaca La Kana',
-    subtitle: 'Ikrarkan Momen Sakral Berlatar Keindahan Gunung Ungaran yang Memukau',
-    tag: 'Ikon Eksklusif Jawa Tengah',
+    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=2000&auto=format&fit=crop',
+    title: 'Relaksasi Spa on the Sky',
+    subtitle: 'Sentuhan Tradisi Herbal Keraton Jawa Berpadu Kemurnian Udara Pegunungan',
+    tag: 'Wellness & Herbal Spa Alami',
   },
   {
-    image: 'https://dksw6vf0i66fe.cloudfront.net/website_page_image/image/7d9e523a-c43f-4322-b4a5-8cc24fe1b2b4_1726648300.jpg',
-    title: 'Peristirahatan Nyaman di Atas Awan',
+    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop',
+    title: 'Kemegahan Kapel Kaca La Kana',
+    subtitle: 'Mewujudkan Momen Sakral Bersejarah Berlatar Lanskap Lembah & Langit Terbuka',
+    tag: 'Kapel Pernikahan Ikonik',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2000&auto=format&fit=crop',
+    title: 'Kenyamanan Menginap di Atas Awan',
     subtitle: 'Harmoni Kebugaran Tradisional, Akomodasi Nyaman, dan Udara Sejuk Pegunungan',
     tag: 'Sanctuary Relaksasi Keluarga',
-  },
-];
-
-const SPA_HIGHLIGHTS = [
-  {
-    title: 'Jacuzzi Hidroterapi Air Hangat Pribadi',
-    desc: 'Berendam air hangat dengan pemandangan terbuka lembah hijau pegunungan yang menyejukkan pikiran.',
-  },
-  {
-    title: 'Sauna Herbal Aromatik Khas Jawa',
-    desc: 'Relaksasi uap herbal racikan rempah alami guna melancarkan sirkulasi dan menyegarkan raga.',
-  },
-  {
-    title: 'Pijat Tradisional & Ruang Perawatan Privat',
-    desc: 'Sentuhan terapis tersertifikasi dengan minyak aromaterapi pilihan dalam kenyamanan ruang perawatan pasangan.',
-  },
-];
-
-const WEDDING_HIGHLIGHTS = [
-  {
-    title: 'Kapel Kaca La Kana Ikonik',
-    desc: 'Dinding kaca transparan dengan sudut pandang panorama bebas pegunungan untuk momen pemberkatan sakral.',
-  },
-  {
-    title: 'Outdoor Sky Garden & Grand Ballroom',
-    desc: 'Pilihan resepsi terbuka bernuansa asri romantis maupun jamuan makan malam elegan di ballroom berkapasitas luas.',
-  },
-  {
-    title: 'Pendampingan Wedding Coordinator',
-    desc: 'Koordinasi menyeluruh bersama tim berpengalaman guna memastikan kelancaran setiap detail hari bahagia Anda.',
   },
 ];
 
@@ -92,7 +68,6 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [modalRoomSlug, setModalRoomSlug] = useState<string | undefined>();
   const [modalType, setModalType] = useState<'room' | 'spa' | 'wedding' | 'event'>('room');
-  const [bookingSearch, setBookingSearch] = useState<BookingSearchParams | undefined>();
 
   // Auto cycle hero carousel with user pause and reduced motion respect
   useEffect(() => {
@@ -108,11 +83,6 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
     setModalType(type);
     setModalRoomSlug(roomSlug);
     setIsReserveModalOpen(true);
-  };
-
-  const handleBookingSearch = (params: BookingSearchParams) => {
-    setBookingSearch(params);
-    handleOpenReserve('room');
   };
 
   // Filter top 3 featured rooms
@@ -247,11 +217,6 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               )}
             </button>
           </div>
-
-          {/* Desktop Clean Booking Widget */}
-          <div className="hidden md:block">
-            <BookingBar onSearch={handleBookingSearch} ctaText="Cek Ketersediaan" />
-          </div>
         </div>
 
         {/* Carousel Arrow Controls */}
@@ -275,64 +240,42 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
         </button>
       </section>
 
-      {/* Mobile Booking Widget */}
-      <div className="md:hidden p-4 bg-forest-deep border-b border-white/15">
-        <BookingBar onSearch={handleBookingSearch} ctaText="Cek Ketersediaan" />
-      </div>
-
       {/* ========================================================================= */}
-      {/* 02: SECTION: HIGHLAND SANCTUARY OVERVIEW (Clean 2-Column Editorial Story) */}
+      {/* 02: SECTION: HIGHLAND SANCTUARY OVERVIEW (Centered Editorial Story) */}
       {/* ========================================================================= */}
-      <section id="overview" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-wide mx-auto bg-white">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Left Narrative Column */}
-          <div className="lg:col-span-6 space-y-5">
-            <span className="text-xs uppercase tracking-[0.25em] text-[#1E5638] font-bold block">
-              SELAMAT DATANG DI BANDUNGAN
-            </span>
-            <h2 className="font-serif text-3xl sm:text-4xl text-[#14241E] leading-tight font-normal">
-              Ketenangan di Atas Awan, Ketinggian 1.100 Meter
-            </h2>
-            <p className="text-sm sm:text-base text-[#23332B] leading-relaxed font-normal">
-              Susan Spa & Resort merupakan destinasi peristirahatan dan pemulihan jiwa di lereng Gunung Ungaran, Bandungan. Dikelilingi udara pegunungan yang senantiasa sejuk dan panorama lembah hijau yang membentang luas, kami menyambut kehadiran Bapak/Ibu untuk menikmati perpaduan kenyamanan akomodasi modern serta ketenangan alam yang bersahaja.
+      <section id="overview" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-3xl mx-auto text-center space-y-6">
+          <span className="text-xs uppercase tracking-[0.25em] text-[#1E5638] font-bold block">
+            SELAMAT DATANG DI BANDUNGAN
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#14241E] leading-tight font-normal">
+            Ketenangan di Atas Awan, Ketinggian 1.100 Meter
+          </h2>
+          <div className="space-y-4 text-base sm:text-lg text-[#23332B]/85 leading-relaxed font-normal pt-2">
+            <p>
+              Susan Spa & Resort merupakan destinasi peristirahatan dan pemulihan jiwa di lereng Gunung Ungaran, Bandungan. Dikelilingi udara pegunungan yang senantiasa sejuk dan panorama lembah hijau yang membentang luas, kami menyambut kehadiran Anda untuk menikmati perpaduan kenyamanan akomodasi modern serta ketenangan alam yang bersahaja.
             </p>
-            <p className="text-sm sm:text-base text-[#23332B] leading-relaxed font-normal">
+            <p>
               Setiap sudut resort dirancang secara cermat guna memberikan ruang bernapas yang leluasa: melepas kepenatan rutinitas harian, menikmati ritual herbal luhur di Spa on the Sky, dan merayakan momen berharga bersama keluarga.
             </p>
-
-            <div className="pt-2">
-              <Link
-                href="/facilities"
-                className="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.18em] text-[#14241E] hover:text-[#1E5638] font-bold border-b border-[#14241E] hover:border-[#1E5638] pb-1 transition-colors"
-              >
-                <span>Jelajahi Seluruh Fasilitas Resort</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
           </div>
 
-          {/* Right Photographic Visual */}
-          <div className="lg:col-span-6">
-            <div className="relative aspect-[16/11] overflow-hidden border border-stone-200/90 bg-stone-100 shadow-sm">
-              <Image
-                src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop"
-                alt="Resort landscape in Bandungan highlands"
-                fill
-                sizes="(max-width: 1024px) 100vw, 600px"
-                className="object-cover"
-              />
-              <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full border border-stone-200 text-[11px] text-[#14241E] font-semibold tracking-wide">
-                ±1.100 mdpl • Lereng Gunung Ungaran, Bandungan
-              </div>
-            </div>
+          <div className="pt-6">
+            <Link
+              href="/facilities"
+              className="inline-flex items-center space-x-2 text-xs uppercase tracking-[0.2em] text-[#14241E] hover:text-[#1E5638] font-bold border-b border-[#14241E] hover:border-[#1E5638] pb-1 transition-colors"
+            >
+              <span>Jelajahi Seluruh Fasilitas Resort</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* 03: SECTION: CURATED STAYS (3 Flagship Categories with High Contrast) */}
+      {/* 03: SECTION: CURATED STAYS (The Villas Layout - Luxury Nihi Style) */}
       {/* ========================================================================= */}
-      <section id="rooms" className="py-16 sm:py-20 bg-[#FAF8F5] border-y border-stone-200/70 overflow-hidden">
+      <section id="rooms" className="py-20 sm:py-28 bg-white border-t border-stone-200/60 overflow-hidden">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
           <FeaturedRoomsCarousel
             rooms={displayRooms}
@@ -342,149 +285,11 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 04: SECTION: SIGNATURE WELLNESS & SPA (Focused Editorial Presentation) */}
+      {/* 04: SECTION: THE BEST OF SUSAN SPA (Curated Luxury Showcase - Nihi Style) */}
       {/* ========================================================================= */}
-      <section id="spa" className="py-16 sm:py-20 bg-white border-b border-stone-200/70 overflow-hidden">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left Photographic Showcase */}
-            <div className="lg:col-span-5 order-2 lg:order-1">
-              <div className="relative aspect-[4/3] overflow-hidden border border-stone-200/90 bg-stone-100 shadow-sm">
-                <Image
-                  src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1000&auto=format&fit=crop"
-                  alt="Spa and wellness at Susan Spa & Resort"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 500px"
-                  className="object-cover"
-                />
-                <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-4 py-1.5 rounded-full border border-stone-200 text-[11px] text-[#14241E] font-semibold tracking-wide">
-                  Spa on the Sky • Ketinggian 1.100 mdpl
-                </div>
-              </div>
-            </div>
-
-            {/* Right Story & Curated Offerings */}
-            <div className="lg:col-span-7 order-1 lg:order-2 space-y-6">
-              <div className="space-y-3">
-                <span className="text-xs uppercase tracking-[0.25em] text-[#1E5638] font-bold block">
-                  KEBUGARAN & SPA ALAMI
-                </span>
-                <h2 className="font-serif text-3xl sm:text-4xl text-[#14241E] leading-tight font-normal">
-                  Spa on the Sky Sanctuary
-                </h2>
-                <p className="text-sm sm:text-base text-[#23332B] font-light leading-relaxed">
-                  Terletak di titik tertinggi resort pada ketinggian ±1.100 mdpl, Spa on the Sky memadukan ramuan herbal tradisional Jawa dengan fasilitas hidroterapi modern. Udara sejuk pegunungan dan keheningan alam menghadirkan relaksasi tubuh serta kejernihan pikiran yang menyeluruh.
-                </p>
-              </div>
-
-              {/* 3 Scannable Highlights */}
-              <div className="space-y-3 pt-1">
-                {SPA_HIGHLIGHTS.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 rounded-2xl bg-[#FAF8F5] border border-stone-200/80 space-y-1"
-                  >
-                    <h3 className="text-sm font-semibold text-[#14241E]">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs text-[#23332B] font-light leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-3">
-                <Link
-                  href="/spa"
-                  className="bg-[#14241E] hover:bg-[#1D362B] text-champagne px-7 py-3 rounded-full font-semibold uppercase tracking-[0.16em] text-xs text-center transition-colors shadow-sm"
-                >
-                  Lihat Menu Perawatan
-                </Link>
-                <button
-                  onClick={() => handleOpenReserve('spa')}
-                  className="border border-stone-300 hover:border-[#14241E] text-[#14241E] hover:bg-[#14241E] hover:text-ivory px-7 py-3 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors"
-                >
-                  Hubungi Spa Concierge
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 05: SECTION: SACRED WEDDINGS AT LA KANA (Solid Luxury Forest `#12221B`) */}
-      {/* ========================================================================= */}
-      <section id="wedding" className="py-16 sm:py-20 bg-[#12221B] text-ivory relative overflow-hidden">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Left Narrative & Inclusions */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="space-y-3">
-              <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-                MOMEN PERNIKAHAN SAKRAL
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl text-ivory leading-tight font-normal">
-                Ikrar Janji Suci di Kapel Kaca La Kana
-              </h2>
-              <p className="text-sm sm:text-base text-ivory/90 leading-relaxed font-light">
-                Susan Spa & Resort menghadirkan venue pernikahan sakral berlatar kemegahan lereng Gunung Ungaran. Altar berdinding kaca transparan menyatu harmonis dengan panorama alam terbuka yang sejuk dan menawan.
-              </p>
-            </div>
-
-            {/* 3 Scannable Wedding Highlights */}
-            <div className="space-y-3 pt-1">
-              {WEDDING_HIGHLIGHTS.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1"
-                >
-                  <h3 className="text-sm font-semibold text-champagne">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-ivory/85 font-light leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
-              <Link
-                href="/wedding"
-                className="w-full sm:w-auto bg-ivory hover:bg-champagne text-[#14241E] px-7 py-3 rounded-full font-semibold uppercase tracking-[0.16em] text-xs transition-colors text-center shadow-sm"
-              >
-                Pelajari Paket Pernikahan
-              </Link>
-              <button
-                onClick={() => handleOpenReserve('wedding')}
-                className="w-full sm:w-auto border border-white/30 text-ivory hover:border-champagne hover:text-champagne px-7 py-3 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors"
-              >
-                Konsultasi Pernikahan
-              </button>
-            </div>
-          </div>
-
-          {/* Right Chapel Visual */}
-          <div className="lg:col-span-5">
-            <div className="relative aspect-[4/3] overflow-hidden border border-white/20 bg-forest-deep shadow-md">
-              <Image
-                src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop"
-                alt="La Kana Chapel Susan Spa & Resort"
-                fill
-                sizes="(max-width: 1024px) 100vw, 500px"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#12221B]/80 via-transparent to-transparent opacity-60" />
-              <div className="absolute bottom-4 left-4 bg-forest-deep/85 backdrop-blur-md px-4 py-1.5 rounded-full border border-champagne/30 text-[11px] text-champagne font-semibold tracking-wide">
-                Kapel Kaca Ikonik La Kana • Bandungan
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div id="destinations">
+        <BestOfShowcase />
+      </div>
 
       {/* ========================================================================= */}
       {/* 06: COMPACT LOCATION & ACCESS STRIP (Solid Luxury Surface `#0E1A15`) */}
@@ -543,9 +348,6 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
         rooms={rooms}
         preselectedRoomSlug={modalRoomSlug}
         preselectedType={modalType}
-        initialCheckIn={bookingSearch?.checkIn}
-        initialCheckOut={bookingSearch?.checkOut}
-        initialGuests={bookingSearch?.guests}
       />
     </div>
   );
