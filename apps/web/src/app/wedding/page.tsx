@@ -32,7 +32,7 @@ export default function WeddingPage() {
       <section className="relative pt-36 pb-24 bg-forest-deep text-ivory text-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093"
+            src="/images/wedding/wedding-chapel-1.jpg"
             alt="La Kana Chapel Susan Spa & Resort"
             fill
             priority
@@ -168,7 +168,7 @@ export default function WeddingPage() {
             <div className="bg-white rounded-2xl border border-stone/20 overflow-hidden shadow-sm text-left flex flex-col">
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-forest-deep">
                 <Image
-                  src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093"
+                  src="/images/wedding/wedding-chapel-1.jpg"
                   alt="La Kana Chapel Venue"
                   fill
                   className="object-cover"
@@ -191,7 +191,7 @@ export default function WeddingPage() {
             <div className="bg-white rounded-2xl border border-stone/20 overflow-hidden shadow-sm text-left flex flex-col">
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-forest-deep">
                 <Image
-                  src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4388%20copy.jpeg?updatedAt=1790906708529"
+                  src="/images/wedding/wedding-chapel-2.jpg"
                   alt="Sky Garden Outdoor Lawn Venue"
                   fill
                   className="object-cover"
@@ -214,7 +214,7 @@ export default function WeddingPage() {
             <div className="bg-white rounded-2xl border border-stone/20 overflow-hidden shadow-sm text-left flex flex-col">
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-forest-deep">
                 <Image
-                  src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093"
+                  src="/images/wedding/wedding-chapel-1.jpg"
                   alt="Frangipani Ballroom Venue"
                   fill
                   className="object-cover"

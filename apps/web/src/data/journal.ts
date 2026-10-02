@@ -39,7 +39,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       role: 'Wedding & Event Team',
       avatar: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=400&auto=format&fit=crop',
     },
-    coverImage: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093',
+    coverImage: '/images/wedding/wedding-chapel-1.jpg',
   },
   {
     id: 'exploring-bandungan-destination-guide',

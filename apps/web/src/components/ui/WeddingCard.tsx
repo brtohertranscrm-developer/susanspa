@@ -14,7 +14,7 @@ export const WeddingCard: React.FC<WeddingCardProps> = ({ pkg, onInquire }) => {
     <div className="bg-forest-deep/80 border border-champagne/20 overflow-hidden hover:border-champagne/60 transition-all duration-500 flex flex-col h-full shadow-lg">
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
-          src={pkg.image || 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093'}
+          src={pkg.image || '/images/wedding/wedding-chapel-1.jpg'}
           alt={pkg.name}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"

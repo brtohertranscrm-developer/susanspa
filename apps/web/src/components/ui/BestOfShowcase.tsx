@@ -25,7 +25,7 @@ const BEST_OF_ITEMS: ShowcaseItem[] = [
     id: 'la-kana-wedding',
     title: 'Momen Pernikahan di La Kana',
     category: 'WEDDING & CHAPEL',
-    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093',
+    image: '/images/wedding/wedding-chapel-1.jpg',
     href: '/wedding',
   },
   {

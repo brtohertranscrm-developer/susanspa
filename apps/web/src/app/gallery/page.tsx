@@ -19,7 +19,7 @@ export default function GalleryPage() {
       <section className="relative pt-36 pb-24 bg-forest-deep text-ivory text-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093"
+            src="/images/wedding/wedding-chapel-1.jpg"
             alt="Susan Spa Gallery"
             fill
             priority
