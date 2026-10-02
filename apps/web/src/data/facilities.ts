@@ -131,7 +131,7 @@ export const FACILITIES: Facility[] = [
     category: 'Events',
     description: 'Kapel kaca ikonik dengan altar transparan berlatar panorama Gunung Ungaran, menghadirkan suasana sakral, intim, dan berkesan abadi untuk janji suci pernikahan Anda.',
     operatingHours: 'Berdasarkan Reservasi',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093',
     highlights: ['Arsitektur kaca transparan ikonik', 'Latar panorama pegunungan memukau', 'Kapasitas intim hingga 100 tamu'],
     iconName: 'Church',
   },
@@ -298,7 +298,7 @@ export const FEATURED_FACILITIES = [
     category: 'Events',
     tag: 'Kapel Kaca',
     description: 'Kapel kaca ikonik dengan altar transparan berlatar cakrawala alam pegunungan yang megah.',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093',
   },
   {
     id: 'restaurant',

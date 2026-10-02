@@ -48,7 +48,7 @@ export default function WeddingsPage() {
       <section className="relative pt-32 pb-20 bg-forest-deep text-ivory text-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop"
+            src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093"
             alt="La Kana Chapel Wedding"
             fill
             className="object-cover opacity-40"
@@ -95,7 +95,7 @@ export default function WeddingsPage() {
 
         <div className="relative aspect-[4/3] overflow-hidden shadow-2xl border border-stone/30">
           <Image
-            src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1600&auto=format&fit=crop"
+            src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4388%20copy.jpeg?updatedAt=1790906708529"
             alt="La Kana Chapel Entrance"
             fill
             className="object-cover"

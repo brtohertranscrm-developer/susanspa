@@ -32,7 +32,7 @@ export default function WeddingPage() {
       <section className="relative pt-36 pb-24 bg-forest-deep text-ivory text-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop"
+            src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093"
             alt="La Kana Chapel Susan Spa & Resort"
             fill
             priority
@@ -165,28 +165,73 @@ export default function WeddingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 bg-white rounded-2xl border border-stone/20 space-y-3 shadow-sm text-left">
-              <Church className="w-6 h-6 text-champagne" />
-              <h3 className="font-serif text-xl text-forest-deep">La Kana Chapel</h3>
-              <p className="text-xs text-charcoal/70 leading-relaxed">
-                Kapel kaca berarsitektur segitiga modern dengan altar bening berlatar pegunungan Ungaran, menciptakan momen janji suci yang sakral dan megah.
-              </p>
+            <div className="bg-white rounded-2xl border border-stone/20 overflow-hidden shadow-sm text-left flex flex-col">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-forest-deep">
+                <Image
+                  src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093"
+                  alt="La Kana Chapel Venue"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6 space-y-2 flex-1 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2 text-champagne">
+                    <Church className="w-5 h-5 text-champagne" />
+                    <span className="text-[10px] uppercase tracking-wider font-semibold text-botanical">Indoor Chapel</span>
+                  </div>
+                  <h3 className="font-serif text-xl text-forest-deep">La Kana Chapel</h3>
+                  <p className="text-xs text-charcoal/70 leading-relaxed">
+                    Kapel kaca berarsitektur segitiga modern dengan altar bening berlatar pegunungan Ungaran, menciptakan momen janji suci yang sakral dan megah.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className="p-6 bg-white rounded-2xl border border-stone/20 space-y-3 shadow-sm text-left">
-              <Users className="w-6 h-6 text-champagne" />
-              <h3 className="font-serif text-xl text-forest-deep">Sky Garden Outdoor Lawn</h3>
-              <p className="text-xs text-charcoal/70 leading-relaxed">
-                Halaman rumput asri berhawa sejuk pegunungan untuk perayaan resepsi pesta kebun beratapkan langit senja atau gemerlap lampu malam hari.
-              </p>
+            <div className="bg-white rounded-2xl border border-stone/20 overflow-hidden shadow-sm text-left flex flex-col">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-forest-deep">
+                <Image
+                  src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4388%20copy.jpeg?updatedAt=1790906708529"
+                  alt="Sky Garden Outdoor Lawn Venue"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6 space-y-2 flex-1 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2 text-champagne">
+                    <Users className="w-5 h-5 text-champagne" />
+                    <span className="text-[10px] uppercase tracking-wider font-semibold text-botanical">Outdoor Garden</span>
+                  </div>
+                  <h3 className="font-serif text-xl text-forest-deep">Sky Garden Outdoor Lawn</h3>
+                  <p className="text-xs text-charcoal/70 leading-relaxed">
+                    Halaman rumput asri berhawa sejuk pegunungan untuk perayaan resepsi pesta kebun beratapkan langit senja atau gemerlap lampu malam hari.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className="p-6 bg-white rounded-2xl border border-stone/20 space-y-3 shadow-sm text-left">
-              <MapPin className="w-6 h-6 text-champagne" />
-              <h3 className="font-serif text-xl text-forest-deep">Frangipani Ballroom</h3>
-              <p className="text-xs text-charcoal/70 leading-relaxed">
-                Ruang resepsi indoor elegan dengan pencahayaan hangat, panggung megah, dan penataan meja perjamuan makan formal yang nyaman.
-              </p>
+            <div className="bg-white rounded-2xl border border-stone/20 overflow-hidden shadow-sm text-left flex flex-col">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-forest-deep">
+                <Image
+                  src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093"
+                  alt="Frangipani Ballroom Venue"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6 space-y-2 flex-1 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2 text-champagne">
+                    <MapPin className="w-5 h-5 text-champagne" />
+                    <span className="text-[10px] uppercase tracking-wider font-semibold text-botanical">Grand Ballroom</span>
+                  </div>
+                  <h3 className="font-serif text-xl text-forest-deep">Frangipani Ballroom</h3>
+                  <p className="text-xs text-charcoal/70 leading-relaxed">
+                    Ruang resepsi indoor elegan dengan pencahayaan hangat, panggung megah, dan penataan meja perjamuan makan formal yang nyaman.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

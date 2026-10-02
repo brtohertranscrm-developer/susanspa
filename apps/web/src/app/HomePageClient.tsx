@@ -23,22 +23,17 @@ import type { Room } from '@/types';
 
 const HERO_SLIDES = [
   {
-    image: 'https://dksw6vf0i66fe.cloudfront.net/website_page_image/image/12d19f0e-b71c-4715-8fef-8955de6a998d_1726641103.webp',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/Facade%201-2.jpeg?updatedAt=1790906701187',
     title: 'Kesejukan Lereng Gunung Ungaran',
     subtitle: 'Menikmati Panorama Pegunungan yang Menenangkan & Asri di Ketinggian ±1.100 mdpl',
   },
   {
-    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=2000&auto=format&fit=crop',
-    title: 'Relaksasi Spa on the Sky',
-    subtitle: 'Sentuhan Tradisi Herbal Keraton Jawa Berpadu Kemurnian Udara Pegunungan',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/DJI_20260918173255_0133_D_%20copy%202-2.jpeg?updatedAt=1790906708758',
+    title: 'Panorama Udara Susan Spa & Resort',
+    subtitle: 'Pemandangan Spektakuler Lembah & Alam Pegunungan dari Ketinggian ±1.100 mdpl',
   },
   {
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop',
-    title: 'Kemegahan Kapel Kaca La Kana',
-    subtitle: 'Mewujudkan Momen Sakral Bersejarah Berlatar Lanskap Lembah & Langit Terbuka',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2000&auto=format&fit=crop',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_5187_%20copy%202.jpeg?updatedAt=1790906710200',
     title: 'Kenyamanan Menginap di Atas Awan',
     subtitle: 'Harmoni Kebugaran Tradisional, Akomodasi Nyaman, dan Udara Sejuk Pegunungan',
   },

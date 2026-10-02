@@ -34,22 +34,22 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   {
     id: 'w-1',
     category: 'Pernikahan',
-    title: 'La Kana Glass Chapel saat Senja',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop',
+    title: 'La Kana Glass Chapel',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093',
     aspectRatio: 'wide',
   },
   {
     id: 'w-2',
     category: 'Pernikahan',
-    title: 'Penataan Altar Pemberkatan Nikah',
-    image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1600&auto=format&fit=crop',
+    title: 'Penataan Altar & Suasana Pernikahan',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4388%20copy.jpeg?updatedAt=1790906708529',
     aspectRatio: 'tall',
   },
   {
     id: 'w-3',
     category: 'Pernikahan',
-    title: 'Resepsi Malam Romantis di Sky Lawn',
-    image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1600&auto=format&fit=crop',
+    title: 'Keanggunan Venue La Kana',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_4104%20copy%202-2.jpeg?updatedAt=1790906706093',
     aspectRatio: 'wide',
   },
 

@@ -35,7 +35,7 @@ export default function RoomsPageClient({ rooms }: { rooms: Room[] }) {
       <section className="relative pt-36 pb-24 bg-forest-deep text-ivory text-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2000&auto=format&fit=crop"
+            src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347"
             alt="Susan Spa Rooms & Suites"
             fill
             priority

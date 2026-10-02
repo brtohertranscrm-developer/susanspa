@@ -21,14 +21,8 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/c1d098de-2e74-44ce-80eb-f5da01445d95_1726475646.jpg',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/839b8cc5-2b7b-43b8-be8d-31bdc784da0e_1726475647.jpg',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/ec23d322-0dfb-4751-b27e-5aad54be8621_1726475649.jpg',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/ec84f3ef-0776-4b3b-8317-e7ecd33bc884_1726475651.jpg',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/766a9137-1655-4fd8-bdf1-c48fa379dfac_1726475652.jpg',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/fc5696f4-875d-481b-a00a-ee4b326db3a8_1726475655.jpg',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/3901509d-7ebd-4e5c-bed1-02e96fb43983_1726475656.jpg',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/db094b91-8880-4271-8f16-134547c20448_1726475657.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3605%20copy%202.jpeg?updatedAt=1790906706109',
     ],
     amenities: [
       'Bathtub',
@@ -61,8 +55,8 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: false,
     images: [
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/682ccab8-d9f2-49e5-8557-ba1521149925_1764223091.jpg',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/44d56f46-d049-41c6-bdc2-f7051f66d9eb_1764223092.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3605%20copy%202.jpeg?updatedAt=1790906706109',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Air Conditioning',
@@ -100,11 +94,8 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/67d4659a-0da3-4e29-ba07-98932d451e13_1729585718.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/d456d94c-9698-447e-bfed-5cc89d26ea31_1729585715.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/ff52e702-09c1-418e-a9ac-84c30b5625e7_1729585716.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/00df0cf4-b531-44bf-89fb-4eb5f3ad2640_1729585716.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/17a91a83-1405-4802-82a5-24765be79f36_1729585717.JPG',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3605%20copy%202.jpeg?updatedAt=1790906706109',
     ],
     amenities: [
       'Mountain View',
@@ -141,7 +132,8 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: false,
     images: [
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/119aec95-a3b3-4197-aab3-4b4abbbe624c_1740041747.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3605%20copy%202.jpeg?updatedAt=1790906706109',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [],
     highlights: [],
@@ -164,9 +156,8 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/32b5388a-b0ce-4bce-b95c-5efd4da8c259_1726474989.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/5641ad6c-826c-4d51-b77e-92a3cd1676e0_1726474990.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/48ae39bc-6482-426c-9999-208e3ef740ef_1726474992.JPG',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3605%20copy%202.jpeg?updatedAt=1790906706109',
     ],
     amenities: [
       'Private Jacuzzi',
@@ -200,14 +191,8 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/5ab81ce6-28ce-422a-8085-d2aca5518bef_1726477388.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/34920201-3cc0-4efe-b2a4-2fa41648ac43_1726477386.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/3f2b0985-ad02-4d3b-b954-70105e245aa4_1726477386.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/998c7b6a-c7a8-40b0-a7ac-2d0ca00c0861_1726477387.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/1496407a-7a74-496d-a30d-949cbc1b3546_1726477389.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/5cff9f2b-8b8b-417a-bf09-20bf56dafb5a_1726477390.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/e8472080-0199-4c0c-9e8d-ddcc05867ee9_1726477391.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/1aad019a-9c64-47b0-9c19-9f863d92a4f0_1726477391.JPG',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3605%20copy%202.jpeg?updatedAt=1790906706109',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Balcony',
@@ -240,7 +225,8 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: false,
     images: [
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/961c73af-90a0-40ef-b566-4f0cf9961e87_1740041902.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3605%20copy%202.jpeg?updatedAt=1790906706109',
     ],
     amenities: [],
     highlights: [],
@@ -263,9 +249,8 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/79dd17df-6ca3-4646-b186-69f7958388f7_1730265788.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/e704fa4c-c4f9-4ce1-bffd-db8ec1ea5862_1730265787.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/38be9a3e-dba6-4350-9e98-94a5cfe955a3_1730265787.JPG',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3605%20copy%202.jpeg?updatedAt=1790906706109',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Panoramic View',
@@ -303,11 +288,8 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: false,
     images: [
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/cdde02a9-50b1-4c7c-b0fd-9beafe8ecf48_1726475946.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/c00eb217-f6dd-4d6c-a041-10a97cd889fb_1726475939.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/5a4737c3-e584-4da0-a8e3-077aa896fc61_1726475941.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/7b46ccd8-5c68-442f-975a-291857e6f14d_1726475942.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/4aba4b13-fd9b-443a-95e5-16323e103935_1726475945.JPG',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3605%20copy%202.jpeg?updatedAt=1790906706109',
     ],
     amenities: [
       'Panoramic View',
@@ -346,10 +328,8 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: false,
     images: [
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/a196b771-4a83-46ce-bf75-a8d3828b3fc0_1729584587.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/d702c153-0ae9-42bd-bf12-fb55ba3ea3a3_1729584575.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/9f2b24f0-e060-4093-af47-4e3b7b2779e8_1729584597.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/b58535a5-a6e8-4331-a4bb-3bdd3f505c3e_1729584598.JPG',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3605%20copy%202.jpeg?updatedAt=1790906706109',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Private Bathroom',
@@ -381,10 +361,8 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/a196b771-4a83-46ce-bf75-a8d3828b3fc0_1729584587.JPG',
-      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1600&auto=format&fit=crop',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/d702c153-0ae9-42bd-bf12-fb55ba3ea3a3_1729584575.JPG',
-      'https://dksw6vf0i66fe.cloudfront.net/room_type_image/image/9f2b24f0-e060-4093-af47-4e3b7b2779e8_1729584597.JPG',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3605%20copy%202.jpeg?updatedAt=1790906706109',
     ],
     amenities: [
       'Balcony',

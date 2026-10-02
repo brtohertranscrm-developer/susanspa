@@ -136,7 +136,7 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
         >
           {displayRooms.map((room) => {
             const fallbackImage =
-              'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1600&auto=format&fit=crop';
+              'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347';
             const roomImage = room.images?.[0] || fallbackImage;
 
             return (
