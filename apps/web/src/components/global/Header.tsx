@@ -21,8 +21,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve, hideDesktopNav })
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isHomePage = pathname === '/';
-  const shouldHideNav = hideDesktopNav ?? isHomePage;
+  const shouldHideNav = hideDesktopNav === true;
 
   useEffect(() => {
     const handleScroll = () => {
