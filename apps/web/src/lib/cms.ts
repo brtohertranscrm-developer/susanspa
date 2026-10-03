@@ -70,7 +70,7 @@ export async function getWeddingPackages(locale: 'id' | 'en' = 'id'): Promise<We
   return docs.map((doc: any) => ({
     id: doc.slug,
     slug: doc.slug,
-    title: doc.title,
+    name: doc.title,
     venue: doc.venue || '',
     capacity: doc.capacity || 100,
     priceIdr: doc.priceLabel || 0,
@@ -89,6 +89,9 @@ export async function getOffers(locale: 'id' | 'en' = 'id'): Promise<Offer[]> {
     id: doc.slug,
     slug: doc.slug,
     title: doc.title,
+    badge: 'Special Offer',
+    validity: doc.validUntil || '',
+    inclusions: [],
     category: 'Offer',
     validUntil: doc.validUntil || '',
     shortDescription: doc.summary || '',
@@ -106,7 +109,7 @@ export async function getFacilities(locale: 'id' | 'en' = 'id'): Promise<ResortF
   return facilities.map((doc: any) => ({
     id: doc.slug,
     slug: doc.slug,
-    name: doc.title,
+    title: doc.title,
     category: 'Facility',
     description: doc.description || '',
     location: doc.location || '',
@@ -122,7 +125,7 @@ export async function getGalleryItems(locale: 'id' | 'en' = 'id'): Promise<Galle
     id: doc.id,
     title: doc.title || '',
     category: 'Resort',
-    imageUrl: doc.image?.url || GALLERY_ITEMS[0].imageUrl,
+    image: doc.image?.url || GALLERY_ITEMS[0].image,
     width: doc.image?.width || 800,
     height: doc.image?.height || 600,
   }));

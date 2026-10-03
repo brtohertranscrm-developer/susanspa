@@ -23,7 +23,7 @@ export interface SpaTreatment {
   id: string;
   slug: string;
   title: string;
-  category: 'Signature' | 'Body Therapy' | 'Facial & Beauty' | 'Couples Sanctuary' | 'Thermal Baths';
+  category: string;
   tagline: string;
   durationMinutes: number;
   priceIdr: number;
@@ -54,7 +54,7 @@ export interface WeddingPackage {
 export interface Facility {
   id: string;
   title: string;
-  category: 'Wellness' | 'Leisure' | 'Dining' | 'Events' | 'Family' | 'Family & Recreation' | 'Guest Services';
+  category: string;
   description: string;
   operatingHours?: string;
   image?: string;
@@ -161,3 +161,15 @@ export interface LeadInquiryPayload {
   preferredRoomOrVenue?: string;
   specialRequests?: string;
 }
+
+export interface GalleryItem {
+  id: string;
+  title: string;
+  category: string;
+  image: string;
+  width?: number;
+  height?: number;
+}
+
+export type Offer = SpecialOffer;
+export type ResortFacility = Facility;
