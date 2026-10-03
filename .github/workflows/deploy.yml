@@ -24,31 +24,90 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           envs: GITHUB_SHA
           script: |
-            # Konfigurasi direktori
+            set -Eeuo pipefail
+
             REPO_URL="https://github.com/${{ github.repository }}.git"
             RELEASES_DIR="/opt/susanspa/releases"
             RELEASE_DIR="$RELEASES_DIR/$GITHUB_SHA"
             CURRENT_LINK="$RELEASES_DIR/current"
-            
+
+            PREVIOUS_TARGET="$(readlink -f /opt/susanspa/releases/current || true)"
+
+            rollback() {
+              echo "Deployment gagal. Menjalankan rollback."
+              if [ -n "${PREVIOUS_TARGET:-}" ] && [ -d "$PREVIOUS_TARGET" ]; then
+                ln -sfn "$PREVIOUS_TARGET" "$CURRENT_LINK"
+                sudo systemctl restart susan-booking-api susan-cms susan-web || true
+              fi
+              exit 1
+            }
+
+            trap rollback ERR
+
             echo "Memulai deploy untuk commit: $GITHUB_SHA"
-            
-            # 1. Clone versi terbaru ke folder release baru
-            # (Pastikan VPS memiliki akses git clone ke repository ini)
-            git clone $REPO_URL $RELEASE_DIR
-            cd $RELEASE_DIR
-            
-            # 2. Install dependencies & Build
-            npm install
+            echo "Target release aktif sebelumnya: $PREVIOUS_TARGET"
+
+            git clone --no-checkout --depth 1 "$REPO_URL" "$RELEASE_DIR"
+            cd "$RELEASE_DIR"
+            git fetch --depth 1 origin "$GITHUB_SHA"
+            git checkout --detach "$GITHUB_SHA"
+
+            CHECKED_OUT_COMMIT="$(git rev-parse HEAD)"
+            echo "Commit yang berhasil di-checkout: $CHECKED_OUT_COMMIT"
+            test "$CHECKED_OUT_COMMIT" = "$GITHUB_SHA"
+
+            echo "Menjalankan npm ci..."
+            npm ci --ignore-scripts
+
+            echo "Menjalankan build..."
             npm run build
-            
-            # 3. Pindahkan symlink 'current' ke release terbaru
-            ln -sfn $RELEASE_DIR $CURRENT_LINK
-            
-            # 4. Restart services menggunakan systemctl
-            # (Pastikan user 'ubuntu' bisa menjalankan sudo systemctl tanpa password)
-            sudo systemctl restart susan-web susan-cms susan-booking-api
-            
+
+            echo "Memverifikasi artifact build..."
+            test -f apps/web/.next/BUILD_ID
+            test -f apps/cms/.next/BUILD_ID
+            test -f apps/booking-api/dist/server.js
+
+            echo "Menjalankan migration dengan environment production..."
+            set -a
+            . /etc/susanspa/cms.env
+            set +a
+            npm run cms:migrate
+
+            set -a
+            . /etc/susanspa/booking.env
+            set +a
+            npm run db:migrate:booking
+
+            echo "Memindahkan symlink secara atomic..."
+            ln -sfn "$RELEASE_DIR" "$CURRENT_LINK"
+
+            echo "Restarting services..."
+            sudo systemctl restart susan-booking-api susan-cms susan-web
+
+            echo "Menunggu services siap untuk health check..."
+            sleep 10
+
+            echo "Menjalankan health check..."
+            curl --fail --silent --show-error http://127.0.0.1:3000/ > /dev/null
+            curl --fail --silent --show-error http://127.0.0.1:3001/cms > /dev/null
+            curl --fail --silent --show-error http://127.0.0.1:4000/health > /dev/null
+            sudo nginx -t
+
+            echo "Memverifikasi status service..."
+            systemctl is-active susan-web susan-cms susan-booking-api nginx
+
+            trap - ERR
+
             echo "Deployment berhasil diselesaikan!"
-            
-            # Opsional: Hapus release lama dan sisakan 5 rilis terbaru untuk menghemat disk
-            cd $RELEASES_DIR && ls -t | grep -v 'current' | tail -n +6 | xargs -r rm -rf
+            echo "Website: https://reservasiku.my.id"
+            echo "CMS: https://susancms.reservasiku.my.id/cms"
+
+            echo "Membersihkan rilis lama..."
+            cd "$RELEASES_DIR"
+            ls -1 | grep -v '^current$' | grep -v '^backup' | sort -r | tail -n +6 | while read old_release; do
+              OLD_RELEASE_PATH="$RELEASES_DIR/$old_release"
+              if [ "$OLD_RELEASE_PATH" != "$PREVIOUS_TARGET" ] && [ "$OLD_RELEASE_PATH" != "$RELEASE_DIR" ] && [ "$OLD_RELEASE_PATH" != "$(readlink -f $CURRENT_LINK || true)" ]; then
+                echo "Menghapus rilis lama: $old_release"
+                rm -rf "$OLD_RELEASE_PATH"
+              fi
+            done
