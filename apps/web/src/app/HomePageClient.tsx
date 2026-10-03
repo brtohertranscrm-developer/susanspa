@@ -2,15 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   ArrowRight,
-  ArrowUpRight,
   MapPin,
-  ChevronLeft,
-  ChevronRight,
-  Pause,
-  Play,
+  ChevronDown,
 } from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
@@ -47,27 +42,9 @@ const FEATURED_ROOM_SLUGS = [
 ];
 
 export default function HomePageClient({ rooms }: { rooms: Room[] }) {
-  const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
-  const [isHeroAutoplayPaused, setIsHeroAutoplayPaused] = useState(() => {
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    }
-    return false;
-  });
-  const [isHeroHovered, setIsHeroHovered] = useState(false);
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [modalRoomSlug, setModalRoomSlug] = useState<string | undefined>();
   const [modalType, setModalType] = useState<'room' | 'spa' | 'wedding' | 'event'>('room');
-
-  // Auto cycle hero carousel with user pause and reduced motion respect
-  useEffect(() => {
-    if (isHeroAutoplayPaused || isHeroHovered) return;
-
-    const timer = setInterval(() => {
-      setCurrentHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 7000);
-    return () => clearInterval(timer);
-  }, [isHeroAutoplayPaused, isHeroHovered]);
 
   const handleOpenReserve = (type: 'room' | 'spa' | 'wedding' | 'event' = 'room', roomSlug?: string) => {
     setModalType(type);
@@ -94,135 +71,42 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       {/* 01: HERO SECTION (Refined Altitude Arrival with Seamless Booking Bar) */}
       {/* ========================================================================= */}
       <section
-        onMouseEnter={() => setIsHeroHovered(true)}
-        onMouseLeave={() => setIsHeroHovered(false)}
-        className="relative min-h-[85vh] sm:min-h-[88vh] flex flex-col justify-between pt-24 pb-8 overflow-hidden bg-forest-deep"
+        className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black"
       >
-        {/* Background Image Carousel with Calibrated Gradient Overlay */}
-        {HERO_SLIDES.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 z-0 transition-opacity duration-1000 ease-in-out ${
-              currentHeroSlide === index ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'
-            }`}
+        {/* Background Video with Calibrated Gradient Overlay */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover pointer-events-none"
           >
-            <Image
-              src={slide.image}
-              alt={slide.title}
-              fill
-              priority={index === 0}
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/60 to-forest-deep/40" />
-          </div>
-        ))}
+            <source src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/Hotel%20Susan%20Spa%20Resort%20720.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
 
         {/* Hero Central Content */}
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center text-ivory space-y-6 my-auto pt-6">
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal leading-[1.14] text-white tracking-tight max-w-3xl mx-auto">
-            Peristirahatan menenangkan di lereng Bandungan dengan{' '}
-            <span className="italic font-normal text-champagne">
-              ketenangan jiwa sejati
-            </span>
+        <div className="relative z-10 w-full px-4 sm:px-6 text-center flex flex-col items-center justify-center">
+          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-normal text-white text-center tracking-tight max-w-5xl mx-auto drop-shadow-lg">
+            Susan Spa & Resort
           </h1>
-
-          <p className="text-sm sm:text-base text-ivory/90 max-w-2xl mx-auto font-light leading-relaxed">
-            Menghadirkan kenyamanan menginap di sejuknya hawa pegunungan ~1.100 mdpl, ritual herbal luhur di Spa on the Sky, dan perayaan pernikahan khidmat di Kapel La Kana.
+          
+          <p className="mt-4 sm:mt-6 text-[10px] sm:text-xs font-sans uppercase tracking-[0.3em] text-white/90 max-w-2xl mx-auto font-medium text-center drop-shadow-md">
+            Ketenangan Alam. Kenyamanan Berkelas.
           </p>
-
-          <div className="pt-2 flex items-center justify-center space-x-3.5">
-            <button
-              onClick={() => handleOpenReserve('room')}
-              className="bg-ivory hover:bg-champagne text-forest-deep px-7 py-3 rounded-full font-semibold uppercase tracking-[0.16em] text-xs transition-all duration-300 transform hover:scale-105 shadow-md"
-            >
-              Reservasi Kamar
-            </button>
-
-            <a
-              href="#overview"
-              className="border border-white/40 hover:border-champagne hover:text-champagne text-ivory px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors"
-            >
-              Mengenal Susan Spa
-            </a>
-          </div>
-
-          {/* Quick Anchor Links */}
-          <div className="pt-4 hidden sm:flex items-center justify-center space-x-7 text-xs uppercase tracking-wider text-ivory/80 font-medium">
-            <a
-              href="#rooms"
-              className="hover:text-champagne transition-colors flex items-center space-x-1 border-b border-transparent hover:border-champagne pb-0.5"
-            >
-              <span>Pilihan Kamar</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-champagne" />
-            </a>
-            <span className="text-white/25">•</span>
-            <a
-              href="#spa"
-              className="hover:text-champagne transition-colors flex items-center space-x-1 border-b border-transparent hover:border-champagne pb-0.5"
-            >
-              <span>Spa on the Sky</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-champagne" />
-            </a>
-            <span className="text-white/25">•</span>
-            <a
-              href="#wedding"
-              className="hover:text-champagne transition-colors flex items-center space-x-1 border-b border-transparent hover:border-champagne pb-0.5"
-            >
-              <span>Kapel La Kana</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-champagne" />
-            </a>
-          </div>
         </div>
 
-        {/* Carousel Slide Indicators & Booking Bar Dock */}
-        <div className="relative z-10 w-full max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
-          <div className="flex items-center justify-center space-x-3">
-            <div className="flex space-x-2">
-              {HERO_SLIDES.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentHeroSlide(i)}
-                  aria-label={`Pindah ke slide ${i + 1}`}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    currentHeroSlide === i ? 'w-8 bg-champagne' : 'w-2 bg-white/40 hover:bg-white/70'
-                  }`}
-                />
-              ))}
-            </div>
-            <button
-              onClick={() => setIsHeroAutoplayPaused((prev) => !prev)}
-              className="text-ivory/70 hover:text-champagne p-1 rounded-full transition-colors focus:outline-none"
-              aria-label={isHeroAutoplayPaused ? 'Putar rotasi slide' : 'Jeda rotasi slide'}
-              title={isHeroAutoplayPaused ? 'Putar rotasi slide' : 'Jeda rotasi slide'}
-            >
-              {isHeroAutoplayPaused ? (
-                <Play className="w-3.5 h-3.5 fill-current" />
-              ) : (
-                <Pause className="w-3.5 h-3.5 fill-current" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Carousel Arrow Controls */}
-        <button
-          onClick={() =>
-            setCurrentHeroSlide((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1))
-          }
-          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-forest-deep/60 hover:bg-forest-deep text-ivory hover:text-champagne border border-white/20 hidden lg:flex items-center justify-center transition-colors"
-          aria-label="Previous Slide"
+        {/* Bottom CTA (Explore Below) */}
+        <a 
+          href="#overview"
+          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center space-y-1.5 group cursor-pointer"
         >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        <button
-          onClick={() =>
-            setCurrentHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length)
-          }
-          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-forest-deep/60 hover:bg-forest-deep text-ivory hover:text-champagne border border-white/20 hidden lg:flex items-center justify-center transition-colors"
-          aria-label="Next Slide"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
+          <span className="text-white text-lg sm:text-xl font-serif drop-shadow-md">Jelajahi Resort</span>
+          <span className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-sans group-hover:text-white transition-colors">Explore Below</span>
+          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-1 transition-all duration-300" />
+        </a>
       </section>
 
       {/* ========================================================================= */}
