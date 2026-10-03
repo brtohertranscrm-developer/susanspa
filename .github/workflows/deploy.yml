@@ -15,24 +15,40 @@ jobs:
 
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          GITHUB_SHA: ${{ github.sha }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT }} # Biasanya 22
+          port: ${{ secrets.VPS_PORT }}
+          envs: GITHUB_SHA
           script: |
-            # Sesuaikan lokasi folder project Anda di VPS
-            cd /var/www/susan-spa/website
+            # Konfigurasi direktori
+            REPO_URL="https://github.com/${{ github.repository }}.git"
+            RELEASES_DIR="/opt/susanspa/releases"
+            RELEASE_DIR="$RELEASES_DIR/$GITHUB_SHA"
+            CURRENT_LINK="$RELEASES_DIR/current"
             
-            # Ambil update terbaru dari branch main
-            git pull origin main
+            echo "Memulai deploy untuk commit: $GITHUB_SHA"
             
-            # Install dependencies terbaru
+            # 1. Clone versi terbaru ke folder release baru
+            # (Pastikan VPS memiliki akses git clone ke repository ini)
+            git clone $REPO_URL $RELEASE_DIR
+            cd $RELEASE_DIR
+            
+            # 2. Install dependencies & Build
             npm install
-            
-            # Build project (Next.js)
             npm run build
             
-            # Restart aplikasi menggunakan PM2
-            # Ganti 'susan-spa' dengan nama aplikasi PM2 Anda
-            pm2 restart susan-spa
+            # 3. Pindahkan symlink 'current' ke release terbaru
+            ln -sfn $RELEASE_DIR $CURRENT_LINK
+            
+            # 4. Restart services menggunakan systemctl
+            # (Pastikan user 'ubuntu' bisa menjalankan sudo systemctl tanpa password)
+            sudo systemctl restart susan-web susan-cms susan-booking-api
+            
+            echo "Deployment berhasil diselesaikan!"
+            
+            # Opsional: Hapus release lama dan sisakan 5 rilis terbaru untuk menghemat disk
+            cd $RELEASES_DIR && ls -t | grep -v 'current' | tail -n +6 | xargs -r rm -rf
