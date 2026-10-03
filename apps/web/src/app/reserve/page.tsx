@@ -397,7 +397,7 @@ export default function ReservePage() {
               <div className="bg-white border border-stone-200/90 overflow-hidden shadow-lg space-y-4 p-5 sm:p-6">
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-forest-deep">
                   <Image
-                    src={currentRoom.images[0] || '/images/rooms/room-1.jpg'}
+                    src={currentRoom.images[0] || 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347'}
                     alt={currentRoom.name}
                     fill
                     className="object-cover"

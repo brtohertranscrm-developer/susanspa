@@ -21,8 +21,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      '/images/rooms/room-1.jpg',
-      '/images/rooms/room-2.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Bathtub',
@@ -55,8 +54,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: false,
     images: [
-      '/images/rooms/room-2.jpg',
-      '/images/rooms/room-1.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Air Conditioning',
@@ -94,8 +92,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      '/images/rooms/room-1.jpg',
-      '/images/rooms/room-2.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Mountain View',
@@ -132,8 +129,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: false,
     images: [
-      '/images/rooms/room-2.jpg',
-      '/images/rooms/room-1.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [],
     highlights: [],
@@ -156,8 +152,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      '/images/rooms/room-1.jpg',
-      '/images/rooms/room-2.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Private Jacuzzi',
@@ -191,8 +186,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      '/images/rooms/room-2.jpg',
-      '/images/rooms/room-1.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Balcony',
@@ -225,8 +219,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: false,
     images: [
-      '/images/rooms/room-1.jpg',
-      '/images/rooms/room-2.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [],
     highlights: [],
@@ -249,8 +242,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      '/images/rooms/room-2.jpg',
-      '/images/rooms/room-1.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Panoramic View',
@@ -288,8 +280,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: false,
     images: [
-      '/images/rooms/room-1.jpg',
-      '/images/rooms/room-2.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Panoramic View',
@@ -328,8 +319,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: false,
     images: [
-      '/images/rooms/room-2.jpg',
-      '/images/rooms/room-1.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Private Bathroom',
@@ -361,8 +351,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      '/images/rooms/room-1.jpg',
-      '/images/rooms/room-2.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347',
     ],
     amenities: [
       'Balcony',
