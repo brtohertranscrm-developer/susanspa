@@ -2,9 +2,13 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import type { CollectionConfig } from 'payload'
 import { canManageContent } from '../access'
+import ImageKit from 'imagekit'
 
-const filename = fileURLToPath(import.meta.url)
-const directory = path.dirname(filename)
+const imagekit = new ImageKit({
+  publicKey: process.env.IMAGEKIT_PUBLIC_KEY || 'public_m8Ypc/qII+dhHLEKU+OBl6BtLrY=',
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY || 'private_vDs2nvuiIqJC4Q9yvhBcvUfSggw=',
+  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT || 'https://ik.imagekit.io/ro8484nadw/'
+})
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -18,14 +22,42 @@ export const Media: CollectionConfig = {
   fields: [
     { name: 'alt', type: 'text', required: true, localized: true },
     { name: 'caption', type: 'textarea', localized: true },
+    { name: 'url', type: 'text', admin: { hidden: true } },
+    { name: 'imagekitFileId', type: 'text', admin: { hidden: true } },
   ],
   upload: {
-    staticDir: path.resolve(directory, '../../media'),
-    imageSizes: [
-      { name: 'thumbnail', width: 480, height: 320, position: 'centre' },
-      { name: 'card', width: 960, height: 720, position: 'centre' },
-      { name: 'hero', width: 1920, height: 1080, position: 'centre' },
-    ],
+    disableLocalStorage: true,
     mimeTypes: ['image/*'],
+  },
+  hooks: {
+    beforeChange: [
+      async ({ data, req, operation }) => {
+        if (req.file && req.file.data) {
+          const response = await imagekit.upload({
+            file: req.file.data,
+            fileName: req.file.name,
+            folder: '/SUSAN SPA',
+          });
+          data.url = response.url;
+          data.imagekitFileId = response.fileId;
+          // Set payload expected fields
+          data.filename = req.file.name;
+          data.filesize = req.file.size;
+          data.mimeType = req.file.mimetype;
+        }
+        return data;
+      },
+    ],
+    afterDelete: [
+      async ({ req, doc }) => {
+        if (doc.imagekitFileId) {
+          try {
+            await imagekit.deleteFile(doc.imagekitFileId);
+          } catch (e) {
+            console.error('Failed to delete imagekit file', e);
+          }
+        }
+      },
+    ],
   },
 }
