@@ -2,12 +2,11 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import type { CollectionConfig } from 'payload'
 import { canManageContent } from '../access'
-import ImageKit from 'imagekit'
+import ImageKit from '@imagekit/nodejs'
 
 const imagekit = new ImageKit({
-  publicKey: process.env.IMAGEKIT_PUBLIC_KEY || 'public_m8Ypc/qII+dhHLEKU+OBl6BtLrY=',
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY || 'private_vDs2nvuiIqJC4Q9yvhBcvUfSggw=',
-  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT || 'https://ik.imagekit.io/ro8484nadw/'
+  baseURL: process.env.IMAGEKIT_URL_ENDPOINT || 'https://ik.imagekit.io/ro8484nadw/'
 })
 
 export const Media: CollectionConfig = {
@@ -33,8 +32,8 @@ export const Media: CollectionConfig = {
     beforeChange: [
       async ({ data, req, operation }) => {
         if (req.file && req.file.data) {
-          const response = await imagekit.upload({
-            file: req.file.data,
+          const response = await imagekit.files.upload({
+            file: req.file.data.toString('base64'),
             fileName: req.file.name,
             folder: '/SUSAN SPA',
           });
@@ -52,7 +51,7 @@ export const Media: CollectionConfig = {
       async ({ req, doc }) => {
         if (doc.imagekitFileId) {
           try {
-            await imagekit.deleteFile(doc.imagekitFileId);
+            await imagekit.files.delete(doc.imagekitFileId);
           } catch (e) {
             console.error('Failed to delete imagekit file', e);
           }
