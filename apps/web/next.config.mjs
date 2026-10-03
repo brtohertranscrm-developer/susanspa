@@ -46,6 +46,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com data:",
               "img-src 'self' data: blob: https://images.unsplash.com https://www.susansparesort.com https://dksw6vf0i66fe.cloudfront.net https://ik.imagekit.io http://localhost:3001",
+              "media-src 'self' https://ik.imagekit.io",
               "connect-src 'self' http://localhost:3001 http://localhost:4000",
               "frame-src 'self' https://www.google.com https://maps.google.com",
               "frame-ancestors 'self'",
