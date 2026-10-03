@@ -8,6 +8,7 @@ import {
   MapPin,
   CheckCircle2,
   Church,
+  ChevronDown,
 } from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
@@ -29,44 +30,36 @@ export default function WeddingPage() {
       <Header onOpenReserve={() => handleInquire()} />
 
       {/* Hero Visual: La Kana Chapel + Mountain Background */}
-      <section className="relative pt-36 pb-24 bg-forest-deep text-ivory text-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
+        <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
             src="/images/wedding/wedding-chapel-1.jpg"
             alt="La Kana Chapel Susan Spa & Resort"
             fill
             priority
-            className="object-cover opacity-40"
+            className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/80 to-forest-deep/50" />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
-          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            PERNIKAHAN & PERAYAAN ISTIMEWA
-          </span>
-          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Pernikahan di Susan Spa & Resort
+        <div className="relative z-10 w-full px-4 sm:px-6 text-center flex flex-col items-center justify-center">
+          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl font-normal text-white text-center tracking-tight max-w-5xl mx-auto drop-shadow-lg">
+            Pernikahan di Susan Spa
           </h1>
-          <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Wujudkan momen ikrar janji suci dan perayaan cinta berlatar keindahan panorama lereng Gunung Ungaran yang romantis dan sejuk.
+          
+          <p className="mt-4 sm:mt-6 text-[10px] sm:text-xs font-sans uppercase tracking-[0.3em] text-white/90 max-w-2xl mx-auto font-medium text-center drop-shadow-md">
+            Perayaan Cinta Berlatar Keindahan Gunung Ungaran
           </p>
-
-          <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-            <button
-              onClick={() => handleInquire('wedding-package')}
-              className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-lg transition-transform hover:scale-105"
-            >
-              Konsultasi Pernikahan
-            </button>
-            <a
-              href="#packages"
-              className="border border-champagne/40 hover:bg-forest/60 text-ivory px-6 py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors"
-            >
-              Lihat Paket Pernikahan
-            </a>
-          </div>
         </div>
+
+        <a 
+          href="#packages"
+          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center space-y-1.5 group cursor-pointer"
+        >
+          <span className="text-white text-lg sm:text-xl font-serif drop-shadow-md">Jelajahi Paket</span>
+          <span className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-sans group-hover:text-white transition-colors">Explore Below</span>
+          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-1 transition-all duration-300" />
+        </a>
       </section>
 
       {/* Wedding Packages Section */}
