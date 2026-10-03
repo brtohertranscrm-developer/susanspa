@@ -74,12 +74,13 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
         className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black"
       >
         {/* Background Video with Calibrated Gradient Overlay */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 bg-forest-deep">
           <video
             autoPlay
             loop
             muted
             playsInline
+            poster="/images/hero/hero-resort.jpg"
             className="w-full h-full object-cover pointer-events-none"
           >
             <source src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/Hotel%20Susan%20Spa%20Resort%20720.mp4" type="video/mp4" />
