@@ -83,7 +83,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
             poster="/images/hero/hero-resort.jpg"
             className="w-full h-full object-cover pointer-events-none"
           >
-            <source src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/Hotel%20Susan%20Spa%20Resort%20720.mp4" type="video/mp4" />
+            <source src="/videos/hero.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-black/30" />
         </div>
