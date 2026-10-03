@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Compass, Heart } from 'lucide-react';
+import { Compass, Heart , ChevronDown} from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
@@ -15,27 +15,38 @@ export default function AboutPage() {
     <div className="min-h-screen bg-ivory text-charcoal font-sans">
       <Header onOpenReserve={() => setIsReserveModalOpen(true)} />
 
-      <section className="relative pt-32 pb-20 bg-forest-deep text-ivory text-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
+        <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
             src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2000&auto=format&fit=crop"
             alt="About Susan Spa"
             fill
-            className="object-cover opacity-30"
+            className="object-cover "
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/80 to-forest-deep/60" />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
-          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">KISAH & FILOSOFI KAMI</span>
-          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">Peristirahatan Sejuk di Atas Bandungan</h1>
-          <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Berdiri di ketinggian ±1.100 mdpl pada lereng selatan Gunung Ungaran, Jawa Tengah.
+        <div className="relative z-10 w-full px-4 sm:px-6 text-center flex flex-col items-center justify-center">
+          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl font-normal text-white text-center tracking-tight max-w-5xl mx-auto drop-shadow-lg">
+            Peristirahatan Sejuk di Atas Bandungan
+          </h1>
+          
+          <p className="mt-4 sm:mt-6 text-[10px] sm:text-xs font-sans uppercase tracking-[0.3em] text-white/90 max-w-2xl mx-auto font-medium text-center drop-shadow-md">
+            KISAH & FILOSOFI KAMI
           </p>
         </div>
+
+        <a 
+          href="#content"
+          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center space-y-1.5 group cursor-pointer"
+        >
+          <span className="text-white text-lg sm:text-xl font-serif drop-shadow-md">Jelajahi</span>
+          <span className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-sans group-hover:text-white transition-colors">Explore Below</span>
+          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-1 transition-all duration-300" />
+        </a>
       </section>
 
-      <section className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-center">
+      <section id="content" className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-center">
         <h2 className="font-serif text-3xl sm:text-4xl text-forest-deep">Kesejukan Alami & Keramahan Penuh Ketulusan</h2>
         <p className="text-sm sm:text-base text-charcoal/80 leading-relaxed font-normal">
           Dihadirkan sebagai tempat rehat yang menenangkan dari padatnya ritme perkotaan, Susan Spa & Resort memadukan keramahtamahan tradisi Jawa dengan fasilitas kenyamanan modern. Dikelilingi udara pegunungan yang bersih, rimbunnya pepohonan lereng bukit, dan panorama lembah yang membentang luas.

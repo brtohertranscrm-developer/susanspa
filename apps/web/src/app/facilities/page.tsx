@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   Calendar,
   Clock,
+  ChevronDown,
 } from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
@@ -40,42 +41,40 @@ export default function FacilitiesPage() {
       <Header onOpenReserve={() => setIsReserveModalOpen(true)} />
 
       {/* Hero Header */}
-      <section className="relative pt-36 pb-24 bg-forest-deep text-ivory text-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
+        <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
             src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop"
             alt="Susan Spa Facilities"
             fill
             priority
-            className="object-cover opacity-35"
+            className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/80 to-forest-deep/60" />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
-          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            FASILITAS & PENGALAMAN RESORT
-          </span>
-          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Fasilitas & Layanan Unggulan
+        <div className="relative z-10 w-full px-4 sm:px-6 text-center flex flex-col items-center justify-center">
+          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl font-normal text-white text-center tracking-tight max-w-5xl mx-auto drop-shadow-lg">
+            Fasilitas Resort
           </h1>
-          <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Temukan ragam fasilitas lengkap kami yang dirancang untuk relaksasi kebugaran, santap kuliner, keceriaan keluarga, perayaan istimewa, hingga kenyamanan layanan menginap Anda.
+          
+          <p className="mt-4 sm:mt-6 text-[10px] sm:text-xs font-sans uppercase tracking-[0.3em] text-white/90 max-w-2xl mx-auto font-medium text-center drop-shadow-md">
+            FASILITAS & PENGALAMAN RESORT
           </p>
-
-          <div className="pt-4">
-            <button
-              onClick={() => setIsReserveModalOpen(true)}
-              className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-lg transition-transform hover:scale-105"
-            >
-              Reservasi Sekarang
-            </button>
-          </div>
         </div>
+
+        <a 
+          href="#content"
+          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center space-y-1.5 group cursor-pointer"
+        >
+          <span className="text-white text-lg sm:text-xl font-serif drop-shadow-md">Jelajahi Fasilitas</span>
+          <span className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-sans group-hover:text-white transition-colors">Explore Below</span>
+          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-1 transition-all duration-300" />
+        </a>
       </section>
 
       {/* Category Navigation Pills */}
-      <div className="sticky top-20 z-30 bg-ivory/95 backdrop-blur-md border-b border-stone/20 py-3 sm:py-4 shadow-sm">
+      <div id="content" className="sticky top-20 z-30 bg-ivory/95 backdrop-blur-md border-b border-stone/20 py-3 sm:py-4 shadow-sm">
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-8 flex items-center sm:justify-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar scroll-smooth">
           <button
             onClick={() => setActiveCategory('All')}

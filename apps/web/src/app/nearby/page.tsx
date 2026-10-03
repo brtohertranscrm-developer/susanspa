@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MapPin, Navigation, ArrowRight } from 'lucide-react';
+import { MapPin, Navigation, ArrowRight, ChevronDown } from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
@@ -18,33 +18,40 @@ export default function NearbyPage() {
       <Header onOpenReserve={() => setIsReserveModalOpen(true)} />
 
       {/* Hero Header */}
-      <section className="relative pt-36 pb-24 bg-forest-deep text-ivory text-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
+        <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
             src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop"
             alt="Bandungan Attractions"
             fill
             priority
-            className="object-cover opacity-35"
+            className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/80 to-forest-deep/60" />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">
-          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            PANDUAN DESTINASI
-          </span>
-          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
-            Wisata Menarik Sekitar Bandungan
+        <div className="relative z-10 w-full px-4 sm:px-6 text-center flex flex-col items-center justify-center">
+          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl font-normal text-white text-center tracking-tight max-w-5xl mx-auto drop-shadow-lg">
+            Wisata Sekitar
           </h1>
-          <p className="text-sm sm:text-base text-ivory/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Kawasan pegunungan Bandungan kaya akan destinasi wisata alam, budaya bersejarah, taman bunga highland, dan rekreasi keluarga yang dapat ditempuh dalam hitungan menit dari Susan Spa & Resort.
+          
+          <p className="mt-4 sm:mt-6 text-[10px] sm:text-xs font-sans uppercase tracking-[0.3em] text-white/90 max-w-2xl mx-auto font-medium text-center drop-shadow-md">
+            PANDUAN DESTINASI
           </p>
         </div>
+
+        <a 
+          href="#content"
+          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center space-y-1.5 group cursor-pointer"
+        >
+          <span className="text-white text-lg sm:text-xl font-serif drop-shadow-md">Lihat Destinasi</span>
+          <span className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-sans group-hover:text-white transition-colors">Explore Below</span>
+          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-1 transition-all duration-300" />
+        </a>
       </section>
 
       {/* Destinations Grid (4 destinations) */}
-      <section className="py-20 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <section id="content" className="py-20 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {NEARBY_DESTINATIONS.map((dest) => (
             <div
