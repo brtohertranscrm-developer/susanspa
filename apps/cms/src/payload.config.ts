@@ -25,6 +25,7 @@ export default buildConfig({
     meta: {
       titleSuffix: ' | Susan Spa CMS',
     },
+    theme: 'light',
   },
   collections: [
     Users,
