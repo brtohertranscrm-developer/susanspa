@@ -1,5 +1,7 @@
 /* THIS FILE IS MAINTAINED BY THE PAYLOAD SCAFFOLD. */
 import config from '@payload-config'
+import '@fontsource-variable/lora'
+import '@fontsource-variable/source-sans-3'
 import '@payloadcms/next/css'
 import type { ServerFunctionClient } from 'payload'
 import { handleServerFunctions, RootLayout } from '@payloadcms/next/layouts'

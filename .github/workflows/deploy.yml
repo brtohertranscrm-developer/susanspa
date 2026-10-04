@@ -17,12 +17,14 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         env:
           GITHUB_SHA: ${{ github.sha }}
+          IMAGEKIT_PRIVATE_KEY: ${{ secrets.IMAGEKIT_PRIVATE_KEY }}
+          IMAGEKIT_URL_ENDPOINT: ${{ secrets.IMAGEKIT_URL_ENDPOINT }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
-          envs: GITHUB_SHA
+          envs: GITHUB_SHA,IMAGEKIT_PRIVATE_KEY,IMAGEKIT_URL_ENDPOINT
           script: |
             set -Eeuo pipefail
 
@@ -66,6 +68,23 @@ jobs:
             test -f apps/web/.next/BUILD_ID
             test -f apps/cms/.next/BUILD_ID
             test -f apps/booking-api/dist/server.js
+
+            echo "Menyinkronkan secret ImageKit ke environment CMS..."
+            CMS_ENV_FILE="/etc/susanspa/cms.env"
+            sync_cms_env() {
+              name="$1"
+              value="$2"
+              if [ -z "$value" ]; then
+                echo "Peringatan: secret $name kosong di GitHub, $CMS_ENV_FILE tidak diubah."
+                return 0
+              fi
+              {
+                sudo sed -i "/^${name}=/d" "$CMS_ENV_FILE" &&
+                  printf '%s=%s\n' "$name" "$value" | sudo tee -a "$CMS_ENV_FILE" > /dev/null
+              } || echo "Peringatan: gagal menulis $name ke $CMS_ENV_FILE. Isi manual di VPS, upload foto akan gagal tanpanya."
+            }
+            sync_cms_env IMAGEKIT_PRIVATE_KEY "${IMAGEKIT_PRIVATE_KEY:-}"
+            sync_cms_env IMAGEKIT_URL_ENDPOINT "${IMAGEKIT_URL_ENDPOINT:-}"
 
             echo "Menjalankan migration dengan environment production..."
             set -a
