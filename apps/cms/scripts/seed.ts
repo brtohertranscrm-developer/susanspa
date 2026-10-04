@@ -37,8 +37,8 @@ async function seed() {
           capacityChildren: room.capacityChildren || 0,
           bedType: room.bedType || '',
           bookingRoomTypeId: room.id,
-          amenities: room.amenities.map((a) => ({ label: a })),
-          policies: room.policies.map((p) => ({ label: p })),
+          amenities: room.amenities.map((a: string) => ({ label: a })),
+          policies: room.policies.map((p: string) => ({ label: p })),
           _status: 'published',
         },
       })
@@ -56,7 +56,7 @@ async function seed() {
           description: spa.description,
           durationMinutes: spa.durationMinutes,
           priceLabel: spa.priceIdr,
-          benefits: spa.benefits.map((b) => ({ label: b })),
+          benefits: spa.benefits.map((b: string) => ({ label: b })),
           _status: 'published',
         },
       })
@@ -75,7 +75,7 @@ async function seed() {
           venue: typeof wedding.venue === 'string' ? wedding.venue : (wedding.venue?.[0] || ''),
           capacity: parseInt(wedding.guestCapacity || wedding.capacity || '100', 10) || 100,
           priceLabel: wedding.priceStartingIdr || 0,
-          inclusions: wedding.inclusions.map((i) => ({ label: i })),
+          inclusions: wedding.inclusions.map((i: string) => ({ label: i })),
           _status: 'published',
         },
       })
@@ -177,6 +177,7 @@ async function seed() {
           content: {
             root: {
               type: 'root',
+              direction: 'ltr',
               format: '',
               indent: 0,
               version: 1,
