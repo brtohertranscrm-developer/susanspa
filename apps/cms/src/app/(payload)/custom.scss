@@ -3,41 +3,13 @@
 :root {
   /* Colors */
   --theme-bg: #F4F7FA;
-  --theme-elevation-50: #FFFFFF;
-  --theme-elevation-100: #FFFFFF;
-  --theme-elevation-150: #FFFFFF;
-  --theme-elevation-200: #F4F7FA;
-  --theme-elevation-250: #EAEFF4;
-  --theme-elevation-300: #EAEFF4;
-  --theme-elevation-350: #DCE3EA;
-  --theme-elevation-400: #DCE3EA;
-  --theme-elevation-450: #C8D2DC;
-  --theme-elevation-500: #0F52BA;
-  --theme-elevation-550: #0D47A1;
-  --theme-elevation-600: #0D47A1;
-  --theme-elevation-650: #0D47A1;
-  --theme-elevation-700: #0A367C;
-  --theme-elevation-750: #0A367C;
-  --theme-elevation-800: #072350;
-  --theme-elevation-850: #072350;
-  --theme-elevation-900: #04142F;
-  --theme-elevation-950: #04142F;
-  --theme-elevation-1000: #020914;
-
-  --theme-success-500: #10B981;
-  --theme-error-500: #EF4444;
-
   --font-body: 'Inter', sans-serif;
-  --style-radius-s: 8px;
-  --style-radius-m: 12px;
-  --style-radius-l: 16px;
 }
 
 /* Global resets for smoother feel */
 body {
   font-family: var(--font-body) !important;
   background-color: var(--theme-bg) !important;
-  color: #334155;
 }
 
 /* Base Inputs & Buttons */
@@ -64,6 +36,7 @@ input, textarea, select, .rich-text-lexical {
   background: white !important;
   box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important;
   transition: all 0.2s ease !important;
+  color: #334155 !important;
 }
 
 input:focus, textarea:focus, select:focus, .rich-text-lexical:focus-within {
@@ -74,7 +47,7 @@ input:focus, textarea:focus, select:focus, .rich-text-lexical:focus-within {
 
 /* Layout - Main content */
 .template-default {
-  background-color: var(--theme-bg);
+  background-color: var(--theme-bg) !important;
 }
 
 .template-default__wrap {
@@ -88,24 +61,7 @@ input:focus, textarea:focus, select:focus, .rich-text-lexical:focus-within {
   width: 260px !important;
   transition: width 0.3s ease !important;
   overflow: hidden !important;
-}
-
-/* Compact Nav (Hover to Expand) - Using CSS only */
-.nav:not(:hover) {
-  width: 80px !important;
-}
-
-.nav:not(:hover) .nav__link {
-  padding: 12px !important;
-  justify-content: center !important;
-}
-
-.nav:not(:hover) .nav__link-label,
-.nav:not(:hover) .nav__group-title,
-.nav:not(:hover) .nav__log-out {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  width: 0 !important;
+  white-space: nowrap !important;
 }
 
 .nav__wrap {
@@ -119,7 +75,7 @@ input:focus, textarea:focus, select:focus, .rich-text-lexical:focus-within {
   color: #94A3B8 !important;
   margin-bottom: 8px !important;
   margin-top: 24px !important;
-  white-space: nowrap;
+  transition: opacity 0.2s !important;
 }
 
 /* Links inside sidebar */
@@ -134,7 +90,6 @@ input:focus, textarea:focus, select:focus, .rich-text-lexical:focus-within {
   font-weight: 500 !important;
   text-decoration: none !important;
   transition: all 0.2s ease !important;
-  white-space: nowrap !important;
 }
 
 .nav__link:hover, .nav__link--active {
@@ -146,13 +101,84 @@ input:focus, textarea:focus, select:focus, .rich-text-lexical:focus-within {
   background-color: #EFF4FF !important;
 }
 
-/* Icons */
-.nav-icon {
-  flex-shrink: 0;
-  stroke: currentColor;
+/* ----------------------------------------- */
+/* COMPACT NAV (HOVER TO EXPAND) */
+/* ----------------------------------------- */
+.nav:not(:hover) {
+  width: 72px !important;
+}
+.nav:not(:hover) .nav__group-title {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+.nav:not(:hover) .nav__link {
+  color: transparent !important; /* Hide text */
+}
+/* But keep the icon visible! */
+.nav:not(:hover) .nav__link::before {
+  background-color: #64748B !important;
+}
+.nav:not(:hover) .nav__link:hover::before,
+.nav:not(:hover) .nav__link--active::before {
+  background-color: #0F52BA !important;
 }
 
-/* Cards (Collections & Edit view) */
+/* ----------------------------------------- */
+/* CSS ICONS USING MASK-IMAGE */
+/* ----------------------------------------- */
+.nav__link::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  /* Default icon (fallback) */
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>');
+}
+
+/* Dashboard / Defaults */
+.nav__link[href$="/cms"]::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>');
+}
+/* Users */
+.nav__link[href$="/users"]::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>');
+}
+/* Media */
+.nav__link[href$="/media"]::before, .nav__link[href$="/gallery-items"]::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>');
+}
+/* Rooms */
+.nav__link[href$="/rooms"]::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"></path><path d="M2 8h18a2 2 0 0 1 2 2v10"></path><path d="M2 17h20"></path><path d="M6 8v9"></path></svg>');
+}
+/* Spa & Offers */
+.nav__link[href$="/spa-treatments"]::before, .nav__link[href$="/offers"]::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>');
+}
+/* Weddings */
+.nav__link[href$="/wedding-packages"]::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>');
+}
+/* Resort Content & Journal */
+.nav__link[href$="/resort-content"]::before, .nav__link[href$="/journal-articles"]::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>');
+}
+/* Settings */
+.nav__link[href$="/site-settings"]::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>');
+}
+
+/* ----------------------------------------- */
+/* OTHER UI FIXES */
+/* ----------------------------------------- */
 .collection-list, .render-fields {
   background: white !important;
   border-radius: 12px !important;
@@ -163,6 +189,7 @@ input:focus, textarea:focus, select:focus, .rich-text-lexical:focus-within {
 
 .collection-list__header {
   margin-bottom: 24px !important;
+  color: #1E293B !important;
 }
 
 /* Table */
