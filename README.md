@@ -39,6 +39,17 @@ npm run dev
 
 Saat pertama membuka CMS, buat akun administrator awal melalui layar Payload. Ganti seluruh secret dan password contoh sebelum deployment.
 
+### Upload media CMS (ImageKit)
+
+File media disimpan di ImageKit. CMS membaca dua variabel dari `apps/cms/.env` (lokal) atau `/etc/susanspa/cms.env` (production):
+
+| Variabel | Isi |
+| --- | --- |
+| `IMAGEKIT_PRIVATE_KEY` | Private key dari dashboard ImageKit (Developer options) |
+| `IMAGEKIT_URL_ENDPOINT` | URL endpoint ImageKit, `https://ik.imagekit.io/<id_imagekit>/` |
+
+Keduanya tidak punya nilai bawaan di kode. Tanpa keduanya CMS tetap berjalan, tetapi upload foto ditolak dengan pesan yang menyebut variabel yang kosong. Jangan menaruh private key di kode atau commit; kalau terlanjur bocor, rotasi key di ImageKit.
+
 Frontend kamar membaca data terbit dari Payload. Selama CMS belum memiliki data atau tidak dapat dijangkau, data demo di `apps/web/src/data/rooms.ts` dipakai sebagai fallback sehingga Demo 1 tetap berjalan.
 
 ## Pemeriksaan kualitas

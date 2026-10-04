@@ -33,6 +33,24 @@ jobs:
 
             PREVIOUS_TARGET="$(readlink -f /opt/susanspa/releases/current || true)"
 
+            echo "Memeriksa variabel wajib di /etc/susanspa/cms.env..."
+            (
+              set -a
+              . /etc/susanspa/cms.env
+              set +a
+              missing=""
+              for var in IMAGEKIT_PRIVATE_KEY IMAGEKIT_URL_ENDPOINT; do
+                if [ -z "${!var:-}" ]; then
+                  missing="$missing $var"
+                fi
+              done
+              if [ -n "$missing" ]; then
+                echo "Deploy dibatalkan. /etc/susanspa/cms.env belum memuat:$missing"
+                echo "Isi variabel itu di VPS, lalu jalankan ulang deploy. Release yang aktif tidak diubah."
+                exit 1
+              fi
+            )
+
             rollback() {
               echo "Deployment gagal. Menjalankan rollback."
               if [ -n "${PREVIOUS_TARGET:-}" ] && [ -d "$PREVIOUS_TARGET" ]; then
