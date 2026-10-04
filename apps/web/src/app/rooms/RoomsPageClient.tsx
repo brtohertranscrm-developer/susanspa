@@ -36,7 +36,7 @@ export default function RoomsPageClient({ rooms }: { rooms: Room[] }) {
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347"
+            src="/images/rooms/room-1.jpg"
             alt="Susan Spa Rooms & Suites"
             fill
             priority

@@ -16,7 +16,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
       {/* Image Container */}
       <div className="relative aspect-[16/10] overflow-hidden bg-forest-deep">
         <Image
-          src={room.images[0] || 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/MNP_3585%20copy.jpeg?updatedAt=1790906706347'}
+          src={room.images[0] || '/images/rooms/room-1.jpg'}
           alt={room.name}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
