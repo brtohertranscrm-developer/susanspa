@@ -58,6 +58,7 @@ Catatan untuk pengembang:
 - Perubahan label, deskripsi, kolom daftar, tab, dan urutan field tidak mengubah schema database. Menambah field atau mengubah `index`, `unique`, dan `autosave` butuh migration.
 - Payload 3.88 membuat draf kosong setiap kali halaman Tambah dibuka pada koleksi dengan autosave (Kamar, Artikel Jurnal). Draf itu tidak tampil di website. Ringkasan menghitungnya terpisah sebagai "Draf tanpa judul".
 - `20261004_120000_add_media_imagekit_file_id` menambah kolom `media.imagekit_file_id` yang dipakai kode tetapi tidak ada di migration awal.
+- Unggah foto memakai ImageKit. Isi `IMAGEKIT_PRIVATE_KEY` dan `IMAGEKIT_URL_ENDPOINT` di environment CMS (lokal di `apps/cms/.env`, produksi di `/etc/susanspa/cms.env`). Tanpa kunci, CMS tetap berjalan tetapi unggah foto menampilkan pesan error yang jelas.
 
 ## Pemeriksaan kualitas
 
