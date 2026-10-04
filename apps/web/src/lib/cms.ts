@@ -1,12 +1,20 @@
 import 'server-only';
 
 import { resolveRoomCatalog, type CmsRoom } from '@/lib/room-catalog';
-import type { Room, SpaTreatment, WeddingPackage, Offer, ResortFacility, GalleryItem } from '@/types';
 import { SPA_TREATMENTS } from '@/data/spa';
 import { WEDDING_PACKAGES } from '@/data/weddings';
 import { OFFERS } from '@/data/offers';
 import { FACILITIES } from '@/data/facilities';
 import { GALLERY_ITEMS } from '@/data/gallery';
+import { DINING_VENUES } from '@/data/dining';
+import { EXPERIENCES } from '@/data/experiences';
+import { NEARBY_DESTINATIONS } from '@/data/nearby';
+import { JOURNAL_ARTICLES } from '@/data/journal';
+import type { 
+  Room, SpaTreatment, WeddingPackage, Offer, 
+  ResortFacility, GalleryItem, DiningVenue, 
+  Experience, NearbyDestination, JournalArticle 
+} from '@/types';
 
 interface CmsListResponse<T> {
   docs: T[];
@@ -128,5 +136,74 @@ export async function getGalleryItems(locale: 'id' | 'en' = 'id'): Promise<Galle
     image: doc.image?.url || GALLERY_ITEMS[0].image,
     width: doc.image?.width || 800,
     height: doc.image?.height || 600,
+  }));
+}
+
+export async function getDining(locale: 'id' | 'en' = 'id'): Promise<DiningVenue[]> {
+  const docs = await getCmsCollection<any>('resort-content', [], { locale, depth: 1 });
+  const dining = docs.filter((d: any) => d.kind === 'dining');
+  if (!dining || dining.length === 0) return DINING_VENUES;
+  return dining.map((doc: any) => ({
+    id: doc.slug,
+    name: doc.title,
+    subtitle: doc.summary || '',
+    cuisine: doc.location || 'Local & International',
+    ambiance: 'Elegant',
+    operatingHours: '07:00 - 22:00',
+    description: doc.description || '',
+    image: doc.featuredImage?.url || DINING_VENUES[0].image,
+    menuHighlights: [],
+  }));
+}
+
+export async function getExperiences(locale: 'id' | 'en' = 'id'): Promise<Experience[]> {
+  const docs = await getCmsCollection<any>('resort-content', [], { locale, depth: 1 });
+  const experiences = docs.filter((d: any) => d.kind === 'experience');
+  if (!experiences || experiences.length === 0) return EXPERIENCES;
+  return experiences.map((doc: any) => ({
+    id: doc.slug,
+    slug: doc.slug,
+    title: doc.title,
+    category: 'Nature & Adventure',
+    duration: '2 Hours',
+    location: doc.location || 'Bandungan',
+    description: doc.description || doc.summary || '',
+    image: doc.featuredImage?.url || EXPERIENCES[0].image,
+    highlights: [],
+  }));
+}
+
+export async function getNearbyDestinations(locale: 'id' | 'en' = 'id'): Promise<NearbyDestination[]> {
+  const docs = await getCmsCollection<any>('resort-content', [], { locale, depth: 1 });
+  const nearby = docs.filter((d: any) => d.kind === 'nearby');
+  if (!nearby || nearby.length === 0) return NEARBY_DESTINATIONS;
+  return nearby.map((doc: any) => ({
+    id: doc.slug,
+    slug: doc.slug,
+    name: doc.title,
+    distance: doc.distanceLabel || '10 mins',
+    description: doc.description || doc.summary || '',
+    image: doc.featuredImage?.url || NEARBY_DESTINATIONS[0].image,
+  }));
+}
+
+export async function getJournalArticles(locale: 'id' | 'en' = 'id'): Promise<JournalArticle[]> {
+  const docs = await getCmsCollection<any>('journal-articles', [], { locale, depth: 1 });
+  if (!docs || docs.length === 0) return JOURNAL_ARTICLES;
+  return docs.map((doc: any) => ({
+    id: doc.slug,
+    slug: doc.slug,
+    title: doc.title,
+    category: doc.category || 'Resort News',
+    publishedAt: doc.publishedAt || new Date().toISOString(),
+    readTime: '5 min read',
+    excerpt: doc.excerpt || '',
+    content: [],
+    author: {
+      name: 'Susan Spa',
+      role: 'Editorial',
+      avatar: '/images/susan-spa-logo.png',
+    },
+    coverImage: doc.coverImage?.url || JOURNAL_ARTICLES[0].coverImage,
   }));
 }
