@@ -41,6 +41,24 @@ Saat pertama membuka CMS, buat akun administrator awal melalui layar Payload. Ga
 
 Frontend kamar membaca data terbit dari Payload. Selama CMS belum memiliki data atau tidak dapat dijangkau, data demo di `apps/web/src/data/rooms.ts` dipakai sebagai fallback sehingga Demo 1 tetap berjalan.
 
+## Panel konten (CMS)
+
+Panel di `http://localhost:3001/cms` ditujukan untuk tim admin yang mengelola isi website. Tampilannya Bahasa Indonesia, mengikuti token warna dan huruf di `DESIGN.md`, dan punya tema terang serta gelap yang dipilih per akun di halaman Akun.
+
+- **Ringkasan** (halaman awal) menampilkan data nyata dari database: konten yang menunggu publikasi, promo yang sudah lewat masa berlaku tetapi masih diterbitkan, konten yang belum punya terjemahan Inggris, jumlah konten tayang per jenis, dan konten yang terakhir diubah.
+- **Peran**: Admin konten mengelola semua konten dan akun. Editor konten mengelola konten dan hanya bisa mengubah akunnya sendiri.
+- **Draf dan publikasi**: draf tidak tampil di website. Website membaca konten terbit dengan cache 5 menit (`revalidate` di `apps/web/src/lib/cms.ts`), jadi perubahan bisa butuh beberapa menit untuk terlihat. Tombol Pratinjau hanya muncul untuk konten yang sudah terbit.
+- **Bahasa konten**: isi versi Indonesia lebih dulu. Selama versi English kosong, website menampilkan teks Indonesia.
+- **Slug** terisi otomatis dari judul saat membuat konten baru dan tidak berubah sendiri sesudahnya.
+- Teks logo di panel masih placeholder (`apps/cms/src/components/BrandLogo.tsx`) sampai file logo resmi tersedia.
+
+Catatan untuk pengembang:
+
+- Setelah menambah atau mengubah komponen admin di `payload.config.ts`, jalankan `npm run cms:generate:importmap`.
+- Perubahan label, deskripsi, kolom daftar, tab, dan urutan field tidak mengubah schema database. Menambah field atau mengubah `index`, `unique`, dan `autosave` butuh migration.
+- Payload 3.88 membuat draf kosong setiap kali halaman Tambah dibuka pada koleksi dengan autosave (Kamar, Artikel Jurnal). Draf itu tidak tampil di website. Ringkasan menghitungnya terpisah sebagai "Draf tanpa judul".
+- `20261004_120000_add_media_imagekit_file_id` menambah kolom `media.imagekit_file_id` yang dipakai kode tetapi tidak ada di migration awal.
+
 ## Pemeriksaan kualitas
 
 ```bash

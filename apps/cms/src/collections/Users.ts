@@ -3,9 +3,14 @@ import { isContentAdmin } from '../access'
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  labels: { singular: 'Pengguna', plural: 'Pengguna' },
   admin: {
-    group: 'Access',
-    useAsTitle: 'email',
+    group: 'Pengaturan',
+    useAsTitle: 'fullName',
+    description:
+      'Akun yang bisa masuk ke panel ini. Hanya Admin konten yang dapat menambah akun, mengubah peran, atau menghapus akun.',
+    defaultColumns: ['fullName', 'email', 'roles', 'createdAt'],
+    listSearchableFields: ['fullName', 'email'],
   },
   auth: {
     maxLoginAttempts: 5,
@@ -33,19 +38,25 @@ export const Users: CollectionConfig = {
   fields: [
     {
       name: 'fullName',
+      label: 'Nama lengkap',
       type: 'text',
       required: true,
     },
     {
       name: 'roles',
+      label: 'Peran',
       type: 'select',
       hasMany: true,
       required: true,
       defaultValue: ['content-editor'],
       options: [
-        { label: 'Content Admin', value: 'content-admin' },
-        { label: 'Content Editor', value: 'content-editor' },
+        { label: 'Admin konten', value: 'content-admin' },
+        { label: 'Editor konten', value: 'content-editor' },
       ],
+      admin: {
+        description:
+          'Admin konten mengelola semua konten dan semua akun. Editor konten mengelola konten, tetapi hanya bisa mengubah akunnya sendiri.',
+      },
       access: {
         update: ({ req }) => Boolean(req.user && isContentAdmin(req.user)),
       },
