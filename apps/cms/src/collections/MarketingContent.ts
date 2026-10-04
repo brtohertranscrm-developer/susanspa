@@ -14,11 +14,16 @@ const contentCollection = (
   slug: string,
   singularLabel: string,
   pluralLabel: string,
+  iconPath: string,
   fields: Field[] = [],
 ): CollectionConfig => ({
   slug,
   labels: { singular: singularLabel, plural: pluralLabel },
-  admin: { group: 'Hospitality', useAsTitle: 'title' },
+  admin: {
+    group: 'Hospitality',
+    useAsTitle: 'title',
+    components: { Icon: iconPath },
+  },
   access: {
     create: canManageContent,
     read: publicPublishedOrEditor,
@@ -29,26 +34,26 @@ const contentCollection = (
   fields: [...commonFields, ...fields],
 })
 
-export const SpaTreatments = contentCollection('spa-treatments', 'Spa Treatment', 'Spa Treatments', [
+export const SpaTreatments = contentCollection('spa-treatments', 'Spa Treatment', 'Spa Treatments', '/src/components/icons/SpaIcon.tsx', [
   { name: 'durationMinutes', type: 'number', min: 1 },
   { name: 'priceLabel', type: 'number', min: 0 },
   { name: 'benefits', type: 'array', fields: [{ name: 'label', type: 'text', localized: true }] },
 ])
 
-export const WeddingPackages = contentCollection('wedding-packages', 'Wedding Package', 'Wedding Packages', [
+export const WeddingPackages = contentCollection('wedding-packages', 'Wedding Package', 'Wedding Packages', '/src/components/icons/WeddingIcon.tsx', [
   { name: 'capacity', type: 'number', min: 1 },
   { name: 'venue', type: 'text', localized: true },
   { name: 'priceLabel', type: 'number', min: 0 },
   { name: 'inclusions', type: 'array', fields: [{ name: 'label', type: 'text', localized: true }] },
 ])
 
-export const Offers = contentCollection('offers', 'Offer', 'Offers', [
+export const Offers = contentCollection('offers', 'Offer', 'Offers', '/src/components/icons/OffersIcon.tsx', [
   { name: 'validFrom', type: 'date' },
   { name: 'validUntil', type: 'date' },
   { name: 'terms', type: 'textarea', localized: true },
 ])
 
-export const ResortContent = contentCollection('resort-content', 'Resort Content', 'Resort Content', [
+export const ResortContent = contentCollection('resort-content', 'Resort Content', 'Resort Content', '/src/components/icons/ResortIcon.tsx', [
   {
     name: 'kind',
     type: 'select',

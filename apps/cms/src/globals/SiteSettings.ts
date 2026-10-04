@@ -4,7 +4,10 @@ import { canManageContent } from '../access'
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Site Settings',
-  admin: { group: 'Settings' },
+  admin: {
+    group: 'Settings',
+    components: { Icon: '/src/components/icons/SettingsIcon.tsx' },
+  },
   access: {
     read: () => true,
     update: canManageContent,

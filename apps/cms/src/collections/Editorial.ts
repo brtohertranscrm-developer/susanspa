@@ -3,7 +3,11 @@ import { canManageContent, publicPublishedOrEditor } from '../access'
 
 export const JournalArticles: CollectionConfig = {
   slug: 'journal-articles',
-  admin: { group: 'Editorial', useAsTitle: 'title' },
+  admin: {
+    group: 'Editorial',
+    useAsTitle: 'title',
+    components: { Icon: '/src/components/icons/JournalIcon.tsx' },
+  },
   access: {
     create: canManageContent,
     read: publicPublishedOrEditor,
@@ -26,7 +30,11 @@ export const JournalArticles: CollectionConfig = {
 
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
-  admin: { group: 'Editorial', useAsTitle: 'guestName' },
+  admin: {
+    group: 'Editorial',
+    useAsTitle: 'guestName',
+    components: { Icon: '/src/components/icons/TestimonialIcon.tsx' },
+  },
   access: {
     create: canManageContent,
     read: publicPublishedOrEditor,
@@ -45,7 +53,11 @@ export const Testimonials: CollectionConfig = {
 
 export const GalleryItems: CollectionConfig = {
   slug: 'gallery-items',
-  admin: { group: 'Editorial', useAsTitle: 'title' },
+  admin: {
+    group: 'Editorial',
+    useAsTitle: 'title',
+    components: { Icon: '/src/components/icons/GalleryIcon.tsx' },
+  },
   access: {
     create: canManageContent,
     read: publicPublishedOrEditor,
