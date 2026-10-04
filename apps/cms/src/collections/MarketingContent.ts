@@ -14,7 +14,6 @@ const contentCollection = (
   slug: string,
   singularLabel: string,
   pluralLabel: string,
-  iconPath: string,
   fields: Field[] = [],
 ): CollectionConfig => ({
   slug,
@@ -22,7 +21,6 @@ const contentCollection = (
   admin: {
     group: 'Hospitality',
     useAsTitle: 'title',
-    components: { Icon: iconPath },
   },
   access: {
     create: canManageContent,
@@ -34,26 +32,26 @@ const contentCollection = (
   fields: [...commonFields, ...fields],
 })
 
-export const SpaTreatments = contentCollection('spa-treatments', 'Spa Treatment', 'Spa Treatments', '/src/components/icons/SpaIcon.tsx', [
+export const SpaTreatments = contentCollection('spa-treatments', 'Spa Treatment', 'Spa Treatments', [
   { name: 'durationMinutes', type: 'number', min: 1 },
   { name: 'priceLabel', type: 'number', min: 0 },
   { name: 'benefits', type: 'array', fields: [{ name: 'label', type: 'text', localized: true }] },
 ])
 
-export const WeddingPackages = contentCollection('wedding-packages', 'Wedding Package', 'Wedding Packages', '/src/components/icons/WeddingIcon.tsx', [
+export const WeddingPackages = contentCollection('wedding-packages', 'Wedding Package', 'Wedding Packages', [
   { name: 'capacity', type: 'number', min: 1 },
   { name: 'venue', type: 'text', localized: true },
   { name: 'priceLabel', type: 'number', min: 0 },
   { name: 'inclusions', type: 'array', fields: [{ name: 'label', type: 'text', localized: true }] },
 ])
 
-export const Offers = contentCollection('offers', 'Offer', 'Offers', '/src/components/icons/OffersIcon.tsx', [
+export const Offers = contentCollection('offers', 'Offer', 'Offers', [
   { name: 'validFrom', type: 'date' },
   { name: 'validUntil', type: 'date' },
   { name: 'terms', type: 'textarea', localized: true },
 ])
 
-export const ResortContent = contentCollection('resort-content', 'Resort Content', 'Resort Content', '/src/components/icons/ResortIcon.tsx', [
+export const ResortContent = contentCollection('resort-content', 'Resort Content', 'Resort Content', [
   {
     name: 'kind',
     type: 'select',

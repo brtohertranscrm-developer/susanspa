@@ -6,7 +6,6 @@ export const SiteSettings: GlobalConfig = {
   label: 'Site Settings',
   admin: {
     group: 'Settings',
-    components: { Icon: '/src/components/icons/SettingsIcon.tsx' },
   },
   access: {
     read: () => true,

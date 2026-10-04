@@ -7,9 +7,6 @@ export const Rooms: CollectionConfig = {
     group: 'Hospitality',
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'bookingRoomTypeId', '_status'],
-    components: {
-      Icon: '/src/components/icons/RoomsIcon.tsx',
-    },
   },
   access: {
     create: canManageContent,

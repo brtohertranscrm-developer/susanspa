@@ -13,9 +13,6 @@ export const Media: CollectionConfig = {
   slug: 'media',
   admin: {
     group: 'Content',
-    components: {
-      Icon: '/src/components/icons/MediaIcon.tsx',
-    },
   },
   access: {
     create: canManageContent,

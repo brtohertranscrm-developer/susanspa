@@ -6,7 +6,6 @@ export const JournalArticles: CollectionConfig = {
   admin: {
     group: 'Editorial',
     useAsTitle: 'title',
-    components: { Icon: '/src/components/icons/JournalIcon.tsx' },
   },
   access: {
     create: canManageContent,
@@ -33,7 +32,6 @@ export const Testimonials: CollectionConfig = {
   admin: {
     group: 'Editorial',
     useAsTitle: 'guestName',
-    components: { Icon: '/src/components/icons/TestimonialIcon.tsx' },
   },
   access: {
     create: canManageContent,
@@ -56,7 +54,6 @@ export const GalleryItems: CollectionConfig = {
   admin: {
     group: 'Editorial',
     useAsTitle: 'title',
-    components: { Icon: '/src/components/icons/GalleryIcon.tsx' },
   },
   access: {
     create: canManageContent,

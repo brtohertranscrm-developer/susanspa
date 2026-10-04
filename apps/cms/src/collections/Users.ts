@@ -6,9 +6,6 @@ export const Users: CollectionConfig = {
   admin: {
     group: 'Access',
     useAsTitle: 'email',
-    components: {
-      Icon: '/src/components/icons/UsersIcon.tsx',
-    },
   },
   auth: {
     maxLoginAttempts: 5,
