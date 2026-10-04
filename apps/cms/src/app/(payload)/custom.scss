@@ -107,17 +107,33 @@ input:focus, textarea:focus, select:focus, .rich-text-lexical:focus-within {
 .nav:not(:hover) {
   width: 72px !important;
 }
+.nav:not(:hover) [class*="group__title"],
+.nav:not(:hover) .nav-group__title,
 .nav:not(:hover) .nav__group-title {
   opacity: 0 !important;
   visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
 }
+
 .nav:not(:hover) .nav__link {
-  color: transparent !important; /* Hide text */
+  font-size: 0 !important; /* Hides the text completely */
+  color: transparent !important; /* Fallback */
+  justify-content: center !important;
+  padding: 12px 0 !important;
+  gap: 0 !important; /* Removes gap between icon and hidden text */
 }
-/* But keep the icon visible! */
+
+/* Ensure the icon stays nicely sized and centered */
 .nav:not(:hover) .nav__link::before {
+  width: 22px !important;
+  height: 22px !important;
+  margin: 0 auto !important;
   background-color: #64748B !important;
 }
+
 .nav:not(:hover) .nav__link:hover::before,
 .nav:not(:hover) .nav__link--active::before {
   background-color: #0F52BA !important;
