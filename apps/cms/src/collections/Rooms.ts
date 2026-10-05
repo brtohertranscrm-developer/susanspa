@@ -3,10 +3,14 @@ import { canManageContent, publicPublishedOrEditor } from '../access'
 
 export const Rooms: CollectionConfig = {
   slug: 'rooms',
+  labels: {
+    singular: 'Kamar',
+    plural: 'Kamar',
+  },
   admin: {
-    group: 'Hospitality',
+    group: 'Website',
     useAsTitle: 'name',
-    defaultColumns: ['name', 'category', 'bookingRoomTypeId', '_status'],
+    defaultColumns: ['name', 'category', 'startingPriceLabel', '_status'],
   },
   access: {
     create: canManageContent,
@@ -16,50 +20,103 @@ export const Rooms: CollectionConfig = {
   },
   versions: { drafts: { autosave: true }, maxPerDoc: 25 },
   fields: [
-    { name: 'name', type: 'text', required: true, localized: true },
-    { name: 'slug', type: 'text', required: true, unique: true, index: true },
+    // 1. INFORMASI DASAR (BASIC)
     {
-      name: 'category',
-      type: 'select',
-      required: true,
-      options: ['Villa', 'Suite', 'Deluxe', 'Family'],
-    },
-    {
-      name: 'bookingRoomTypeId',
-      label: 'Booking Engine Room Type ID',
-      type: 'text',
-      unique: true,
-      admin: { description: 'Referensi saja. Harga dan availability tetap milik booking engine.' },
-    },
-    { name: 'tagline', type: 'text', localized: true },
-    { name: 'shortDescription', type: 'textarea', localized: true },
-    { name: 'longDescription', type: 'textarea', localized: true },
-    { name: 'startingPriceLabel', type: 'number', min: 0, admin: { description: 'Harga display; harga checkout tetap dari booking engine.' } },
-    {
-      type: 'row',
+      type: 'collapsible',
+      label: 'Informasi Dasar (Basic)',
+      admin: { initCollapsed: false },
       fields: [
-        { name: 'sizeSqm', type: 'number', min: 0 },
-        { name: 'capacityAdults', type: 'number', min: 1, defaultValue: 2 },
-        { name: 'capacityChildren', type: 'number', min: 0, defaultValue: 0 },
+        { name: 'name', type: 'text', required: true, localized: true, label: 'Nama Kamar' },
+        { name: 'tagline', type: 'text', localized: true, label: 'Tagline / Slogan' },
+        {
+          name: 'category',
+          type: 'select',
+          required: true,
+          label: 'Kategori Kamar',
+          options: ['Villa', 'Suite', 'Deluxe', 'Family'],
+        },
+        { name: 'shortDescription', type: 'textarea', localized: true, label: 'Deskripsi Singkat' },
+        { name: 'longDescription', type: 'textarea', localized: true, label: 'Deskripsi Lengkap' },
       ],
     },
-    { name: 'bedType', type: 'text', localized: true },
+
+    // 2. DETAIL & FASILITAS (DETAILS)
     {
-      name: 'images',
-      type: 'array',
-      minRows: 1,
-      fields: [{ name: 'image', type: 'upload', relationTo: 'media', required: true }],
+      type: 'collapsible',
+      label: 'Detail & Fasilitas Kamar (Details)',
+      admin: { initCollapsed: false },
+      fields: [
+        {
+          name: 'startingPriceLabel',
+          type: 'number',
+          min: 0,
+          label: 'Harga Mulai Dari (Rp)',
+          admin: { description: 'Harga display; ketersediaan & checkout tetap dikelola booking engine.' },
+        },
+        {
+          type: 'row',
+          fields: [
+            { name: 'sizeSqm', type: 'number', min: 0, label: 'Luas Kamar (m²)' },
+            { name: 'capacityAdults', type: 'number', min: 1, defaultValue: 2, label: 'Kapasitas Dewasa' },
+            { name: 'capacityChildren', type: 'number', min: 0, defaultValue: 0, label: 'Kapasitas Anak' },
+          ],
+        },
+        { name: 'bedType', type: 'text', localized: true, label: 'Tipe Tempat Tidur' },
+        {
+          name: 'amenities',
+          type: 'array',
+          label: 'Fasilitas Kamar (Amenities)',
+          fields: [{ name: 'label', type: 'text', required: true, localized: true, label: 'Nama Fasilitas' }],
+        },
+        {
+          name: 'policies',
+          type: 'array',
+          label: 'Kebijakan Kamar (Policies)',
+          fields: [{ name: 'label', type: 'text', required: true, localized: true, label: 'Kebijakan' }],
+        },
+      ],
     },
+
+    // 3. FOTO & MEDIA (MEDIA)
     {
-      name: 'amenities',
-      type: 'array',
-      fields: [{ name: 'label', type: 'text', required: true, localized: true }],
+      type: 'collapsible',
+      label: 'Foto Kamar (Photos)',
+      admin: { initCollapsed: false },
+      fields: [
+        {
+          name: 'images',
+          type: 'array',
+          minRows: 1,
+          label: 'Galeri Foto Kamar',
+          fields: [{ name: 'image', type: 'upload', relationTo: 'media', required: true, label: 'Pilih Foto' }],
+        },
+      ],
     },
+
+    // 4. PENGATURAN TEKNIS (ADVANCED)
     {
-      name: 'policies',
-      type: 'array',
-      fields: [{ name: 'label', type: 'text', required: true, localized: true }],
+      type: 'collapsible',
+      label: 'Pengaturan Teknis (Advanced)',
+      admin: { initCollapsed: true },
+      fields: [
+        {
+          name: 'slug',
+          type: 'text',
+          required: true,
+          unique: true,
+          index: true,
+          label: 'URL Slug',
+          admin: { description: 'Identifier unik URL kamar.' },
+        },
+        {
+          name: 'bookingRoomTypeId',
+          label: 'Booking Engine Room Type ID',
+          type: 'text',
+          unique: true,
+          admin: { description: 'Referensi saja. Harga dan availability tetap milik booking engine.' },
+        },
+        { name: 'sortOrder', type: 'number', defaultValue: 0, index: true, label: 'Urutan Tampilan' },
+      ],
     },
-    { name: 'sortOrder', type: 'number', defaultValue: 0, index: true },
   ],
 }

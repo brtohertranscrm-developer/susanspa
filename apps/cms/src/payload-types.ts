@@ -67,16 +67,16 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
-    media: Media;
     rooms: Room;
     'spa-treatments': SpaTreatment;
     'wedding-packages': WeddingPackage;
-    offers: Offer;
     'resort-content': ResortContent;
-    'journal-articles': JournalArticle;
-    testimonials: Testimonial;
     'gallery-items': GalleryItem;
+    'journal-articles': JournalArticle;
+    offers: Offer;
+    testimonials: Testimonial;
+    media: Media;
+    users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,16 +84,16 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
     rooms: RoomsSelect<false> | RoomsSelect<true>;
     'spa-treatments': SpaTreatmentsSelect<false> | SpaTreatmentsSelect<true>;
     'wedding-packages': WeddingPackagesSelect<false> | WeddingPackagesSelect<true>;
-    offers: OffersSelect<false> | OffersSelect<true>;
     'resort-content': ResortContentSelect<false> | ResortContentSelect<true>;
-    'journal-articles': JournalArticlesSelect<false> | JournalArticlesSelect<true>;
-    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'gallery-items': GalleryItemsSelect<false> | GalleryItemsSelect<true>;
+    'journal-articles': JournalArticlesSelect<false> | JournalArticlesSelect<true>;
+    offers: OffersSelect<false> | OffersSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -139,6 +139,232 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rooms".
+ */
+export interface Room {
+  id: number;
+  name: string;
+  tagline?: string | null;
+  category: 'Villa' | 'Suite' | 'Deluxe' | 'Family';
+  shortDescription?: string | null;
+  longDescription?: string | null;
+  /**
+   * Harga display; ketersediaan & checkout tetap dikelola booking engine.
+   */
+  startingPriceLabel?: number | null;
+  sizeSqm?: number | null;
+  capacityAdults?: number | null;
+  capacityChildren?: number | null;
+  bedType?: string | null;
+  amenities?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  policies?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  images?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Identifier unik URL kamar.
+   */
+  slug: string;
+  /**
+   * Referensi saja. Harga dan availability tetap milik booking engine.
+   */
+  bookingRoomTypeId?: string | null;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Deskripsikan isi foto untuk pengguna disabilitas dan mesin pencari.
+   */
+  alt: string;
+  /**
+   * Keterangan opsional yang muncul di bawah foto.
+   */
+  caption?: string | null;
+  imagekitFileId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "spa-treatments".
+ */
+export interface SpaTreatment {
+  id: number;
+  title: string;
+  summary?: string | null;
+  description?: string | null;
+  durationMinutes?: number | null;
+  priceLabel?: number | null;
+  benefits?:
+    | {
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  featuredImage?: (number | null) | Media;
+  slug: string;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wedding-packages".
+ */
+export interface WeddingPackage {
+  id: number;
+  title: string;
+  summary?: string | null;
+  description?: string | null;
+  capacity?: number | null;
+  venue?: string | null;
+  priceLabel?: number | null;
+  inclusions?:
+    | {
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  featuredImage?: (number | null) | Media;
+  slug: string;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resort-content".
+ */
+export interface ResortContent {
+  id: number;
+  title: string;
+  summary?: string | null;
+  description?: string | null;
+  kind: 'facility' | 'dining' | 'experience' | 'nearby';
+  location?: string | null;
+  distanceLabel?: string | null;
+  featuredImage?: (number | null) | Media;
+  slug: string;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-items".
+ */
+export interface GalleryItem {
+  id: number;
+  title: string;
+  category: 'Rooms' | 'Spa' | 'Weddings' | 'La Kana Chapel' | 'Dining' | 'Grounds';
+  image: number | Media;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "journal-articles".
+ */
+export interface JournalArticle {
+  id: number;
+  title: string;
+  excerpt?: string | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  coverImage: number | Media;
+  publishedAt?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  slug: string;
+  category?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "offers".
+ */
+export interface Offer {
+  id: number;
+  title: string;
+  summary?: string | null;
+  description?: string | null;
+  validFrom?: string | null;
+  validUntil?: string | null;
+  terms?: string | null;
+  featuredImage?: (number | null) | Media;
+  slug: string;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  guestName: string;
+  quote: string;
+  rating?: number | null;
+  stayCategory?: string | null;
+  avatar?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -166,248 +392,6 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  caption?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    card?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    hero?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "rooms".
- */
-export interface Room {
-  id: number;
-  name: string;
-  slug: string;
-  category: 'Villa' | 'Suite' | 'Deluxe' | 'Family';
-  /**
-   * Referensi saja. Harga dan availability tetap milik booking engine.
-   */
-  bookingRoomTypeId?: string | null;
-  tagline?: string | null;
-  shortDescription?: string | null;
-  longDescription?: string | null;
-  /**
-   * Harga display; harga checkout tetap dari booking engine.
-   */
-  startingPriceLabel?: number | null;
-  sizeSqm?: number | null;
-  capacityAdults?: number | null;
-  capacityChildren?: number | null;
-  bedType?: string | null;
-  images?:
-    | {
-        image: number | Media;
-        id?: string | null;
-      }[]
-    | null;
-  amenities?:
-    | {
-        label: string;
-        id?: string | null;
-      }[]
-    | null;
-  policies?:
-    | {
-        label: string;
-        id?: string | null;
-      }[]
-    | null;
-  sortOrder?: number | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "spa-treatments".
- */
-export interface SpaTreatment {
-  id: number;
-  title: string;
-  slug: string;
-  summary?: string | null;
-  description?: string | null;
-  featuredImage?: (number | null) | Media;
-  sortOrder?: number | null;
-  durationMinutes?: number | null;
-  priceLabel?: number | null;
-  benefits?:
-    | {
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "wedding-packages".
- */
-export interface WeddingPackage {
-  id: number;
-  title: string;
-  slug: string;
-  summary?: string | null;
-  description?: string | null;
-  featuredImage?: (number | null) | Media;
-  sortOrder?: number | null;
-  capacity?: number | null;
-  venue?: string | null;
-  priceLabel?: number | null;
-  inclusions?:
-    | {
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "offers".
- */
-export interface Offer {
-  id: number;
-  title: string;
-  slug: string;
-  summary?: string | null;
-  description?: string | null;
-  featuredImage?: (number | null) | Media;
-  sortOrder?: number | null;
-  validFrom?: string | null;
-  validUntil?: string | null;
-  terms?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resort-content".
- */
-export interface ResortContent {
-  id: number;
-  title: string;
-  slug: string;
-  summary?: string | null;
-  description?: string | null;
-  featuredImage?: (number | null) | Media;
-  sortOrder?: number | null;
-  kind: 'facility' | 'dining' | 'experience' | 'nearby';
-  location?: string | null;
-  distanceLabel?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "journal-articles".
- */
-export interface JournalArticle {
-  id: number;
-  title: string;
-  slug: string;
-  excerpt?: string | null;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  coverImage: number | Media;
-  category?: string | null;
-  publishedAt?: string | null;
-  seoTitle?: string | null;
-  seoDescription?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials".
- */
-export interface Testimonial {
-  id: number;
-  guestName: string;
-  quote: string;
-  rating?: number | null;
-  stayCategory?: string | null;
-  avatar?: (number | null) | Media;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery-items".
- */
-export interface GalleryItem {
-  id: number;
-  title: string;
-  image: number | Media;
-  category: 'Rooms' | 'Spa' | 'Weddings' | 'La Kana Chapel' | 'Dining' | 'Grounds';
-  sortOrder?: number | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -431,14 +415,6 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: number | Media;
-      } | null)
-    | ({
         relationTo: 'rooms';
         value: number | Room;
       } | null)
@@ -451,24 +427,32 @@ export interface PayloadLockedDocument {
         value: number | WeddingPackage;
       } | null)
     | ({
-        relationTo: 'offers';
-        value: number | Offer;
-      } | null)
-    | ({
         relationTo: 'resort-content';
         value: number | ResortContent;
+      } | null)
+    | ({
+        relationTo: 'gallery-items';
+        value: number | GalleryItem;
       } | null)
     | ({
         relationTo: 'journal-articles';
         value: number | JournalArticle;
       } | null)
     | ({
+        relationTo: 'offers';
+        value: number | Offer;
+      } | null)
+    | ({
         relationTo: 'testimonials';
         value: number | Testimonial;
       } | null)
     | ({
-        relationTo: 'gallery-items';
-        value: number | GalleryItem;
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: number | User;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -514,6 +498,194 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rooms_select".
+ */
+export interface RoomsSelect<T extends boolean = true> {
+  name?: T;
+  tagline?: T;
+  category?: T;
+  shortDescription?: T;
+  longDescription?: T;
+  startingPriceLabel?: T;
+  sizeSqm?: T;
+  capacityAdults?: T;
+  capacityChildren?: T;
+  bedType?: T;
+  amenities?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  policies?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  images?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  slug?: T;
+  bookingRoomTypeId?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "spa-treatments_select".
+ */
+export interface SpaTreatmentsSelect<T extends boolean = true> {
+  title?: T;
+  summary?: T;
+  description?: T;
+  durationMinutes?: T;
+  priceLabel?: T;
+  benefits?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  featuredImage?: T;
+  slug?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wedding-packages_select".
+ */
+export interface WeddingPackagesSelect<T extends boolean = true> {
+  title?: T;
+  summary?: T;
+  description?: T;
+  capacity?: T;
+  venue?: T;
+  priceLabel?: T;
+  inclusions?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  featuredImage?: T;
+  slug?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resort-content_select".
+ */
+export interface ResortContentSelect<T extends boolean = true> {
+  title?: T;
+  summary?: T;
+  description?: T;
+  kind?: T;
+  location?: T;
+  distanceLabel?: T;
+  featuredImage?: T;
+  slug?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-items_select".
+ */
+export interface GalleryItemsSelect<T extends boolean = true> {
+  title?: T;
+  category?: T;
+  image?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "journal-articles_select".
+ */
+export interface JournalArticlesSelect<T extends boolean = true> {
+  title?: T;
+  excerpt?: T;
+  content?: T;
+  coverImage?: T;
+  publishedAt?: T;
+  seoTitle?: T;
+  seoDescription?: T;
+  slug?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "offers_select".
+ */
+export interface OffersSelect<T extends boolean = true> {
+  title?: T;
+  summary?: T;
+  description?: T;
+  validFrom?: T;
+  validUntil?: T;
+  terms?: T;
+  featuredImage?: T;
+  slug?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  guestName?: T;
+  quote?: T;
+  rating?: T;
+  stayCategory?: T;
+  avatar?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  caption?: T;
+  imagekitFileId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -535,227 +707,6 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
- */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
-  caption?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-  sizes?:
-    | T
-    | {
-        thumbnail?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        card?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        hero?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "rooms_select".
- */
-export interface RoomsSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  category?: T;
-  bookingRoomTypeId?: T;
-  tagline?: T;
-  shortDescription?: T;
-  longDescription?: T;
-  startingPriceLabel?: T;
-  sizeSqm?: T;
-  capacityAdults?: T;
-  capacityChildren?: T;
-  bedType?: T;
-  images?:
-    | T
-    | {
-        image?: T;
-        id?: T;
-      };
-  amenities?:
-    | T
-    | {
-        label?: T;
-        id?: T;
-      };
-  policies?:
-    | T
-    | {
-        label?: T;
-        id?: T;
-      };
-  sortOrder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "spa-treatments_select".
- */
-export interface SpaTreatmentsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  summary?: T;
-  description?: T;
-  featuredImage?: T;
-  sortOrder?: T;
-  durationMinutes?: T;
-  priceLabel?: T;
-  benefits?:
-    | T
-    | {
-        label?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "wedding-packages_select".
- */
-export interface WeddingPackagesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  summary?: T;
-  description?: T;
-  featuredImage?: T;
-  sortOrder?: T;
-  capacity?: T;
-  venue?: T;
-  priceLabel?: T;
-  inclusions?:
-    | T
-    | {
-        label?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "offers_select".
- */
-export interface OffersSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  summary?: T;
-  description?: T;
-  featuredImage?: T;
-  sortOrder?: T;
-  validFrom?: T;
-  validUntil?: T;
-  terms?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resort-content_select".
- */
-export interface ResortContentSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  summary?: T;
-  description?: T;
-  featuredImage?: T;
-  sortOrder?: T;
-  kind?: T;
-  location?: T;
-  distanceLabel?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "journal-articles_select".
- */
-export interface JournalArticlesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  excerpt?: T;
-  content?: T;
-  coverImage?: T;
-  category?: T;
-  publishedAt?: T;
-  seoTitle?: T;
-  seoDescription?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials_select".
- */
-export interface TestimonialsSelect<T extends boolean = true> {
-  guestName?: T;
-  quote?: T;
-  rating?: T;
-  stayCategory?: T;
-  avatar?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery-items_select".
- */
-export interface GalleryItemsSelect<T extends boolean = true> {
-  title?: T;
-  image?: T;
-  category?: T;
-  sortOrder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -3,8 +3,12 @@ import { isContentAdmin } from '../access'
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  labels: {
+    singular: 'Pengguna',
+    plural: 'Pengguna',
+  },
   admin: {
-    group: 'Access',
+    group: 'Settings',
     useAsTitle: 'email',
   },
   auth: {
@@ -35,12 +39,14 @@ export const Users: CollectionConfig = {
       name: 'fullName',
       type: 'text',
       required: true,
+      label: 'Nama Lengkap',
     },
     {
       name: 'roles',
       type: 'select',
       hasMany: true,
       required: true,
+      label: 'Peran Akses (Roles)',
       defaultValue: ['content-editor'],
       options: [
         { label: 'Content Admin', value: 'content-admin' },

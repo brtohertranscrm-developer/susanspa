@@ -26,18 +26,31 @@ export default buildConfig({
       titleSuffix: ' | Susan Spa CMS',
     },
     theme: 'light',
+    components: {
+      graphics: {
+        Logo: '@/components/navigation/BrandHeader#BrandHeader',
+      },
+      beforeNav: ['@/components/navigation/BrandHeader#BrandHeader'],
+      beforeNavLinks: ['@/components/navigation/NavOverviewLink#NavOverviewLink'],
+      afterNavLinks: ['@/components/navigation/NavWebsiteLink#NavWebsiteLink'],
+      views: {
+        dashboard: {
+          Component: '@/components/dashboard/CustomDashboard#CustomDashboard',
+        },
+      },
+    },
   },
   collections: [
-    Users,
-    Media,
     Rooms,
     SpaTreatments,
     WeddingPackages,
-    Offers,
     ResortContent,
-    JournalArticles,
-    Testimonials,
     GalleryItems,
+    JournalArticles,
+    Offers,
+    Testimonials,
+    Media,
+    Users,
   ],
   globals: [SiteSettings],
   localization: {
