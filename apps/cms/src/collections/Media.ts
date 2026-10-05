@@ -1,21 +1,47 @@
-import type { CollectionConfig } from 'payload'
-import { canManageContent } from '../access'
 import ImageKit from '@imagekit/nodejs'
+import { APIError, type CollectionConfig } from 'payload'
+import { canManageContent } from '../access'
 
-const imagekit = new ImageKit({
-  privateKey: process.env.IMAGEKIT_PRIVATE_KEY || 'private_vDs2nvuiIqJC4Q9yvhBcvUfSggw=',
-  baseURL: process.env.IMAGEKIT_URL_ENDPOINT || 'https://ik.imagekit.io/ro8484nadw/',
-})
+let imagekit: ImageKit | null = null
+
+// Kunci hanya dibaca dari environment. Klien dibuat saat dibutuhkan agar CMS tetap bisa berjalan tanpa kunci.
+const getImageKit = () => {
+  const privateKey = process.env.IMAGEKIT_PRIVATE_KEY
+  if (!privateKey) {
+    throw new APIError(
+      'Unggah foto belum bisa dipakai karena IMAGEKIT_PRIVATE_KEY belum diatur di server.',
+      500,
+      undefined,
+      true,
+    )
+  }
+  imagekit ??= new ImageKit({
+    privateKey,
+    baseURL: process.env.IMAGEKIT_URL_ENDPOINT || 'https://ik.imagekit.io/ro8484nadw/',
+  })
+  return imagekit
+}
+
+// Pustaka menampilkan versi 320 px dari ImageKit agar foto asli beresolusi tinggi tidak diunduh untuk setiap kotak.
+const thumbnailUrl = ({ doc }: { doc: Record<string, unknown> }) => {
+  const url = typeof doc.url === 'string' ? doc.url : null
+  if (!url) return null
+  return url.includes('ik.imagekit.io') ? `${url}${url.includes('?') ? '&' : '?'}tr=w-320` : url
+}
 
 export const Media: CollectionConfig = {
   slug: 'media',
   labels: {
-    singular: 'Pustaka Media',
+    singular: 'Foto & Media',
     plural: 'Pustaka Media',
   },
   admin: {
     group: 'Media',
-    defaultColumns: ['filename', 'alt', 'createdAt'],
+    description:
+      'Unggah foto sekali, lalu pakai di kamar, spa, wedding, jurnal, dan galeri. Isi teks alternatif dengan deskripsi isi foto.',
+    defaultColumns: ['filename', 'alt', 'mimeType', 'filesize', 'createdAt'],
+    listSearchableFields: ['filename', 'alt'],
+    pagination: { defaultLimit: 24, limits: [12, 24, 48, 96] },
   },
   access: {
     create: canManageContent,
@@ -35,7 +61,10 @@ export const Media: CollectionConfig = {
           required: true,
           localized: true,
           label: 'Teks Alt (Aksesibilitas / SEO)',
-          admin: { description: 'Deskripsikan isi foto untuk pengguna disabilitas dan mesin pencari.' },
+          admin: {
+            description:
+              'Jelaskan apa yang terlihat di foto, bukan kumpulan kata kunci. Dibaca oleh pembaca layar dan mesin pencari.',
+          },
         },
         {
           name: 'caption',
@@ -46,21 +75,29 @@ export const Media: CollectionConfig = {
         },
       ],
     },
-    { name: 'url', type: 'text', admin: { hidden: true } },
-    { name: 'imagekitFileId', type: 'text', admin: { hidden: true } },
+    {
+      type: 'collapsible',
+      label: 'Pengaturan Teknis Penyimpanan (ImageKit)',
+      admin: { initCollapsed: true },
+      fields: [
+        { name: 'url', type: 'text', admin: { readOnly: true }, label: 'URL Publik' },
+        { name: 'imagekitFileId', type: 'text', admin: { readOnly: true }, label: 'ImageKit File ID' },
+      ],
+    },
   ],
   upload: {
     disableLocalStorage: true,
     mimeTypes: ['image/*'],
+    adminThumbnail: thumbnailUrl,
   },
   hooks: {
     beforeChange: [
       async ({ data, req }) => {
         if (req.file && req.file.data) {
-          const response = await imagekit.files.upload({
+          const response = await getImageKit().files.upload({
             file: req.file.data.toString('base64'),
             fileName: req.file.name,
-            folder: '/SUSAN SPA',
+            folder: '/susanspa',
           })
           data.url = response.url
           data.imagekitFileId = response.fileId
@@ -75,7 +112,7 @@ export const Media: CollectionConfig = {
       async ({ doc }) => {
         if (doc.imagekitFileId) {
           try {
-            await imagekit.files.delete(doc.imagekitFileId)
+            await getImageKit().files.delete(doc.imagekitFileId)
           } catch (e) {
             console.error('Failed to delete imagekit file', e)
           }

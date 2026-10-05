@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { id } from '@payloadcms/translations/languages/id'
+import { FixedToolbarFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
@@ -7,6 +8,7 @@ import { fileURLToPath } from 'url'
 import { GalleryItems, JournalArticles, Testimonials } from './collections/Editorial'
 import { Media } from './collections/Media'
 import { Offers, ResortContent, SpaTreatments, WeddingPackages } from './collections/MarketingContent'
+import { lexicalId } from './i18n/id'
 import { Rooms } from './collections/Rooms'
 import { Users } from './collections/Users'
 import { SiteSettings } from './globals/SiteSettings'
@@ -24,8 +26,10 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(directory) },
     meta: {
       titleSuffix: ' | Susan Spa CMS',
+      defaultOGImageType: 'off',
     },
     theme: 'light',
+    dateFormat: 'd MMM yyyy, HH:mm',
     components: {
       graphics: {
         Logo: '@/components/navigation/BrandHeader#BrandHeader',
@@ -36,6 +40,20 @@ export default buildConfig({
       views: {
         dashboard: {
           Component: '@/components/dashboard/CustomDashboard#CustomDashboard',
+        },
+      },
+    },
+  },
+  i18n: {
+    supportedLanguages: { id },
+    fallbackLanguage: 'id',
+    translations: {
+      id: {
+        lexical: lexicalId,
+        general: {
+          noResultsFound: 'Belum ada data yang tampil',
+          noResultsDescription:
+            'Belum ada yang dibuat, atau tidak ada yang cocok dengan pencarian dan filter di atas. Hapus filter, atau buat yang baru.',
         },
       },
     },
@@ -63,7 +81,9 @@ export default buildConfig({
   },
   cors: [webUrl],
   csrf: [webUrl, cmsUrl],
-  editor: lexicalEditor(),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [...defaultFeatures, FixedToolbarFeature()],
+  }),
   secret: process.env.PAYLOAD_SECRET || 'local-development-secret-change-before-production',
   typescript: { outputFile: path.resolve(directory, 'payload-types.ts') },
   db: postgresAdapter({

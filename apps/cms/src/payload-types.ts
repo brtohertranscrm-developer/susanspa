@@ -188,23 +188,25 @@ export interface Room {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Unggah foto sekali, lalu pakai di kamar, spa, wedding, jurnal, dan galeri. Isi teks alternatif dengan deskripsi isi foto.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
   id: number;
   /**
-   * Deskripsikan isi foto untuk pengguna disabilitas dan mesin pencari.
+   * Jelaskan apa yang terlihat di foto, bukan kumpulan kata kunci. Dibaca oleh pembaca layar dan mesin pencari.
    */
   alt: string;
   /**
    * Keterangan opsional yang muncul di bawah foto.
    */
   caption?: string | null;
+  url?: string | null;
   imagekitFileId?: string | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
   thumbnailURL?: string | null;
   filename?: string | null;
   mimeType?: string | null;
@@ -213,6 +215,16 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -671,10 +683,10 @@ export interface TestimonialsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
+  url?: T;
   imagekitFileId?: T;
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
   thumbnailURL?: T;
   filename?: T;
   mimeType?: T;
@@ -683,6 +695,20 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
