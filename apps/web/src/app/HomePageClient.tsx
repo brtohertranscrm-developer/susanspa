@@ -74,7 +74,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
         className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black"
       >
         {/* Background Video with Calibrated Gradient Overlay */}
-        <div className="absolute inset-0 z-0 bg-forest-deep">
+        <div className="absolute inset-0 z-0 bg-forest-deep pointer-events-none">
           <video
             autoPlay
             loop
@@ -85,7 +85,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
           >
             <source src="/videos/hero.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-black/30 pointer-events-none" />
         </div>
 
         {/* Hero Central Content */}
