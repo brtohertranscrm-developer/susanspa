@@ -117,22 +117,17 @@ html, body {
     transform: none !important;
     background-color: #FFFFFF !important;
     border-right: 1px solid var(--cms-border) !important;
-    z-index: 30 !important;
+    z-index: 9999 !important;
     overflow-y: auto !important;
     flex-shrink: 0 !important;
+    pointer-events: auto !important;
   }
   
   .template-default__wrap {
     flex: 1 !important;
     min-width: 0 !important; /* prevent overflow */
-  }
-
-  .nav__scroll {
-    opacity: 1 !important;
-    visibility: visible !important;
-    height: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
+    position: relative !important;
+    z-index: 1 !important;
   }
 
   .nav__header,
@@ -260,6 +255,7 @@ a.nav__link {
   text-decoration: none !important;
   transition: all 0.15s ease !important;
   min-height: 40px !important;
+  pointer-events: auto !important;
 }
 
 .nav__link::before {
