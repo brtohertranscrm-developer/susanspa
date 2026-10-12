@@ -20,7 +20,7 @@ export default function DiningPageClient({ venues }: { venues: DiningVenue[] }) 
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2000&auto=format&fit=crop"
+            src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_4164%20copy.avif?updatedAt=1791815014964"
             alt="Sky Garden Restaurant"
             fill
             className="object-cover "
