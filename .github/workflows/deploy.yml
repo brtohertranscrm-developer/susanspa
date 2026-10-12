@@ -41,6 +41,7 @@ jobs:
                 ln -sfn "$PREVIOUS_TARGET" "$CURRENT_LINK"
                 sudo systemctl restart susan-booking-api susan-cms susan-web || true
               fi
+              rm -rf "$RELEASE_DIR"
               exit 1
             }
 
@@ -49,6 +50,8 @@ jobs:
             echo "Memulai deploy untuk commit: $GITHUB_SHA"
             echo "Target release aktif sebelumnya: $PREVIOUS_TARGET"
 
+            # Pastikan release directory bersih jika build sebelumnya gagal
+            rm -rf "$RELEASE_DIR"
             git clone --no-checkout --depth 1 "$REPO_URL" "$RELEASE_DIR"
             cd "$RELEASE_DIR"
             git fetch --depth 1 origin "$GITHUB_SHA"
@@ -61,7 +64,8 @@ jobs:
             echo "Menjalankan npm ci..."
             npm ci --ignore-scripts
 
-            echo "Menjalankan build..."
+            echo "Menjalankan build dengan batasan alokasi memori..."
+            export NODE_OPTIONS="--max-old-space-size=1536"
             npm run build
 
             echo "Memverifikasi artifact build..."
@@ -103,13 +107,28 @@ jobs:
             echo "Restarting services..."
             sudo systemctl restart susan-booking-api susan-cms susan-web
 
-            echo "Menunggu services siap untuk health check..."
-            sleep 10
+            echo "Menjalankan health check dengan sistem retry (maksimal 45 detik)..."
+            wait_for_service() {
+              local url="$1"
+              local name="$2"
+              local max_attempts=15
+              local attempt=1
+              echo "Memeriksa kesiapan $name pada $url..."
+              while [ $attempt -le $max_attempts ]; do
+                if curl --fail --silent --show-error "$url" > /dev/null 2>&1; then
+                  echo "-> $name siap pada percobaan ke-$attempt"
+                  return 0
+                fi
+                sleep 3
+                attempt=$((attempt + 1))
+              done
+              echo "-> Error: $name tidak merespons setelah $max_attempts percobaan"
+              return 1
+            }
 
-            echo "Menjalankan health check..."
-            curl --fail --silent --show-error http://127.0.0.1:3000/ > /dev/null
-            curl --fail --silent --show-error http://127.0.0.1:3001/cms > /dev/null
-            curl --fail --silent --show-error http://127.0.0.1:4000/health > /dev/null
+            wait_for_service "http://127.0.0.1:4000/health" "susan-booking-api"
+            wait_for_service "http://127.0.0.1:3000/" "susan-web"
+            wait_for_service "http://127.0.0.1:3001/cms" "susan-cms"
             sudo nginx -t
 
             echo "Memverifikasi status service..."

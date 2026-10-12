@@ -40,6 +40,7 @@ export async function getCmsCollection<T>(
     const response = await fetch(`${cmsApiUrl}/api/${collection}?${query}`, {
       next: { revalidate: 300 },
       headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(4000),
     });
     if (!response.ok) return fallback;
     const data = (await response.json()) as CmsListResponse<T>;
