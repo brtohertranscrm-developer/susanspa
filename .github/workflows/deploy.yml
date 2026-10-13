@@ -6,14 +6,71 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Deploy to VPS via SSH
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies on runner
+        run: npm ci
+
+      - name: Build applications on runner
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+          NODE_ENV: production
+        run: |
+          echo "Building contracts and booking-api..."
+          npm run build -w @susan/contracts
+          npm run build -w @susan/booking-api
+
+          echo "Building web application..."
+          npm run build -w @susan/web
+
+          echo "Building CMS application..."
+          npm run build -w @susan/cms
+
+      - name: Verify and package build artifacts
+        run: |
+          echo "Verifying build outputs..."
+          test -f apps/web/.next/BUILD_ID
+          test -f apps/cms/.next/BUILD_ID
+          test -f apps/booking-api/dist/server.js
+          test -f packages/contracts/dist/index.js
+
+          echo "Cleaning compiler caches to reduce bundle size..."
+          rm -rf apps/web/.next/cache apps/web/.next/dev
+          rm -rf apps/cms/.next/cache apps/cms/.next/dev
+
+          echo "Packaging pre-built artifacts into release bundle..."
+          tar -czf "release-artifacts-${{ github.sha }}.tar.gz" \
+            apps/web/.next \
+            apps/cms/.next \
+            apps/booking-api/dist \
+            packages/contracts/dist
+
+          echo "Release bundle ready:"
+          ls -lh "release-artifacts-${{ github.sha }}.tar.gz"
+
+      - name: Upload pre-built artifacts to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          source: "release-artifacts-${{ github.sha }}.tar.gz"
+          target: "/tmp/"
+          timeout: 120s
+
+      - name: Deploy and restart services on VPS
         uses: appleboy/ssh-action@v1.0.3
         env:
           GITHUB_SHA: ${{ github.sha }}
@@ -25,7 +82,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           envs: GITHUB_SHA,IMAGEKIT_PRIVATE_KEY,IMAGEKIT_URL_ENDPOINT
-          command_timeout: 30m
+          command_timeout: 10m
           timeout: 60s
           script: |
             set -Eeuo pipefail
@@ -34,6 +91,7 @@ jobs:
             RELEASES_DIR="/opt/susanspa/releases"
             RELEASE_DIR="$RELEASES_DIR/$GITHUB_SHA"
             CURRENT_LINK="$RELEASES_DIR/current"
+            ARTIFACT_TAR="/tmp/release-artifacts-$GITHUB_SHA.tar.gz"
 
             PREVIOUS_TARGET="$(readlink -f /opt/susanspa/releases/current || true)"
 
@@ -44,6 +102,7 @@ jobs:
                 sudo systemctl restart susan-booking-api susan-cms susan-web || true
               fi
               rm -rf "$RELEASE_DIR"
+              rm -f "$ARTIFACT_TAR"
               exit 1
             }
 
@@ -52,7 +111,7 @@ jobs:
             echo "Memulai deploy untuk commit: $GITHUB_SHA"
             echo "Target release aktif sebelumnya: $PREVIOUS_TARGET"
 
-            # Pastikan release directory bersih jika build sebelumnya gagal
+            # 1. Pastikan release directory bersih dan checkout source code
             rm -rf "$RELEASE_DIR"
             git clone --no-checkout --depth 1 "$REPO_URL" "$RELEASE_DIR"
             cd "$RELEASE_DIR"
@@ -63,20 +122,28 @@ jobs:
             echo "Commit yang berhasil di-checkout: $CHECKED_OUT_COMMIT"
             test "$CHECKED_OUT_COMMIT" = "$GITHUB_SHA"
 
+            # 2. Ekstrak pre-built artifacts dari GitHub Actions runner
+            echo "Mengekstrak pre-built artifacts dari GitHub runner..."
+            test -f "$ARTIFACT_TAR"
+            tar -xzf "$ARTIFACT_TAR" -C "$RELEASE_DIR"
+            rm -f "$ARTIFACT_TAR"
+
+            # 3. Sesuaikan appDir pada Next.js required-server-files agar mengarah ke path rilis VPS
+            sed -i "s|\"appDir\": \".*\"|\"appDir\": \"$RELEASE_DIR/apps/web\"|g" apps/web/.next/required-server-files.json || true
+            sed -i "s|\"appDir\": \".*\"|\"appDir\": \"$RELEASE_DIR/apps/cms\"|g" apps/cms/.next/required-server-files.json || true
+
+            # 4. Install production dependencies (hanya download & unpack, TANPA compile/build)
             echo "Menjalankan npm ci..."
             npm ci --ignore-scripts
 
-            echo "Menjalankan build dengan batasan alokasi memori..."
-            export NODE_OPTIONS="--max-old-space-size=1536 --no-deprecation"
-            export NEXT_PRIVATE_BUILD_WORKER=0
-            export NEXT_TELEMETRY_DISABLED=1
-            npm run build
-
+            # 5. Verifikasi integritas artifact
             echo "Memverifikasi artifact build..."
             test -f apps/web/.next/BUILD_ID
             test -f apps/cms/.next/BUILD_ID
             test -f apps/booking-api/dist/server.js
+            test -f packages/contracts/dist/index.js
 
+            # 6. Sinkronisasi environment ImageKit CMS
             echo "Menyinkronkan secret ImageKit ke environment CMS..."
             CMS_ENV_FILE="/etc/susanspa/cms.env"
             sync_cms_env() {
@@ -94,6 +161,7 @@ jobs:
             sync_cms_env IMAGEKIT_PRIVATE_KEY "${IMAGEKIT_PRIVATE_KEY:-}"
             sync_cms_env IMAGEKIT_URL_ENDPOINT "${IMAGEKIT_URL_ENDPOINT:-}"
 
+            # 7. Jalankan migration database
             echo "Menjalankan migration dengan environment production..."
             set -a
             . /etc/susanspa/cms.env
@@ -105,13 +173,16 @@ jobs:
             set +a
             npm run db:migrate:booking
 
+            # 8. Alihkan symlink current secara atomic
             echo "Memindahkan symlink secara atomic..."
             ln -sfn "$RELEASE_DIR" "$CURRENT_LINK"
 
+            # 9. Restart services
             echo "Restarting services..."
             sudo systemctl restart susan-booking-api susan-cms susan-web
 
-            echo "Menjalankan health check dengan sistem retry (maksimal 45 detik)..."
+            # 10. Health check dengan retry loop
+            echo "Menjalankan health check..."
             wait_for_service() {
               local url="$1"
               local name="$2"
@@ -144,6 +215,7 @@ jobs:
             echo "Website: https://reservasiku.my.id"
             echo "CMS: https://susancms.reservasiku.my.id/cms"
 
+            # 11. Bersihkan rilis lama
             echo "Membersihkan rilis lama..."
             cd "$RELEASES_DIR"
             ls -1 | grep -v '^current$' | grep -v '^backup' | sort -r | tail -n +6 | while read old_release; do
