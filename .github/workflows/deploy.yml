@@ -25,6 +25,8 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           envs: GITHUB_SHA,IMAGEKIT_PRIVATE_KEY,IMAGEKIT_URL_ENDPOINT
+          command_timeout: 30m
+          timeout: 60s
           script: |
             set -Eeuo pipefail
 
@@ -65,7 +67,9 @@ jobs:
             npm ci --ignore-scripts
 
             echo "Menjalankan build dengan batasan alokasi memori..."
-            export NODE_OPTIONS="--max-old-space-size=1536"
+            export NODE_OPTIONS="--max-old-space-size=1536 --no-deprecation"
+            export NEXT_PRIVATE_BUILD_WORKER=0
+            export NEXT_TELEMETRY_DISABLED=1
             npm run build
 
             echo "Memverifikasi artifact build..."
