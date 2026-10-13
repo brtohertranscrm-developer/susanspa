@@ -164,7 +164,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
         <div className="susan-dashboard__welcome">
           <div className="susan-dashboard__badge">
             <span className="susan-brand-header__dot" />
-            <span>Workspace Konten</span>
+            <span>Ruang kerja konten</span>
           </div>
           <h1 className="susan-dashboard__title">
             {greetingTime}, {firstName}

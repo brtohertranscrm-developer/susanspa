@@ -55,6 +55,20 @@ export default buildConfig({
           noResultsDescription:
             'Belum ada yang dibuat, atau tidak ada yang cocok dengan pencarian dan filter di atas. Hapus filter, atau buat yang baru.',
         },
+        // Istilah status dibuat konkret: draf belum tampil di website, yang diterbitkan sudah tampil.
+        version: {
+          publish: 'Terbitkan',
+          publishChanges: 'Terbitkan ke website',
+          saveDraft: 'Simpan draf',
+          draft: 'Draf (belum tampil)',
+          published: 'Tayang di website',
+          unpublish: 'Tarik dari website',
+          unpublished: 'Belum tayang',
+          revertToPublished: 'Kembali ke versi yang tayang',
+          changed: 'Ada perubahan belum tayang',
+          publishIn: 'Terbitkan di {{locale}}',
+          unpublishIn: 'Tarik dari {{locale}}',
+        },
       },
     },
   },
@@ -69,8 +83,9 @@ export default buildConfig({
     Testimonials,
     Media,
     Users,
-  ],
-  globals: [SiteSettings],
+  ].map((collection) => ({ ...collection, admin: { ...collection.admin, hideAPIURL: true } })),
+  // Tab "API" berisi JSON mentah yang tidak dibutuhkan tim konten. Rutenya tetap ada untuk admin.
+  globals: [SiteSettings].map((global) => ({ ...global, admin: { ...global.admin, hideAPIURL: true } })),
   localization: {
     locales: [
       { code: 'id', label: 'Bahasa Indonesia' },

@@ -10,7 +10,7 @@ export const BrandHeader: React.FC = () => {
         <span className="susan-brand-header__tag">Susan Spa & Resort</span>
       </div>
       <h1 className="susan-brand-header__title">SUSAN SPA</h1>
-      <p className="susan-brand-header__subtitle">Content Manager</p>
+      <p className="susan-brand-header__subtitle">Panel konten</p>
     </div>
   )
 }
