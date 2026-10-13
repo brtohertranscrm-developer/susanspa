@@ -21,7 +21,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      '/images/rooms/room-1.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_3499%20copy%202.avif?updatedAt=1791815014340',
     ],
     amenities: [
       'Bathtub',
@@ -186,7 +186,7 @@ export const ROOMS: Room[] = [
     startingPriceIdr: null,
     featured: true,
     images: [
-      '/images/rooms/room-1.jpg',
+      'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_3510%20copy.avif?updatedAt=1791815014554',
     ],
     amenities: [
       'Balcony',

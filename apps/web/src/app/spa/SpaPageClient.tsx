@@ -21,9 +21,10 @@ export default function SpaPageClient({ treatments }: { treatments: SpaTreatment
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2000&auto=format&fit=crop"
+            src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/IMG_0174.avif?updatedAt=1791815011449"
             alt="Susan Spa Wellness Sanctuary"
             fill
+            priority
             className="object-cover"
           />
           <div className="absolute inset-0 bg-black/40" />
