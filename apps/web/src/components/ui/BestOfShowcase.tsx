@@ -39,7 +39,7 @@ const BEST_OF_ITEMS: ShowcaseItem[] = [
     id: 'special-offers',
     title: 'Paket Liburan & Penawaran',
     category: 'OFFERS & RETREATS',
-    image: 'https://images.unsplash.com/photo-1591088398332-8a7791972843?q=80&w=1200&auto=format&fit=crop',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_3499%20copy%202.avif?tr=w-1200',
     href: '/offers',
   },
 ];
