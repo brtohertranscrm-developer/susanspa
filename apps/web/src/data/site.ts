@@ -12,6 +12,7 @@ export interface SiteConfig {
     province: string;
     postalCode: string;
     fullFormatted: string;
+    lines: string[];
   };
   contact: {
     phone: string;
@@ -51,6 +52,11 @@ export const SITE_CONFIG: SiteConfig = {
     postalCode: '50614',
     fullFormatted:
       'Jalan Gintungan Utara Piyoto, Deso, Jetis, Bandungan, Kabupaten Semarang, Jawa Tengah 50614',
+    lines: [
+      'Jalan Gintungan Utara Piyoto',
+      'Deso, Jetis, Bandungan',
+      'Kabupaten Semarang, Jawa Tengah 50614',
+    ],
   },
   contact: {
     phone: '+62298711766',

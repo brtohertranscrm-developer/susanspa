@@ -19,13 +19,14 @@ import { Footer } from '@/components/global/Footer';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { ROOMS } from '@/data/rooms';
 import { getDefaultStayDates } from '@/lib/dates';
-import { SITE_CONFIG } from '@/data/site';
+import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 import { roomCapacity } from '@/lib/room-display';
 import type { InquiryReceipt } from '@susan/contracts';
 
 type ServiceType = 'room' | 'spa' | 'wedding';
 
 export default function ReservePage() {
+  const site = useSiteConfig();
   const defaults = useMemo(() => getDefaultStayDates(), []);
   const [serviceType, setServiceType] = useState<ServiceType>('room');
   const [fullName, setFullName] = useState('');
@@ -150,7 +151,7 @@ export default function ReservePage() {
 
                 <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
                   <a
-                    href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
+                    href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
                       `Halo Susan Spa & Resort, saya telah mengirim formulir reservasi dengan kode ref: ${receipt.id.slice(0, 8).toUpperCase()} atas nama ${fullName}.`
                     )}`}
                     target="_blank"
@@ -460,15 +461,15 @@ export default function ReservePage() {
                 </div>
                 <div className="flex items-center space-x-2 text-ivory/90">
                   <Phone className="w-4 h-4 text-champagne" />
-                  <a href={`tel:${SITE_CONFIG.contact.phone}`} className="hover:text-champagne transition-colors">
-                    {SITE_CONFIG.contact.phoneFormatted}
+                  <a href={`tel:${site.contact.phone}`} className="hover:text-champagne transition-colors">
+                    {site.contact.phoneFormatted}
                   </a>
                 </div>
               </div>
 
               <div className="pt-2">
                 <a
-                  href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
+                  href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
                     'Halo Susan Spa & Resort, saya ingin bertanya mengenai ketersediaan reservasi penginapan.'
                   )}`}
                   target="_blank"

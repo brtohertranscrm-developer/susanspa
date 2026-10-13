@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { SiteConfigProvider } from '@/components/global/SiteConfigProvider';
+import { getSiteSettings } from '@/lib/site-config';
 
-export const metadata: Metadata = {
+const DEFAULT_SHARE_IMAGE = 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200';
+
+const baseMetadata: Metadata = {
   metadataBase: new URL('https://www.susansparesort.com'),
   title: {
     default: 'Susan Spa & Resort: Peristirahatan Menenangkan di Lereng Bandungan',
@@ -30,7 +34,7 @@ export const metadata: Metadata = {
       'Kesejukan udara pegunungan di ketinggian ±1.100 mdpl. Akomodasi suite & villa yang nyaman, spa on the sky, dan kapel pernikahan ikonik La Kana di Bandungan.',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200',
+        url: DEFAULT_SHARE_IMAGE,
         width: 1200,
         height: 630,
         alt: 'Susan Spa & Resort Bandungan',
@@ -41,27 +45,53 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Susan Spa & Resort: Peristirahatan Menenangkan di Lereng Bandungan',
     description: 'Kesejukan udara pegunungan di ketinggian ±1.100 mdpl lereng Gunung Ungaran, Bandungan, Jawa Tengah.',
-    images: ['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200'],
+    images: [DEFAULT_SHARE_IMAGE],
   },
 };
 
-export default function RootLayout({
+// Judul, deskripsi, dan gambar saat dibagikan mengikuti Pengaturan Situs di CMS bila sudah diisi.
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getSiteSettings();
+  const image = seo.imageUrl ?? DEFAULT_SHARE_IMAGE;
+
+  return {
+    ...baseMetadata,
+    title: seo.title ? { default: seo.title, template: '%s | Susan Spa & Resort' } : baseMetadata.title,
+    description: seo.description ?? baseMetadata.description,
+    openGraph: {
+      ...baseMetadata.openGraph,
+      title: seo.title ?? baseMetadata.openGraph?.title,
+      description: seo.description ?? baseMetadata.openGraph?.description,
+      images: [{ url: image, width: 1200, height: 630, alt: 'Susan Spa & Resort Bandungan' }],
+    },
+    twitter: {
+      ...baseMetadata.twitter,
+      title: seo.title ?? baseMetadata.twitter?.title,
+      description: seo.description ?? baseMetadata.twitter?.description,
+      images: [image],
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { site } = await getSiteSettings();
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Resort',
-    name: 'Susan Spa & Resort',
-    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200',
+    name: site.name,
+    image: DEFAULT_SHARE_IMAGE,
     '@id': 'https://www.susansparesort.com/',
     url: 'https://www.susansparesort.com/',
-    telephone: '+62298711111',
+    telephone: site.contact.phone,
     priceRange: 'IDR 1,650,000 - IDR 4,800,000',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Dusun Piyoto',
+      streetAddress: site.address.lines[0],
       addressLocality: 'Bandungan',
       addressRegion: 'Central Java',
       postalCode: '50614',
@@ -89,7 +119,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased selection:bg-champagne selection:text-forest-deep">
-        {children}
+        <SiteConfigProvider value={site}>{children}</SiteConfigProvider>
       </body>
     </html>
   );

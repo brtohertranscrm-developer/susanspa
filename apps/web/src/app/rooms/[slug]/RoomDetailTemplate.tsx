@@ -22,7 +22,7 @@ import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { RoomCard } from '@/components/ui/RoomCard';
 import { roomCapacity, roomCategoryLabel } from '@/lib/room-display';
 import { getDefaultStayDates } from '@/lib/dates';
-import { SITE_CONFIG } from '@/data/site';
+import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 import type { Room } from '@/types';
 
 interface RoomDetailTemplateProps {
@@ -31,6 +31,7 @@ interface RoomDetailTemplateProps {
 }
 
 export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplateProps) {
+  const site = useSiteConfig();
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -251,7 +252,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
                 </button>
 
                 <a
-                  href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
+                  href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
                     `Halo Susan Spa & Resort, saya ingin reservasi untuk kamar ${room.name}.`
                   )}`}
                   target="_blank"

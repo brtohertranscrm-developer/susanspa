@@ -761,8 +761,13 @@ export interface SiteSetting {
   phone?: string | null;
   whatsapp?: string | null;
   email?: string | null;
+  /**
+   * Alamat tujuan permintaan reservasi dari website.
+   */
+  reservationEmail?: string | null;
   instagramUrl?: string | null;
   facebookUrl?: string | null;
+  tiktokUrl?: string | null;
   defaultSeoTitle?: string | null;
   defaultSeoDescription?: string | null;
   defaultSeoImage?: (number | null) | Media;
@@ -780,8 +785,10 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   phone?: T;
   whatsapp?: T;
   email?: T;
+  reservationEmail?: T;
   instagramUrl?: T;
   facebookUrl?: T;
+  tiktokUrl?: T;
   defaultSeoTitle?: T;
   defaultSeoDescription?: T;
   defaultSeoImage?: T;

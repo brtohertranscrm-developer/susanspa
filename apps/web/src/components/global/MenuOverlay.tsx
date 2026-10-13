@@ -21,7 +21,7 @@ import {
   Waves,
   Trees,
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/data/site';
+import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 import { cn } from '@/lib/utils';
 
 interface MenuOverlayProps {
@@ -54,6 +54,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
   onClose,
   onOpenReserve,
 }) => {
+  const site = useSiteConfig();
   const pathname = usePathname();
   const overlayRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -299,7 +300,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
           >
             <Image
               src="/images/susan-spa-logo-dark.png"
-              alt={SITE_CONFIG.name}
+              alt={site.name}
               width={160}
               height={70}
               priority
@@ -328,7 +329,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
             {/* 2A. Far-Left Social Rail (Desktop vertical rail, mobile horizontal) */}
             <div className="flex lg:flex-col items-center lg:items-start space-x-6 lg:space-x-0 lg:space-y-6 shrink-0 lg:pt-2 border-b lg:border-b-0 lg:border-r border-stone/20 pb-4 lg:pb-0 lg:pr-8">
               <a
-                href={SITE_CONFIG.social.instagram}
+                href={site.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-forest-deep/70 hover:text-terracotta p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all hover:scale-110 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-md"
@@ -337,7 +338,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href={SITE_CONFIG.social.facebook}
+                href={site.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-forest-deep/70 hover:text-terracotta p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all hover:scale-110 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-md"
@@ -346,7 +347,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
+                href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
                   'Halo Susan Spa & Resort, saya ingin bertanya seputar reservasi.'
                 )}`}
                 target="_blank"
@@ -357,7 +358,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 <MessageCircle className="w-5 h-5" />
               </a>
               <a
-                href={`tel:${SITE_CONFIG.contact.phone}`}
+                href={`tel:${site.contact.phone}`}
                 className="text-forest-deep/70 hover:text-terracotta p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all hover:scale-110 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-md"
                 aria-label="Telepon Susan Spa & Resort"
               >
@@ -643,7 +644,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 SUSAN SPA & RESORT
               </h4>
               <p className="text-xs text-ivory/80 leading-relaxed">
-                {SITE_CONFIG.address.fullFormatted}
+                {site.address.fullFormatted}
               </p>
               <div className="pt-2 border-t border-white/10 space-y-1">
                 <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-champagne block">
@@ -652,10 +653,10 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 <p className="text-xs text-white">
                   Front Office (24 Jam):{' '}
                   <a
-                    href={`tel:${SITE_CONFIG.contact.phone}`}
+                    href={`tel:${site.contact.phone}`}
                     className="hover:text-champagne underline underline-offset-2"
                   >
-                    {SITE_CONFIG.contact.phoneFormatted}
+                    {site.contact.phoneFormatted}
                   </a>
                 </p>
               </div>
@@ -673,30 +674,30 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 <p>
                   Telepon:{' '}
                   <a
-                    href={`tel:${SITE_CONFIG.contact.phone}`}
+                    href={`tel:${site.contact.phone}`}
                     className="text-white hover:text-champagne transition-colors"
                   >
-                    {SITE_CONFIG.contact.phoneFormatted}
+                    {site.contact.phoneFormatted}
                   </a>
                 </p>
                 <p>
                   WhatsApp:{' '}
                   <a
-                    href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}`}
+                    href={`https://wa.me/${site.contact.whatsapp}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:text-champagne transition-colors"
                   >
-                    {SITE_CONFIG.contact.whatsappFormatted}
+                    {site.contact.whatsappFormatted}
                   </a>
                 </p>
                 <p>
                   Email:{' '}
                   <a
-                    href={`mailto:${SITE_CONFIG.contact.reservationEmail}`}
+                    href={`mailto:${site.contact.reservationEmail}`}
                     className="text-white hover:text-champagne transition-colors"
                   >
-                    {SITE_CONFIG.contact.reservationEmail}
+                    {site.contact.reservationEmail}
                   </a>
                 </p>
               </div>

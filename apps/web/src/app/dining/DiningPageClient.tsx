@@ -7,10 +7,11 @@ import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
-import { SITE_CONFIG } from '@/data/site';
+import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 import type { DiningVenue } from '@/types';
 
 export default function DiningPageClient({ venues }: { venues: DiningVenue[] }) {
+  const site = useSiteConfig();
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   return (
@@ -74,7 +75,7 @@ export default function DiningPageClient({ venues }: { venues: DiningVenue[] }) 
               </div>
 
               <a
-                href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
+                href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
                   `Halo Tim Restoran Susan Spa & Resort, saya ingin reservasi meja di ${venue.name}.`
                 )}`}
                 target="_blank"

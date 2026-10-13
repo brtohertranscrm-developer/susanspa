@@ -16,7 +16,7 @@ import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
-import { SITE_CONFIG } from '@/data/site';
+import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 import type { WeddingPackage } from '@/types';
 
 interface WeddingDetailTemplateProps {
@@ -24,6 +24,7 @@ interface WeddingDetailTemplateProps {
 }
 
 export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProps) {
+  const site = useSiteConfig();
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -194,7 +195,7 @@ export default function WeddingDetailTemplate({ pkg }: WeddingDetailTemplateProp
                 </button>
 
                 <a
-                  href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
+                  href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
                     `Halo Susan Spa & Resort, saya tertarik berkonsultasi mengenai ${pkg.name}.`
                   )}`}
                   target="_blank"
