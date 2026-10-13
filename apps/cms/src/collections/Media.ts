@@ -5,6 +5,8 @@ import { canManageContent } from '../access'
 let imagekit: ImageKit | null = null
 
 // Kunci hanya dibaca dari environment. Klien dibuat saat dibutuhkan agar CMS tetap bisa berjalan tanpa kunci.
+// baseURL sengaja tidak diisi. Isi dengan URL pengiriman (ik.imagekit.io) membuat SDK mengirim upload ke host
+// yang tidak menerima upload. Tanpa baseURL, SDK memakai upload.imagekit.io dan api.imagekit.io sendiri.
 const getImageKit = () => {
   const privateKey = process.env.IMAGEKIT_PRIVATE_KEY
   if (!privateKey) {
@@ -15,18 +17,22 @@ const getImageKit = () => {
       true,
     )
   }
-  imagekit ??= new ImageKit({
-    privateKey,
-    baseURL: process.env.IMAGEKIT_URL_ENDPOINT || 'https://ik.imagekit.io/ro8484nadw/',
-  })
+  imagekit ??= new ImageKit({ privateKey })
   return imagekit
 }
+
+// ImageKit tidak bisa mengubah ukuran foto di atas 25 megapixel. Foto seperti itu ditampilkan apa adanya.
+const IMAGEKIT_TRANSFORM_MAX_PIXELS = 25_000_000
 
 // Pustaka menampilkan versi 320 px dari ImageKit agar foto asli beresolusi tinggi tidak diunduh untuk setiap kotak.
 const thumbnailUrl = ({ doc }: { doc: Record<string, unknown> }) => {
   const url = typeof doc.url === 'string' ? doc.url : null
   if (!url) return null
-  return url.includes('ik.imagekit.io') ? `${url}${url.includes('?') ? '&' : '?'}tr=w-320` : url
+  if (!url.includes('ik.imagekit.io')) return url
+  const width = Number(doc.width)
+  const height = Number(doc.height)
+  const tooLarge = width > 0 && height > 0 && width * height > IMAGEKIT_TRANSFORM_MAX_PIXELS
+  return tooLarge ? url : `${url}${url.includes('?') ? '&' : '?'}tr=w-320`
 }
 
 export const Media: CollectionConfig = {
@@ -94,15 +100,32 @@ export const Media: CollectionConfig = {
     beforeChange: [
       async ({ data, req }) => {
         if (req.file && req.file.data) {
-          const response = await getImageKit().files.upload({
-            file: req.file.data.toString('base64'),
-            fileName: req.file.name,
-            folder: '/susanspa',
-          })
+          const client = getImageKit()
+          let response
+          try {
+            response = await client.files.upload({
+              file: req.file.data.toString('base64'),
+              fileName: req.file.name,
+              folder: '/susanspa',
+              // Nama yang sama tidak boleh menimpa foto lama yang sudah dipakai di website.
+              useUniqueFileName: true,
+            })
+          } catch (error) {
+            req.payload.logger.error({ err: error, msg: 'Upload ke ImageKit gagal' })
+            throw new APIError(
+              'Foto gagal diunggah ke ImageKit. Coba lagi. Jika terus gagal, periksa kunci ImageKit di server.',
+              502,
+              undefined,
+              true,
+            )
+          }
           data.url = response.url
           data.imagekitFileId = response.fileId
-          data.filename = req.file.name
-          data.filesize = req.file.size
+          // Nama dari ImageKit sudah unik. Nama asli dari pengunggah bisa bentrok dengan foto lain di database.
+          data.filename = response.name
+          data.filesize = response.size
+          data.width = response.width
+          data.height = response.height
           data.mimeType = req.file.mimetype
         }
         return data

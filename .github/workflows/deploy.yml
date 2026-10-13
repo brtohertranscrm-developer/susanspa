@@ -75,13 +75,12 @@ jobs:
         env:
           GITHUB_SHA: ${{ github.sha }}
           IMAGEKIT_PRIVATE_KEY: ${{ secrets.IMAGEKIT_PRIVATE_KEY }}
-          IMAGEKIT_URL_ENDPOINT: ${{ secrets.IMAGEKIT_URL_ENDPOINT }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
-          envs: GITHUB_SHA,IMAGEKIT_PRIVATE_KEY,IMAGEKIT_URL_ENDPOINT
+          envs: GITHUB_SHA,IMAGEKIT_PRIVATE_KEY
           command_timeout: 10m
           timeout: 60s
           script: |
@@ -159,8 +158,7 @@ jobs:
               } || echo "Peringatan: gagal menulis $name ke $CMS_ENV_FILE. Isi manual di VPS, upload foto akan gagal tanpanya."
             }
             sync_cms_env IMAGEKIT_PRIVATE_KEY "${IMAGEKIT_PRIVATE_KEY:-}"
-            sync_cms_env IMAGEKIT_URL_ENDPOINT "${IMAGEKIT_URL_ENDPOINT:-}"
-
+            
             # 7. Jalankan migration database
             echo "Menjalankan migration dengan environment production..."
             set -a
