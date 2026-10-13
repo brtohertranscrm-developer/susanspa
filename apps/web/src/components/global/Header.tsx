@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu } from 'lucide-react';
-import { SITE_CONFIG } from '@/data/site';
+import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 import { cn } from '@/lib/utils';
 import { Room } from '@/types';
 import { MenuOverlay } from './MenuOverlay';
@@ -16,6 +16,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
+  const site = useSiteConfig();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -60,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
             <Link href="/" className="flex items-center group py-1">
               <Image
                 src="/images/susan-spa-logo-gold.png"
-                alt={SITE_CONFIG.name}
+                alt={site.name}
                 width={170}
                 height={75}
                 priority

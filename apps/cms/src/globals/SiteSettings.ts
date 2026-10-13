@@ -35,8 +35,15 @@ export const SiteSettings: GlobalConfig = {
             { name: 'email', type: 'email', label: 'Email Resmi' },
           ],
         },
+        {
+          name: 'reservationEmail',
+          type: 'email',
+          label: 'Email Reservasi',
+          admin: { description: 'Alamat tujuan permintaan reservasi dari website.' },
+        },
         { name: 'instagramUrl', type: 'text', label: 'URL Instagram' },
         { name: 'facebookUrl', type: 'text', label: 'URL Facebook' },
+        { name: 'tiktokUrl', type: 'text', label: 'URL TikTok' },
       ],
     },
     {

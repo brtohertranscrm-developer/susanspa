@@ -13,7 +13,7 @@ import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { FeaturedRoomsCarousel } from '@/components/ui/FeaturedRoomsCarousel';
 import { BestOfShowcase } from '@/components/ui/BestOfShowcase';
-import { SITE_CONFIG } from '@/data/site';
+import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 import type { Room } from '@/types';
 
 const HERO_SLIDES = [
@@ -42,6 +42,7 @@ const FEATURED_ROOM_SLUGS = [
 ];
 
 export default function HomePageClient({ rooms }: { rooms: Room[] }) {
+  const site = useSiteConfig();
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [modalRoomSlug, setModalRoomSlug] = useState<string | undefined>();
   const [modalType, setModalType] = useState<'room' | 'spa' | 'wedding' | 'event'>('room');
@@ -175,13 +176,13 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
                 Kunjungi Susan Spa & Resort di Bandungan
               </h2>
               <p className="text-xs sm:text-sm text-ivory/85 leading-relaxed font-light">
-                {SITE_CONFIG.address.fullFormatted}. Berada di ketinggian ±1.100 mdpl lereng Gunung Ungaran dengan udara sejuk dan pemandangan asri.
+                {site.address.fullFormatted}. Berada di ketinggian ±1.100 mdpl lereng Gunung Ungaran dengan udara sejuk dan pemandangan asri.
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto shrink-0">
               <a
-                href={SITE_CONFIG.googleMapsUrl}
+                href={site.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto bg-ivory hover:bg-champagne text-[#14241E] px-7 py-3 rounded-full text-xs uppercase tracking-[0.16em] font-semibold text-center transition-colors flex items-center justify-center space-x-2 shadow-sm"
@@ -191,7 +192,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
               </a>
 
               <a
-                href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
+                href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
                   'Halo Susan Spa & Resort, mohon panduan arah menuju lokasi resort.'
                 )}`}
                 target="_blank"

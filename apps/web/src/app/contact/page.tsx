@@ -7,9 +7,10 @@ import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { submitInquiry } from '@/lib/inquiries';
-import { SITE_CONFIG } from '@/data/site';
+import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 
 export default function ContactPage() {
+  const site = useSiteConfig();
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -82,11 +83,12 @@ export default function ContactPage() {
                     Alamat Susan Spa & Resort
                   </span>
                   <p className="text-xs sm:text-sm text-ivory/80 leading-relaxed">
-                    {SITE_CONFIG.address.street}
-                    <br />
-                    {SITE_CONFIG.address.village}, {SITE_CONFIG.address.district}
-                    <br />
-                    {SITE_CONFIG.address.regency}, {SITE_CONFIG.address.province} {SITE_CONFIG.address.postalCode}
+                    {site.address.lines.map((line, index) => (
+                      <React.Fragment key={`${index}-${line}`}>
+                        {index > 0 && <br />}
+                        {line}
+                      </React.Fragment>
+                    ))}
                   </p>
                 </div>
               </div>
@@ -95,20 +97,20 @@ export default function ContactPage() {
                 <div className="flex items-center space-x-2">
                   <Phone className="w-4 h-4 text-champagne" />
                   <a
-                    href={`tel:${SITE_CONFIG.contact.phone}`}
+                    href={`tel:${site.contact.phone}`}
                     className="hover:text-champagne transition-colors font-medium"
                   >
-                    {SITE_CONFIG.contact.phoneFormatted}
+                    {site.contact.phoneFormatted}
                   </a>
                 </div>
 
                 <div className="flex items-center space-x-2">
                   <Mail className="w-4 h-4 text-champagne" />
                   <a
-                    href={`mailto:${SITE_CONFIG.contact.email}`}
+                    href={`mailto:${site.contact.email}`}
                     className="hover:text-champagne transition-colors"
                   >
-                    {SITE_CONFIG.contact.email}
+                    {site.contact.email}
                   </a>
                 </div>
               </div>
@@ -129,7 +131,7 @@ export default function ContactPage() {
               </div>
 
               <a
-                href={`https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
+                href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
                   'Halo Susan Spa & Resort, saya ingin bertanya tentang informasi reservasi.'
                 )}`}
                 target="_blank"
@@ -281,7 +283,7 @@ export default function ContactPage() {
             </div>
 
             <a
-              href={SITE_CONFIG.googleMapsUrl}
+              href={site.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-champagne hover:bg-champagne-light text-forest-deep px-6 py-3 rounded-full text-xs uppercase tracking-[0.2em] font-bold shadow-md transition-all inline-flex items-center space-x-2 shrink-0 self-start"
@@ -294,7 +296,7 @@ export default function ContactPage() {
           <div className="relative aspect-[16/10] sm:aspect-[21/9] overflow-hidden border border-stone/30 shadow-xl bg-forest-deep">
             <iframe
               title="Susan Spa & Resort Map Embed"
-              src={SITE_CONFIG.mapEmbedUrl}
+              src={site.mapEmbedUrl}
               width="100%"
               height="100%"
               style={{ border: 0 }}

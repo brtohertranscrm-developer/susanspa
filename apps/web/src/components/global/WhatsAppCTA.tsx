@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
-import { SITE_CONFIG } from '@/data/site';
+import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 
 interface WhatsAppCTAProps {
   message?: string;
@@ -11,7 +11,8 @@ interface WhatsAppCTAProps {
 export const WhatsAppCTA: React.FC<WhatsAppCTAProps> = ({
   message = 'Halo Susan Spa & Resort, perkenalkan saya ingin menanyakan ketersediaan kamar dan paket reservasi. Mohon informasinya, terima kasih.',
 }) => {
-  const whatsappNumber = SITE_CONFIG.contact.whatsapp;
+  const site = useSiteConfig();
+  const whatsappNumber = site.contact.whatsapp;
   const encodedMessage = encodeURIComponent(message);
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
