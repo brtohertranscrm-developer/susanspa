@@ -18,7 +18,7 @@ const BEST_OF_ITEMS: ShowcaseItem[] = [
     id: 'spa-sanctuary',
     title: 'Spa on the Sky Sanctuary',
     category: 'WELLNESS & SPA',
-    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1200&auto=format&fit=crop',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_4476.avif?tr=w-1200',
     href: '/spa',
   },
   {
