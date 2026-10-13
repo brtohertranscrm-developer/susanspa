@@ -217,7 +217,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
       label: 'La Kana The Royal Wedding Venue',
       href: '/wedding',
       subItems: [
-        { label: 'La Kana Wedding Chapel', href: '/wedding' },
+        { label: 'La Kana The Royal Wedding Venue', href: '/wedding' },
         { label: 'Paket & Venue Pernikahan', href: '/wedding' },
         { label: 'Pertemuan & Acara Privat', href: '/events' },
         { label: 'Konsultasi Wedding & Event', href: '/wedding' },
@@ -247,12 +247,12 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
 
   const subLinks = [
     { label: 'SUSANSPARESORT.COM', href: '/' },
-    { label: 'LA KANA WEDDING CHAPEL', href: '/wedding' },
+    { label: 'LA KANA THE ROYAL WEDDING VENUE', href: '/wedding' },
   ];
 
   const properties = [
     { name: 'SUSAN SPA & RESORT', href: '/', icon: Hotel },
-    { name: 'LA KANA WEDDING CHAPEL', href: '/wedding', icon: Church },
+    { name: 'LA KANA THE ROYAL WEDDING VENUE', href: '/wedding', icon: Church },
     { name: 'SKY GARDEN RESTAURANT', href: '/dining', icon: UtensilsCrossed },
     { name: 'SEMISPOOR WARM POOL', href: '/facilities', icon: Waves },
     { name: 'EDEN PARK BANDUNGAN', href: '/facilities', icon: Trees },
