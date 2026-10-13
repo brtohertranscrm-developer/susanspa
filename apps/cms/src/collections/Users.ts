@@ -8,8 +8,10 @@ export const Users: CollectionConfig = {
     plural: 'Pengguna',
   },
   admin: {
-    group: 'Settings',
+    group: 'Pengaturan',
     useAsTitle: 'email',
+    // Editor hanya bisa membuka akunnya sendiri lewat menu Akun. Daftar pengguna hanya untuk admin.
+    hidden: ({ user }) => !isContentAdmin(user),
   },
   auth: {
     maxLoginAttempts: 5,
@@ -46,11 +48,11 @@ export const Users: CollectionConfig = {
       type: 'select',
       hasMany: true,
       required: true,
-      label: 'Peran Akses (Roles)',
+      label: 'Peran',
       defaultValue: ['content-editor'],
       options: [
-        { label: 'Content Admin', value: 'content-admin' },
-        { label: 'Content Editor', value: 'content-editor' },
+        { label: 'Admin konten', value: 'content-admin' },
+        { label: 'Editor konten', value: 'content-editor' },
       ],
       access: {
         update: ({ req }) => Boolean(req.user && isContentAdmin(req.user)),

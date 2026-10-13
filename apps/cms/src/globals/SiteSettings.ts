@@ -5,7 +5,7 @@ export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Pengaturan Situs',
   admin: {
-    group: 'Settings',
+    group: 'Pengaturan',
   },
   access: {
     read: () => true,
@@ -41,7 +41,7 @@ export const SiteSettings: GlobalConfig = {
     },
     {
       type: 'collapsible',
-      label: 'Default SEO & Social Share',
+      label: 'SEO & tampilan saat dibagikan',
       admin: { initCollapsed: true },
       fields: [
         {
@@ -53,9 +53,9 @@ export const SiteSettings: GlobalConfig = {
             },
           },
         },
-        { name: 'defaultSeoTitle', type: 'text', localized: true, label: 'Default SEO Title' },
-        { name: 'defaultSeoDescription', type: 'textarea', localized: true, label: 'Default Meta Description' },
-        { name: 'defaultSeoImage', type: 'upload', relationTo: 'media', label: 'Default Open Graph Image' },
+        { name: 'defaultSeoTitle', type: 'text', localized: true, label: 'Judul SEO bawaan' },
+        { name: 'defaultSeoDescription', type: 'textarea', localized: true, label: 'Deskripsi SEO bawaan' },
+        { name: 'defaultSeoImage', type: 'upload', relationTo: 'media', label: 'Gambar saat dibagikan' },
       ],
     },
   ],

@@ -5,7 +5,7 @@ const buildContentCollection = (
   slug: string,
   singularLabel: string,
   pluralLabel: string,
-  group: 'Website' | 'Marketing',
+  group: 'Konten website' | 'Promosi',
   detailFields: Field[] = [],
 ): CollectionConfig => ({
   slug,
@@ -26,7 +26,7 @@ const buildContentCollection = (
     // 1. BASIC INFORMATION
     {
       type: 'collapsible',
-      label: 'Informasi Dasar (Basic)',
+      label: 'Informasi dasar',
       admin: { initCollapsed: false },
       fields: [
         { name: 'title', type: 'text', required: true, localized: true, label: 'Judul' },
@@ -40,7 +40,7 @@ const buildContentCollection = (
       ? [
           {
             type: 'collapsible' as const,
-            label: 'Detail & Spesifikasi (Details)',
+            label: 'Detail & spesifikasi',
             admin: { initCollapsed: false },
             fields: detailFields,
           },
@@ -50,7 +50,7 @@ const buildContentCollection = (
     // 3. MEDIA
     {
       type: 'collapsible',
-      label: 'Foto Utama (Featured Image)',
+      label: 'Foto utama',
       admin: { initCollapsed: false },
       fields: [
         { name: 'featuredImage', type: 'upload', relationTo: 'media', label: 'Foto Utama' },
@@ -60,7 +60,7 @@ const buildContentCollection = (
     // 4. ADVANCED
     {
       type: 'collapsible',
-      label: 'Pengaturan Teknis (Advanced)',
+      label: 'Pengaturan teknis',
       admin: { initCollapsed: true },
       fields: [
         { name: 'slug', type: 'text', required: true, unique: true, index: true, label: 'URL Slug' },
@@ -70,36 +70,36 @@ const buildContentCollection = (
   ],
 })
 
-export const SpaTreatments = buildContentCollection('spa-treatments', 'Spa Treatment', 'Spa Treatments', 'Website', [
+export const SpaTreatments = buildContentCollection('spa-treatments', 'Perawatan Spa', 'Perawatan Spa', 'Konten website', [
   { name: 'durationMinutes', type: 'number', min: 1, label: 'Durasi (Menit)' },
   { name: 'priceLabel', type: 'number', min: 0, label: 'Harga (Rp)' },
   {
     name: 'benefits',
     type: 'array',
-    label: 'Manfaat Treatment (Benefits)',
+    label: 'Manfaat perawatan',
     fields: [{ name: 'label', type: 'text', localized: true, label: 'Manfaat' }],
   },
 ])
 
-export const WeddingPackages = buildContentCollection('wedding-packages', 'Wedding Package', 'Wedding Packages', 'Website', [
+export const WeddingPackages = buildContentCollection('wedding-packages', 'Paket Wedding', 'Paket Wedding', 'Konten website', [
   { name: 'capacity', type: 'number', min: 1, label: 'Kapasitas Tamu' },
   { name: 'venue', type: 'text', localized: true, label: 'Lokasi / Venue' },
   { name: 'priceLabel', type: 'number', min: 0, label: 'Mulai Dari (Rp)' },
   {
     name: 'inclusions',
     type: 'array',
-    label: 'Inklusi Paket (Inclusions)',
+    label: 'Isi paket',
     fields: [{ name: 'label', type: 'text', localized: true, label: 'Fasilitas / Inklusi' }],
   },
 ])
 
-export const Offers = buildContentCollection('offers', 'Promo', 'Promo', 'Marketing', [
+export const Offers = buildContentCollection('offers', 'Promo', 'Promo', 'Promosi', [
   { name: 'validFrom', type: 'date', label: 'Berlaku Mulai' },
   { name: 'validUntil', type: 'date', label: 'Berlaku Hingga' },
   { name: 'terms', type: 'textarea', localized: true, label: 'Syarat & Ketentuan' },
 ])
 
-export const ResortContent = buildContentCollection('resort-content', 'Dining & Resort', 'Dining & Resort', 'Website', [
+export const ResortContent = buildContentCollection('resort-content', 'Info Resort', 'Info Resort', 'Konten website', [
   {
     name: 'kind',
     type: 'select',
@@ -107,10 +107,10 @@ export const ResortContent = buildContentCollection('resort-content', 'Dining & 
     index: true,
     label: 'Kategori Fasilitas',
     options: [
-      { label: 'Facility', value: 'facility' },
-      { label: 'Dining', value: 'dining' },
-      { label: 'Experience', value: 'experience' },
-      { label: 'Nearby Destination', value: 'nearby' },
+      { label: 'Fasilitas', value: 'facility' },
+      { label: 'Restoran & kafe', value: 'dining' },
+      { label: 'Pengalaman', value: 'experience' },
+      { label: 'Destinasi sekitar', value: 'nearby' },
     ],
   },
   { name: 'location', type: 'text', localized: true, label: 'Lokasi' },

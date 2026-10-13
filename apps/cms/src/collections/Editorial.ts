@@ -8,7 +8,7 @@ export const JournalArticles: CollectionConfig = {
     plural: 'Jurnal',
   },
   admin: {
-    group: 'Website',
+    group: 'Konten website',
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'publishedAt', '_status'],
   },
@@ -23,7 +23,7 @@ export const JournalArticles: CollectionConfig = {
     // 1. BASIC
     {
       type: 'collapsible',
-      label: 'Konten Artikel (Basic)',
+      label: 'Informasi dasar',
       admin: { initCollapsed: false },
       fields: [
         { name: 'title', type: 'text', required: true, localized: true, label: 'Judul Artikel' },
@@ -35,7 +35,7 @@ export const JournalArticles: CollectionConfig = {
     // 2. MEDIA
     {
       type: 'collapsible',
-      label: 'Foto Sampul (Cover Image)',
+      label: 'Foto sampul',
       admin: { initCollapsed: false },
       fields: [
         { name: 'coverImage', type: 'upload', relationTo: 'media', required: true, label: 'Foto Sampul' },
@@ -58,15 +58,15 @@ export const JournalArticles: CollectionConfig = {
           },
         },
         { name: 'publishedAt', type: 'date', index: true, label: 'Tanggal Publikasi' },
-        { name: 'seoTitle', type: 'text', localized: true, maxLength: 70, label: 'SEO Title (Target 50-60 karakter)' },
-        { name: 'seoDescription', type: 'textarea', localized: true, maxLength: 170, label: 'Meta Description (Target 140-160 karakter)' },
+        { name: 'seoTitle', type: 'text', localized: true, maxLength: 70, label: 'Judul SEO (ideal 50 sampai 60 karakter)' },
+        { name: 'seoDescription', type: 'textarea', localized: true, maxLength: 170, label: 'Deskripsi SEO (ideal 140 sampai 160 karakter)' },
       ],
     },
 
     // 4. ADVANCED
     {
       type: 'collapsible',
-      label: 'Pengaturan Teknis (Advanced)',
+      label: 'Pengaturan teknis',
       admin: { initCollapsed: true },
       fields: [
         { name: 'slug', type: 'text', required: true, unique: true, index: true, label: 'URL Slug' },
@@ -83,7 +83,7 @@ export const Testimonials: CollectionConfig = {
     plural: 'Testimoni',
   },
   admin: {
-    group: 'Marketing',
+    group: 'Promosi',
     useAsTitle: 'guestName',
     defaultColumns: ['guestName', 'stayCategory', 'rating', '_status'],
   },
@@ -124,7 +124,7 @@ export const GalleryItems: CollectionConfig = {
     plural: 'Galeri',
   },
   admin: {
-    group: 'Website',
+    group: 'Konten website',
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'image', '_status'],
   },
@@ -154,7 +154,7 @@ export const GalleryItems: CollectionConfig = {
     },
     {
       type: 'collapsible',
-      label: 'Pengaturan Teknis (Advanced)',
+      label: 'Pengaturan teknis',
       admin: { initCollapsed: true },
       fields: [
         { name: 'sortOrder', type: 'number', defaultValue: 0, label: 'Urutan Tampilan' },

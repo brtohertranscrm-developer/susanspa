@@ -1,6 +1,6 @@
 import ImageKit from '@imagekit/nodejs'
 import { APIError, type CollectionConfig } from 'payload'
-import { canManageContent } from '../access'
+import { canManageContent, isContentAdmin } from '../access'
 
 let imagekit: ImageKit | null = null
 
@@ -38,14 +38,16 @@ const thumbnailUrl = ({ doc }: { doc: Record<string, unknown> }) => {
 export const Media: CollectionConfig = {
   slug: 'media',
   labels: {
-    singular: 'Foto & Media',
+    singular: 'Foto',
     plural: 'Pustaka Media',
   },
   admin: {
     group: 'Media',
+    // Judul diambil dari deskripsi foto, bukan nama file dari ImageKit yang panjang dan bernomor acak.
+    useAsTitle: 'alt',
     description:
       'Unggah foto sekali, lalu pakai di kamar, spa, wedding, jurnal, dan galeri. Isi teks alternatif dengan deskripsi isi foto.',
-    defaultColumns: ['filename', 'alt', 'mimeType', 'filesize', 'createdAt'],
+    defaultColumns: ['alt', 'filename', 'mimeType', 'filesize', 'createdAt'],
     listSearchableFields: ['filename', 'alt'],
     pagination: { defaultLimit: 24, limits: [12, 24, 48, 96] },
   },
@@ -58,7 +60,7 @@ export const Media: CollectionConfig = {
   fields: [
     {
       type: 'collapsible',
-      label: 'Informasi Foto & Aksesibilitas',
+      label: 'Informasi foto',
       admin: { initCollapsed: false },
       fields: [
         {
@@ -66,7 +68,7 @@ export const Media: CollectionConfig = {
           type: 'text',
           required: true,
           localized: true,
-          label: 'Teks Alt (Aksesibilitas / SEO)',
+          label: 'Deskripsi foto (teks alt)',
           admin: {
             description:
               'Jelaskan apa yang terlihat di foto, bukan kumpulan kata kunci. Dibaca oleh pembaca layar dan mesin pencari.',
@@ -76,15 +78,19 @@ export const Media: CollectionConfig = {
           name: 'caption',
           type: 'textarea',
           localized: true,
-          label: 'Keterangan Foto (Caption)',
+          label: 'Keterangan foto',
           admin: { description: 'Keterangan opsional yang muncul di bawah foto.' },
         },
       ],
     },
     {
       type: 'collapsible',
-      label: 'Pengaturan Teknis Penyimpanan (ImageKit)',
-      admin: { initCollapsed: true },
+      label: 'Pengaturan teknis ImageKit (khusus admin)',
+      // Editor tidak perlu melihat URL dan ID teknis. Admin tetap bisa memeriksanya.
+      admin: {
+        initCollapsed: true,
+        condition: (_data, _siblingData, { user }) => isContentAdmin(user),
+      },
       fields: [
         { name: 'url', type: 'text', admin: { readOnly: true }, label: 'URL Publik' },
         { name: 'imagekitFileId', type: 'text', admin: { readOnly: true }, label: 'ImageKit File ID' },

@@ -8,7 +8,7 @@ export const Rooms: CollectionConfig = {
     plural: 'Kamar',
   },
   admin: {
-    group: 'Website',
+    group: 'Konten website',
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'startingPriceLabel', '_status'],
   },
@@ -23,11 +23,11 @@ export const Rooms: CollectionConfig = {
     // 1. INFORMASI DASAR (BASIC)
     {
       type: 'collapsible',
-      label: 'Informasi Dasar (Basic)',
+      label: 'Informasi dasar',
       admin: { initCollapsed: false },
       fields: [
         { name: 'name', type: 'text', required: true, localized: true, label: 'Nama Kamar' },
-        { name: 'tagline', type: 'text', localized: true, label: 'Tagline / Slogan' },
+        { name: 'tagline', type: 'text', localized: true, label: 'Kalimat pembuka' },
         {
           name: 'category',
           type: 'select',
@@ -43,7 +43,7 @@ export const Rooms: CollectionConfig = {
     // 2. DETAIL & FASILITAS (DETAILS)
     {
       type: 'collapsible',
-      label: 'Detail & Fasilitas Kamar (Details)',
+      label: 'Detail & fasilitas',
       admin: { initCollapsed: false },
       fields: [
         {
@@ -65,13 +65,13 @@ export const Rooms: CollectionConfig = {
         {
           name: 'amenities',
           type: 'array',
-          label: 'Fasilitas Kamar (Amenities)',
+          label: 'Fasilitas kamar',
           fields: [{ name: 'label', type: 'text', required: true, localized: true, label: 'Nama Fasilitas' }],
         },
         {
           name: 'policies',
           type: 'array',
-          label: 'Kebijakan Kamar (Policies)',
+          label: 'Aturan kamar',
           fields: [{ name: 'label', type: 'text', required: true, localized: true, label: 'Kebijakan' }],
         },
       ],
@@ -80,7 +80,7 @@ export const Rooms: CollectionConfig = {
     // 3. FOTO & MEDIA (MEDIA)
     {
       type: 'collapsible',
-      label: 'Foto Kamar (Photos)',
+      label: 'Foto kamar',
       admin: { initCollapsed: false },
       fields: [
         {
@@ -96,7 +96,7 @@ export const Rooms: CollectionConfig = {
     // 4. PENGATURAN TEKNIS (ADVANCED)
     {
       type: 'collapsible',
-      label: 'Pengaturan Teknis (Advanced)',
+      label: 'Pengaturan teknis',
       admin: { initCollapsed: true },
       fields: [
         {
