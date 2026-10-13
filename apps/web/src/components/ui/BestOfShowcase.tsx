@@ -32,7 +32,7 @@ const BEST_OF_ITEMS: ShowcaseItem[] = [
     id: 'sky-garden-dining',
     title: 'Sky Garden Dining & Panorama',
     category: 'CULINARY & SCENIC',
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_4164%20copy.avif?tr=w-1200',
     href: '/dining',
   },
   {
