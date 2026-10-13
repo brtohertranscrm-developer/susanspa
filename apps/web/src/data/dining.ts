@@ -9,7 +9,7 @@ export const DINING_VENUES: DiningVenue[] = [
     ambiance: 'Ruang bersantap kaca berpanorama asri & teras terbuka yang sejuk',
     operatingHours: '06:30 - 22:30 WIB Setiap Hari',
     description: 'Berada di ketinggian resort dengan pemandangan taman asri dan lembah Bandungan, Sky Garden Restaurant menyajikan ragam hidangan lezat yang diolah dari bahan segar pilihan petani lokal Bandungan.',
-    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_4176%20copy.avif?updatedAt=1791815023092',
+    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_4176%20copy.avif?tr=w-1600',
     menuHighlights: [
       'Nasi Goreng Spesial Susan dengan Udang Bakar Gurih',
       'Soto Ayam Rempah Hangat Khas Dataran Tinggi',
