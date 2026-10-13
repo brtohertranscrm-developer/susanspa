@@ -10,9 +10,7 @@ import {
   BookOpen,
   FolderOpen,
   Sliders,
-  AlertCircle,
   Clock,
-  CheckCircle2,
   FileEdit,
   ExternalLink,
   Languages,
@@ -25,6 +23,26 @@ interface CustomDashboardProps {
     email?: string
   }
   locale?: string
+}
+
+type CollectionKey =
+  | 'rooms'
+  | 'spaTreatments'
+  | 'weddingPackages'
+  | 'offers'
+  | 'resortContent'
+  | 'journalArticles'
+
+interface PublishProgress {
+  total: number
+  published: number
+  drafts: number
+}
+
+// Field _status hanya ada di koleksi yang memakai draf. Tanpa draf, dokumen dianggap tayang.
+const toProgress = (docs: any[]): PublishProgress => {
+  const drafts = docs.filter((d) => d._status === 'draft').length
+  return { total: docs.length, published: docs.length - drafts, drafts }
 }
 
 function formatTimeAgo(dateString?: string): string {
@@ -44,14 +62,88 @@ function formatTimeAgo(dateString?: string): string {
   return 'Baru saja'
 }
 
+interface AttentionCardProps {
+  count: number
+  label: string
+  description: string
+  icon: React.ReactNode
+  tone: 'warning' | 'info'
+}
+
+function AttentionCard({ count, label, description, icon, tone }: AttentionCardProps) {
+  const highlight = count > 0 ? ` susan-attention-card--${tone}` : ''
+  return (
+    <div className={`susan-attention-card${highlight}`}>
+      <div className={`susan-attention-card__icon susan-attention-card__icon--${tone}`}>{icon}</div>
+      <div className="susan-attention-card__info">
+        <span className="susan-attention-card__num">{count}</span>
+        <h3 className="susan-attention-card__label">{label}</h3>
+        <p className="susan-attention-card__desc">{description}</p>
+      </div>
+    </div>
+  )
+}
+
+function QuickProgress({ progress }: { progress: PublishProgress }) {
+  if (progress.total === 0) {
+    return (
+      <div className="susan-quick-card__meta">
+        <span className="susan-tag susan-tag--neutral">Belum ada isi</span>
+      </div>
+    )
+  }
+
+  const percent = Math.round((progress.published / progress.total) * 100)
+  return (
+    <div className="susan-quick-card__meta">
+      <div className="susan-quick-card__meta-row">
+        {progress.drafts > 0 ? (
+          <span className="susan-tag susan-tag--warning">{progress.drafts} draf</span>
+        ) : (
+          <span className="susan-tag susan-tag--success">Semua tayang</span>
+        )}
+        <span>
+          {progress.published} dari {progress.total} tayang
+        </span>
+      </div>
+      <div className="susan-quick-card__bar" role="img" aria-label={`${percent}% tayang`}>
+        <div className="susan-quick-card__fill" style={{ width: `${percent}%` }} />
+      </div>
+    </div>
+  )
+}
+
+interface QuickCardProps {
+  href: string
+  icon: React.ReactNode
+  title: string
+  count: string
+  progress?: PublishProgress
+}
+
+function QuickCard({ href, icon, title, count, progress }: QuickCardProps) {
+  return (
+    <Link href={href} className="susan-quick-card">
+      <div className="susan-quick-card__head">
+        <div className="susan-quick-card__icon">{icon}</div>
+        <div className="susan-quick-card__text">
+          <span className="susan-quick-card__title">{title}</span>
+          <span className="susan-quick-card__count">{count}</span>
+        </div>
+      </div>
+      {progress && <QuickProgress progress={progress} />}
+    </Link>
+  )
+}
+
 export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
   payload,
   user,
 }) => {
-  // Safe defaults if payload is not passed directly
   let draftsWaitingCount = 0
   let expiredOffersCount = 0
   let missingEnglishCount = 0
+  let progress: Partial<Record<CollectionKey, PublishProgress>> = {}
   let recentDocs: Array<{
     id: string | number
     title: string
@@ -74,7 +166,6 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
 
   if (payload) {
     try {
-      // 1. Fetch counts
       const [
         roomsRes,
         spaRes,
@@ -104,7 +195,15 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
       counts.galleryItems = galleryRes.totalDocs || galleryRes.docs.length
       counts.media = mediaRes.totalDocs || mediaRes.docs.length
 
-      // 2. Count drafts
+      progress = {
+        rooms: toProgress(roomsRes.docs),
+        spaTreatments: toProgress(spaRes.docs),
+        weddingPackages: toProgress(weddingRes.docs),
+        offers: toProgress(offersRes.docs),
+        resortContent: toProgress(resortRes.docs),
+        journalArticles: toProgress(journalRes.docs),
+      }
+
       const allDraftCheckDocs = [
         ...roomsRes.docs.map((d: any) => ({ ...d, _coll: 'rooms', _collLabel: 'Kamar', _title: d.name })),
         ...spaRes.docs.map((d: any) => ({ ...d, _coll: 'spa-treatments', _collLabel: 'Spa', _title: d.title })),
@@ -114,22 +213,19 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
         ...journalRes.docs.map((d: any) => ({ ...d, _coll: 'journal-articles', _collLabel: 'Jurnal', _title: d.title })),
       ]
 
-      draftsWaitingCount = allDraftCheckDocs.filter((d: any) => d._status === 'draft').length
+      draftsWaitingCount = Object.values(progress).reduce((sum, p) => sum + (p?.drafts ?? 0), 0)
 
-      // 3. Expired offers
       const nowIso = new Date().toISOString()
       expiredOffersCount = offersRes.docs.filter((o: any) => o.validUntil && o.validUntil < nowIso).length
 
-      // 4. Missing English translations
       try {
         const enRooms = await payload.find({ collection: 'rooms', locale: 'en', limit: 50, depth: 0 }).catch(() => ({ docs: [] }))
         const missingRooms = enRooms.docs.filter((d: any) => !d.name || d.name.trim() === '').length
         missingEnglishCount += missingRooms
       } catch {
-        // fallback
+        // Terjemahan opsional. Jika gagal, angkanya tetap 0.
       }
 
-      // 5. Recent Docs sorted by updatedAt
       recentDocs = allDraftCheckDocs
         .sort((a: any, b: any) => new Date(b.updatedAt || 0).getTime() - new Date(a.updatedAt || 0).getTime())
         .slice(0, 6)
@@ -146,7 +242,6 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
     }
   }
 
-  // Greeting
   const firstName = user?.fullName ? user.fullName.split(' ')[0] : 'Tim'
   const currentHour = new Date().getHours()
   let greetingTime = 'Selamat Datang'
@@ -159,13 +254,8 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
 
   return (
     <div className="susan-dashboard">
-      {/* Top Banner / Greeting */}
       <div className="susan-dashboard__header">
         <div className="susan-dashboard__welcome">
-          <div className="susan-dashboard__badge">
-            <span className="susan-brand-header__dot" />
-            <span>Ruang kerja konten</span>
-          </div>
           <h1 className="susan-dashboard__title">
             {greetingTime}, {firstName}
           </h1>
@@ -190,172 +280,118 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
         </div>
       </div>
 
-      {/* SECTION 1: NEEDS ATTENTION */}
-      <div className="susan-dashboard__section">
+      <section className="susan-dashboard__section">
         <div className="susan-dashboard__section-header">
-          <h2 className="susan-dashboard__section-title">PERLU PERHATIAN</h2>
-          <span className="susan-dashboard__section-tag">Status Publikasi & Kualitas</span>
+          <h2 className="susan-dashboard__section-title">Perlu perhatian</h2>
+          <span className="susan-dashboard__section-tag">Status publikasi dan kelengkapan</span>
         </div>
 
         <div className="susan-attention-grid">
-          {/* Drafts Waiting */}
-          <div className={`susan-attention-card ${draftsWaitingCount > 0 ? 'susan-attention-card--active' : ''}`}>
-            <div className="susan-attention-card__icon susan-attention-card__icon--neutral">
-              <FileEdit size={20} />
-            </div>
-            <div className="susan-attention-card__info">
-              <span className="susan-attention-card__num">{draftsWaitingCount}</span>
-              <h3 className="susan-attention-card__label">Draf Menunggu</h3>
-              <p className="susan-attention-card__desc">Konten dalam status draf belum terbit ke website.</p>
-            </div>
-          </div>
-
-          {/* Expired Offers */}
-          <div className={`susan-attention-card ${expiredOffersCount > 0 ? 'susan-attention-card--warning' : ''}`}>
-            <div className="susan-attention-card__icon susan-attention-card__icon--warning">
-              <Clock size={20} />
-            </div>
-            <div className="susan-attention-card__info">
-              <span className="susan-attention-card__num">{expiredOffersCount}</span>
-              <h3 className="susan-attention-card__label">Promo Kedaluwarsa</h3>
-              <p className="susan-attention-card__desc">
-                {expiredOffersCount > 0 ? 'Perlu diperbarui tanggal validitasnya.' : 'Tidak ada promo yang kedaluwarsa.'}
-              </p>
-            </div>
-          </div>
-
-          {/* Missing English Translations */}
-          <div className={`susan-attention-card ${missingEnglishCount > 0 ? 'susan-attention-card--info' : ''}`}>
-            <div className="susan-attention-card__icon susan-attention-card__icon--info">
-              <Languages size={20} />
-            </div>
-            <div className="susan-attention-card__info">
-              <span className="susan-attention-card__num">{missingEnglishCount}</span>
-              <h3 className="susan-attention-card__label">Terjemahan English</h3>
-              <p className="susan-attention-card__desc">
-                {missingEnglishCount > 0 ? 'Halaman belum memiliki terjemahan EN.' : 'Semua terjemahan lengkap.'}
-              </p>
-            </div>
-          </div>
-
-          {/* System Health */}
-          <div className="susan-attention-card susan-attention-card--success">
-            <div className="susan-attention-card__icon susan-attention-card__icon--success">
-              <CheckCircle2 size={20} />
-            </div>
-            <div className="susan-attention-card__info">
-              <span className="susan-attention-card__num">0</span>
-              <h3 className="susan-attention-card__label">Kendala Konten</h3>
-              <p className="susan-attention-card__desc">Sistem normal, semua halaman siap diakses publik.</p>
-            </div>
-          </div>
+          <AttentionCard
+            count={draftsWaitingCount}
+            label="Draf menunggu"
+            description="Konten dalam status draf belum tayang di website."
+            icon={<FileEdit size={20} />}
+            tone="warning"
+          />
+          <AttentionCard
+            count={expiredOffersCount}
+            label="Promo kedaluwarsa"
+            description={
+              expiredOffersCount > 0
+                ? 'Perlu diperbarui tanggal validitasnya.'
+                : 'Tidak ada promo yang kedaluwarsa.'
+            }
+            icon={<Clock size={20} />}
+            tone="warning"
+          />
+          <AttentionCard
+            count={missingEnglishCount}
+            label="Terjemahan English"
+            description={
+              missingEnglishCount > 0
+                ? 'Halaman belum memiliki terjemahan EN.'
+                : 'Semua terjemahan lengkap.'
+            }
+            icon={<Languages size={20} />}
+            tone="info"
+          />
         </div>
-      </div>
+      </section>
 
-      {/* SECTION 2: QUICK EDIT */}
-      <div className="susan-dashboard__section">
+      <section className="susan-dashboard__section">
         <div className="susan-dashboard__section-header">
-          <h2 className="susan-dashboard__section-title">AKSES CEPAT HALAMAN</h2>
+          <h2 className="susan-dashboard__section-title">Akses cepat halaman</h2>
           <span className="susan-dashboard__section-tag">Pilih halaman yang ingin Anda kelola</span>
         </div>
 
         <div className="susan-quick-grid">
-          <Link href="/cms/collections/rooms" className="susan-quick-card">
-            <div className="susan-quick-card__icon">
-              <Bed size={22} />
-            </div>
-            <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Kamar & Villa</span>
-              <span className="susan-quick-card__count">{counts.rooms} Tipe Kamar</span>
-            </div>
-          </Link>
-
-          <Link href="/cms/collections/spa-treatments" className="susan-quick-card">
-            <div className="susan-quick-card__icon">
-              <Sparkles size={22} />
-            </div>
-            <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Perawatan Spa</span>
-              <span className="susan-quick-card__count">{counts.spaTreatments} Treatment</span>
-            </div>
-          </Link>
-
-          <Link href="/cms/collections/wedding-packages" className="susan-quick-card">
-            <div className="susan-quick-card__icon">
-              <Heart size={22} />
-            </div>
-            <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Paket Wedding</span>
-              <span className="susan-quick-card__count">{counts.weddingPackages} Paket</span>
-            </div>
-          </Link>
-
-          <Link href="/cms/collections/resort-content" className="susan-quick-card">
-            <div className="susan-quick-card__icon">
-              <UtensilsCrossed size={22} />
-            </div>
-            <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Info Resort</span>
-              <span className="susan-quick-card__count">{counts.resortContent} item</span>
-            </div>
-          </Link>
-
-          <Link href="/cms/collections/offers" className="susan-quick-card">
-            <div className="susan-quick-card__icon">
-              <Tag size={22} />
-            </div>
-            <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Promo & Penawaran</span>
-              <span className="susan-quick-card__count">{counts.offers} Penawaran Aktif</span>
-            </div>
-          </Link>
-
-          <Link href="/cms/collections/gallery-items" className="susan-quick-card">
-            <div className="susan-quick-card__icon">
-              <ImageIcon size={22} />
-            </div>
-            <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Galeri Foto</span>
-              <span className="susan-quick-card__count">{counts.galleryItems} Foto</span>
-            </div>
-          </Link>
-
-          <Link href="/cms/collections/journal-articles" className="susan-quick-card">
-            <div className="susan-quick-card__icon">
-              <BookOpen size={22} />
-            </div>
-            <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Jurnal & Artikel</span>
-              <span className="susan-quick-card__count">{counts.journalArticles} Artikel</span>
-            </div>
-          </Link>
-
-          <Link href="/cms/collections/media" className="susan-quick-card">
-            <div className="susan-quick-card__icon">
-              <FolderOpen size={22} />
-            </div>
-            <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Pustaka Media</span>
-              <span className="susan-quick-card__count">{counts.media} File Tersimpan</span>
-            </div>
-          </Link>
-
-          <Link href="/cms/globals/site-settings" className="susan-quick-card susan-quick-card--accent">
-            <div className="susan-quick-card__icon">
-              <Sliders size={22} />
-            </div>
-            <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Pengaturan Situs</span>
-              <span className="susan-quick-card__count">Kontak, SEO, Media Sosial</span>
-            </div>
-          </Link>
+          <QuickCard
+            href="/cms/collections/rooms"
+            icon={<Bed size={20} />}
+            title="Kamar & Villa"
+            count={`${counts.rooms} tipe kamar`}
+            progress={progress.rooms}
+          />
+          <QuickCard
+            href="/cms/collections/spa-treatments"
+            icon={<Sparkles size={20} />}
+            title="Perawatan Spa"
+            count={`${counts.spaTreatments} treatment`}
+            progress={progress.spaTreatments}
+          />
+          <QuickCard
+            href="/cms/collections/wedding-packages"
+            icon={<Heart size={20} />}
+            title="Paket Wedding"
+            count={`${counts.weddingPackages} paket`}
+            progress={progress.weddingPackages}
+          />
+          <QuickCard
+            href="/cms/collections/resort-content"
+            icon={<UtensilsCrossed size={20} />}
+            title="Info Resort"
+            count={`${counts.resortContent} item`}
+            progress={progress.resortContent}
+          />
+          <QuickCard
+            href="/cms/collections/offers"
+            icon={<Tag size={20} />}
+            title="Promo & Penawaran"
+            count={`${counts.offers} penawaran`}
+            progress={progress.offers}
+          />
+          <QuickCard
+            href="/cms/collections/gallery-items"
+            icon={<ImageIcon size={20} />}
+            title="Galeri Foto"
+            count={`${counts.galleryItems} foto`}
+          />
+          <QuickCard
+            href="/cms/collections/journal-articles"
+            icon={<BookOpen size={20} />}
+            title="Jurnal & Artikel"
+            count={`${counts.journalArticles} artikel`}
+            progress={progress.journalArticles}
+          />
+          <QuickCard
+            href="/cms/collections/media"
+            icon={<FolderOpen size={20} />}
+            title="Pustaka Media"
+            count={`${counts.media} file tersimpan`}
+          />
+          <QuickCard
+            href="/cms/globals/site-settings"
+            icon={<Sliders size={20} />}
+            title="Pengaturan Situs"
+            count="Kontak, SEO, media sosial"
+          />
         </div>
-      </div>
+      </section>
 
-      {/* SECTION 3: RECENTLY EDITED */}
-      <div className="susan-dashboard__section">
+      <section className="susan-dashboard__section">
         <div className="susan-dashboard__section-header">
-          <h2 className="susan-dashboard__section-title">BARU SAJA DIEDIT</h2>
+          <h2 className="susan-dashboard__section-title">Baru saja diedit</h2>
           <span className="susan-dashboard__section-tag">Aktivitas editorial terakhir</span>
         </div>
 
@@ -375,7 +411,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
                   <span className="susan-recent-row__title">{item.title}</span>
                   <div className="susan-recent-row__meta">
                     <span className="susan-recent-row__coll">{item.collectionLabel}</span>
-                    <span className="susan-recent-row__dot">·</span>
+                    <span aria-hidden="true">·</span>
                     <span className="susan-recent-row__time">{formatTimeAgo(item.updatedAt)}</span>
                   </div>
                 </div>
@@ -384,7 +420,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
                   {item.status === 'published' ? (
                     <span className="susan-status-chip susan-status-chip--published">
                       <span className="susan-status-chip__dot" />
-                      Terbit
+                      Tayang
                     </span>
                   ) : (
                     <span className="susan-status-chip susan-status-chip--draft">
@@ -397,7 +433,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
             ))}
           </div>
         )}
-      </div>
+      </section>
     </div>
   )
 }
