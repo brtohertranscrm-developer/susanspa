@@ -110,7 +110,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
         ...spaRes.docs.map((d: any) => ({ ...d, _coll: 'spa-treatments', _collLabel: 'Spa', _title: d.title })),
         ...weddingRes.docs.map((d: any) => ({ ...d, _coll: 'wedding-packages', _collLabel: 'Wedding', _title: d.title })),
         ...offersRes.docs.map((d: any) => ({ ...d, _coll: 'offers', _collLabel: 'Promo', _title: d.title })),
-        ...resortRes.docs.map((d: any) => ({ ...d, _coll: 'resort-content', _collLabel: 'Dining & Resort', _title: d.title })),
+        ...resortRes.docs.map((d: any) => ({ ...d, _coll: 'resort-content', _collLabel: 'Info Resort', _title: d.title })),
         ...journalRes.docs.map((d: any) => ({ ...d, _coll: 'journal-articles', _collLabel: 'Jurnal', _title: d.title })),
       ]
 
@@ -275,7 +275,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
               <Sparkles size={22} />
             </div>
             <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Spa Treatments</span>
+              <span className="susan-quick-card__title">Perawatan Spa</span>
               <span className="susan-quick-card__count">{counts.spaTreatments} Treatment</span>
             </div>
           </Link>
@@ -285,7 +285,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
               <Heart size={22} />
             </div>
             <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Wedding Packages</span>
+              <span className="susan-quick-card__title">Paket Wedding</span>
               <span className="susan-quick-card__count">{counts.weddingPackages} Paket</span>
             </div>
           </Link>
@@ -295,8 +295,8 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
               <UtensilsCrossed size={22} />
             </div>
             <div className="susan-quick-card__text">
-              <span className="susan-quick-card__title">Dining & Resort</span>
-              <span className="susan-quick-card__count">{counts.resortContent} Destinasi</span>
+              <span className="susan-quick-card__title">Info Resort</span>
+              <span className="susan-quick-card__count">{counts.resortContent} item</span>
             </div>
           </Link>
 
