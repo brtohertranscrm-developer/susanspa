@@ -214,7 +214,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
     },
     {
       id: 'wedding',
-      label: 'La Kana Chapel & Events',
+      label: 'La Kana The Royal Wedding Venue',
       href: '/wedding',
       subItems: [
         { label: 'La Kana Wedding Chapel', href: '/wedding' },

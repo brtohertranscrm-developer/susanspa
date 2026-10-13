@@ -44,7 +44,7 @@ export default function WeddingPage() {
 
         <div className="relative z-10 w-full px-4 sm:px-6 text-center flex flex-col items-center justify-center">
           <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl font-normal text-white text-center tracking-tight max-w-5xl mx-auto drop-shadow-lg">
-            Pernikahan di Susan Spa
+            Tempat Pernikahan Termewah Impian Anda
           </h1>
           
           <p className="mt-4 sm:mt-6 text-[10px] sm:text-xs font-sans uppercase tracking-[0.3em] text-white/90 max-w-2xl mx-auto font-medium text-center drop-shadow-md">
