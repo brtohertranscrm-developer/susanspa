@@ -84,6 +84,8 @@ export const Testimonials: CollectionConfig = {
   },
   admin: {
     group: 'Promosi',
+    // Website belum menampilkan testimoni, jadi menu ini disembunyikan. Data tetap tersimpan.
+    hidden: true,
     useAsTitle: 'guestName',
     defaultColumns: ['guestName', 'stayCategory', 'rating', '_status'],
   },
