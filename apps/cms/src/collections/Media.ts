@@ -99,6 +99,8 @@ export const Media: CollectionConfig = {
   ],
   upload: {
     disableLocalStorage: true,
+    // Browser mengunduh URL tempel langsung dari ImageKit dan sering gagal, jadi hanya unggah berkas.
+    pasteURL: false,
     mimeTypes: ['image/*'],
     adminThumbnail: thumbnailUrl,
   },
