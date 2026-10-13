@@ -224,6 +224,11 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
       ],
     },
     {
+      id: 'ballroom',
+      label: 'Ballroom & Meeting Room',
+      href: '/ballroom',
+    },
+    {
       id: 'offers',
       label: 'Paket & Penawaran',
       href: '/offers',
