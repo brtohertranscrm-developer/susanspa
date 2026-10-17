@@ -3,6 +3,9 @@ import './globals.css';
 import { SiteConfigProvider } from '@/components/global/SiteConfigProvider';
 import { getSiteSettings } from '@/lib/site-config';
 
+// Build di CI tidak punya CMS_API_URL. Tanpa ini, halaman yang membaca CMS terkunci di data saat build.
+export const revalidate = 300;
+
 const DEFAULT_SHARE_IMAGE = 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200';
 
 const baseMetadata: Metadata = {
@@ -24,6 +27,7 @@ const baseMetadata: Metadata = {
   ],
   authors: [{ name: 'Susan Spa & Resort' }],
   creator: 'Susan Spa & Resort',
+  icons: { icon: '/images/susan-spa-logo-dark.png' },
   openGraph: {
     type: 'website',
     locale: 'id_ID',

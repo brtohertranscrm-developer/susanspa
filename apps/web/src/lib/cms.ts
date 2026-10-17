@@ -190,6 +190,42 @@ export async function getGalleryItems(locale: 'id' | 'en' = 'id'): Promise<Galle
   }));
 }
 
+export type PageHeroKey =
+  | 'about'
+  | 'events'
+  | 'ballroom'
+  | 'dining'
+  | 'experiences'
+  | 'facilities'
+  | 'gallery'
+  | 'nearby'
+  | 'offers'
+  | 'rooms'
+  | 'spa'
+  | 'wedding';
+
+// Foto hero per halaman dari global page-heroes. Kalau belum diisi atau CMS tidak terjangkau, pakai fallback.
+export async function getPageHero(page: PageHeroKey, fallback: string): Promise<string> {
+  if (!cmsApiUrl) return fallback;
+
+  try {
+    const response = await fetch(`${cmsApiUrl}/api/globals/page-heroes?depth=1`, {
+      next: { revalidate: 300 },
+      headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!response.ok) {
+      console.warn(`Foto hero dari CMS gagal dimuat: HTTP ${response.status}`);
+      return fallback;
+    }
+    const heroes = (await response.json()) as Partial<Record<PageHeroKey, { url?: string | null } | null>>;
+    return heroes[page]?.url || fallback;
+  } catch (error) {
+    console.warn('Foto hero dari CMS tidak bisa dihubungi:', error);
+    return fallback;
+  }
+}
+
 export async function getDining(locale: 'id' | 'en' = 'id'): Promise<DiningVenue[]> {
   const docs = await getCmsCollection<any>('resort-content', [], { locale, depth: 1 });
   const dining = docs.filter((d: any) => d.kind === 'dining');

@@ -79,9 +79,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
     let isMounted = true;
     const fetchWeather = async () => {
       try {
-        const res = await fetch(
-          'https://api.open-meteo.com/v1/forecast?latitude=-7.2185&longitude=110.3683&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m'
-        );
+        const res = await fetch('/api/weather');
         if (!res.ok) return;
         const data = await res.json();
         if (!isMounted || !data?.current) return;

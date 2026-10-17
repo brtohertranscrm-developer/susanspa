@@ -11,6 +11,7 @@ import { Offers, ResortContent, SpaTreatments, WeddingPackages } from './collect
 import { lexicalId } from './i18n/id'
 import { Rooms } from './collections/Rooms'
 import { Users } from './collections/Users'
+import { PageHeroes } from './globals/PageHeroes'
 import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
@@ -85,7 +86,7 @@ export default buildConfig({
     Users,
   ].map((collection) => ({ ...collection, admin: { ...collection.admin, hideAPIURL: true } })),
   // Tab "API" berisi JSON mentah yang tidak dibutuhkan tim konten. Rutenya tetap ada untuk admin.
-  globals: [SiteSettings].map((global) => ({ ...global, admin: { ...global.admin, hideAPIURL: true } })),
+  globals: [SiteSettings, PageHeroes].map((global) => ({ ...global, admin: { ...global.admin, hideAPIURL: true } })),
   localization: {
     locales: [
       { code: 'id', label: 'Bahasa Indonesia' },

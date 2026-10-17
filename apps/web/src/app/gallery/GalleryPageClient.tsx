@@ -10,7 +10,7 @@ import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import type { GalleryItem } from '@/data/gallery';
 
-export default function GalleryPageClient({ items }: { items: GalleryItem[] }) {
+export default function GalleryPageClient({ items, heroImage }: { items: GalleryItem[]; heroImage: string }) {
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   return (
@@ -21,7 +21,7 @@ export default function GalleryPageClient({ items }: { items: GalleryItem[] }) {
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="/images/wedding/wedding-chapel-1.jpg"
+            src={heroImage}
             alt="Susan Spa Gallery"
             fill
             priority
