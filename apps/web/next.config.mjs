@@ -21,6 +21,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'ik.imagekit.io',
       },
+      {
+        protocol: 'https',
+        hostname: 'susancms.reservasiku.my.id',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
   },
