@@ -11,7 +11,7 @@ import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import type { Room } from '@/types';
 import { roomCategoryLabel } from '@/lib/room-display';
 
-export default function RoomsPageClient({ rooms }: { rooms: Room[] }) {
+export default function RoomsPageClient({ rooms, heroImage }: { rooms: Room[]; heroImage: string }) {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [selectedRoomSlug, setSelectedRoomSlug] = useState<string | undefined>();
@@ -36,7 +36,7 @@ export default function RoomsPageClient({ rooms }: { rooms: Room[] }) {
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="/images/rooms/room-1.jpg"
+            src={heroImage}
             alt="Susan Spa Rooms & Suites"
             fill
             priority

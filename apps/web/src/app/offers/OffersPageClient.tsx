@@ -9,7 +9,7 @@ import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import type { Offer } from '@/types';
 
-export default function OffersPageClient({ offers }: { offers: Offer[] }) {
+export default function OffersPageClient({ offers, heroImage }: { offers: Offer[]; heroImage: string }) {
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   return (
@@ -19,7 +19,7 @@ export default function OffersPageClient({ offers }: { offers: Offer[] }) {
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="https://images.unsplash.com/photo-1591088398332-8a7791972843?q=80&w=2000&auto=format&fit=crop"
+            src={heroImage}
             alt="Special Packages"
             fill
             className="object-cover"

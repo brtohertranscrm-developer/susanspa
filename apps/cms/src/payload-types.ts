@@ -105,9 +105,11 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('id' | 'en') | ('id' | 'en')[];
   globals: {
     'site-settings': SiteSetting;
+    'page-heroes': PageHero;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'page-heroes': PageHeroesSelect<false> | PageHeroesSelect<true>;
   };
   locale: 'id' | 'en';
   widgets: {
@@ -776,6 +778,29 @@ export interface SiteSetting {
   createdAt?: string | null;
 }
 /**
+ * Foto besar di bagian atas tiap halaman. Kosongkan untuk memakai foto bawaan. Perubahan tampil di website sekitar 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-heroes".
+ */
+export interface PageHero {
+  id: number;
+  about?: (number | null) | Media;
+  events?: (number | null) | Media;
+  ballroom?: (number | null) | Media;
+  dining?: (number | null) | Media;
+  experiences?: (number | null) | Media;
+  facilities?: (number | null) | Media;
+  gallery?: (number | null) | Media;
+  nearby?: (number | null) | Media;
+  offers?: (number | null) | Media;
+  rooms?: (number | null) | Media;
+  spa?: (number | null) | Media;
+  wedding?: (number | null) | Media;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
@@ -793,6 +818,27 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   defaultSeoDescription?: T;
   defaultSeoImage?: T;
   _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-heroes_select".
+ */
+export interface PageHeroesSelect<T extends boolean = true> {
+  about?: T;
+  events?: T;
+  ballroom?: T;
+  dining?: T;
+  experiences?: T;
+  facilities?: T;
+  gallery?: T;
+  nearby?: T;
+  offers?: T;
+  rooms?: T;
+  spa?: T;
+  wedding?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

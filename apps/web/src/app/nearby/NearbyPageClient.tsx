@@ -10,7 +10,7 @@ import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import type { NearbyDestination } from '@/types';
 
-export default function NearbyPageClient({ destinations }: { destinations: NearbyDestination[] }) {
+export default function NearbyPageClient({ destinations, heroImage }: { destinations: NearbyDestination[]; heroImage: string }) {
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   return (
@@ -21,7 +21,7 @@ export default function NearbyPageClient({ destinations }: { destinations: Nearb
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop"
+            src={heroImage}
             alt="Bandungan Attractions"
             fill
             priority

@@ -16,7 +16,7 @@ import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import type { WeddingPackage } from '@/types';
 
-export default function WeddingPageClient({ packages }: { packages: WeddingPackage[] }) {
+export default function WeddingPageClient({ packages, heroImage }: { packages: WeddingPackage[]; heroImage: string }) {
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [selectedSlug, setSelectedSlug] = useState<string | undefined>();
 
@@ -33,7 +33,7 @@ export default function WeddingPageClient({ packages }: { packages: WeddingPacka
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="/images/wedding/wedding-chapel-1.jpg"
+            src={heroImage}
             alt="La Kana Chapel Susan Spa & Resort"
             fill
             priority

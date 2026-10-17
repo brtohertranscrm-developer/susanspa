@@ -1,5 +1,5 @@
 import RoomsPageClient from './RoomsPageClient';
-import { getRooms } from '@/lib/cms';
+import { getPageHero, getRooms } from '@/lib/cms';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -9,5 +9,6 @@ export const metadata: Metadata = {
 
 export default async function RoomsPage() {
   const rooms = await getRooms();
-  return <RoomsPageClient rooms={rooms} />;
+  const heroImage = await getPageHero('rooms', '/images/rooms/room-1.jpg');
+  return <RoomsPageClient rooms={rooms} heroImage={heroImage} />;
 }

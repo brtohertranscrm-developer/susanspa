@@ -27,7 +27,7 @@ const CATEGORY_ICONS = {
   'Guest Services': ShieldCheck,
 };
 
-export default function FacilitiesPageClient({ facilityGroups }: { facilityGroups: FacilityGroup[] }) {
+export default function FacilitiesPageClient({ facilityGroups, heroImage }: { facilityGroups: FacilityGroup[]; heroImage: string }) {
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('All');
 
@@ -44,7 +44,7 @@ export default function FacilitiesPageClient({ facilityGroups }: { facilityGroup
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop"
+            src={heroImage}
             alt="Susan Spa Facilities"
             fill
             priority
