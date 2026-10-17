@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
             Susan Spa & Resort is a registered trademark. © {new Date().getFullYear()}. All rights reserved.
           </p>
           <div className="mt-1.5 space-x-4">
-            <Link href="/sitemap" className="hover:text-white transition-colors">Sitemap</Link>
+            <Link href="/sitemap.xml" className="hover:text-white transition-colors">Sitemap</Link>
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
