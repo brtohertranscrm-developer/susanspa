@@ -3,7 +3,10 @@ import FacilitiesPageClient from './FacilitiesPageClient';
 import type { FacilityGroup } from '@/data/facilities';
 
 export default async function FacilitiesPage() {
-  const facilities = await getFacilities();
+  const [facilities, heroImage] = await Promise.all([
+    getFacilities(),
+    getPageHero('facilities', 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop'),
+  ]);
   
   const groups: FacilityGroup[] = [
     {
@@ -38,6 +41,5 @@ export default async function FacilitiesPage() {
     },
   ];
 
-  const heroImage = await getPageHero('facilities', 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop');
   return <FacilitiesPageClient facilityGroups={groups.filter(g => g.items.length > 0)} heroImage={heroImage} />;
 }

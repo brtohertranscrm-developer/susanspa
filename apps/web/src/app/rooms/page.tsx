@@ -8,7 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default async function RoomsPage() {
-  const rooms = await getRooms();
-  const heroImage = await getPageHero('rooms', '/images/rooms/room-1.jpg');
+  const [rooms, heroImage] = await Promise.all([
+    getRooms(),
+    getPageHero('rooms', '/images/rooms/room-1.jpg'),
+  ]);
   return <RoomsPageClient rooms={rooms} heroImage={heroImage} />;
 }
