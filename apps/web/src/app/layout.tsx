@@ -24,6 +24,7 @@ const baseMetadata: Metadata = {
   ],
   authors: [{ name: 'Susan Spa & Resort' }],
   creator: 'Susan Spa & Resort',
+  icons: { icon: '/images/susan-spa-logo-dark.png' },
   openGraph: {
     type: 'website',
     locale: 'id_ID',
