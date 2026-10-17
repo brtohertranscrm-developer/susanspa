@@ -5,19 +5,19 @@ import Image from 'next/image';
 import { Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   GALLERY_CATEGORIES,
-  GALLERY_ITEMS,
   type GalleryCategory,
+  type GalleryItem,
 } from '@/data/gallery';
 
-export const GalleryGrid: React.FC = () => {
+export const GalleryGrid: React.FC<{ items: GalleryItem[] }> = ({ items }) => {
   const [activeCategory, setActiveCategory] = useState<GalleryCategory>('Semua');
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState<number>(12);
 
   const filteredItems =
     activeCategory === 'Semua'
-      ? GALLERY_ITEMS
-      : GALLERY_ITEMS.filter((item) => item.category === activeCategory);
+      ? items
+      : items.filter((item) => item.category === activeCategory);
 
   const displayedItems = filteredItems.slice(0, visibleCount);
 

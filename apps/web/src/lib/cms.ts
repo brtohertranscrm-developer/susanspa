@@ -5,22 +5,62 @@ import { SPA_TREATMENTS } from '@/data/spa';
 import { WEDDING_PACKAGES } from '@/data/weddings';
 import { OFFERS } from '@/data/offers';
 import { FACILITIES } from '@/data/facilities';
-import { GALLERY_ITEMS } from '@/data/gallery';
+import { GALLERY_ITEMS, type GalleryCategory, type GalleryItem } from '@/data/gallery';
 import { DINING_VENUES } from '@/data/dining';
 import { EXPERIENCES } from '@/data/experiences';
 import { NEARBY_DESTINATIONS } from '@/data/nearby';
 import { JOURNAL_ARTICLES } from '@/data/journal';
-import type { 
-  Room, SpaTreatment, WeddingPackage, Offer, 
-  ResortFacility, GalleryItem, DiningVenue, 
-  Experience, NearbyDestination, JournalArticle 
+import type {
+  Room, SpaTreatment, WeddingPackage, Offer,
+  ResortFacility, DiningVenue,
+  Experience, NearbyDestination, JournalArticle
 } from '@/types';
 
 interface CmsListResponse<T> {
   docs: T[];
 }
 
+type RichTextNode = { type?: string; text?: string; children?: RichTextNode[] };
+
+// Kategori galeri di CMS dipetakan ke tab kategori di halaman galeri.
+const GALLERY_CATEGORY_BY_CMS: Record<string, Exclude<GalleryCategory, 'Semua'>> = {
+  Rooms: 'Kamar & Villa',
+  Spa: 'Spa & Wellness',
+  Weddings: 'Pernikahan',
+  'La Kana Chapel': 'Pernikahan',
+  Dining: 'Restoran',
+  Grounds: 'Kawasan Resort',
+};
+
 const cmsApiUrl = process.env.CMS_API_URL?.replace(/\/$/, '');
+
+if (!cmsApiUrl) {
+  console.warn('CMS_API_URL belum diisi. Website memakai data bawaan dari kode.');
+}
+
+const publishedDateFormatter = new Intl.DateTimeFormat('id-ID', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'Asia/Jakarta',
+});
+
+const formatPublishedAt = (value?: string | null) => {
+  const date = value ? new Date(value) : null;
+  return date && !Number.isNaN(date.getTime()) ? publishedDateFormatter.format(date) : undefined;
+};
+
+const richTextNodeText = (node: RichTextNode): string =>
+  node.text ?? (node.children ?? []).map(richTextNodeText).join('');
+
+// Isi jurnal dari CMS berbentuk Lexical. Setiap paragraf, judul, dan item daftar menjadi satu paragraf.
+const richTextToParagraphs = (content: unknown): string[] => {
+  const blocks = (content as { root?: { children?: RichTextNode[] } } | null)?.root?.children ?? [];
+  return blocks
+    .flatMap((block) => (block.type === 'list' ? (block.children ?? []) : [block]))
+    .map((block) => richTextNodeText(block).trim())
+    .filter(Boolean);
+};
 
 export async function getCmsCollection<T>(
   collection: string,
@@ -42,10 +82,14 @@ export async function getCmsCollection<T>(
       headers: { Accept: 'application/json' },
       signal: AbortSignal.timeout(4000),
     });
-    if (!response.ok) return fallback;
+    if (!response.ok) {
+      console.warn(`Koleksi ${collection} dari CMS gagal dimuat: HTTP ${response.status}`);
+      return fallback;
+    }
     const data = (await response.json()) as CmsListResponse<T>;
     return data.docs.length > 0 ? data.docs : fallback;
-  } catch {
+  } catch (error) {
+    console.warn(`Koleksi ${collection} dari CMS tidak bisa dihubungi:`, error);
     return fallback;
   }
 }
@@ -76,19 +120,27 @@ export async function getSpaTreatments(locale: 'id' | 'en' = 'id'): Promise<SpaT
 export async function getWeddingPackages(locale: 'id' | 'en' = 'id'): Promise<WeddingPackage[]> {
   const docs = await getCmsCollection<any>('wedding-packages', [], { locale, depth: 1 });
   if (!docs || docs.length === 0) return WEDDING_PACKAGES;
-  return docs.map((doc: any) => ({
-    id: doc.slug,
-    slug: doc.slug,
-    name: doc.title,
-    venue: doc.venue || '',
-    capacity: doc.capacity || 100,
-    priceIdr: doc.priceLabel || 0,
-    tagline: doc.summary || '',
-    description: doc.description || '',
-    inclusions: (doc.inclusions || []).map((i: any) => i.label),
-    image: doc.featuredImage?.url || WEDDING_PACKAGES[0].image,
-    featured: true,
-  }));
+  return docs.map((doc: any) => {
+    // Jadwal dan kategori belum ada di CMS, jadi diambil dari data bawaan dengan slug yang sama.
+    const reference = WEDDING_PACKAGES.find((item) => item.slug === doc.slug);
+    const image: string | undefined = doc.featuredImage?.url;
+    const inclusions: string[] = (doc.inclusions || []).map((i: any) => i.label);
+    return {
+      ...reference,
+      id: doc.slug,
+      slug: doc.slug,
+      name: doc.title,
+      capacity: doc.capacity ? `${doc.capacity} Tamu Undangan` : reference?.capacity,
+      venue: doc.venue || reference?.venue,
+      priceStartingIdr: doc.priceLabel ?? reference?.priceStartingIdr,
+      tagline: doc.summary || reference?.tagline || '',
+      description: doc.description || reference?.description || '',
+      inclusions: inclusions.length > 0 ? inclusions : (reference?.inclusions ?? []),
+      image: image || reference?.image || WEDDING_PACKAGES[0].image,
+      images: image ? [image] : reference?.images,
+      featured: true,
+    };
+  });
 }
 
 export async function getOffers(locale: 'id' | 'en' = 'id'): Promise<Offer[]> {
@@ -131,12 +183,10 @@ export async function getGalleryItems(locale: 'id' | 'en' = 'id'): Promise<Galle
   const docs = await getCmsCollection<any>('gallery-items', [], { locale, depth: 1 });
   if (!docs || docs.length === 0) return GALLERY_ITEMS;
   return docs.map((doc: any) => ({
-    id: doc.id,
+    id: String(doc.id),
     title: doc.title || '',
-    category: 'Resort',
+    category: GALLERY_CATEGORY_BY_CMS[doc.category] ?? 'Kawasan Resort',
     image: doc.image?.url || GALLERY_ITEMS[0].image,
-    width: doc.image?.width || 800,
-    height: doc.image?.height || 600,
   }));
 }
 
@@ -178,33 +228,46 @@ export async function getNearbyDestinations(locale: 'id' | 'en' = 'id'): Promise
   const docs = await getCmsCollection<any>('resort-content', [], { locale, depth: 1 });
   const nearby = docs.filter((d: any) => d.kind === 'nearby');
   if (!nearby || nearby.length === 0) return NEARBY_DESTINATIONS;
-  return nearby.map((doc: any) => ({
-    id: doc.slug,
-    slug: doc.slug,
-    name: doc.title,
-    distance: doc.distanceLabel || '10 mins',
-    description: doc.description || doc.summary || '',
-    image: doc.featuredImage?.url || NEARBY_DESTINATIONS[0].image,
-  }));
+  return nearby.map((doc: any) => {
+    // Alamat, tips, dan tautan peta belum ada di CMS, jadi diambil dari data bawaan dengan slug yang sama.
+    const reference = NEARBY_DESTINATIONS.find((item) => item.slug === doc.slug);
+    const image: string | undefined = doc.featuredImage?.url;
+    return {
+      ...reference,
+      id: doc.slug,
+      slug: doc.slug,
+      name: doc.title,
+      distance: doc.distanceLabel || reference?.distance || '10 mins',
+      description: doc.description || doc.summary || reference?.description || '',
+      image: image || reference?.image || NEARBY_DESTINATIONS[0].image,
+      images: image ? [image] : reference?.images,
+    };
+  });
 }
 
 export async function getJournalArticles(locale: 'id' | 'en' = 'id'): Promise<JournalArticle[]> {
   const docs = await getCmsCollection<any>('journal-articles', [], { locale, depth: 1 });
   if (!docs || docs.length === 0) return JOURNAL_ARTICLES;
-  return docs.map((doc: any) => ({
-    id: doc.slug,
-    slug: doc.slug,
-    title: doc.title,
-    category: doc.category || 'Resort News',
-    publishedAt: doc.publishedAt || new Date().toISOString(),
-    readTime: '5 min read',
-    excerpt: doc.excerpt || '',
-    content: [],
-    author: {
-      name: 'Susan Spa',
-      role: 'Editorial',
-      avatar: '/images/susan-spa-logo.png',
-    },
-    coverImage: doc.coverImage?.url || JOURNAL_ARTICLES[0].coverImage,
-  }));
+  return docs.map((doc: any) => {
+    // Kutipan dan data penulis belum ada di CMS, jadi diambil dari data bawaan dengan slug yang sama.
+    const reference = JOURNAL_ARTICLES.find((article) => article.slug === doc.slug);
+    const content = richTextToParagraphs(doc.content);
+    return {
+      ...reference,
+      id: doc.slug,
+      slug: doc.slug,
+      title: doc.title,
+      category: doc.category || reference?.category || 'Resort News',
+      publishedAt: formatPublishedAt(doc.publishedAt) ?? reference?.publishedAt ?? '',
+      readTime: reference?.readTime ?? '5 menit baca',
+      excerpt: doc.excerpt || reference?.excerpt || '',
+      content: content.length > 0 ? content : (reference?.content ?? []),
+      author: reference?.author ?? {
+        name: 'Susan Spa',
+        role: 'Editorial',
+        avatar: '/images/susan-spa-logo.png',
+      },
+      coverImage: doc.coverImage?.url || reference?.coverImage || JOURNAL_ARTICLES[0].coverImage,
+    };
+  });
 }

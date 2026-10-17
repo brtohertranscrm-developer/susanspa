@@ -176,13 +176,13 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
         galleryRes,
         mediaRes,
       ] = await Promise.all([
-        payload.find({ collection: 'rooms', limit: 100, depth: 0 }).catch(() => ({ docs: [], totalDocs: 0 })),
-        payload.find({ collection: 'spa-treatments', limit: 100, depth: 0 }).catch(() => ({ docs: [], totalDocs: 0 })),
-        payload.find({ collection: 'wedding-packages', limit: 100, depth: 0 }).catch(() => ({ docs: [], totalDocs: 0 })),
-        payload.find({ collection: 'offers', limit: 100, depth: 0 }).catch(() => ({ docs: [], totalDocs: 0 })),
-        payload.find({ collection: 'resort-content', limit: 100, depth: 0 }).catch(() => ({ docs: [], totalDocs: 0 })),
-        payload.find({ collection: 'journal-articles', limit: 100, depth: 0 }).catch(() => ({ docs: [], totalDocs: 0 })),
-        payload.find({ collection: 'gallery-items', limit: 100, depth: 0 }).catch(() => ({ docs: [], totalDocs: 0 })),
+        payload.find({ collection: 'rooms', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
+        payload.find({ collection: 'spa-treatments', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
+        payload.find({ collection: 'wedding-packages', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
+        payload.find({ collection: 'offers', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
+        payload.find({ collection: 'resort-content', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
+        payload.find({ collection: 'journal-articles', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
+        payload.find({ collection: 'gallery-items', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
         payload.find({ collection: 'media', limit: 1, depth: 0 }).catch(() => ({ docs: [], totalDocs: 0 })),
       ])
 
@@ -213,6 +213,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
         ...journalRes.docs.map((d: any) => ({ ...d, _coll: 'journal-articles', _collLabel: 'Jurnal', _title: d.title })),
       ]
 
+      // draft: true membaca versi terbaru, jadi perubahan yang belum diterbitkan ikut terhitung.
       draftsWaitingCount = Object.values(progress).reduce((sum, p) => sum + (p?.drafts ?? 0), 0)
 
       const nowIso = new Date().toISOString()

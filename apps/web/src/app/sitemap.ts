@@ -1,10 +1,9 @@
 import { MetadataRoute } from 'next';
-import { JOURNAL_ARTICLES } from '@/data/journal';
-import { getRooms } from '@/lib/cms';
+import { getJournalArticles, getRooms } from '@/lib/cms';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.susansparesort.com';
-  const rooms = await getRooms();
+  const [rooms, articles] = await Promise.all([getRooms(), getJournalArticles()]);
 
   const staticRoutes = [
     '',
@@ -39,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const articleRoutes = JOURNAL_ARTICLES.map((article) => ({
+  const articleRoutes = articles.map((article) => ({
     url: `${baseUrl}/journal/${article.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
