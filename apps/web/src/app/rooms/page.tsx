@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { roomsPage } from '@susan/contracts/content';
 import { getRooms } from '@/lib/cms';
@@ -11,5 +12,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RoomsPage() {
   const [rooms, content] = await Promise.all([getRooms(), getPageContent(roomsPage)]);
+  if (!content.enabled) notFound();
   return <RoomsPageClient rooms={rooms} content={content} />;
 }

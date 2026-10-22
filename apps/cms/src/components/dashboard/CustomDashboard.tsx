@@ -16,6 +16,7 @@ import {
   Languages,
   LayoutTemplate,
   PanelsTopLeft,
+  FilePlus2,
 } from 'lucide-react'
 
 interface CustomDashboardProps {
@@ -34,6 +35,7 @@ type CollectionKey =
   | 'offers'
   | 'resortContent'
   | 'journalArticles'
+  | 'pages'
 
 interface PublishProgress {
   total: number
@@ -164,6 +166,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
     journalArticles: 0,
     galleryItems: 0,
     media: 0,
+    pages: 0,
   }
 
   if (payload) {
@@ -177,6 +180,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
         journalRes,
         galleryRes,
         mediaRes,
+        pagesRes,
       ] = await Promise.all([
         payload.find({ collection: 'rooms', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
         payload.find({ collection: 'spa-treatments', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
@@ -186,6 +190,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
         payload.find({ collection: 'journal-articles', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
         payload.find({ collection: 'gallery-items', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
         payload.find({ collection: 'media', limit: 1, depth: 0 }).catch(() => ({ docs: [], totalDocs: 0 })),
+        payload.find({ collection: 'pages', limit: 100, depth: 0, draft: true }).catch(() => ({ docs: [], totalDocs: 0 })),
       ])
 
       counts.rooms = roomsRes.totalDocs || roomsRes.docs.length
@@ -196,6 +201,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
       counts.journalArticles = journalRes.totalDocs || journalRes.docs.length
       counts.galleryItems = galleryRes.totalDocs || galleryRes.docs.length
       counts.media = mediaRes.totalDocs || mediaRes.docs.length
+      counts.pages = pagesRes.totalDocs || pagesRes.docs.length
 
       progress = {
         rooms: toProgress(roomsRes.docs),
@@ -204,6 +210,7 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
         offers: toProgress(offersRes.docs),
         resortContent: toProgress(resortRes.docs),
         journalArticles: toProgress(journalRes.docs),
+        pages: toProgress(pagesRes.docs),
       }
 
       const allDraftCheckDocs = [
@@ -211,8 +218,9 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
         ...spaRes.docs.map((d: any) => ({ ...d, _coll: 'spa-treatments', _collLabel: 'Spa', _title: d.title })),
         ...weddingRes.docs.map((d: any) => ({ ...d, _coll: 'wedding-packages', _collLabel: 'Wedding', _title: d.title })),
         ...offersRes.docs.map((d: any) => ({ ...d, _coll: 'offers', _collLabel: 'Promo', _title: d.title })),
-        ...resortRes.docs.map((d: any) => ({ ...d, _coll: 'resort-content', _collLabel: 'Info Resort', _title: d.title })),
+        ...resortRes.docs.map((d: any) => ({ ...d, _coll: 'resort-content', _collLabel: 'Fasilitas & Tempat', _title: d.title })),
         ...journalRes.docs.map((d: any) => ({ ...d, _coll: 'journal-articles', _collLabel: 'Jurnal', _title: d.title })),
+        ...pagesRes.docs.map((d: Record<string, unknown>) => ({ ...d, _coll: 'pages', _collLabel: 'Halaman', _title: d.title })),
       ]
 
       // draft: true membaca versi terbaru, jadi perubahan yang belum diterbitkan ikut terhitung.
@@ -330,16 +338,29 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
 
         <div className="susan-quick-grid">
           <QuickCard
+            href="/cms/globals/page-home"
+            icon={<LayoutTemplate size={20} />}
+            title="Halaman Website"
+            count="Judul, foto header, dan teks tiap halaman"
+          />
+          <QuickCard
+            href="/cms/collections/pages"
+            icon={<FilePlus2 size={20} />}
+            title="Halaman Tambahan"
+            count={`${counts.pages} halaman buatan sendiri`}
+            progress={progress.pages}
+          />
+          <QuickCard
             href="/cms/collections/rooms"
             icon={<Bed size={20} />}
-            title="Kamar & Villa"
+            title="Daftar Kamar"
             count={`${counts.rooms} tipe kamar`}
             progress={progress.rooms}
           />
           <QuickCard
             href="/cms/collections/spa-treatments"
             icon={<Sparkles size={20} />}
-            title="Perawatan Spa"
+            title="Daftar Perawatan Spa"
             count={`${counts.spaTreatments} treatment`}
             progress={progress.spaTreatments}
           />
@@ -353,27 +374,27 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
           <QuickCard
             href="/cms/collections/resort-content"
             icon={<UtensilsCrossed size={20} />}
-            title="Info Resort"
+            title="Fasilitas & Tempat"
             count={`${counts.resortContent} item`}
             progress={progress.resortContent}
           />
           <QuickCard
             href="/cms/collections/offers"
             icon={<Tag size={20} />}
-            title="Promo & Penawaran"
+            title="Daftar Promo"
             count={`${counts.offers} penawaran`}
             progress={progress.offers}
           />
           <QuickCard
             href="/cms/collections/gallery-items"
             icon={<ImageIcon size={20} />}
-            title="Galeri Foto"
+            title="Foto Galeri"
             count={`${counts.galleryItems} foto`}
           />
           <QuickCard
             href="/cms/collections/journal-articles"
             icon={<BookOpen size={20} />}
-            title="Jurnal & Artikel"
+            title="Artikel Jurnal"
             count={`${counts.journalArticles} artikel`}
             progress={progress.journalArticles}
           />
@@ -388,12 +409,6 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
             icon={<Sliders size={20} />}
             title="Pengaturan Situs"
             count="Kontak, SEO, media sosial"
-          />
-          <QuickCard
-            href="/cms/globals/page-home"
-            icon={<LayoutTemplate size={20} />}
-            title="Halaman Website"
-            count="Judul, foto header, dan teks tiap halaman"
           />
           <QuickCard
             href="/cms/globals/site-layout"

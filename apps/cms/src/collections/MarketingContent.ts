@@ -6,13 +6,11 @@ const buildContentCollection = (
   slug: string,
   singularLabel: string,
   pluralLabel: string,
-  group: 'Konten website' | 'Promosi',
   detailFields: Field[] = [],
 ): CollectionConfig => ({
   slug,
   labels: { singular: singularLabel, plural: pluralLabel },
   admin: {
-    group,
     useAsTitle: 'title',
     defaultColumns: ['title', 'featuredImage', '_status'],
   },
@@ -79,7 +77,7 @@ const listOf = (name: string, label: string, itemLabel: string, description?: st
   admin: { description },
 })
 
-export const SpaTreatments = buildContentCollection('spa-treatments', 'Perawatan Spa', 'Perawatan Spa', 'Konten website', [
+export const SpaTreatments = buildContentCollection('spa-treatments', 'Perawatan Spa', 'Perawatan Spa', [
   { name: 'categoryLabel', type: 'text', localized: true, defaultValue: 'Spa', label: 'Label kategori di kartu' },
   { name: 'durationMinutes', type: 'number', min: 1, label: 'Durasi (Menit)' },
   { name: 'priceLabel', type: 'number', min: 0, label: 'Harga (Rp)' },
@@ -91,7 +89,7 @@ export const SpaTreatments = buildContentCollection('spa-treatments', 'Perawatan
   },
 ])
 
-export const WeddingPackages = buildContentCollection('wedding-packages', 'Paket Wedding', 'Paket Wedding', 'Konten website', [
+export const WeddingPackages = buildContentCollection('wedding-packages', 'Paket Wedding', 'Paket Wedding', [
   { name: 'capacity', type: 'number', min: 1, label: 'Kapasitas Tamu' },
   { name: 'venue', type: 'text', localized: true, label: 'Lokasi / Venue' },
   { name: 'priceLabel', type: 'number', min: 0, label: 'Mulai Dari (Rp)' },
@@ -112,7 +110,7 @@ export const WeddingPackages = buildContentCollection('wedding-packages', 'Paket
   },
 ])
 
-export const Offers = buildContentCollection('offers', 'Promo', 'Promo', 'Promosi', [
+export const Offers = buildContentCollection('offers', 'Promo', 'Promo', [
   { name: 'validFrom', type: 'date', label: 'Berlaku Mulai' },
   { name: 'validUntil', type: 'date', label: 'Berlaku Hingga' },
   { name: 'terms', type: 'textarea', localized: true, label: 'Syarat & Ketentuan' },
@@ -121,7 +119,7 @@ export const Offers = buildContentCollection('offers', 'Promo', 'Promo', 'Promos
   listOf('inclusions', 'Isi paket', 'Inklusi'),
 ])
 
-export const ResortContent = buildContentCollection('resort-content', 'Info Resort', 'Info Resort', 'Konten website', [
+export const ResortContent = buildContentCollection('resort-content', 'Info Resort', 'Info Resort', [
   {
     name: 'kind',
     type: 'select',

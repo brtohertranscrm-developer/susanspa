@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { journalPage } from '@susan/contracts/content';
 import { getJournalArticles } from '@/lib/cms';
@@ -11,5 +12,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function JournalPage() {
   const [articles, content] = await Promise.all([getJournalArticles(), getPageContent(journalPage)]);
+  if (!content.enabled) notFound();
   return <JournalPageClient articles={articles} content={content} />;
 }

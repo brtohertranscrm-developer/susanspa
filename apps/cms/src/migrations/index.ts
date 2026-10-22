@@ -3,6 +3,7 @@ import * as migration_20261004_120000_add_media_imagekit_file_id from './2026100
 import * as migration_20261013_064947_add_site_settings_contact_fields from './20261013_064947_add_site_settings_contact_fields';
 import * as migration_20261017_055540_add_page_heroes_global from './20261017_055540_add_page_heroes_global';
 import * as migration_20261022_014327_editable_site_content from './20261022_014327_editable_site_content';
+import * as migration_20261022_030614_custom_pages_and_page_visibility from './20261022_030614_custom_pages_and_page_visibility';
 
 export const migrations = [
   {
@@ -28,6 +29,11 @@ export const migrations = [
   {
     up: migration_20261022_014327_editable_site_content.up,
     down: migration_20261022_014327_editable_site_content.down,
-    name: '20261022_014327_editable_site_content'
+    name: '20261022_014327_editable_site_content',
+  },
+  {
+    up: migration_20261022_030614_custom_pages_and_page_visibility.up,
+    down: migration_20261022_030614_custom_pages_and_page_visibility.down,
+    name: '20261022_030614_custom_pages_and_page_visibility'
   },
 ];

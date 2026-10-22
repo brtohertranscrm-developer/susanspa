@@ -43,7 +43,6 @@ export const Media: CollectionConfig = {
     plural: 'Pustaka Media',
   },
   admin: {
-    group: 'Media',
     // Judul diambil dari deskripsi foto, bukan nama file dari ImageKit yang panjang dan bernomor acak.
     useAsTitle: 'alt',
     description:

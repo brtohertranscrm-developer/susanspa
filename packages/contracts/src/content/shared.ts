@@ -1,4 +1,4 @@
-import { group, image, text, textarea } from './schema.js'
+import { checkbox, group, image, text, textarea } from './schema.js'
 
 export const IMAGEKIT_BASE = 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa'
 
@@ -39,3 +39,8 @@ export const sectionHeading = <N extends string>(name: N, label: string, values:
     text('title', 'Judul', values.title),
     textarea('intro', 'Paragraf', values.intro ?? ''),
   ])
+
+export const pageVisibility = checkbox('enabled', 'Tampilkan halaman ini di website', true, {
+  description:
+    'Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.',
+})

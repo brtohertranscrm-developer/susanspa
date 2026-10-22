@@ -8,7 +8,6 @@ export const Rooms: CollectionConfig = {
     plural: 'Kamar',
   },
   admin: {
-    group: 'Konten website',
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'startingPriceLabel', '_status'],
   },

@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { privacyPage } from '@susan/contracts/content';
 import { LegalPage } from '@/components/global/LegalPage';
@@ -10,5 +11,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function PrivacyPage() {
   const content = await getPageContent(privacyPage);
+  if (!content.enabled) notFound();
   return <LegalPage content={content} />;
 }

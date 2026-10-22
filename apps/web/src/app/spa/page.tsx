@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { spaPage } from '@susan/contracts/content';
 import { getSpaTreatments } from '@/lib/cms';
@@ -11,5 +12,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function SpaPage() {
   const [treatments, content] = await Promise.all([getSpaTreatments(), getPageContent(spaPage)]);
+  if (!content.enabled) notFound();
   return <SpaPageClient treatments={treatments} content={content} />;
 }

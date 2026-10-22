@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { galleryPage } from '@susan/contracts/content';
 import { getGalleryItems } from '@/lib/cms';
@@ -11,5 +12,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function GalleryPage() {
   const [items, content] = await Promise.all([getGalleryItems(), getPageContent(galleryPage)]);
+  if (!content.enabled) notFound();
   return <GalleryPageClient items={items} content={content} />;
 }

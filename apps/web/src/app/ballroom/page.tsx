@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ballroomPage } from '@susan/contracts/content';
 import { getPageContent, seoMetadata } from '@/lib/content';
@@ -10,5 +11,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function BallroomPage() {
   const content = await getPageContent(ballroomPage);
+  if (!content.enabled) notFound();
   return <BallroomPageClient content={content} />;
 }

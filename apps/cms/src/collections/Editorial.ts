@@ -8,7 +8,6 @@ export const JournalArticles: CollectionConfig = {
     plural: 'Jurnal',
   },
   admin: {
-    group: 'Konten website',
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'publishedAt', '_status'],
   },
@@ -96,7 +95,6 @@ export const Testimonials: CollectionConfig = {
     plural: 'Testimoni',
   },
   admin: {
-    group: 'Promosi',
     // Website belum menampilkan testimoni, jadi menu ini disembunyikan. Data tetap tersimpan.
     hidden: true,
     useAsTitle: 'guestName',
@@ -139,7 +137,6 @@ export const GalleryItems: CollectionConfig = {
     plural: 'Galeri',
   },
   admin: {
-    group: 'Konten website',
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'image', '_status'],
   },

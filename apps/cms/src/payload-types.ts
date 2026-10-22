@@ -67,6 +67,7 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    pages: Page;
     rooms: Room;
     'spa-treatments': SpaTreatment;
     'wedding-packages': WeddingPackage;
@@ -84,6 +85,7 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    pages: PagesSelect<false> | PagesSelect<true>;
     rooms: RoomsSelect<false> | RoomsSelect<true>;
     'spa-treatments': SpaTreatmentsSelect<false> | SpaTreatmentsSelect<true>;
     'wedding-packages': WeddingPackagesSelect<false> | WeddingPackagesSelect<true>;
@@ -180,6 +182,152 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Buat halaman baru tanpa bantuan programmer, atau hapus halaman yang tidak dipakai. Setelah diterbitkan, tambahkan tautannya di Header, Menu & Footer agar pengunjung bisa menemukannya.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * Terisi otomatis dari judul saat membuat konten baru. Jangan diubah setelah tayang, karena link yang sudah dibagikan akan berhenti bekerja.
+   */
+  slug: string;
+  /**
+   * Kosongkan untuk header polos berwarna hijau tua.
+   */
+  heroImage?: (number | null) | Media;
+  heroEyebrow?: string | null;
+  /**
+   * Kosongkan untuk memakai nama halaman.
+   */
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  /**
+   * Susun bagian dari atas ke bawah. Seret untuk mengubah urutan.
+   */
+  sections?:
+    | (
+        | {
+            heading?: string | null;
+            body: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            image: number | Media;
+            imagePosition?: ('right' | 'left') | null;
+            eyebrow?: string | null;
+            heading: string;
+            body?: string | null;
+            buttonLabel?: string | null;
+            /**
+             * Contoh: /rooms untuk halaman di website ini, atau alamat lengkap https://...
+             */
+            buttonUrl?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'imageText';
+          }
+        | {
+            heading?: string | null;
+            images?:
+              | {
+                  image: number | Media;
+                  caption?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'gallery';
+          }
+        | {
+            heading?: string | null;
+            intro?: string | null;
+            cards?:
+              | {
+                  image?: (number | null) | Media;
+                  title: string;
+                  body?: string | null;
+                  linkLabel?: string | null;
+                  /**
+                   * Contoh: /rooms untuk halaman di website ini, atau alamat lengkap https://...
+                   */
+                  linkUrl?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cards';
+          }
+        | {
+            eyebrow?: string | null;
+            heading: string;
+            body?: string | null;
+            buttonLabel: string;
+            buttonAction?: ('reserve' | 'whatsapp' | 'link') | null;
+            buttonUrl?: string | null;
+            whatsappMessage?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cta';
+          }
+      )[]
+    | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Unggah foto sekali, lalu pakai di kamar, spa, wedding, jurnal, galeri, dan halaman website. Video MP4 juga bisa diunggah untuk header beranda. Isi teks alternatif dengan deskripsi isi foto atau video.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Jelaskan apa yang terlihat di foto, bukan kumpulan kata kunci. Dibaca oleh pembaca layar dan mesin pencari.
+   */
+  alt: string;
+  /**
+   * Keterangan opsional yang muncul di bawah foto.
+   */
+  caption?: string | null;
+  url?: string | null;
+  imagekitFileId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "rooms".
  */
@@ -228,35 +376,6 @@ export interface Room {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * Unggah foto sekali, lalu pakai di kamar, spa, wedding, jurnal, galeri, dan halaman website. Video MP4 juga bisa diunggah untuk header beranda. Isi teks alternatif dengan deskripsi isi foto atau video.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  /**
-   * Jelaskan apa yang terlihat di foto, bukan kumpulan kata kunci. Dibaca oleh pembaca layar dan mesin pencari.
-   */
-  alt: string;
-  /**
-   * Keterangan opsional yang muncul di bawah foto.
-   */
-  caption?: string | null;
-  url?: string | null;
-  imagekitFileId?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -523,6 +642,10 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
         relationTo: 'rooms';
         value: number | Room;
       } | null)
@@ -603,6 +726,93 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  heroImage?: T;
+  heroEyebrow?: T;
+  heroTitle?: T;
+  heroSubtitle?: T;
+  sections?:
+    | T
+    | {
+        text?:
+          | T
+          | {
+              heading?: T;
+              body?: T;
+              id?: T;
+              blockName?: T;
+            };
+        imageText?:
+          | T
+          | {
+              image?: T;
+              imagePosition?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              buttonLabel?: T;
+              buttonUrl?: T;
+              id?: T;
+              blockName?: T;
+            };
+        gallery?:
+          | T
+          | {
+              heading?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
+                    caption?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cards?:
+          | T
+          | {
+              heading?: T;
+              intro?: T;
+              cards?:
+                | T
+                | {
+                    image?: T;
+                    title?: T;
+                    body?: T;
+                    linkLabel?: T;
+                    linkUrl?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cta?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              buttonLabel?: T;
+              buttonAction?: T;
+              buttonUrl?: T;
+              whatsappMessage?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  seoTitle?: T;
+  seoDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1311,6 +1521,10 @@ export interface PageAbout {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1349,6 +1563,10 @@ export interface PageRoom {
    * {jumlah} diganti jumlah kamar.
    */
   allFilterLabel?: string | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1388,6 +1606,10 @@ export interface PageSpa {
     title?: string | null;
     intro?: string | null;
   };
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1429,6 +1651,10 @@ export interface PageDining {
    */
   reserveMessage?: string | null;
   whatsappMessage?: string | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1464,6 +1690,10 @@ export interface PageExperience {
     scrollLabel?: string | null;
   };
   reserveButtonLabel?: string | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1517,6 +1747,10 @@ export interface PageFacility {
     intro?: string | null;
   };
   ctaButtonLabel?: string | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1551,6 +1785,10 @@ export interface PageGallery {
     subtitle?: string | null;
     scrollLabel?: string | null;
   };
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1585,6 +1823,10 @@ export interface PageNearby {
     subtitle?: string | null;
     scrollLabel?: string | null;
   };
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1621,6 +1863,10 @@ export interface PageOffer {
   };
   inclusionsHeading?: string | null;
   reserveButtonLabel?: string | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1681,6 +1927,10 @@ export interface PageWedding {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1739,6 +1989,10 @@ export interface PageBallroom {
       }[]
     | null;
   whatsappMessage?: string | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1783,6 +2037,10 @@ export interface PageEvent {
       }[]
     | null;
   whatsappMessage?: string | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1810,6 +2068,10 @@ export interface PageJournal {
     intro?: string | null;
   };
   readMoreLabel?: string | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1875,6 +2137,10 @@ export interface PageContact {
     intro?: string | null;
   };
   mapButtonLabel?: string | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1960,6 +2226,10 @@ export interface PageReserve {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -1993,6 +2263,10 @@ export interface PagePrivacy {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -2026,6 +2300,10 @@ export interface PageTerm {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Matikan untuk menyembunyikan halaman. Pengunjung akan melihat halaman tidak ditemukan, jadi hapus juga tautannya dari menu.
+   */
+  enabled?: boolean | null;
   seo?: {
     /**
      * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
@@ -2401,6 +2679,7 @@ export interface PageAboutSelect<T extends boolean = true> {
         body?: T;
         id?: T;
       };
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2426,6 +2705,7 @@ export interface PageRoomsSelect<T extends boolean = true> {
         scrollLabel?: T;
       };
   allFilterLabel?: T;
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2457,6 +2737,7 @@ export interface PageSpaSelect<T extends boolean = true> {
         title?: T;
         intro?: T;
       };
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2485,6 +2766,7 @@ export interface PageDiningSelect<T extends boolean = true> {
   reserveButtonLabel?: T;
   reserveMessage?: T;
   whatsappMessage?: T;
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2510,6 +2792,7 @@ export interface PageExperiencesSelect<T extends boolean = true> {
         scrollLabel?: T;
       };
   reserveButtonLabel?: T;
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2552,6 +2835,7 @@ export interface PageFacilitiesSelect<T extends boolean = true> {
         intro?: T;
       };
   ctaButtonLabel?: T;
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2576,6 +2860,7 @@ export interface PageGallerySelect<T extends boolean = true> {
         subtitle?: T;
         scrollLabel?: T;
       };
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2600,6 +2885,7 @@ export interface PageNearbySelect<T extends boolean = true> {
         subtitle?: T;
         scrollLabel?: T;
       };
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2626,6 +2912,7 @@ export interface PageOffersSelect<T extends boolean = true> {
       };
   inclusionsHeading?: T;
   reserveButtonLabel?: T;
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2677,6 +2964,7 @@ export interface PageWeddingSelect<T extends boolean = true> {
         body?: T;
         id?: T;
       };
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2719,6 +3007,7 @@ export interface PageBallroomSelect<T extends boolean = true> {
         id?: T;
       };
   whatsappMessage?: T;
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2753,6 +3042,7 @@ export interface PageEventsSelect<T extends boolean = true> {
         id?: T;
       };
   whatsappMessage?: T;
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2776,6 +3066,7 @@ export interface PageJournalSelect<T extends boolean = true> {
         intro?: T;
       };
   readMoreLabel?: T;
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2845,6 +3136,7 @@ export interface PageContactSelect<T extends boolean = true> {
         intro?: T;
       };
   mapButtonLabel?: T;
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2919,6 +3211,7 @@ export interface PageReserveSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2943,6 +3236,7 @@ export interface PagePrivacySelect<T extends boolean = true> {
         body?: T;
         id?: T;
       };
+  enabled?: T;
   seo?:
     | T
     | {
@@ -2967,6 +3261,7 @@ export interface PageTermsSelect<T extends boolean = true> {
         body?: T;
         id?: T;
       };
+  enabled?: T;
   seo?:
     | T
     | {

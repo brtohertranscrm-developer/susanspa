@@ -5,7 +5,6 @@ export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Pengaturan Situs',
   admin: {
-    group: 'Pengaturan',
   },
   access: {
     read: () => true,

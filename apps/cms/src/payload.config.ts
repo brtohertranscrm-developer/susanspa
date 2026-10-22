@@ -14,6 +14,8 @@ import { Users } from './collections/Users'
 import { contentPages, formText, siteLayout, uiText } from '@susan/contracts/content'
 import { contentGlobal } from './lib/contentFields'
 import { SiteSettings } from './globals/SiteSettings'
+import { Pages } from './collections/Pages'
+import { NAV } from './lib/navigation'
 
 const PAGE_PATHS: Record<string, string> = {
   'page-home': '/',
@@ -55,8 +57,10 @@ export default buildConfig({
     dateFormat: 'd MMM yyyy, HH:mm',
     components: {
       graphics: {
-        Logo: '@/components/navigation/BrandHeader#BrandHeader',
+        Logo: '@/components/login/LoginBrand#LoginBrand',
       },
+      beforeLogin: ['@/components/login/LoginIntro#LoginIntro'],
+      afterLogin: ['@/components/login/LoginHelp#LoginHelp'],
       beforeNav: ['@/components/navigation/BrandHeader#BrandHeader'],
       beforeNavLinks: ['@/components/navigation/NavOverviewLink#NavOverviewLink'],
       afterNavLinks: ['@/components/navigation/NavWebsiteLink#NavWebsiteLink'],
@@ -96,25 +100,43 @@ export default buildConfig({
     },
   },
   collections: [
+    Pages,
     Rooms,
     SpaTreatments,
     WeddingPackages,
     ResortContent,
-    GalleryItems,
-    JournalArticles,
     Offers,
+    JournalArticles,
+    GalleryItems,
     Testimonials,
     Media,
     Users,
-  ].map((collection) => ({ ...collection, admin: { ...collection.admin, hideAPIURL: true } })),
+  ].map((collection) => {
+    const nav = NAV[collection.slug]
+    return {
+      ...collection,
+      labels:
+        nav?.label && collection.labels
+          ? { singular: nav.singular ?? collection.labels.singular, plural: nav.label }
+          : collection.labels,
+      admin: { ...collection.admin, group: nav?.group ?? collection.admin?.group, hideAPIURL: true },
+    }
+  }),
   // Tab "API" berisi JSON mentah yang tidak dibutuhkan tim konten. Rutenya tetap ada untuk admin.
   globals: [
     SiteSettings,
-    contentGlobal(siteLayout, { group: 'Tampilan situs' }),
-    contentGlobal(uiText, { group: 'Tampilan situs' }),
-    contentGlobal(formText, { group: 'Tampilan situs' }),
-    ...contentPages.map((spec) => contentGlobal(spec, { group: 'Halaman website', previewPath: PAGE_PATHS[spec.slug] })),
-  ].map((global) => ({ ...global, admin: { ...global.admin, hideAPIURL: true } })),
+    contentGlobal(siteLayout),
+    contentGlobal(uiText),
+    contentGlobal(formText),
+    ...contentPages.map((spec) => contentGlobal(spec, { previewPath: PAGE_PATHS[spec.slug] })),
+  ].map((global) => {
+    const nav = NAV[global.slug]
+    return {
+      ...global,
+      label: nav?.label ?? global.label,
+      admin: { ...global.admin, group: nav?.group ?? global.admin?.group, hideAPIURL: true },
+    }
+  }),
   localization: {
     locales: [
       { code: 'id', label: 'Bahasa Indonesia' },
