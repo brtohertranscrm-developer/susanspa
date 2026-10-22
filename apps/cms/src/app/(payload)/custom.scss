@@ -5,6 +5,7 @@
 @import './dashboard';
 @import './cards';
 @import './editor';
+@import './doc-header';
 
 :root {
   --cms-navy-900: #0B1F3A; /* sidebar */
@@ -140,15 +141,6 @@ button:focus-visible {
   border-color: var(--cms-blue-700) !important;
 }
 
-/* Tombol Terbitkan di bilah aksi editor (Payload memakai gaya ikon, bukan gaya primer) */
-.doc-controls .btn--icon-style-without-border {
-  background-color: var(--cms-blue-600) !important;
-  color: #FFFFFF !important;
-}
-
-.doc-controls .btn--icon-style-without-border:hover {
-  background-color: var(--cms-blue-700) !important;
-}
 
 .btn--style-secondary {
   background-color: var(--cms-surface) !important;
@@ -248,11 +240,10 @@ label.field-label {
     position: sticky !important;
     top: 0 !important;
     z-index: 50 !important;
-    background: rgba(242, 245, 249, 0.94) !important;
-    backdrop-filter: blur(8px) !important;
-    padding: 14px 0 !important;
-    margin-bottom: 24px !important;
-    border-bottom: 1px solid var(--cms-border) !important;
+    background: linear-gradient(var(--cms-bg) 70%, rgba(242, 245, 249, 0)) !important;
+    padding: 12px var(--gutter-h) 16px !important;
+    margin-bottom: 8px !important;
+    border-bottom: none !important;
   }
 }
 
