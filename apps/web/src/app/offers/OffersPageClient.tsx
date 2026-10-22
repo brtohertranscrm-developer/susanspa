@@ -2,50 +2,23 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { CheckCircle2, ArrowRight, ChevronDown } from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
+import type { offersPage, PageContent } from '@susan/contracts/content';
 import { Header } from '@/components/global/Header';
+import { PageHero } from '@/components/global/PageHero';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import type { Offer } from '@/types';
 
-export default function OffersPageClient({ offers, heroImage }: { offers: Offer[]; heroImage: string }) {
+export default function OffersPageClient({ offers, content }: { offers: Offer[]; content: PageContent<typeof offersPage> }) {
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-ivory text-charcoal font-sans">
       <Header onOpenReserve={() => setIsReserveModalOpen(true)} />
 
-      <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
-        <div className="absolute inset-0 z-0 bg-forest-deep">
-          <Image
-            src={heroImage}
-            alt="Special Packages"
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-
-        <div className="relative z-10 w-full px-4 sm:px-6 text-center flex flex-col items-center justify-center">
-          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl font-normal text-white text-center tracking-tight max-w-5xl mx-auto drop-shadow-lg">
-            Paket Menginap Pilihan
-          </h1>
-          
-          <p className="mt-4 sm:mt-6 text-[10px] sm:text-xs font-sans uppercase tracking-[0.3em] text-white/90 max-w-2xl mx-auto font-medium text-center drop-shadow-md">
-            PENAWARAN SPESIAL
-          </p>
-        </div>
-
-        <a 
-          href="#content"
-          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center space-y-1.5 group cursor-pointer"
-        >
-          <span className="text-white text-lg sm:text-xl font-serif drop-shadow-md">Lihat Paket</span>
-          <span className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-sans group-hover:text-white transition-colors">Explore Below</span>
-          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-1 transition-all duration-300" />
-        </a>
-      </section>
+      <PageHero hero={content.hero} />
 
       <section id="content" className="py-20 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -65,7 +38,7 @@ export default function OffersPageClient({ offers, heroImage }: { offers: Offer[
                   <p className="text-xs text-ivory/70 leading-relaxed">{offer.description}</p>
 
                   <div className="pt-3 border-t border-white/10 space-y-1.5">
-                    <span className="text-[10px] uppercase tracking-wider text-champagne font-semibold block">Inklusi Paket</span>
+                    <span className="text-[10px] uppercase tracking-wider text-champagne font-semibold block">{content.inclusionsHeading}</span>
                     {offer.inclusions.map((inc, idx) => (
                       <div key={idx} className="flex items-start space-x-2 text-xs text-ivory/90">
                         <CheckCircle2 className="w-3.5 h-3.5 text-champagne shrink-0 mt-0.5" />
@@ -79,7 +52,7 @@ export default function OffersPageClient({ offers, heroImage }: { offers: Offer[
                   onClick={() => setIsReserveModalOpen(true)}
                   className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-3 rounded-full text-xs uppercase tracking-wider font-semibold shadow-lg transition-colors flex items-center justify-center space-x-2"
                 >
-                  <span>Tanya Ketersediaan Paket</span>
+                  <span>{content.reserveButtonLabel}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>

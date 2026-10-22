@@ -6,45 +6,12 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 
 interface ShowcaseItem {
-  id: string;
   title: string;
-  category: string;
   image: string;
   href: string;
 }
 
-const BEST_OF_ITEMS: ShowcaseItem[] = [
-  {
-    id: 'spa-sanctuary',
-    title: 'Spa on the Sky Sanctuary',
-    category: 'WELLNESS & SPA',
-    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_4476.avif?tr=w-1200',
-    href: '/spa',
-  },
-  {
-    id: 'la-kana-wedding',
-    title: 'Momen Pernikahan di La Kana',
-    category: 'WEDDING & CHAPEL',
-    image: '/images/wedding/wedding-chapel-1.jpg',
-    href: '/wedding',
-  },
-  {
-    id: 'sky-garden-dining',
-    title: 'Sky Garden Dining & Panorama',
-    category: 'CULINARY & SCENIC',
-    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_4164%20copy.avif?tr=w-1200',
-    href: '/dining',
-  },
-  {
-    id: 'special-offers',
-    title: 'Paket Liburan & Penawaran',
-    category: 'OFFERS & RETREATS',
-    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_3499%20copy%202.avif?tr=w-1200',
-    href: '/offers',
-  },
-];
-
-export const BestOfShowcase: React.FC = () => {
+export const BestOfShowcase: React.FC<{ title: string; items: ShowcaseItem[] }> = ({ title, items }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
@@ -64,9 +31,9 @@ export const BestOfShowcase: React.FC = () => {
     if (cardEl) {
       const cardWidth = cardEl.offsetWidth + 24;
       const index = Math.round(scrollLeft / cardWidth);
-      setActiveIndex(Math.min(Math.max(0, index), BEST_OF_ITEMS.length - 1));
+      setActiveIndex(Math.min(Math.max(0, index), items.length - 1));
     }
-  }, []);
+  }, [items.length]);
 
   useEffect(() => {
     const el = sliderRef.current;
@@ -101,7 +68,7 @@ export const BestOfShowcase: React.FC = () => {
   };
 
   const handleNext = () => {
-    const nextIdx = Math.min(BEST_OF_ITEMS.length - 1, activeIndex + 1);
+    const nextIdx = Math.min(items.length - 1, activeIndex + 1);
     scrollToIndex(nextIdx);
   };
 
@@ -111,7 +78,7 @@ export const BestOfShowcase: React.FC = () => {
         {/* Centered Large Serif Heading (Nihi Style) */}
         <div className="text-center">
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-forest-deep font-normal tracking-tight">
-            The Best of Susan Spa
+            {title}
           </h2>
         </div>
 
@@ -146,9 +113,9 @@ export const BestOfShowcase: React.FC = () => {
             ref={sliderRef}
             className="flex gap-5 lg:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-2"
           >
-            {BEST_OF_ITEMS.map((item) => (
+            {items.map((item, index) => (
               <div
-                key={item.id}
+                key={index}
                 className="w-[72vw] sm:w-[280px] md:w-[calc(25%-18px)] shrink-0 snap-start"
               >
                 <Link
@@ -190,7 +157,7 @@ export const BestOfShowcase: React.FC = () => {
 
         {/* Dot Indicators */}
         <div className="flex items-center justify-center space-x-2 pt-2">
-          {BEST_OF_ITEMS.map((_, i) => (
+          {items.map((_, i) => (
             <button
               key={i}
               onClick={() => scrollToIndex(i)}

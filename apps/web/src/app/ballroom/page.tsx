@@ -1,7 +1,14 @@
-import { getPageHero } from '@/lib/cms';
+import type { Metadata } from 'next';
+import { ballroomPage } from '@susan/contracts/content';
+import { getPageContent, seoMetadata } from '@/lib/content';
 import BallroomPageClient from './BallroomPageClient';
 
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent(ballroomPage);
+  return seoMetadata(content.seo);
+}
+
 export default async function BallroomPage() {
-  const heroImage = await getPageHero('ballroom', 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_4055%20copy.avif?tr=w-1920');
-  return <BallroomPageClient heroImage={heroImage} />;
+  const content = await getPageContent(ballroomPage);
+  return <BallroomPageClient content={content} />;
 }

@@ -29,6 +29,7 @@ const thumbnailUrl = ({ doc }: { doc: Record<string, unknown> }) => {
   const url = typeof doc.url === 'string' ? doc.url : null
   if (!url) return null
   if (!url.includes('ik.imagekit.io')) return url
+  if (String(doc.mimeType ?? '').startsWith('video/')) return `${url}/ik-thumbnail.jpg`
   const width = Number(doc.width)
   const height = Number(doc.height)
   const tooLarge = width > 0 && height > 0 && width * height > IMAGEKIT_TRANSFORM_MAX_PIXELS
@@ -46,7 +47,7 @@ export const Media: CollectionConfig = {
     // Judul diambil dari deskripsi foto, bukan nama file dari ImageKit yang panjang dan bernomor acak.
     useAsTitle: 'alt',
     description:
-      'Unggah foto sekali, lalu pakai di kamar, spa, wedding, jurnal, dan galeri. Isi teks alternatif dengan deskripsi isi foto.',
+      'Unggah foto sekali, lalu pakai di kamar, spa, wedding, jurnal, galeri, dan halaman website. Video MP4 juga bisa diunggah untuk header beranda. Isi teks alternatif dengan deskripsi isi foto atau video.',
     defaultColumns: ['alt', 'filename', 'mimeType', 'filesize', 'createdAt'],
     listSearchableFields: ['filename', 'alt'],
     pagination: { defaultLimit: 24, limits: [12, 24, 48, 96] },
@@ -101,7 +102,8 @@ export const Media: CollectionConfig = {
     disableLocalStorage: true,
     // Browser mengunduh URL tempel langsung dari ImageKit dan sering gagal, jadi hanya unggah berkas.
     pasteURL: false,
-    mimeTypes: ['image/*'],
+    // Video hanya dipakai untuk header beranda. ImageKit menyimpan dan mengirim video seperti foto.
+    mimeTypes: ['image/*', 'video/mp4', 'video/webm'],
     adminThumbnail: thumbnailUrl,
   },
   hooks: {

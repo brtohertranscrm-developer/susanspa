@@ -3,14 +3,18 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MapPin, Navigation, ArrowRight, ChevronDown } from 'lucide-react';
+import { MapPin, Navigation, ArrowRight } from 'lucide-react';
+import { fillTemplate, type nearbyPage, type PageContent } from '@susan/contracts/content';
+import { useUiText } from '@/components/global/SiteContentProvider';
 import { Header } from '@/components/global/Header';
+import { PageHero } from '@/components/global/PageHero';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import type { NearbyDestination } from '@/types';
 
-export default function NearbyPageClient({ destinations, heroImage }: { destinations: NearbyDestination[]; heroImage: string }) {
+export default function NearbyPageClient({ destinations, content }: { destinations: NearbyDestination[]; content: PageContent<typeof nearbyPage> }) {
+  const ui = useUiText();
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   return (
@@ -18,37 +22,7 @@ export default function NearbyPageClient({ destinations, heroImage }: { destinat
       <Header onOpenReserve={() => setIsReserveModalOpen(true)} />
 
       {/* Hero Header */}
-      <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
-        <div className="absolute inset-0 z-0 bg-forest-deep">
-          <Image
-            src={heroImage}
-            alt="Bandungan Attractions"
-            fill
-            priority
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-
-        <div className="relative z-10 w-full px-4 sm:px-6 text-center flex flex-col items-center justify-center">
-          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl font-normal text-white text-center tracking-tight max-w-5xl mx-auto drop-shadow-lg">
-            Wisata Sekitar
-          </h1>
-          
-          <p className="mt-4 sm:mt-6 text-[10px] sm:text-xs font-sans uppercase tracking-[0.3em] text-white/90 max-w-2xl mx-auto font-medium text-center drop-shadow-md">
-            PANDUAN DESTINASI
-          </p>
-        </div>
-
-        <a 
-          href="#content"
-          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center space-y-1.5 group cursor-pointer"
-        >
-          <span className="text-white text-lg sm:text-xl font-serif drop-shadow-md">Lihat Destinasi</span>
-          <span className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-sans group-hover:text-white transition-colors">Explore Below</span>
-          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-1 transition-all duration-300" />
-        </a>
-      </section>
+      <PageHero hero={content.hero} />
 
       {/* Destinations Grid (4 destinations) */}
       <section id="content" className="py-20 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -68,7 +42,7 @@ export default function NearbyPageClient({ destinations, heroImage }: { destinat
                 />
                 <div className="absolute top-4 left-4 bg-forest-deep/90 text-champagne text-[10px] uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-champagne/30 flex items-center space-x-1.5 font-semibold">
                   <MapPin className="w-3.5 h-3.5" />
-                  <span>{dest.distance} dari Resort</span>
+                  <span>{fillTemplate(ui.nearby.distanceCard, { jarak: dest.distance })}</span>
                 </div>
               </div>
 
@@ -91,7 +65,7 @@ export default function NearbyPageClient({ destinations, heroImage }: { destinat
                     href={`/nearby/${dest.slug}`}
                     className="flex-1 bg-champagne hover:bg-champagne-light text-forest-deep py-3 px-5 rounded-xl text-xs font-bold uppercase tracking-wider text-center transition-colors shadow-sm flex items-center justify-center space-x-1.5"
                   >
-                    <span>Lihat Detail</span>
+                    <span>{ui.nearby.detailButton}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
 
@@ -103,7 +77,7 @@ export default function NearbyPageClient({ destinations, heroImage }: { destinat
                       className="border border-champagne/40 hover:bg-forest text-ivory py-3 px-5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors flex items-center space-x-1.5"
                     >
                       <Navigation className="w-3.5 h-3.5 text-champagne" />
-                      <span>Petunjuk Arah</span>
+                      <span>{ui.nearby.directionsButton}</span>
                     </a>
                   )}
                 </div>

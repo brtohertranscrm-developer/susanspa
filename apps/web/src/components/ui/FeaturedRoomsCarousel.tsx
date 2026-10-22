@@ -16,19 +16,25 @@ import { roomCapacity } from '@/lib/room-display';
 
 interface FeaturedRoomsCarouselProps {
   rooms: Room[];
-  onInquire?: (roomSlug: string) => void;
+  title: string;
+  intro: string;
+  cardLabel: string;
+  buttonLabel: string;
 }
 
 export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
   rooms,
+  title,
+  intro,
+  cardLabel,
+  buttonLabel,
 }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
 
-  // Strictly take 3 rooms as requested
-  const displayRooms = rooms.slice(0, 3);
+  const displayRooms = rooms;
 
   const checkScrollability = useCallback(() => {
     const el = sliderRef.current;
@@ -92,13 +98,13 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-2">
         <div>
           <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-forest-deep tracking-tight font-normal leading-tight">
-            The Villas
+            {title}
           </h2>
         </div>
 
         <div className="max-w-md md:text-right">
           <p className="text-xs sm:text-sm text-forest-deep/75 leading-relaxed font-light">
-            Dari peristirahatan romantis pasangan hingga hunian luas villa keluarga, setiap akomodasi di Susan Spa & Resort menghadirkan suaka privat dengan ketenangan dan karakter tersendiri.
+            {intro}
           </p>
         </div>
       </div>
@@ -164,7 +170,7 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
                     {/* Left details */}
                     <div className="space-y-2 max-w-lg">
                       <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-champagne/90 block">
-                        SUSAN SPA & RESORT
+                        {cardLabel}
                       </span>
 
                       <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-white font-normal leading-tight group-hover:text-champagne-light transition-colors">
@@ -236,7 +242,7 @@ export const FeaturedRoomsCarousel: React.FC<FeaturedRoomsCarouselProps> = ({
             href="/rooms"
             className="inline-block border border-forest-deep text-forest-deep hover:bg-forest-deep hover:text-white px-8 sm:px-10 py-3 text-xs uppercase font-bold tracking-[0.2em] transition-all duration-300 text-center rounded-sm"
           >
-            VIEW ALL VILLAS
+            {buttonLabel}
           </Link>
         </div>
       </div>

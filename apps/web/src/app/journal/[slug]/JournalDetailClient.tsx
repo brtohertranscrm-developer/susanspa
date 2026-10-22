@@ -8,9 +8,12 @@ import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
+import { fillTemplate } from '@susan/contracts/content';
+import { useUiText } from '@/components/global/SiteContentProvider';
 import type { JournalArticle } from '@/types';
 
 export default function JournalDetailClient({ article }: { article: JournalArticle | null }) {
+  const { journalDetail: text } = useUiText();
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   if (!article) {
@@ -18,9 +21,9 @@ export default function JournalDetailClient({ article }: { article: JournalArtic
       <div className="min-h-screen bg-ivory text-charcoal flex flex-col justify-between">
         <Header />
         <div className="py-32 text-center space-y-4">
-          <h1 className="font-serif text-3xl text-forest-deep">Artikel Tidak Ditemukan</h1>
+          <h1 className="font-serif text-3xl text-forest-deep">{text.notFound}</h1>
           <Link href="/journal" className="inline-block bg-champagne text-forest-deep px-6 py-2.5 rounded-full text-xs font-semibold uppercase">
-            Kembali ke Jurnal
+            {text.back}
           </Link>
         </div>
         <Footer />
@@ -36,7 +39,7 @@ export default function JournalDetailClient({ article }: { article: JournalArtic
         <div className="max-w-4xl mx-auto px-4 flex items-center justify-between text-xs">
           <Link href="/journal" className="inline-flex items-center space-x-2 text-champagne hover:text-champagne-light">
             <ArrowLeft className="w-4 h-4" />
-            <span>Kembali ke Jurnal</span>
+            <span>{text.back}</span>
           </Link>
           <span className="text-ivory/60">{article.category}</span>
         </div>
@@ -48,7 +51,7 @@ export default function JournalDetailClient({ article }: { article: JournalArtic
           <h1 className="font-serif text-3xl sm:text-5xl text-forest-deep leading-tight">{article.title}</h1>
 
           <div className="flex items-center justify-center space-x-4 text-xs text-charcoal/60 pt-2">
-            <span>Oleh {article.author.name} ({article.author.role})</span>
+            <span>{fillTemplate(text.byline, { nama: article.author.name, peran: article.author.role })}</span>
             <span>•</span>
             <span>{article.publishedAt}</span>
           </div>

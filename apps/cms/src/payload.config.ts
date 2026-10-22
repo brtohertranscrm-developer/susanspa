@@ -11,8 +11,30 @@ import { Offers, ResortContent, SpaTreatments, WeddingPackages } from './collect
 import { lexicalId } from './i18n/id'
 import { Rooms } from './collections/Rooms'
 import { Users } from './collections/Users'
-import { PageHeroes } from './globals/PageHeroes'
+import { contentPages, siteLayout, uiText } from '@susan/contracts/content'
+import { contentGlobal } from './lib/contentFields'
 import { SiteSettings } from './globals/SiteSettings'
+
+const PAGE_PATHS: Record<string, string> = {
+  'page-home': '/',
+  'page-about': '/about',
+  'page-rooms': '/rooms',
+  'page-spa': '/spa',
+  'page-dining': '/dining',
+  'page-experiences': '/experiences',
+  'page-facilities': '/facilities',
+  'page-gallery': '/gallery',
+  'page-nearby': '/nearby',
+  'page-offers': '/offers',
+  'page-wedding': '/wedding',
+  'page-ballroom': '/ballroom',
+  'page-events': '/events',
+  'page-journal': '/journal',
+  'page-contact': '/contact',
+  'page-reserve': '/reserve',
+  'page-privacy': '/privacy',
+  'page-terms': '/terms',
+}
 
 const filename = fileURLToPath(import.meta.url)
 const directory = path.dirname(filename)
@@ -86,7 +108,12 @@ export default buildConfig({
     Users,
   ].map((collection) => ({ ...collection, admin: { ...collection.admin, hideAPIURL: true } })),
   // Tab "API" berisi JSON mentah yang tidak dibutuhkan tim konten. Rutenya tetap ada untuk admin.
-  globals: [SiteSettings, PageHeroes].map((global) => ({ ...global, admin: { ...global.admin, hideAPIURL: true } })),
+  globals: [
+    SiteSettings,
+    contentGlobal(siteLayout, { group: 'Tampilan situs' }),
+    contentGlobal(uiText, { group: 'Tampilan situs' }),
+    ...contentPages.map((spec) => contentGlobal(spec, { group: 'Halaman website', previewPath: PAGE_PATHS[spec.slug] })),
+  ].map((global) => ({ ...global, admin: { ...global.admin, hideAPIURL: true } })),
   localization: {
     locales: [
       { code: 'id', label: 'Bahasa Indonesia' },

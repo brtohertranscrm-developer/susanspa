@@ -21,11 +21,12 @@ import { getDefaultStayDates } from '@/lib/dates';
 import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 import { roomCapacity } from '@/lib/room-display';
 import type { InquiryReceipt } from '@susan/contracts';
+import type { PageContent, reservePage } from '@susan/contracts/content';
 import type { Room } from '@/types';
 
 type ServiceType = 'room' | 'spa' | 'wedding';
 
-export default function ReservePageClient({ rooms }: { rooms: Room[] }) {
+export default function ReservePageClient({ rooms, content }: { rooms: Room[]; content: PageContent<typeof reservePage> }) {
   const site = useSiteConfig();
   const defaults = useMemo(() => getDefaultStayDates(), []);
   const [serviceType, setServiceType] = useState<ServiceType>('room');
@@ -89,13 +90,13 @@ export default function ReservePageClient({ rooms }: { rooms: Room[] }) {
       <section className="pt-32 pb-14 bg-forest-deep text-ivory border-b border-champagne/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-4">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">
-            LAYANAN RESERVASI RESMI
+            {content.hero.eyebrow}
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl text-ivory leading-tight font-normal">
-            Rencanakan Kunjungan Anda di Susan Spa & Resort
+            {content.hero.title}
           </h1>
           <p className="text-xs sm:text-sm text-ivory/80 max-w-xl mx-auto leading-relaxed">
-            Ketinggian ±1.100 mdpl lereng Gunung Ungaran, Bandungan. Silakan lengkapi formulir reservasi di bawah ini atau hubungi tim reservasi kami secara langsung via WhatsApp.
+            {content.hero.intro}
           </p>
         </div>
       </section>
@@ -112,7 +113,7 @@ export default function ReservePageClient({ rooms }: { rooms: Room[] }) {
                 </div>
                 <div className="space-y-2">
                   <h2 className="font-serif text-2xl sm:text-3xl text-forest-deep">
-                    Permintaan Reservasi Berhasil Diterima
+                    {content.successTitle}
                   </h2>
                   <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
                     Terima kasih, Bapak/Ibu <strong className="text-forest-deep">{fullName}</strong>. Data permintaan Anda telah tercatat dengan kode referensi:{' '}
@@ -445,19 +446,19 @@ export default function ReservePageClient({ rooms }: { rooms: Room[] }) {
                   <MessageCircle className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-serif text-lg text-champagne">Butuh Bantuan Cepat?</h4>
-                  <p className="text-xs text-ivory/70">Hubungi langsung staf concierge Susan Spa</p>
+                  <h4 className="font-serif text-lg text-champagne">{content.helpTitle}</h4>
+                  <p className="text-xs text-ivory/70">{content.helpSubtitle}</p>
                 </div>
               </div>
 
               <p className="text-xs text-ivory/80 leading-relaxed">
-                Untuk pertanyaan ketersediaan tanggal, promo grup, atau pengaturan pernikahan di La Kana, tim kami aktif melayani setiap hari:
+                {content.helpBody}
               </p>
 
               <div className="space-y-2 text-xs">
                 <div className="flex items-center space-x-2 text-ivory/90">
                   <Clock className="w-4 h-4 text-champagne" />
-                  <span>Pelayanan Chat: 07.00 - 22.00 WIB</span>
+                  <span>{content.helpHours}</span>
                 </div>
                 <div className="flex items-center space-x-2 text-ivory/90">
                   <Phone className="w-4 h-4 text-champagne" />
@@ -470,14 +471,14 @@ export default function ReservePageClient({ rooms }: { rooms: Room[] }) {
               <div className="pt-2">
                 <a
                   href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
-                    'Halo Susan Spa & Resort, saya ingin bertanya mengenai ketersediaan reservasi penginapan.'
+                    content.helpMessage
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors shadow-md"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Chat WhatsApp Resmi</span>
+                  <span>{content.helpButtonLabel}</span>
                 </a>
               </div>
             </div>
@@ -486,12 +487,12 @@ export default function ReservePageClient({ rooms }: { rooms: Room[] }) {
             <div className="p-5 rounded-2xl bg-white border border-stone-200 text-xs space-y-2 text-[#4A5852]">
               <div className="flex items-center space-x-2 font-bold text-forest-deep uppercase tracking-wider">
                 <ShieldCheck className="w-4 h-4 text-botanical" />
-                <span>Keuntungan Reservasi Langsung</span>
+                <span>{content.benefitsTitle}</span>
               </div>
               <ul className="space-y-1.5 pl-6 list-disc">
-                <li>Jaminan harga terbaik langsung dari manajemen resort</li>
-                <li>Konfirmasi instan tanpa biaya perantara tersembunyi</li>
-                <li>Fleksibilitas penjadwalan ulang sesuai syarat dan ketentuan</li>
+                {content.benefits.map((benefit, index) => (
+                  <li key={index}>{benefit.label}</li>
+                ))}
               </ul>
             </div>
           </div>

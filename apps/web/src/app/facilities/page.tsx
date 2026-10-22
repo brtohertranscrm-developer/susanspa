@@ -1,45 +1,28 @@
-import { getFacilities, getPageHero } from '@/lib/cms';
+import type { Metadata } from 'next';
+import { facilitiesPage } from '@susan/contracts/content';
+import { getFacilities } from '@/lib/cms';
+import { getPageContent, seoMetadata } from '@/lib/content';
 import FacilitiesPageClient from './FacilitiesPageClient';
 import type { FacilityGroup } from '@/data/facilities';
 
-export default async function FacilitiesPage() {
-  const [facilities, heroImage] = await Promise.all([
-    getFacilities(),
-    getPageHero('facilities', 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop'),
-  ]);
-  
-  const groups: FacilityGroup[] = [
-    {
-      category: 'Wellness',
-      title: 'Wellness & Relaksasi Holistik',
-      description: 'Fasilitas pemulihan kebugaran tubuh dan ketenangan pikiran di atas awan lereng Gunung Ungaran.',
-      items: facilities.filter((f) => f.category === 'Wellness' || f.category === 'Facility'),
-    },
-    {
-      category: 'Dining',
-      title: 'Santapan & Minuman Segar',
-      description: 'Kelezatan kuliner Nusantara dan internasional dengan latar panorama pegunungan yang menyejukkan.',
-      items: facilities.filter((f) => f.category === 'Dining'),
-    },
-    {
-      category: 'Family & Recreation',
-      title: 'Keluarga & Rekreasi Alam',
-      description: 'Aktivitas menyenangkan dan sarana rekreasi untuk menciptakan momen berharga bersama keluarga tercinta.',
-      items: facilities.filter((f) => f.category === 'Family & Recreation'),
-    },
-    {
-      category: 'Events',
-      title: 'Pernikahan & Acara Spesial',
-      description: 'Venue berkelas dan tertata anggun untuk ikrar pernikahan sakral, perayaan pribadi, serta pertemuan bisnis.',
-      items: facilities.filter((f) => f.category === 'Events'),
-    },
-    {
-      category: 'Guest Services',
-      title: 'Layanan Keramahan Tamu',
-      description: 'Kenyamanan, keamanan, dan kemudahan istirahat Anda senantiasa didukung layanan prima staf kami selama 24 jam.',
-      items: facilities.filter((f) => f.category === 'Guest Services'),
-    },
-  ];
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent(facilitiesPage);
+  return seoMetadata(content.seo);
+}
 
-  return <FacilitiesPageClient facilityGroups={groups.filter(g => g.items.length > 0)} heroImage={heroImage} />;
+export default async function FacilitiesPage() {
+  const [facilities, content] = await Promise.all([getFacilities(), getPageContent(facilitiesPage)]);
+
+  // Urutan dan judul kelompok diatur di CMS. Kelompok tanpa fasilitas tidak ditampilkan.
+  const groups: FacilityGroup[] = content.groups
+    .map((group) => ({
+      category: group.category,
+      label: group.label || group.category,
+      title: group.title,
+      description: group.description,
+      items: facilities.filter((facility) => facility.category === group.category),
+    }))
+    .filter((group) => group.items.length > 0);
+
+  return <FacilitiesPageClient facilityGroups={groups} content={content} />;
 }

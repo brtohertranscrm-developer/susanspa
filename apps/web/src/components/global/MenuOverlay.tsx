@@ -20,8 +20,11 @@ import {
   UtensilsCrossed,
   Waves,
   Trees,
+  Flower2,
 } from 'lucide-react';
+import { fillTemplate } from '@susan/contracts/content';
 import { useSiteConfig } from '@/components/global/SiteConfigProvider';
+import { useLayoutContent } from '@/components/global/SiteContentProvider';
 import { cn } from '@/lib/utils';
 
 interface MenuOverlayProps {
@@ -37,17 +40,14 @@ interface WeatherData {
   condition: string;
 }
 
-interface SubMenuItem {
-  label: string;
-  href: string;
-}
-
-interface MenuCategory {
-  id: string;
-  label: string;
-  href?: string;
-  subItems?: SubMenuItem[];
-}
+const PROPERTY_ICONS = {
+  hotel: Hotel,
+  church: Church,
+  dining: UtensilsCrossed,
+  pool: Waves,
+  park: Trees,
+  spa: Flower2,
+};
 
 export const MenuOverlay: React.FC<MenuOverlayProps> = ({
   isOpen,
@@ -55,15 +55,16 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
   onOpenReserve,
 }) => {
   const site = useSiteConfig();
+  const { logos, header, menu } = useLayoutContent();
   const pathname = usePathname();
   const overlayRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   // Active category for the 2-column desktop layout
-  const [activeCategoryId, setActiveCategoryId] = useState<string>('rooms');
+  const [activeCategoryId, setActiveCategoryId] = useState<string>('0');
   // Expanded categories for mobile accordion layout
   const [expandedMobileCategories, setExpandedMobileCategories] = useState<Record<string, boolean>>({
-    rooms: true,
+    0: true,
   });
 
   // Live Bandungan weather state with verified highland fallback
@@ -165,104 +166,18 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
 
   if (!isOpen) return null;
 
-  // Categorized navigation hierarchy
-  const menuCategories: MenuCategory[] = [
-    {
-      id: 'rooms',
-      label: 'Kamar & Villa',
-      href: '/rooms',
-      subItems: [
-        { label: 'Semua Kamar & Villa', href: '/rooms' },
-        { label: 'Villa Kolam Renang Privat', href: '/rooms' },
-        { label: 'Suite Keluarga & Mewah', href: '/rooms' },
-        { label: 'Reservasi Menginap', href: '/reserve' },
-      ],
-    },
-    {
-      id: 'spa',
-      label: 'Wellness & Spa',
-      href: '/spa',
-      subItems: [
-        { label: 'Susan Spa & Signature Rituals', href: '/spa' },
-        { label: 'Kolam Air Hangat Semispoor', href: '/facilities' },
-        { label: 'Fasilitas Kebugaran & Sauna', href: '/facilities' },
-        { label: 'Reservasi Perawatan Spa', href: '/spa' },
-      ],
-    },
-    {
-      id: 'dining',
-      label: 'Restoran & Kuliner',
-      href: '/dining',
-      subItems: [
-        { label: 'Sky Garden Cafe & Resto', href: '/dining' },
-        { label: 'Menu & Pengalaman Bersantap', href: '/dining' },
-        { label: 'Romantic Mountain Dinner', href: '/dining' },
-      ],
-    },
-    {
-      id: 'experiences',
-      label: 'Pengalaman & Rekreasi',
-      href: '/experiences',
-      subItems: [
-        { label: 'Aktivitas & Fasilitas Resort', href: '/facilities' },
-        { label: 'Eden Park Bandungan', href: '/facilities' },
-        { label: 'Wisata Sekitar Bandungan', href: '/nearby' },
-        { label: 'Galeri Foto & Video', href: '/gallery' },
-      ],
-    },
-    {
-      id: 'wedding',
-      label: 'La Kana The Royal Wedding Venue',
-      href: '/wedding',
-      subItems: [
-        { label: 'La Kana The Royal Wedding Venue', href: '/wedding' },
-        { label: 'Paket & Venue Pernikahan', href: '/wedding' },
-        { label: 'Pertemuan & Acara Privat', href: '/events' },
-        { label: 'Konsultasi Wedding & Event', href: '/wedding' },
-      ],
-    },
-    {
-      id: 'ballroom',
-      label: 'Ballroom & Meeting Room',
-      href: '/ballroom',
-    },
-    {
-      id: 'offers',
-      label: 'Paket & Penawaran',
-      href: '/offers',
-    },
-    {
-      id: 'about',
-      label: 'Tentang Susan Spa',
-      href: '/about',
-      subItems: [
-        { label: 'Kisah & Filosofi Resort', href: '/about' },
-        { label: 'Jurnal & Inspirasi Liburan', href: '/journal' },
-        { label: 'Galeri Resort', href: '/gallery' },
-      ],
-    },
-    {
-      id: 'contact',
-      label: 'Kontak & Lokasi',
-      href: '/contact',
-    },
-  ];
-
-  const subLinks = [
-    { label: 'SUSANSPARESORT.COM', href: '/' },
-    { label: 'LA KANA THE ROYAL WEDDING VENUE', href: '/wedding' },
-  ];
-
-  const properties = [
-    { name: 'SUSAN SPA & RESORT', href: '/', icon: Hotel },
-    { name: 'LA KANA THE ROYAL WEDDING VENUE', href: '/wedding', icon: Church },
-    { name: 'SKY GARDEN RESTAURANT', href: '/dining', icon: UtensilsCrossed },
-    { name: 'SEMISPOOR WARM POOL', href: '/facilities', icon: Waves },
-    { name: 'EDEN PARK BANDUNGAN', href: '/facilities', icon: Trees },
-  ];
+  // Isi menu diatur dari CMS. Id kategori memakai urutan agar label boleh sama.
+  const menuCategories = menu.categories.map((category, index) => ({
+    id: String(index),
+    label: category.label,
+    href: category.href,
+    subItems: category.links,
+  }));
+  const subLinks = menu.quickLinks;
 
   const activeCategory =
-    menuCategories.find((cat) => cat.id === activeCategoryId) || menuCategories[0];
+    menuCategories.find((cat) => cat.id === activeCategoryId) ??
+    menuCategories[0] ?? { id: '-', label: site.name, href: '/', subItems: [] };
 
   const toggleMobileCategory = (id: string) => {
     setExpandedMobileCategories((prev) => ({
@@ -276,7 +191,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
       ref={overlayRef}
       role="dialog"
       aria-modal="true"
-      aria-label="Menu Navigasi Susan Spa & Resort"
+      aria-label={`Menu Navigasi ${site.name}`}
       className="fixed inset-0 z-50 overflow-y-auto bg-white text-forest-deep animate-fade-in flex flex-col justify-between"
     >
       {/* 1. TOP BAR */}
@@ -291,7 +206,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
           >
             <X className="w-5 h-5 text-forest-deep" />
             <span className="text-xs uppercase font-bold tracking-[0.2em]">
-              Close
+              {menu.closeLabel}
             </span>
           </button>
 
@@ -302,7 +217,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
             className="flex items-center group py-1 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-md"
           >
             <Image
-              src="/images/susan-spa-logo-dark.png"
+              src={logos.menu}
               alt={site.name}
               width={160}
               height={70}
@@ -319,7 +234,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
             }}
             className="border border-forest-deep text-forest-deep hover:bg-forest-deep hover:text-white px-5 sm:px-6 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 min-h-[44px] flex items-center justify-center focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none"
           >
-            Reserve
+            {header.reserveLabel}
           </button>
         </div>
       </div>
@@ -336,7 +251,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-forest-deep/70 hover:text-terracotta p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all hover:scale-110 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-md"
-                aria-label="Kunjungi Instagram Susan Spa & Resort"
+                aria-label={`Kunjungi Instagram ${site.name}`}
               >
                 <Instagram className="w-5 h-5" />
               </a>
@@ -345,25 +260,25 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-forest-deep/70 hover:text-terracotta p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all hover:scale-110 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-md"
-                aria-label="Kunjungi Facebook Susan Spa & Resort"
+                aria-label={`Kunjungi Facebook ${site.name}`}
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a
                 href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
-                  'Halo Susan Spa & Resort, saya ingin bertanya seputar reservasi.'
+                  menu.whatsappMessage
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-forest-deep/70 hover:text-terracotta p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all hover:scale-110 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-md"
-                aria-label="Hubungi WhatsApp Resmi Susan Spa & Resort"
+                aria-label={`Hubungi WhatsApp Resmi ${site.name}`}
               >
                 <MessageCircle className="w-5 h-5" />
               </a>
               <a
                 href={`tel:${site.contact.phone}`}
                 className="text-forest-deep/70 hover:text-terracotta p-2 min-h-[44px] min-w-[44px] flex items-center justify-center transition-all hover:scale-110 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-md"
-                aria-label="Telepon Susan Spa & Resort"
+                aria-label={`Telepon ${site.name}`}
               >
                 <Phone className="w-5 h-5" />
               </a>
@@ -445,9 +360,9 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
 
                 {/* Sub-links with left arrow indicator */}
                 <div className="mt-8 pt-6 border-t border-stone/20 flex flex-wrap gap-6 text-xs uppercase font-bold tracking-[0.18em]">
-                  {subLinks.map((sub) => (
+                  {subLinks.map((sub, index) => (
                     <Link
-                      key={sub.label}
+                      key={index}
                       href={sub.href}
                       onClick={onClose}
                       className="inline-flex items-center text-forest-deep/70 hover:text-terracotta transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-sm"
@@ -471,7 +386,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                       onClick={onClose}
                       className="text-xs uppercase font-bold tracking-[0.18em] text-terracotta hover:underline"
                     >
-                      Lihat Halaman Utama ›
+                      {menu.viewPageLabel}
                     </Link>
                   )}
                 </div>
@@ -479,13 +394,13 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 {activeCategory.subItems && activeCategory.subItems.length > 0 ? (
                   <nav aria-label={`Sub-menu ${activeCategory.label}`}>
                     <ul className="space-y-2">
-                      {activeCategory.subItems.map((subItem) => {
+                      {activeCategory.subItems.map((subItem, index, items) => {
+                        // Beberapa submenu bisa menuju halaman yang sama. Tandai yang pertama saja.
                         const isSubActive =
-                          pathname === subItem.href &&
-                          (subItem.href !== '/rooms' || subItem.label === 'Semua Kamar & Villa');
+                          pathname === subItem.href && items.findIndex((item) => item.href === subItem.href) === index;
 
                         return (
-                          <li key={subItem.label}>
+                          <li key={index}>
                             <Link
                               href={subItem.href}
                               onClick={onClose}
@@ -509,14 +424,14 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
                 ) : (
                   <div className="py-8 text-forest-deep/70">
                     <p className="font-serif text-xl mb-4">
-                      Temukan informasi lengkap mengenai {activeCategory.label} di Susan Spa & Resort.
+                      {fillTemplate(menu.emptyCategoryText, { nama: activeCategory.label })}
                     </p>
                     <Link
                       href={activeCategory.href || '#'}
                       onClick={onClose}
                       className="inline-flex items-center text-xs uppercase font-bold tracking-[0.2em] text-forest-deep hover:text-terracotta border-b border-forest-deep pb-1 transition-colors"
                     >
-                      Kunjungi Halaman
+                      {menu.visitPageLabel}
                     </Link>
                   </div>
                 )}
@@ -553,9 +468,9 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
 
                             {isExpanded && category.subItems && (
                               <div className="pl-4 pb-3 pt-1 space-y-1 bg-stone/5 rounded-md mb-2">
-                                {category.subItems.map((subItem) => (
+                                {category.subItems.map((subItem, index) => (
                                   <Link
-                                    key={subItem.label}
+                                    key={index}
                                     href={subItem.href}
                                     onClick={onClose}
                                     className="flex items-center justify-between py-2.5 pr-3 text-forest-deep/90 hover:text-terracotta transition-colors min-h-[44px]"
@@ -589,9 +504,9 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
 
               {/* Sub-links mobile */}
               <div className="mt-8 pt-6 border-t border-stone/20 flex flex-wrap gap-4 text-xs uppercase font-bold tracking-[0.18em]">
-                {subLinks.map((sub) => (
+                {subLinks.map((sub, index) => (
                   <Link
-                    key={sub.label}
+                    key={index}
                     href={sub.href}
                     onClick={onClose}
                     className="inline-flex items-center text-forest-deep/70 hover:text-terracotta transition-colors min-h-[44px]"
@@ -615,14 +530,14 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
             {/* 3A. Weather Widget Column */}
             <div className="space-y-3">
               <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-ivory/70 block">
-                BANDUNGAN, KAB. SEMARANG
+                {menu.weatherLocation}
               </span>
               <div className="flex items-baseline space-x-3">
                 <span className="font-serif text-3xl lg:text-4xl font-light text-white tracking-tight">
                   {weather.temperature}°C
                 </span>
                 <span className="text-xs font-medium text-ivory/80">
-                  (1.100 mdpl)
+                  {menu.altitude}
                 </span>
               </div>
               <div className="flex items-center space-x-2 text-xs font-medium text-champagne">
@@ -644,17 +559,17 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
             {/* 3B. Main Property & Emergency Contact */}
             <div className="space-y-3">
               <h4 className="text-xs uppercase font-bold tracking-[0.2em] text-white">
-                SUSAN SPA & RESORT
+                {menu.propertyHeading}
               </h4>
               <p className="text-xs text-ivory/80 leading-relaxed">
                 {site.address.fullFormatted}
               </p>
               <div className="pt-2 border-t border-white/10 space-y-1">
                 <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-champagne block">
-                  KONTAK DARURAT & FRONT DESK
+                  {menu.frontDeskHeading}
                 </span>
                 <p className="text-xs text-white">
-                  Front Office (24 Jam):{' '}
+                  {menu.frontDeskLabel}{' '}
                   <a
                     href={`tel:${site.contact.phone}`}
                     className="hover:text-champagne underline underline-offset-2"
@@ -668,10 +583,10 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
             {/* 3C. Direct Enquiry & Reservation Office */}
             <div className="space-y-3">
               <h4 className="text-xs uppercase font-bold tracking-[0.2em] text-white">
-                LAYANAN INFORMASI & RESERVASI
+                {menu.serviceHeading}
               </h4>
               <p className="text-xs text-ivory/80">
-                Layanan Tamu: Setiap Hari 07:00 - 22:00 WIB
+                {menu.serviceHours}
               </p>
               <div className="space-y-1.5 text-xs text-ivory/90">
                 <p>
@@ -710,20 +625,20 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
           {/* 3D. Our Properties / Facilities Bottom Bar */}
           <div className="mt-8 pt-6 border-t border-white/15">
             <span className="text-[10px] uppercase font-bold tracking-[0.25em] text-ivory/60 block mb-3">
-              FASILITAS & DESTINASI KAMI
+              {menu.propertiesHeading}
             </span>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-xs uppercase font-semibold tracking-wider text-ivory/80">
-              {properties.map((prop) => {
-                const IconComponent = prop.icon;
+              {menu.properties.map((prop, index) => {
+                const IconComponent = PROPERTY_ICONS[prop.icon];
                 return (
                   <Link
-                    key={prop.name}
+                    key={index}
                     href={prop.href}
                     onClick={onClose}
                     className="hover:text-champagne flex items-center space-x-2 transition-colors focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-sm min-h-[32px]"
                   >
                     <IconComponent className="w-3.5 h-3.5 text-champagne/80 shrink-0" />
-                    <span>{prop.name}</span>
+                    <span>{prop.label}</span>
                   </Link>
                 );
               })}

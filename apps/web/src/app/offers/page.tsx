@@ -1,10 +1,15 @@
-import { getOffers, getPageHero } from '@/lib/cms';
+import type { Metadata } from 'next';
+import { offersPage } from '@susan/contracts/content';
+import { getOffers } from '@/lib/cms';
+import { getPageContent, seoMetadata } from '@/lib/content';
 import OffersPageClient from './OffersPageClient';
 
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent(offersPage);
+  return seoMetadata(content.seo);
+}
+
 export default async function OffersPage() {
-  const [offers, heroImage] = await Promise.all([
-    getOffers(),
-    getPageHero('offers', 'https://images.unsplash.com/photo-1591088398332-8a7791972843?q=80&w=2000&auto=format&fit=crop'),
-  ]);
-  return <OffersPageClient offers={offers} heroImage={heroImage} />;
+  const [offers, content] = await Promise.all([getOffers(), getPageContent(offersPage)]);
+  return <OffersPageClient offers={offers} content={content} />;
 }

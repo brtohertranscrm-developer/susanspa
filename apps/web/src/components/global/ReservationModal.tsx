@@ -3,11 +3,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { CheckCircle2, MessageCircle, Send, X } from 'lucide-react';
 import type { InquiryReceipt, InquirySubmission } from '@susan/contracts';
-import { ROOMS } from '@/data/rooms';
 import { roomCategoryLabel } from '@/lib/room-display';
-import { SPA_TREATMENTS } from '@/data/spa';
+import { useSiteConfig } from '@/components/global/SiteConfigProvider';
+import { useCatalog, useUiText, type SiteCatalog } from '@/components/global/SiteContentProvider';
 import { getDefaultStayDates } from '@/lib/dates';
-import type { Room } from '@/types';
 
 type InquiryType = Exclude<InquirySubmission['type'], 'general'>;
 
@@ -19,7 +18,7 @@ interface ReservationModalProps {
   initialCheckIn?: string;
   initialCheckOut?: string;
   initialGuests?: number;
-  rooms?: Room[];
+  rooms?: SiteCatalog['rooms'];
 }
 
 export const ReservationModal: React.FC<ReservationModalProps> = (props) => {
@@ -34,8 +33,12 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
   initialCheckIn,
   initialCheckOut,
   initialGuests,
-  rooms = ROOMS,
+  rooms: roomsProp,
 }) => {
+  const site = useSiteConfig();
+  const catalog = useCatalog();
+  const { reservationModal: text } = useUiText();
+  const rooms = roomsProp ?? catalog.rooms;
   const defaults = useMemo(() => getDefaultStayDates(), []);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -162,42 +165,42 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
             <CheckCircle2 className="w-14 h-14 text-champagne mx-auto" />
             <div className="space-y-2">
               <h3 id="reservation-dialog-title" className="font-serif text-2xl sm:text-3xl text-ivory font-normal">
-                Permintaan Reservasi Telah Diterima
+                {text.successTitle}
               </h3>
               <p className="text-sm text-ivory/80 max-w-md mx-auto leading-relaxed">
                 Terima kasih, Bapak/Ibu <strong className="text-champagne font-semibold">{fullName}</strong>. Permintaan Anda telah tercatat dengan nomor referensi:{' '}
                 <span className="font-mono text-champagne">{receipt.id.slice(0, 8).toUpperCase()}</span>.
               </p>
               <p className="text-xs text-ivory/65 max-w-md mx-auto">
-                Tim concierge Susan Spa & Resort akan segera menghubungi Anda melalui WhatsApp atau email untuk konfirmasi ketersediaan kamar dan panduan pembayaran.
+                {text.successBody}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <a
-                href={`https://wa.me/6281228111111?text=${encodeURIComponent(`Halo Susan Spa & Resort, saya telah mengirimkan permintaan reservasi dengan nomor referensi ${receipt.id.slice(0, 8).toUpperCase()} atas nama ${fullName}. Mohon konfirmasinya. Terima kasih.`)}`}
+                href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(`Halo Susan Spa & Resort, saya telah mengirimkan permintaan reservasi dengan nomor referensi ${receipt.id.slice(0, 8).toUpperCase()} atas nama ${fullName}. Mohon konfirmasinya. Terima kasih.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20ba5a] text-white px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
               >
-                <MessageCircle className="w-4 h-4" /> Hubungi WhatsApp Concierge
+                <MessageCircle className="w-4 h-4" /> {text.whatsappButton}
               </a>
               <button
                 onClick={onClose}
                 className="w-full sm:w-auto border border-champagne/40 hover:bg-forest text-champagne px-6 py-3 rounded-full text-xs uppercase tracking-wider transition-colors"
               >
-                Tutup Jendela
+                {text.closeButton}
               </button>
             </div>
           </div>
         ) : (
           <div className="space-y-6">
             <div>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-champagne font-bold">Layanan Reservasi & Informasi</span>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-champagne font-bold">{text.eyebrow}</span>
               <h3 id="reservation-dialog-title" className="font-serif text-2xl sm:text-3xl text-ivory mt-1 font-normal">
-                Rencanakan Kunjungan Istimewa Anda
+                {text.title}
               </h3>
               <p className="text-xs text-ivory/75 mt-1 font-light">
-                Silakan lengkapi formulir di bawah ini. Tim concierge kami akan dengan senang hati memeriksa ketersediaan dan menghubungi Anda secara pribadi.
+                {text.intro}
               </p>
             </div>
 
@@ -330,7 +333,7 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
                     className="field"
                   >
                     <option value="" className="bg-forest-deep text-ivory">Konsultasikan rekomendasi terbaik dengan terapis</option>
-                    {SPA_TREATMENTS.map((treatment) => (
+                    {catalog.treatments.map((treatment) => (
                       <option key={treatment.id} value={treatment.title} className="bg-forest-deep text-ivory">
                         {treatment.title}
                       </option>

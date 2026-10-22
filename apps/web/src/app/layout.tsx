@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { SiteConfigProvider } from '@/components/global/SiteConfigProvider';
+import { SiteContentProvider } from '@/components/global/SiteContentProvider';
 import { getSiteSettings } from '@/lib/site-config';
+import { getLayoutContent, getUiText } from '@/lib/content';
+import { getRooms, getSpaTreatments } from '@/lib/cms';
 
 // Build di CI tidak punya CMS_API_URL. Tanpa ini, halaman yang membaca CMS terkunci di data saat build.
 export const revalidate = 300;
@@ -27,7 +30,6 @@ const baseMetadata: Metadata = {
   ],
   authors: [{ name: 'Susan Spa & Resort' }],
   creator: 'Susan Spa & Resort',
-  icons: { icon: '/images/susan-spa-logo-dark.png' },
   openGraph: {
     type: 'website',
     locale: 'id_ID',
@@ -55,11 +57,12 @@ const baseMetadata: Metadata = {
 
 // Judul, deskripsi, dan gambar saat dibagikan mengikuti Pengaturan Situs di CMS bila sudah diisi.
 export async function generateMetadata(): Promise<Metadata> {
-  const { seo } = await getSiteSettings();
+  const [{ seo }, layout] = await Promise.all([getSiteSettings(), getLayoutContent()]);
   const image = seo.imageUrl ?? DEFAULT_SHARE_IMAGE;
 
   return {
     ...baseMetadata,
+    icons: { icon: layout.logos.favicon },
     title: seo.title ? { default: seo.title, template: '%s | Susan Spa & Resort' } : baseMetadata.title,
     description: seo.description ?? baseMetadata.description,
     openGraph: {
@@ -82,7 +85,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { site } = await getSiteSettings();
+  const [{ site }, layout, ui, rooms, treatments] = await Promise.all([
+    getSiteSettings(),
+    getLayoutContent(),
+    getUiText(),
+    getRooms(),
+    getSpaTreatments(),
+  ]);
+  const catalog = {
+    rooms: rooms.map(({ id, slug, name, category }) => ({ id, slug, name, category })),
+    treatments: treatments.map(({ id, title }) => ({ id, title })),
+  };
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -123,7 +136,9 @@ export default async function RootLayout({
         />
       </head>
       <body className="antialiased selection:bg-champagne selection:text-forest-deep">
-        <SiteConfigProvider value={site}>{children}</SiteConfigProvider>
+        <SiteConfigProvider value={site}>
+          <SiteContentProvider value={{ layout, ui, catalog }}>{children}</SiteContentProvider>
+        </SiteConfigProvider>
       </body>
     </html>
   );

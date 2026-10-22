@@ -14,10 +14,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const article = (await getJournalArticles()).find((item) => item.slug === slug);
   if (!article) notFound();
+  // Judul dan deskripsi SEO dari CMS dipakai bila diisi, selain itu judul dan ringkasan artikel.
+  const title = article.seoTitle || article.title;
+  const description = article.seoDescription || article.excerpt;
   return {
-    title: article.title,
-    description: article.excerpt,
-    openGraph: { title: article.title, description: article.excerpt, images: [article.coverImage], type: 'article' },
+    title,
+    description,
+    openGraph: { title, description, images: [article.coverImage], type: 'article' },
   };
 }
 
