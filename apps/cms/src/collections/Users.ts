@@ -8,7 +8,6 @@ export const Users: CollectionConfig = {
     plural: 'Pengguna',
   },
   admin: {
-    group: 'Pengaturan',
     useAsTitle: 'email',
     // Editor hanya bisa membuka akunnya sendiri lewat menu Akun. Daftar pengguna hanya untuk admin.
     hidden: ({ user }) => !isContentAdmin(user),

@@ -3,6 +3,7 @@ export * from './shared.js'
 export * from './pages.js'
 export * from './layout.js'
 export * from './ui-text.js'
+export * from './custom-pages.js'
 
 import { siteLayout } from './layout.js'
 import {

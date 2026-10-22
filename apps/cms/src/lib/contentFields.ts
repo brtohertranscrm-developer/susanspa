@@ -92,7 +92,7 @@ const MAX_TEXTS_PER_GLOBAL = 90
 
 export const contentGlobal = (
   spec: ContentPage,
-  options: { group: string; previewPath?: string },
+  options: { previewPath?: string } = {},
 ): GlobalConfig => {
   if (countTexts(spec.fields) > MAX_TEXTS_PER_GLOBAL) {
     throw new Error(`Global ${spec.slug} punya lebih dari ${MAX_TEXTS_PER_GLOBAL} teks di luar daftar. Pecah menjadi dua global.`)
@@ -101,7 +101,6 @@ export const contentGlobal = (
     slug: spec.slug,
     label: spec.label,
     admin: {
-      group: options.group,
       description: [spec.description, 'Perubahan tampil di website paling lama 5 menit setelah disimpan.'].filter(Boolean).join(' '),
       ...(options.previewPath
         ? { preview: () => `${(process.env.WEB_URL || 'http://localhost:3000').replace(/\/$/, '')}${options.previewPath}` }

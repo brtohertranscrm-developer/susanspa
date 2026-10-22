@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { facilitiesPage } from '@susan/contracts/content';
 import { getFacilities } from '@/lib/cms';
@@ -24,5 +25,6 @@ export default async function FacilitiesPage() {
     }))
     .filter((group) => group.items.length > 0);
 
+  if (!content.enabled) notFound();
   return <FacilitiesPageClient facilityGroups={groups} content={content} />;
 }

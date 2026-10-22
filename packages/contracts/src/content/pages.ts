@@ -1,5 +1,5 @@
 import { group, image, list, page, select, text, textarea, video } from './schema.js'
-import { IMAGEKIT_BASE, hero, sectionHeading, seo, simpleHero } from './shared.js'
+import { IMAGEKIT_BASE, hero, pageVisibility, sectionHeading, seo, simpleHero } from './shared.js'
 
 const UNSPLASH = 'https://images.unsplash.com'
 
@@ -75,7 +75,7 @@ export const homePage = page(
   'Isi halaman depan. Tulis {alamat} untuk menampilkan alamat dari Pengaturan Situs.',
 )
 
-export const aboutPage = page('page-about', 'Tentang Kami', [
+export const aboutPage = page('page-about', 'Halaman Tentang Kami', [
   hero({
     image: `${UNSPLASH}/photo-1582719478250-c89cae4dc85b?q=80&w=2000&auto=format&fit=crop`,
     imageAlt: 'Suasana Susan Spa & Resort',
@@ -110,10 +110,11 @@ export const aboutPage = page('page-about', 'Tentang Kami', [
     ],
     { rowLabel: 'Kartu' },
   ),
+  pageVisibility,
   seo({ title: 'Tentang Kami', description: '' }),
 ])
 
-export const roomsPage = page('page-rooms', 'Kamar & Villa', [
+export const roomsPage = page('page-rooms', 'Halaman Kamar & Villa', [
   hero({
     image: '/images/rooms/room-1.jpg',
     imageAlt: 'Kamar dan suite Susan Spa & Resort',
@@ -122,13 +123,14 @@ export const roomsPage = page('page-rooms', 'Kamar & Villa', [
     scrollLabel: 'Jelajahi Kamar',
   }),
   text('allFilterLabel', 'Tombol filter semua kamar', 'Semua Kamar ({jumlah})', { description: '{jumlah} diganti jumlah kamar.' }),
+  pageVisibility,
   seo({
     title: 'Kamar, Suite & Villa',
     description: 'Kenyamanan, kehangatan, dan ketenangan lereng pegunungan Bandungan. Jelajahi 11 pilihan suite, villa, dan kamar keluarga kami.',
   }),
 ])
 
-export const spaPage = page('page-spa', 'Spa', [
+export const spaPage = page('page-spa', 'Halaman Spa', [
   hero({
     image: `${IMAGEKIT_BASE}/IMG_0174.avif?tr=w-1920`,
     imageAlt: 'Ruang perawatan Susan Spa',
@@ -140,13 +142,14 @@ export const spaPage = page('page-spa', 'Spa', [
     eyebrow: 'PILIHAN PERAWATAN SPA',
     title: 'Pengalaman Relaksasi Menyeluruh',
   }),
+  pageVisibility,
   seo({
     title: 'Spa & Wellness Sanctuary',
     description: 'Rasakan kesegaran ritual lulur rempah tradisional Jawa, terapi batu basal hangat Gunung Ungaran, dan hidroterapi di Susan Spa & Resort.',
   }),
 ])
 
-export const diningPage = page('page-dining', 'Restoran & Kafe', [
+export const diningPage = page('page-dining', 'Halaman Restoran & Kafe', [
   hero({
     image: `${IMAGEKIT_BASE}/MNP_4164%20copy.avif?tr=w-1920`,
     imageAlt: 'Sky Garden Restaurant',
@@ -160,10 +163,11 @@ export const diningPage = page('page-dining', 'Restoran & Kafe', [
     description: '{nama} diganti nama restoran.',
   }),
   textarea('whatsappMessage', 'Pesan tombol WhatsApp melayang', 'Halo Concierge Restoran Susan Spa, saya ingin menanyakan reservasi meja di Sky Garden Restaurant.'),
+  pageVisibility,
   seo({ title: 'Restoran & Kafe', description: '' }),
 ])
 
-export const experiencesPage = page('page-experiences', 'Pengalaman', [
+export const experiencesPage = page('page-experiences', 'Halaman Pengalaman', [
   hero({
     image: `${UNSPLASH}/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop`,
     imageAlt: 'Aktivitas di sekitar resort',
@@ -172,10 +176,11 @@ export const experiencesPage = page('page-experiences', 'Pengalaman', [
     scrollLabel: 'Jelajahi',
   }),
   text('reserveButtonLabel', 'Tombol reservasi', 'Reservasi Aktivitas'),
+  pageVisibility,
   seo({ title: 'Pengalaman', description: '' }),
 ])
 
-export const facilitiesPage = page('page-facilities', 'Fasilitas', [
+export const facilitiesPage = page('page-facilities', 'Halaman Fasilitas', [
   hero({
     image: `${UNSPLASH}/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop`,
     imageAlt: 'Fasilitas Susan Spa & Resort',
@@ -233,10 +238,11 @@ export const facilitiesPage = page('page-facilities', 'Fasilitas', [
     intro: 'Kami mengundang Bapak/Ibu untuk menikmati seluruh fasilitas unggulan Susan Spa & Resort dalam suasana pegunungan yang asri dan sejuk.',
   }),
   text('ctaButtonLabel', 'Tombol ajakan', 'Reservasi Kamar Sekarang'),
+  pageVisibility,
   seo({ title: 'Fasilitas', description: '' }),
 ])
 
-export const galleryPage = page('page-gallery', 'Galeri', [
+export const galleryPage = page('page-gallery', 'Halaman Galeri', [
   hero({
     image: '/images/wedding/wedding-chapel-1.jpg',
     imageAlt: 'Galeri Susan Spa & Resort',
@@ -244,10 +250,11 @@ export const galleryPage = page('page-gallery', 'Galeri', [
     subtitle: 'MOMEN & KEINDAHAN RESORT',
     scrollLabel: 'Lihat Galeri',
   }),
+  pageVisibility,
   seo({ title: 'Galeri', description: '' }),
 ])
 
-export const nearbyPage = page('page-nearby', 'Wisata Sekitar', [
+export const nearbyPage = page('page-nearby', 'Halaman Wisata Sekitar', [
   hero({
     image: `${UNSPLASH}/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop`,
     imageAlt: 'Pemandangan Bandungan',
@@ -255,10 +262,11 @@ export const nearbyPage = page('page-nearby', 'Wisata Sekitar', [
     subtitle: 'PANDUAN DESTINASI',
     scrollLabel: 'Lihat Destinasi',
   }),
+  pageVisibility,
   seo({ title: 'Wisata Sekitar', description: '' }),
 ])
 
-export const offersPage = page('page-offers', 'Promo', [
+export const offersPage = page('page-offers', 'Halaman Promo', [
   hero({
     image: `${UNSPLASH}/photo-1591088398332-8a7791972843?q=80&w=2000&auto=format&fit=crop`,
     imageAlt: 'Paket menginap Susan Spa & Resort',
@@ -268,10 +276,11 @@ export const offersPage = page('page-offers', 'Promo', [
   }),
   text('inclusionsHeading', 'Judul daftar inklusi', 'Inklusi Paket'),
   text('reserveButtonLabel', 'Tombol tanya paket', 'Tanya Ketersediaan Paket'),
+  pageVisibility,
   seo({ title: 'Promo & Paket', description: '' }),
 ])
 
-export const weddingPage = page('page-wedding', 'Wedding', [
+export const weddingPage = page('page-wedding', 'Halaman Wedding', [
   hero({
     image: '/images/wedding/wedding-chapel-1.jpg',
     imageAlt: 'La Kana Chapel Susan Spa & Resort',
@@ -330,10 +339,11 @@ export const weddingPage = page('page-wedding', 'Wedding', [
     ],
     { rowLabel: 'Venue' },
   ),
+  pageVisibility,
   seo({ title: 'Wedding La Kana Chapel', description: '' }),
 ])
 
-export const ballroomPage = page('page-ballroom', 'Ballroom & Meeting', [
+export const ballroomPage = page('page-ballroom', 'Halaman Ballroom & Meeting', [
   hero({
     image: `${IMAGEKIT_BASE}/MNP_4055%20copy.avif?tr=w-1920`,
     imageAlt: 'Ballroom Susan Spa & Resort dengan meja bundar berhias kain emas dan panggung di bagian belakang',
@@ -380,13 +390,14 @@ export const ballroomPage = page('page-ballroom', 'Ballroom & Meeting', [
     { rowLabel: 'Ruangan', description: 'Foto dan teks tampil bergantian kiri dan kanan.' },
   ),
   textarea('whatsappMessage', 'Pesan tombol WhatsApp melayang', 'Halo Tim Acara Susan Spa & Resort, saya ingin berkonsultasi mengenai penggunaan ballroom dan ruang meeting.'),
+  pageVisibility,
   seo({
     title: 'Ballroom & Meeting Room',
     description: 'Ballroom luas berfasilitas audio-visual modern untuk resepsi, jamuan, dan seminar, serta ruang meeting dengan proyektor dan layanan rehat kopi.',
   }),
 ])
 
-export const eventsPage = page('page-events', 'Acara & Meeting', [
+export const eventsPage = page('page-events', 'Halaman Acara & Meeting', [
   hero({
     image: `${UNSPLASH}/photo-1511285560929-80b456fea0bc?q=80&w=2000&auto=format&fit=crop`,
     imageAlt: 'Ruang acara Susan Spa & Resort',
@@ -415,26 +426,28 @@ export const eventsPage = page('page-events', 'Acara & Meeting', [
     { rowLabel: 'Kartu' },
   ),
   textarea('whatsappMessage', 'Pesan tombol WhatsApp melayang', 'Halo Tim Acara Susan Spa & Resort, saya ingin berkonsultasi mengenai penyelenggaraan meeting/gathering.'),
+  pageVisibility,
   seo({
     title: 'Ruang Pertemuan & Acara Privat',
     description: 'Penyelenggaraan retreat perusahaan, rapat kerja strategis, dan acara gathering keluarga di sejuknya lereng Bandungan.',
   }),
 ])
 
-export const journalPage = page('page-journal', 'Jurnal', [
+export const journalPage = page('page-journal', 'Halaman Jurnal', [
   simpleHero({
     eyebrow: 'ARTIKEL & INSPIRASI',
     title: 'Jurnal Susan Spa & Resort',
     intro: 'Inspirasi kebugaran alami, panduan pernikahan impian, dan kisah perjalanan di lereng pegunungan Bandungan.',
   }),
   text('readMoreLabel', 'Tombol baca artikel', 'Baca Selengkapnya'),
+  pageVisibility,
   seo({
     title: 'Jurnal & Inspirasi',
     description: 'Inspirasi kebugaran alami, panduan pernikahan sakral, dan kisah perjalanan di lereng pegunungan Bandungan.',
   }),
 ])
 
-export const contactPage = page('page-contact', 'Kontak', [
+export const contactPage = page('page-contact', 'Halaman Kontak', [
   simpleHero({
     eyebrow: 'HUBUNGI KAMI',
     title: 'Kontak & Lokasi Resort',
@@ -475,13 +488,14 @@ export const contactPage = page('page-contact', 'Kontak', [
   text('sendAnotherLabel', 'Tombol kirim pesan lain', 'Kirim Pesan Lain'),
   sectionHeading('map', 'Bagian peta', { eyebrow: 'PETA LOKASI INTERAKTIF', title: 'Petunjuk Arah Google Maps' }),
   text('mapButtonLabel', 'Tombol rute', 'Buka Rute Perjalanan'),
+  pageVisibility,
   seo({
     title: 'Kontak & Lokasi',
     description: 'Hubungi concierge Susan Spa & Resort Bandungan untuk reservasi kamar, perawatan spa, paket pernikahan, dan acara pertemuan.',
   }),
 ])
 
-export const reservePage = page('page-reserve', 'Reservasi', [
+export const reservePage = page('page-reserve', 'Halaman Reservasi', [
   simpleHero({
     eyebrow: 'LAYANAN RESERVASI RESMI',
     title: 'Rencanakan Kunjungan Anda di Susan Spa & Resort',
@@ -552,6 +566,7 @@ export const reservePage = page('page-reserve', 'Reservasi', [
     ],
     { rowLabel: 'Keuntungan' },
   ),
+  pageVisibility,
   seo({ title: 'Reservasi', description: '' }),
 ])
 
@@ -562,6 +577,7 @@ const legalPage = <S extends string>(slug: S, label: string, values: { title: st
     list('sections', 'Isi', [text('heading', 'Subjudul', '', { description: 'Kosongkan untuk paragraf tanpa subjudul.' }), textarea('body', 'Paragraf', '')], values.sections, {
       rowLabel: 'Bagian',
     }),
+    pageVisibility,
     seo({ title: values.title, description: '' }),
   ])
 
