@@ -140,14 +140,28 @@ export const Pages: CollectionConfig = {
   },
   versions: { drafts: { autosave: true }, maxPerDoc: 25 },
   fields: [
-    { name: 'title', type: 'text', required: true, localized: true, label: 'Nama halaman' },
     {
-      ...slugField('title'),
-      validate: (value: unknown) => {
-        if (typeof value !== 'string' || !value.trim()) return 'Alamat halaman wajib diisi.'
-        if (reserved.has(value)) return `Alamat /${value} sudah dipakai halaman bawaan. Pilih alamat lain.`
-        return true
-      },
+      type: 'collapsible',
+      label: 'Konten',
+      fields: [
+        { name: 'title', type: 'text', required: true, localized: true, label: 'Nama halaman' },
+        {
+          ...slugField('title'),
+          validate: (value: unknown) => {
+            if (typeof value !== 'string' || !value.trim()) return 'Alamat halaman wajib diisi.'
+            if (reserved.has(value)) return `Alamat /${value} sudah dipakai halaman bawaan. Pilih alamat lain.`
+            return true
+          },
+        },
+        {
+          name: 'sections',
+          type: 'blocks',
+          label: 'Isi halaman',
+          labels: { singular: 'Bagian', plural: 'Bagian' },
+          admin: { description: 'Susun bagian dari atas ke bawah. Seret untuk mengubah urutan.' },
+          blocks: [TextBlock, ImageTextBlock, GalleryBlock, CardsBlock, CallToActionBlock],
+        },
+      ],
     },
     {
       type: 'collapsible',
@@ -173,20 +187,18 @@ export const Pages: CollectionConfig = {
       ],
     },
     {
-      name: 'sections',
-      type: 'blocks',
-      label: 'Isi halaman',
-      labels: { singular: 'Bagian', plural: 'Bagian' },
-      admin: { description: 'Susun bagian dari atas ke bawah. Seret untuk mengubah urutan.' },
-      blocks: [TextBlock, ImageTextBlock, GalleryBlock, CardsBlock, CallToActionBlock],
-    },
-    {
       type: 'collapsible',
       label: 'SEO halaman',
       admin: { initCollapsed: true },
       fields: [
         { name: 'seoTitle', type: 'text', localized: true, maxLength: 70, label: 'Judul di tab browser dan Google' },
-        { name: 'seoDescription', type: 'textarea', localized: true, maxLength: 170, label: 'Deskripsi di hasil pencarian' },
+        {
+          name: 'seoDescription',
+          type: 'textarea',
+          localized: true,
+          maxLength: 170,
+          label: 'Deskripsi di hasil pencarian',
+        },
       ],
     },
   ],
