@@ -29,6 +29,18 @@ export const JournalArticles: CollectionConfig = {
         { name: 'title', type: 'text', required: true, localized: true, label: 'Judul Artikel' },
         { name: 'excerpt', type: 'textarea', localized: true, label: 'Ringkasan / Cuplikan' },
         { name: 'content', type: 'richText', required: true, localized: true, label: 'Isi Artikel' },
+        { name: 'quote', type: 'textarea', localized: true, label: 'Kutipan sorotan', admin: { description: 'Tampil sebagai kutipan besar di atas isi artikel.' } },
+      ],
+    },
+
+    {
+      type: 'collapsible',
+      label: 'Penulis',
+      admin: { initCollapsed: true },
+      fields: [
+        { name: 'authorName', type: 'text', label: 'Nama penulis' },
+        { name: 'authorRole', type: 'text', localized: true, label: 'Peran penulis' },
+        { name: 'authorAvatar', type: 'upload', relationTo: 'media', label: 'Foto penulis' },
       ],
     },
 
@@ -71,6 +83,7 @@ export const JournalArticles: CollectionConfig = {
       fields: [
         { name: 'slug', type: 'text', required: true, unique: true, index: true, label: 'URL Slug' },
         { name: 'category', type: 'text', localized: true, label: 'Kategori Artikel' },
+        { name: 'readTime', type: 'text', localized: true, label: 'Lama baca', admin: { description: 'Contoh: 5 menit baca.' } },
       ],
     },
   ],

@@ -1,10 +1,15 @@
-import { getNearbyDestinations, getPageHero } from '@/lib/cms';
+import type { Metadata } from 'next';
+import { nearbyPage } from '@susan/contracts/content';
+import { getNearbyDestinations } from '@/lib/cms';
+import { getPageContent, seoMetadata } from '@/lib/content';
 import NearbyPageClient from './NearbyPageClient';
 
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent(nearbyPage);
+  return seoMetadata(content.seo);
+}
+
 export default async function NearbyPage() {
-  const [destinations, heroImage] = await Promise.all([
-    getNearbyDestinations(),
-    getPageHero('nearby', 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop'),
-  ]);
-  return <NearbyPageClient destinations={destinations} heroImage={heroImage} />;
+  const [destinations, content] = await Promise.all([getNearbyDestinations(), getPageContent(nearbyPage)]);
+  return <NearbyPageClient destinations={destinations} content={content} />;
 }

@@ -7,11 +7,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticRoutes = [
     '',
-    '/stay',
+    '/rooms',
     '/spa',
     '/facilities',
     '/dining',
-    '/weddings',
+    '/wedding',
     '/events',
     '/ballroom',
     '/experiences',
@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const roomRoutes = rooms.map((room) => ({
-    url: `${baseUrl}/stay/${room.slug}`,
+    url: `${baseUrl}/rooms/${room.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.7,

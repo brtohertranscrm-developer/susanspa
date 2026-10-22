@@ -1,10 +1,15 @@
-import { getExperiences, getPageHero } from '@/lib/cms';
+import type { Metadata } from 'next';
+import { experiencesPage } from '@susan/contracts/content';
+import { getExperiences } from '@/lib/cms';
+import { getPageContent, seoMetadata } from '@/lib/content';
 import ExperiencesPageClient from './ExperiencesPageClient';
 
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent(experiencesPage);
+  return seoMetadata(content.seo);
+}
+
 export default async function ExperiencesPage() {
-  const [experiences, heroImage] = await Promise.all([
-    getExperiences(),
-    getPageHero('experiences', 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop'),
-  ]);
-  return <ExperiencesPageClient experiences={experiences} heroImage={heroImage} />;
+  const [experiences, content] = await Promise.all([getExperiences(), getPageContent(experiencesPage)]);
+  return <ExperiencesPageClient experiences={experiences} content={content} />;
 }

@@ -15,6 +15,8 @@ interface CmsSiteSettings {
   instagramUrl?: string | null;
   facebookUrl?: string | null;
   tiktokUrl?: string | null;
+  googleMapsUrl?: string | null;
+  mapEmbedUrl?: string | null;
   defaultSeoTitle?: string | null;
   defaultSeoDescription?: string | null;
   defaultSeoImage?: { url?: string | null } | null;
@@ -38,6 +40,13 @@ const digitsOnly = (value?: string | null) => value?.replace(/\D/g, '') || undef
 
 // Untuk tautan tel: tanda plus tetap dipertahankan.
 const telephone = (value?: string | null) => value?.replace(/[^\d+]/g, '') || undefined;
+
+// Editor kadang menempel seluruh kode <iframe>. Ambil isi src-nya dan hanya terima peta sematan Google.
+const mapEmbed = (value?: string | null) => {
+  const raw = text(value);
+  const url = raw?.match(/src="([^"]+)"/)?.[1] ?? raw;
+  return url?.startsWith('https://www.google.com/maps/embed') ? url : undefined;
+};
 
 const absoluteUrl = (url?: string | null) => {
   if (!url) return undefined;
@@ -93,6 +102,8 @@ function toSiteConfig(cms: CmsSiteSettings): SiteConfig {
       facebook: text(cms.facebookUrl) ?? SITE_CONFIG.social.facebook,
       tiktok: text(cms.tiktokUrl) ?? SITE_CONFIG.social.tiktok,
     },
+    googleMapsUrl: text(cms.googleMapsUrl) ?? SITE_CONFIG.googleMapsUrl,
+    mapEmbedUrl: mapEmbed(cms.mapEmbedUrl) ?? SITE_CONFIG.mapEmbedUrl,
   };
 }
 

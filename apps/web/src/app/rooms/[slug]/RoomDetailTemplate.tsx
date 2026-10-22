@@ -23,6 +23,8 @@ import { RoomCard } from '@/components/ui/RoomCard';
 import { roomCapacity, roomCategoryLabel } from '@/lib/room-display';
 import { getDefaultStayDates } from '@/lib/dates';
 import { useSiteConfig } from '@/components/global/SiteConfigProvider';
+import { useUiText } from '@/components/global/SiteContentProvider';
+import { fillTemplate } from '@susan/contracts/content';
 import type { Room } from '@/types';
 
 interface RoomDetailTemplateProps {
@@ -32,6 +34,7 @@ interface RoomDetailTemplateProps {
 
 export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplateProps) {
   const site = useSiteConfig();
+  const { roomDetail: text } = useUiText();
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -56,10 +59,10 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
             className="inline-flex items-center space-x-2 text-champagne hover:text-champagne-light transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Kembali ke Semua Kamar</span>
+            <span>{text.back}</span>
           </Link>
           <span className="text-ivory/60 hidden sm:inline">
-            Kamar / {roomCategoryLabel(room.category)} / {room.name}
+            {text.breadcrumb} / {roomCategoryLabel(room.category)} / {room.name}
           </span>
         </div>
       </div>
@@ -76,20 +79,20 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
               {room.name}
             </h1>
             <p className="text-sm text-charcoal/80 font-normal">
-              {room.description || room.tagline || 'Pilihan akomodasi eksklusif di Susan Spa & Resort.'}
+              {room.description || room.tagline || text.fallbackDescription}
             </p>
           </div>
 
           <div className="text-left md:text-right shrink-0 bg-forest-deep text-ivory p-6 rounded-3xl border border-champagne/30 space-y-3">
             <span className="text-[10px] uppercase tracking-wider text-champagne block font-semibold">
-              Ketersediaan & Reservasi
+              {text.availabilityEyebrow}
             </span>
             <button
               onClick={() => setIsReserveModalOpen(true)}
               className="w-full bg-champagne hover:bg-champagne-light text-forest-deep font-bold uppercase tracking-wider text-xs py-3 px-6 rounded-full shadow-lg transition-colors flex items-center justify-center space-x-2"
             >
               <Calendar className="w-4 h-4" />
-              <span>Reservasi Kamar Ini</span>
+              <span>{text.reserveButton}</span>
             </button>
           </div>
         </div>
@@ -137,7 +140,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-ivory-warm p-6 rounded-3xl border border-stone/30 text-center shadow-sm">
           <div className="space-y-1">
             <Users className="w-5 h-5 text-champagne mx-auto mb-1" />
-            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Kapasitas Tamu</span>
+            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">{text.capacityLabel}</span>
             <span className="font-serif text-lg text-forest-deep font-semibold block">
               {roomCapacity(room)}
             </span>
@@ -145,25 +148,25 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
 
           <div className="space-y-1">
             <Maximize2 className="w-5 h-5 text-champagne mx-auto mb-1" />
-            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Luas Kamar</span>
+            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">{text.sizeLabel}</span>
             <span className="font-serif text-lg text-forest-deep font-semibold block">
-              {room.sizeSqm ? `${room.sizeSqm} m²` : 'Sesuai konfirmasi'}
+              {room.sizeSqm ? `${room.sizeSqm} m²` : text.unknownValue}
             </span>
           </div>
 
           <div className="space-y-1">
             <BedDouble className="w-5 h-5 text-champagne mx-auto mb-1" />
-            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Tipe Kasur</span>
+            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">{text.bedLabel}</span>
             <span className="font-serif text-lg text-forest-deep font-semibold block">
-              {room.bedType || 'Sesuai konfirmasi'}
+              {room.bedType || text.unknownValue}
             </span>
           </div>
 
           <div className="space-y-1">
             <Eye className="w-5 h-5 text-champagne mx-auto mb-1" />
-            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">Pemandangan</span>
+            <span className="text-[10px] uppercase text-charcoal/60 block font-semibold">{text.viewLabel}</span>
             <span className="font-serif text-lg text-forest-deep font-semibold block">
-              {room.view || 'Pegunungan & Lembah Asri'}
+              {room.view || text.defaultView}
             </span>
           </div>
         </div>
@@ -173,18 +176,18 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
           {/* Left 2 Cols: Description & Amenities */}
           <div className="lg:col-span-2 space-y-8">
             <div className="space-y-4">
-              <h2 className="font-serif text-2xl text-forest-deep">Deskripsi Kamar</h2>
+              <h2 className="font-serif text-2xl text-forest-deep">{text.descriptionHeading}</h2>
               <p className="text-sm text-charcoal/85 leading-relaxed font-normal">
-                {room.longDescription || room.description || 'Silakan hubungi tim reservasi kami untuk informasi lebih lengkap mengenai tipe kamar ini.'}
+                {room.longDescription || room.description || text.fallbackLongDescription}
               </p>
             </div>
 
             {/* Room Facilities */}
             <div className="space-y-4 pt-4 border-t border-stone/20">
-              <h3 className="font-serif text-2xl text-forest-deep">Fasilitas Kamar</h3>
+              <h3 className="font-serif text-2xl text-forest-deep">{text.amenitiesHeading}</h3>
               {room.amenities.length === 0 ? (
                 <p className="text-sm text-charcoal/70">
-                  Data fasilitas kamar sedang diperbarui oleh tim hotel. Silakan hubungi reservasi kami untuk detail lengkap.
+                  {text.amenitiesEmpty}
                 </p>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -207,16 +210,16 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
             <div className="bg-forest-deep text-ivory p-8 rounded-3xl border border-champagne/30 space-y-6 shadow-xl sticky top-28">
               <div className="space-y-1">
                 <span className="text-[10px] uppercase tracking-wider text-champagne block font-semibold">
-                  CEK KETERSEDIAAN
+                  {text.checkEyebrow}
                 </span>
-                <h3 className="font-serif text-2xl text-ivory">Rencanakan Menginap Anda</h3>
+                <h3 className="font-serif text-2xl text-ivory">{text.checkTitle}</h3>
               </div>
 
               {/* Date Inputs */}
               <div className="space-y-3 text-xs">
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase text-champagne/80 font-semibold block">
-                    Tanggal Check-In
+                    {text.checkInLabel}
                   </label>
                   <input
                     type="date"
@@ -229,7 +232,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
 
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase text-champagne/80 font-semibold block">
-                    Tanggal Check-Out
+                    {text.checkOutLabel}
                   </label>
                   <input
                     type="date"
@@ -248,19 +251,19 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
                   className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-3.5 rounded-full font-bold uppercase tracking-wider text-xs shadow-lg transition-colors flex items-center justify-center space-x-2"
                 >
                   <Calendar className="w-4 h-4" />
-                  <span>Cek Ketersediaan Kamar</span>
+                  <span>{text.checkButton}</span>
                 </button>
 
                 <a
                   href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
-                    `Halo Susan Spa & Resort, saya ingin reservasi untuk kamar ${room.name}.`
+                    fillTemplate(text.whatsappMessage, { nama: room.name })
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full border border-champagne/50 text-champagne hover:bg-forest py-3 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors flex items-center justify-center space-x-2 text-center"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Konsultasi via WhatsApp</span>
+                  <span>{text.whatsappButton}</span>
                 </a>
               </div>
 
@@ -268,7 +271,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
               <div className="pt-4 border-t border-white/10 flex items-start space-x-2 text-[11px] text-ivory/60">
                 <ShieldCheck className="w-4 h-4 text-champagne shrink-0 mt-0.5" />
                 <span>
-                  Konfirmasi ketersediaan dan ketentuan reservasi akan dibantu langsung oleh tim reservasi kami.
+                  {text.policyNote}
                 </span>
               </div>
             </div>
@@ -281,10 +284,10 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <span className="text-xs uppercase tracking-[0.25em] text-botanical font-bold block">
-                  PILIHAN LAINNYA
+                  {text.relatedEyebrow}
                 </span>
                 <h2 className="font-serif text-3xl text-forest-deep">
-                  Pilihan Kamar Terkait
+                  {text.relatedTitle}
                 </h2>
               </div>
 
@@ -292,7 +295,7 @@ export default function RoomDetailTemplate({ room, rooms }: RoomDetailTemplatePr
                 href="/rooms"
                 className="text-xs uppercase tracking-wider text-forest-deep hover:text-champagne font-semibold flex items-center space-x-1"
               >
-                <span>Lihat Semua Kamar</span>
+                <span>{text.viewAll}</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

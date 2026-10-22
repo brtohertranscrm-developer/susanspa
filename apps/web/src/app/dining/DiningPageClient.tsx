@@ -2,15 +2,17 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { MessageCircle, ChevronDown } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
+import { fillTemplate, type diningPage, type PageContent } from '@susan/contracts/content';
 import { Header } from '@/components/global/Header';
+import { PageHero } from '@/components/global/PageHero';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 import type { DiningVenue } from '@/types';
 
-export default function DiningPageClient({ venues, heroImage }: { venues: DiningVenue[]; heroImage: string }) {
+export default function DiningPageClient({ venues, content }: { venues: DiningVenue[]; content: PageContent<typeof diningPage> }) {
   const site = useSiteConfig();
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
@@ -18,36 +20,7 @@ export default function DiningPageClient({ venues, heroImage }: { venues: Dining
     <div className="min-h-screen bg-ivory text-charcoal font-sans">
       <Header onOpenReserve={() => setIsReserveModalOpen(true)} />
 
-      <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
-        <div className="absolute inset-0 z-0 bg-forest-deep">
-          <Image
-            src={heroImage}
-            alt="Sky Garden Restaurant"
-            fill
-            className="object-cover "
-          />
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-
-        <div className="relative z-10 w-full px-4 sm:px-6 text-center flex flex-col items-center justify-center">
-          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl font-normal text-white text-center tracking-tight max-w-5xl mx-auto drop-shadow-lg">
-            Restoran & Kuliner Pilihan
-          </h1>
-          
-          <p className="mt-4 sm:mt-6 text-[10px] sm:text-xs font-sans uppercase tracking-[0.3em] text-white/90 max-w-2xl mx-auto font-medium text-center drop-shadow-md">
-            PENGALAMAN KULINER PEGUNUNGAN
-          </p>
-        </div>
-
-        <a 
-          href="#content"
-          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center space-y-1.5 group cursor-pointer"
-        >
-          <span className="text-white text-lg sm:text-xl font-serif drop-shadow-md">Jelajahi</span>
-          <span className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-sans group-hover:text-white transition-colors">Explore Below</span>
-          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-1 transition-all duration-300" />
-        </a>
-      </section>
+      <PageHero hero={content.hero} />
 
       <section id="content" className="py-20 max-w-wide mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {venues.map((venue) => (
@@ -63,7 +36,7 @@ export default function DiningPageClient({ venues, heroImage }: { venues: Dining
               <p className="text-xs text-ivory/80 leading-relaxed">{venue.description}</p>
 
               <div className="space-y-2 pt-2 border-t border-white/10">
-                <span className="text-[10px] uppercase tracking-wider text-champagne block">Menu Pilihan</span>
+                <span className="text-[10px] uppercase tracking-wider text-champagne block">{content.menuHeading}</span>
                 <ul className="space-y-1 text-xs text-ivory/90">
                   {venue.menuHighlights?.map((dish, idx) => (
                     <li key={idx} className="flex items-center space-x-2">
@@ -76,14 +49,14 @@ export default function DiningPageClient({ venues, heroImage }: { venues: Dining
 
               <a
                 href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
-                  `Halo Tim Restoran Susan Spa & Resort, saya ingin reservasi meja di ${venue.name}.`
+                  fillTemplate(content.reserveMessage, { nama: venue.name })
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center space-x-2 bg-champagne hover:bg-champagne-light text-forest-deep px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors shadow-lg"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>Reservasi Meja Restoran</span>
+                <span>{content.reserveButtonLabel}</span>
               </a>
             </div>
           </div>
@@ -91,7 +64,7 @@ export default function DiningPageClient({ venues, heroImage }: { venues: Dining
       </section>
 
       <Footer />
-      <WhatsAppCTA message="Halo Concierge Restoran Susan Spa, saya ingin menanyakan reservasi meja di Sky Garden Restaurant." />
+      <WhatsAppCTA message={content.whatsappMessage} />
       <ReservationModal isOpen={isReserveModalOpen} onClose={() => setIsReserveModalOpen(false)} />
     </div>
   );

@@ -48,6 +48,28 @@ export const SiteSettings: GlobalConfig = {
     },
     {
       type: 'collapsible',
+      label: 'Peta lokasi',
+      admin: { initCollapsed: true },
+      fields: [
+        {
+          name: 'googleMapsUrl',
+          type: 'text',
+          label: 'Tautan Google Maps',
+          admin: { description: 'Dibuka oleh tombol petunjuk arah. Salin dari tombol Bagikan di Google Maps.' },
+        },
+        {
+          name: 'mapEmbedUrl',
+          type: 'text',
+          label: 'Alamat peta sematan',
+          admin: {
+            description:
+              'Di Google Maps pilih Bagikan, Sematkan peta, lalu salin hanya isi src="..." yang diawali https://www.google.com/maps/embed.',
+          },
+        },
+      ],
+    },
+    {
+      type: 'collapsible',
       label: 'SEO & tampilan saat dibagikan',
       admin: { initCollapsed: true },
       fields: [

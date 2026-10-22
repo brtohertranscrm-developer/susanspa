@@ -1,7 +1,14 @@
-import { getPageHero } from '@/lib/cms';
+import type { Metadata } from 'next';
+import { aboutPage } from '@susan/contracts/content';
+import { getPageContent, seoMetadata } from '@/lib/content';
 import AboutPageClient from './AboutPageClient';
 
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent(aboutPage);
+  return seoMetadata(content.seo);
+}
+
 export default async function AboutPage() {
-  const heroImage = await getPageHero('about', 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2000&auto=format&fit=crop');
-  return <AboutPageClient heroImage={heroImage} />;
+  const content = await getPageContent(aboutPage);
+  return <AboutPageClient content={content} />;
 }

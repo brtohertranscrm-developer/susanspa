@@ -1,10 +1,15 @@
-import { getPageHero, getWeddingPackages } from '@/lib/cms';
+import type { Metadata } from 'next';
+import { weddingPage } from '@susan/contracts/content';
+import { getWeddingPackages } from '@/lib/cms';
+import { getPageContent, seoMetadata } from '@/lib/content';
 import WeddingPageClient from './WeddingPageClient';
 
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent(weddingPage);
+  return seoMetadata(content.seo);
+}
+
 export default async function WeddingPage() {
-  const [packages, heroImage] = await Promise.all([
-    getWeddingPackages(),
-    getPageHero('wedding', '/images/wedding/wedding-chapel-1.jpg'),
-  ]);
-  return <WeddingPageClient packages={packages} heroImage={heroImage} />;
+  const [packages, content] = await Promise.all([getWeddingPackages(), getPageContent(weddingPage)]);
+  return <WeddingPageClient packages={packages} content={content} />;
 }

@@ -14,6 +14,8 @@ import {
   FileEdit,
   ExternalLink,
   Languages,
+  LayoutTemplate,
+  PanelsTopLeft,
 } from 'lucide-react'
 
 interface CustomDashboardProps {
@@ -386,6 +388,18 @@ export const CustomDashboard: React.FC<CustomDashboardProps> = async ({
             icon={<Sliders size={20} />}
             title="Pengaturan Situs"
             count="Kontak, SEO, media sosial"
+          />
+          <QuickCard
+            href="/cms/globals/page-home"
+            icon={<LayoutTemplate size={20} />}
+            title="Halaman Website"
+            count="Judul, foto header, dan teks tiap halaman"
+          />
+          <QuickCard
+            href="/cms/globals/site-layout"
+            icon={<PanelsTopLeft size={20} />}
+            title="Header, Menu & Footer"
+            count="Logo, isi menu, footer"
           />
         </div>
       </section>

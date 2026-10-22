@@ -78,7 +78,7 @@ export interface Experience {
   id: string;
   slug: string;
   title: string;
-  category: 'Nature & Adventure' | 'Wellness & Mindfulness' | 'Cultural' | 'Romantic';
+  category: string;
   duration: string;
   location: string;
   description: string;
@@ -114,6 +114,8 @@ export interface JournalArticle {
   };
   coverImage: string;
   quote?: string;
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
 export interface NearbyDestination {

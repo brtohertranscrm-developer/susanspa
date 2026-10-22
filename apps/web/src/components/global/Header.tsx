@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu } from 'lucide-react';
 import { useSiteConfig } from '@/components/global/SiteConfigProvider';
+import { useLayoutContent } from '@/components/global/SiteContentProvider';
 import { cn } from '@/lib/utils';
 import { Room } from '@/types';
 import { MenuOverlay } from './MenuOverlay';
@@ -17,6 +17,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
   const site = useSiteConfig();
+  const { logos, header } = useLayoutContent();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -52,7 +53,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
                 <span className="block h-[1px] w-full bg-white transition-colors"></span>
                 <span className="block h-[1px] w-full bg-white transition-colors"></span>
               </div>
-              <span className="hidden sm:block text-[11px] font-medium uppercase tracking-[0.2em] mt-0.5">Resort</span>
+              <span className="hidden sm:block text-[11px] font-medium uppercase tracking-[0.2em] mt-0.5">{header.menuLabel}</span>
             </button>
           </div>
 
@@ -60,12 +61,15 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
           <div className="flex items-center justify-center">
             <Link href="/" className="flex items-center group py-1">
               <Image
-                src="/images/susan-spa-logo-gold.png"
+                src={logos.header}
                 alt={site.name}
                 width={170}
                 height={75}
                 priority
-                className="h-10 sm:h-12 w-auto object-contain transition-all duration-300 group-hover:opacity-80 drop-shadow-md brightness-0 invert"
+                className={cn(
+                  'h-10 sm:h-12 w-auto object-contain transition-all duration-300 group-hover:opacity-80 drop-shadow-md',
+                  logos.headerWhite && 'brightness-0 invert',
+                )}
               />
             </Link>
           </div>
@@ -76,7 +80,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
               onClick={onOpenReserve}
               className="border border-white/70 hover:border-white hover:bg-white/10 text-white px-4 sm:px-6 py-2 rounded-sm text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 backdrop-blur-sm"
             >
-              Reserve
+              {header.reserveLabel}
             </button>
           </div>
 

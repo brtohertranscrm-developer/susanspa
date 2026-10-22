@@ -1,16 +1,15 @@
+import type { Metadata } from 'next';
+import { roomsPage } from '@susan/contracts/content';
+import { getRooms } from '@/lib/cms';
+import { getPageContent, seoMetadata } from '@/lib/content';
 import RoomsPageClient from './RoomsPageClient';
-import { getPageHero, getRooms } from '@/lib/cms';
-import { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Kamar, Suite & Villa | Susan Spa & Resort',
-  description: 'Kenyamanan, kehangatan, dan ketenangan lereng pegunungan Bandungan. Jelajahi 11 pilihan suite, villa, dan kamar keluarga kami.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent(roomsPage);
+  return seoMetadata(content.seo);
+}
 
 export default async function RoomsPage() {
-  const [rooms, heroImage] = await Promise.all([
-    getRooms(),
-    getPageHero('rooms', '/images/rooms/room-1.jpg'),
-  ]);
-  return <RoomsPageClient rooms={rooms} heroImage={heroImage} />;
+  const [rooms, content] = await Promise.all([getRooms(), getPageContent(roomsPage)]);
+  return <RoomsPageClient rooms={rooms} content={content} />;
 }

@@ -11,9 +11,10 @@ import {
   CheckCircle2,
   Calendar,
   Clock,
-  ChevronDown,
 } from 'lucide-react';
+import type { facilitiesPage, PageContent } from '@susan/contracts/content';
 import { Header } from '@/components/global/Header';
+import { PageHero } from '@/components/global/PageHero';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
@@ -27,7 +28,7 @@ const CATEGORY_ICONS = {
   'Guest Services': ShieldCheck,
 };
 
-export default function FacilitiesPageClient({ facilityGroups, heroImage }: { facilityGroups: FacilityGroup[]; heroImage: string }) {
+export default function FacilitiesPageClient({ facilityGroups, content }: { facilityGroups: FacilityGroup[]; content: PageContent<typeof facilitiesPage> }) {
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('All');
 
@@ -41,37 +42,7 @@ export default function FacilitiesPageClient({ facilityGroups, heroImage }: { fa
       <Header onOpenReserve={() => setIsReserveModalOpen(true)} />
 
       {/* Hero Header */}
-      <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
-        <div className="absolute inset-0 z-0 bg-forest-deep">
-          <Image
-            src={heroImage}
-            alt="Susan Spa Facilities"
-            fill
-            priority
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-
-        <div className="relative z-10 w-full px-4 sm:px-6 text-center flex flex-col items-center justify-center">
-          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl font-normal text-white text-center tracking-tight max-w-5xl mx-auto drop-shadow-lg">
-            Fasilitas Resort
-          </h1>
-          
-          <p className="mt-4 sm:mt-6 text-[10px] sm:text-xs font-sans uppercase tracking-[0.3em] text-white/90 max-w-2xl mx-auto font-medium text-center drop-shadow-md">
-            FASILITAS & PENGALAMAN RESORT
-          </p>
-        </div>
-
-        <a 
-          href="#content"
-          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center justify-center space-y-1.5 group cursor-pointer"
-        >
-          <span className="text-white text-lg sm:text-xl font-serif drop-shadow-md">Jelajahi Fasilitas</span>
-          <span className="text-white/70 text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-sans group-hover:text-white transition-colors">Explore Below</span>
-          <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white group-hover:translate-y-1 transition-all duration-300" />
-        </a>
-      </section>
+      <PageHero hero={content.hero} />
 
       {/* Category Navigation Pills */}
       <div id="content" className="sticky top-20 z-30 bg-ivory/95 backdrop-blur-md border-b border-stone/20 py-3 sm:py-4 shadow-sm">
@@ -84,7 +55,7 @@ export default function FacilitiesPageClient({ facilityGroups, heroImage }: { fa
                 : 'bg-ivory-warm text-charcoal/80 hover:text-forest border border-stone/30'
             }`}
           >
-            Semua Fasilitas
+            {content.allFilterLabel}
           </button>
           {facilityGroups.map((group) => {
             const Icon = CATEGORY_ICONS[group.category as keyof typeof CATEGORY_ICONS] || Flower2;
@@ -99,7 +70,7 @@ export default function FacilitiesPageClient({ facilityGroups, heroImage }: { fa
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
-                <span>{group.category}</span>
+                <span>{group.label}</span>
               </button>
             );
           })}
@@ -117,7 +88,7 @@ export default function FacilitiesPageClient({ facilityGroups, heroImage }: { fa
                 <div className="inline-flex items-center space-x-2 text-botanical mb-1">
                   <Icon className="w-4 h-4" />
                   <span className="text-xs uppercase tracking-[0.25em] font-bold">
-                    {group.category}
+                    {group.label}
                   </span>
                 </div>
                 <h2 className="font-serif text-3xl sm:text-4xl text-forest-deep">
@@ -188,13 +159,13 @@ export default function FacilitiesPageClient({ facilityGroups, heroImage }: { fa
         {/* Global Bottom CTA: Book Your Stay */}
         <div className="bg-forest-deep text-ivory rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-champagne/30 shadow-2xl">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            PERISTIRAHATAN MENENANGKAN DI BANDUNGAN
+            {content.cta.eyebrow}
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl text-ivory max-w-2xl mx-auto">
-            Nikmati Pengalaman Menenangkan Bersama Kami
+            {content.cta.title}
           </h2>
           <p className="text-sm text-ivory/75 max-w-xl mx-auto">
-            Kami mengundang Bapak/Ibu untuk menikmati seluruh fasilitas unggulan Susan Spa & Resort dalam suasana pegunungan yang asri dan sejuk.
+            {content.cta.intro}
           </p>
           <div className="pt-2">
             <button
@@ -202,7 +173,7 @@ export default function FacilitiesPageClient({ facilityGroups, heroImage }: { fa
               className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-lg transition-transform hover:scale-105 inline-flex items-center space-x-2"
             >
               <Calendar className="w-4 h-4" />
-              <span>Reservasi Kamar Sekarang</span>
+              <span>{content.ctaButtonLabel}</span>
             </button>
           </div>
         </div>

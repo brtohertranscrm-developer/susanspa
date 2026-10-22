@@ -1,10 +1,15 @@
-import { getDining, getPageHero } from '@/lib/cms';
+import type { Metadata } from 'next';
+import { diningPage } from '@susan/contracts/content';
+import { getDining } from '@/lib/cms';
+import { getPageContent, seoMetadata } from '@/lib/content';
 import DiningPageClient from './DiningPageClient';
 
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent(diningPage);
+  return seoMetadata(content.seo);
+}
+
 export default async function DiningPage() {
-  const [venues, heroImage] = await Promise.all([
-    getDining(),
-    getPageHero('dining', 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_4164%20copy.avif?tr=w-1920'),
-  ]);
-  return <DiningPageClient venues={venues} heroImage={heroImage} />;
+  const [venues, content] = await Promise.all([getDining(), getPageContent(diningPage)]);
+  return <DiningPageClient venues={venues} content={content} />;
 }

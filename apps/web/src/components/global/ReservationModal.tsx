@@ -3,11 +3,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { CheckCircle2, MessageCircle, Send, X } from 'lucide-react';
 import type { InquiryReceipt, InquirySubmission } from '@susan/contracts';
-import { ROOMS } from '@/data/rooms';
 import { roomCategoryLabel } from '@/lib/room-display';
-import { SPA_TREATMENTS } from '@/data/spa';
+import { useSiteConfig } from '@/components/global/SiteConfigProvider';
+import { useCatalog, useFormText, type SiteCatalog } from '@/components/global/SiteContentProvider';
+import { TemplateText } from '@/components/ui/TemplateText';
+import { fillTemplate } from '@susan/contracts/content';
 import { getDefaultStayDates } from '@/lib/dates';
-import type { Room } from '@/types';
 
 type InquiryType = Exclude<InquirySubmission['type'], 'general'>;
 
@@ -19,7 +20,7 @@ interface ReservationModalProps {
   initialCheckIn?: string;
   initialCheckOut?: string;
   initialGuests?: number;
-  rooms?: Room[];
+  rooms?: SiteCatalog['rooms'];
 }
 
 export const ReservationModal: React.FC<ReservationModalProps> = (props) => {
@@ -34,8 +35,12 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
   initialCheckIn,
   initialCheckOut,
   initialGuests,
-  rooms = ROOMS,
+  rooms: roomsProp,
 }) => {
+  const site = useSiteConfig();
+  const catalog = useCatalog();
+  const { reservationModal: text } = useFormText();
+  const rooms = roomsProp ?? catalog.rooms;
   const defaults = useMemo(() => getDefaultStayDates(), []);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -126,11 +131,11 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
       });
       const body = (await response.json()) as InquiryReceipt | { error?: string };
       if (!response.ok || !('id' in body)) {
-        throw new Error('error' in body ? body.error : 'Permintaan reservasi belum dapat dikirim. Silakan coba kembali.');
+        throw new Error('error' in body ? body.error : text.errorMessage);
       }
       setReceipt(body);
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : 'Permintaan reservasi belum dapat dikirim.');
+      setSubmitError(error instanceof Error ? error.message : text.errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -152,7 +157,7 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
           ref={closeButtonRef}
           onClick={onClose}
           className="absolute top-6 right-6 p-2 text-ivory/60 hover:text-champagne transition-colors"
-          aria-label="Tutup jendela reservasi"
+          aria-label={text.closeLabel}
         >
           <X className="w-6 h-6" />
         </button>
@@ -162,52 +167,57 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
             <CheckCircle2 className="w-14 h-14 text-champagne mx-auto" />
             <div className="space-y-2">
               <h3 id="reservation-dialog-title" className="font-serif text-2xl sm:text-3xl text-ivory font-normal">
-                Permintaan Reservasi Telah Diterima
+                {text.successTitle}
               </h3>
               <p className="text-sm text-ivory/80 max-w-md mx-auto leading-relaxed">
-                Terima kasih, Bapak/Ibu <strong className="text-champagne font-semibold">{fullName}</strong>. Permintaan Anda telah tercatat dengan nomor referensi:{' '}
-                <span className="font-mono text-champagne">{receipt.id.slice(0, 8).toUpperCase()}</span>.
+                <TemplateText
+                  template={text.successGreeting}
+                  values={{
+                    nama: <strong className="text-champagne font-semibold">{fullName}</strong>,
+                    kode: <span className="font-mono text-champagne">{receipt.id.slice(0, 8).toUpperCase()}</span>,
+                  }}
+                />
               </p>
               <p className="text-xs text-ivory/65 max-w-md mx-auto">
-                Tim concierge Susan Spa & Resort akan segera menghubungi Anda melalui WhatsApp atau email untuk konfirmasi ketersediaan kamar dan panduan pembayaran.
+                {text.successBody}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <a
-                href={`https://wa.me/6281228111111?text=${encodeURIComponent(`Halo Susan Spa & Resort, saya telah mengirimkan permintaan reservasi dengan nomor referensi ${receipt.id.slice(0, 8).toUpperCase()} atas nama ${fullName}. Mohon konfirmasinya. Terima kasih.`)}`}
+                href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(fillTemplate(text.whatsappMessage, { kode: receipt.id.slice(0, 8).toUpperCase(), nama: fullName }))}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20ba5a] text-white px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
               >
-                <MessageCircle className="w-4 h-4" /> Hubungi WhatsApp Concierge
+                <MessageCircle className="w-4 h-4" /> {text.whatsappButton}
               </a>
               <button
                 onClick={onClose}
                 className="w-full sm:w-auto border border-champagne/40 hover:bg-forest text-champagne px-6 py-3 rounded-full text-xs uppercase tracking-wider transition-colors"
               >
-                Tutup Jendela
+                {text.closeButton}
               </button>
             </div>
           </div>
         ) : (
           <div className="space-y-6">
             <div>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-champagne font-bold">Layanan Reservasi & Informasi</span>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-champagne font-bold">{text.eyebrow}</span>
               <h3 id="reservation-dialog-title" className="font-serif text-2xl sm:text-3xl text-ivory mt-1 font-normal">
-                Rencanakan Kunjungan Istimewa Anda
+                {text.title}
               </h3>
               <p className="text-xs text-ivory/75 mt-1 font-light">
-                Silakan lengkapi formulir di bawah ini. Tim concierge kami akan dengan senang hati memeriksa ketersediaan dan menghubungi Anda secara pribadi.
+                {text.intro}
               </p>
             </div>
 
             {/* Type Switcher Tabs */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-forest/80 p-1.5 rounded-2xl border border-white/10 text-xs">
               {[
-                { key: 'room', label: 'Kamar & Villa' },
-                { key: 'spa', label: 'Spa Ritual' },
-                { key: 'wedding', label: 'Pernikahan' },
-                { key: 'event', label: 'Acara / Meeting' },
+                { key: 'room', label: text.typeRoom },
+                { key: 'spa', label: text.typeSpa },
+                { key: 'wedding', label: text.typeWedding },
+                { key: 'event', label: text.typeEvent },
               ].map((tab) => (
                 <button
                   key={tab.key}
@@ -227,24 +237,24 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field label="Nama Lengkap" id="inquiry-name">
+                <Field label={text.nameLabel} id="inquiry-name">
                   <input
                     id="inquiry-name"
                     required
                     minLength={2}
-                    placeholder="Contoh: Bapak Hendra Kusuma"
+                    placeholder={text.namePlaceholder}
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     className="field"
                   />
                 </Field>
-                <Field label="Nomor WhatsApp / Telepon" id="inquiry-phone">
+                <Field label={text.phoneLabel} id="inquiry-phone">
                   <input
                     id="inquiry-phone"
                     type="tel"
                     required
                     minLength={8}
-                    placeholder="Contoh: 08123456789"
+                    placeholder={text.phonePlaceholder}
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="field"
@@ -252,12 +262,12 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
                 </Field>
               </div>
 
-              <Field label="Alamat Email" id="inquiry-email">
+              <Field label={text.emailLabel} id="inquiry-email">
                 <input
                   id="inquiry-email"
                   type="email"
                   required
-                  placeholder="Contoh: hendra@email.com"
+                  placeholder={text.emailPlaceholder}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="field"
@@ -267,7 +277,7 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
               {inquiryType === 'room' ? (
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Field label="Tanggal Check-In" id="inquiry-check-in">
+                    <Field label={text.checkInLabel} id="inquiry-check-in">
                       <input
                         id="inquiry-check-in"
                         type="date"
@@ -278,7 +288,7 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
                         className="field"
                       />
                     </Field>
-                    <Field label="Tanggal Check-Out" id="inquiry-check-out">
+                    <Field label={text.checkOutLabel} id="inquiry-check-out">
                       <input
                         id="inquiry-check-out"
                         type="date"
@@ -290,7 +300,7 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
                       />
                     </Field>
                   </div>
-                  <Field label="Pilihan Akomodasi" id="inquiry-room">
+                  <Field label={text.roomLabel} id="inquiry-room">
                     <select
                       id="inquiry-room"
                       value={selectedRoom}
@@ -307,7 +317,7 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
                 </>
               ) : (
                 <Field
-                  label={inquiryType === 'spa' ? 'Rencana Tanggal Perawatan' : 'Perkiraan Tanggal Acara'}
+                  label={inquiryType === 'spa' ? text.spaDateLabel : text.eventDateLabel}
                   id="inquiry-target-date"
                 >
                   <input
@@ -322,15 +332,15 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
               )}
 
               {inquiryType === 'spa' && (
-                <Field label="Pilihan Perawatan Spa" id="inquiry-treatment">
+                <Field label={text.treatmentLabel} id="inquiry-treatment">
                   <select
                     id="inquiry-treatment"
                     value={treatmentPreference}
                     onChange={(e) => setTreatmentPreference(e.target.value)}
                     className="field"
                   >
-                    <option value="" className="bg-forest-deep text-ivory">Konsultasikan rekomendasi terbaik dengan terapis</option>
-                    {SPA_TREATMENTS.map((treatment) => (
+                    <option value="" className="bg-forest-deep text-ivory">{text.treatmentPlaceholder}</option>
+                    {catalog.treatments.map((treatment) => (
                       <option key={treatment.id} value={treatment.title} className="bg-forest-deep text-ivory">
                         {treatment.title}
                       </option>
@@ -340,19 +350,19 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
               )}
 
               {(inquiryType === 'wedding' || inquiryType === 'event') && (
-                <Field label="Preferensi Venue / Lokasi" id="inquiry-venue">
+                <Field label={text.venueLabel} id="inquiry-venue">
                   <input
                     id="inquiry-venue"
                     value={venuePreference}
                     onChange={(e) => setVenuePreference(e.target.value)}
                     className="field"
-                    placeholder="Contoh: La Kana Chapel, Sky Garden Outdoor, Frangipani Ballroom..."
+                    placeholder={text.venuePlaceholder}
                   />
                 </Field>
               )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field label="Perkiraan Jumlah Tamu" id="inquiry-guests">
+                <Field label={text.guestsLabel} id="inquiry-guests">
                   <input
                     id="inquiry-guests"
                     type="number"
@@ -363,11 +373,11 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
                     className="field"
                   />
                 </Field>
-                <Field label="Catatan Tambahan / Permintaan Khusus" id="inquiry-notes">
+                <Field label={text.notesLabel} id="inquiry-notes">
                   <textarea
                     id="inquiry-notes"
                     rows={2}
-                    placeholder="Contoh: Permintaan ranjang bayi, preferensi lantai, dsb."
+                    placeholder={text.notesPlaceholder}
                     value={specialRequests}
                     onChange={(e) => setSpecialRequests(e.target.value)}
                     className="field"
@@ -386,7 +396,7 @@ const ReservationModalContent: React.FC<ReservationModalProps> = ({
                 disabled={isSubmitting}
                 className="w-full bg-champagne hover:bg-champagne-light disabled:opacity-60 text-forest-deep py-3.5 rounded-full font-bold uppercase tracking-[0.18em] text-xs flex items-center justify-center gap-2 transition-colors shadow-md"
               >
-                <Send className="w-4 h-4" /> {isSubmitting ? 'Mengirimkan Permintaan...' : 'Kirimkan Permintaan Reservasi'}
+                <Send className="w-4 h-4" /> {isSubmitting ? text.submittingLabel : text.submitLabel}
               </button>
             </form>
           </div>

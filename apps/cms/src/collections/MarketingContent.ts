@@ -1,4 +1,5 @@
-import type { CollectionConfig, Field } from 'payload'
+import type { ArrayField, CollectionConfig, Field } from 'payload'
+import { FACILITY_CATEGORIES } from '@susan/contracts/content'
 import { canManageContent, publicPublishedOrEditor } from '../access'
 
 const buildContentCollection = (
@@ -70,7 +71,16 @@ const buildContentCollection = (
   ],
 })
 
+const listOf = (name: string, label: string, itemLabel: string, description?: string): ArrayField => ({
+  name,
+  type: 'array',
+  label,
+  fields: [{ name: 'label', type: 'text', localized: true, label: itemLabel }],
+  admin: { description },
+})
+
 export const SpaTreatments = buildContentCollection('spa-treatments', 'Perawatan Spa', 'Perawatan Spa', 'Konten website', [
+  { name: 'categoryLabel', type: 'text', localized: true, defaultValue: 'Spa', label: 'Label kategori di kartu' },
   { name: 'durationMinutes', type: 'number', min: 1, label: 'Durasi (Menit)' },
   { name: 'priceLabel', type: 'number', min: 0, label: 'Harga (Rp)' },
   {
@@ -91,12 +101,24 @@ export const WeddingPackages = buildContentCollection('wedding-packages', 'Paket
     label: 'Isi paket',
     fields: [{ name: 'label', type: 'text', localized: true, label: 'Fasilitas / Inklusi' }],
   },
+  { name: 'category', type: 'text', localized: true, label: 'Kategori paket' },
+  listOf('schedule', 'Jadwal & sesi acara', 'Sesi'),
+  {
+    name: 'gallery',
+    type: 'array',
+    label: 'Foto tambahan',
+    admin: { description: 'Tampil di halaman detail paket setelah foto utama.' },
+    fields: [{ name: 'image', type: 'upload', relationTo: 'media', required: true, label: 'Foto' }],
+  },
 ])
 
 export const Offers = buildContentCollection('offers', 'Promo', 'Promo', 'Promosi', [
   { name: 'validFrom', type: 'date', label: 'Berlaku Mulai' },
   { name: 'validUntil', type: 'date', label: 'Berlaku Hingga' },
   { name: 'terms', type: 'textarea', localized: true, label: 'Syarat & Ketentuan' },
+  { name: 'badge', type: 'text', localized: true, defaultValue: 'Special Offer', label: 'Label di pojok foto' },
+  { name: 'validityLabel', type: 'text', localized: true, label: 'Keterangan masa berlaku', admin: { description: 'Contoh: Berlaku hingga 31 Desember 2026. Kosongkan untuk memakai tanggal Berlaku Hingga.' } },
+  listOf('inclusions', 'Isi paket', 'Inklusi'),
 ])
 
 export const ResortContent = buildContentCollection('resort-content', 'Info Resort', 'Info Resort', 'Konten website', [
@@ -113,6 +135,62 @@ export const ResortContent = buildContentCollection('resort-content', 'Info Reso
       { label: 'Destinasi sekitar', value: 'nearby' },
     ],
   },
-  { name: 'location', type: 'text', localized: true, label: 'Lokasi' },
-  { name: 'distanceLabel', type: 'text', localized: true, label: 'Estimasi Jarak / Waktu Tempuh' },
+  {
+    name: 'facilityCategory',
+    type: 'select',
+    label: 'Kelompok fasilitas',
+    defaultValue: 'Wellness',
+    options: FACILITY_CATEGORIES.map((option) => ({ ...option })),
+    admin: { condition: (data) => data?.kind === 'facility', description: 'Menentukan kelompok di halaman Fasilitas.' },
+  },
+  {
+    name: 'categoryLabel',
+    type: 'text',
+    localized: true,
+    label: 'Label kategori',
+    admin: { condition: (data) => data?.kind === 'experience' || data?.kind === 'nearby', description: 'Contoh: Wisata Alam & Bunga.' },
+  },
+  { name: 'location', type: 'text', localized: true, label: 'Lokasi / jenis masakan' },
+  {
+    name: 'operatingHours',
+    type: 'text',
+    localized: true,
+    label: 'Jam buka',
+    admin: { condition: (data) => data?.kind === 'facility' || data?.kind === 'dining' },
+  },
+  {
+    name: 'duration',
+    type: 'text',
+    localized: true,
+    label: 'Durasi',
+    admin: { condition: (data) => data?.kind === 'experience', description: 'Contoh: 2 Jam.' },
+  },
+  {
+    name: 'distanceLabel',
+    type: 'text',
+    localized: true,
+    label: 'Estimasi Jarak / Waktu Tempuh',
+    admin: { condition: (data) => data?.kind === 'nearby' },
+  },
+  {
+    name: 'address',
+    type: 'textarea',
+    localized: true,
+    label: 'Alamat',
+    admin: { condition: (data) => data?.kind === 'nearby' },
+  },
+  {
+    name: 'mapUrl',
+    type: 'text',
+    label: 'Tautan Google Maps',
+    admin: { condition: (data) => data?.kind === 'nearby' },
+  },
+  {
+    name: 'tips',
+    type: 'textarea',
+    localized: true,
+    label: 'Tips kunjungan',
+    admin: { condition: (data) => data?.kind === 'nearby' },
+  },
+  listOf('highlights', 'Keunggulan / menu pilihan', 'Poin', 'Untuk restoran, isi dengan menu pilihan.'),
 ])

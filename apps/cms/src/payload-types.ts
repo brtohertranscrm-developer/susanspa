@@ -105,11 +105,51 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('id' | 'en') | ('id' | 'en')[];
   globals: {
     'site-settings': SiteSetting;
-    'page-heroes': PageHero;
+    'site-layout': SiteLayout;
+    'ui-text': UiText;
+    'form-text': FormText;
+    'page-home': PageHome;
+    'page-about': PageAbout;
+    'page-rooms': PageRoom;
+    'page-spa': PageSpa;
+    'page-dining': PageDining;
+    'page-experiences': PageExperience;
+    'page-facilities': PageFacility;
+    'page-gallery': PageGallery;
+    'page-nearby': PageNearby;
+    'page-offers': PageOffer;
+    'page-wedding': PageWedding;
+    'page-ballroom': PageBallroom;
+    'page-events': PageEvent;
+    'page-journal': PageJournal;
+    'page-contact': PageContact;
+    'page-reserve': PageReserve;
+    'page-privacy': PagePrivacy;
+    'page-terms': PageTerm;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
-    'page-heroes': PageHeroesSelect<false> | PageHeroesSelect<true>;
+    'site-layout': SiteLayoutSelect<false> | SiteLayoutSelect<true>;
+    'ui-text': UiTextSelect<false> | UiTextSelect<true>;
+    'form-text': FormTextSelect<false> | FormTextSelect<true>;
+    'page-home': PageHomeSelect<false> | PageHomeSelect<true>;
+    'page-about': PageAboutSelect<false> | PageAboutSelect<true>;
+    'page-rooms': PageRoomsSelect<false> | PageRoomsSelect<true>;
+    'page-spa': PageSpaSelect<false> | PageSpaSelect<true>;
+    'page-dining': PageDiningSelect<false> | PageDiningSelect<true>;
+    'page-experiences': PageExperiencesSelect<false> | PageExperiencesSelect<true>;
+    'page-facilities': PageFacilitiesSelect<false> | PageFacilitiesSelect<true>;
+    'page-gallery': PageGallerySelect<false> | PageGallerySelect<true>;
+    'page-nearby': PageNearbySelect<false> | PageNearbySelect<true>;
+    'page-offers': PageOffersSelect<false> | PageOffersSelect<true>;
+    'page-wedding': PageWeddingSelect<false> | PageWeddingSelect<true>;
+    'page-ballroom': PageBallroomSelect<false> | PageBallroomSelect<true>;
+    'page-events': PageEventsSelect<false> | PageEventsSelect<true>;
+    'page-journal': PageJournalSelect<false> | PageJournalSelect<true>;
+    'page-contact': PageContactSelect<false> | PageContactSelect<true>;
+    'page-reserve': PageReserveSelect<false> | PageReserveSelect<true>;
+    'page-privacy': PagePrivacySelect<false> | PagePrivacySelect<true>;
+    'page-terms': PageTermsSelect<false> | PageTermsSelect<true>;
   };
   locale: 'id' | 'en';
   widgets: {
@@ -190,7 +230,7 @@ export interface Room {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Unggah foto sekali, lalu pakai di kamar, spa, wedding, jurnal, dan galeri. Isi teks alternatif dengan deskripsi isi foto.
+ * Unggah foto sekali, lalu pakai di kamar, spa, wedding, jurnal, galeri, dan halaman website. Video MP4 juga bisa diunggah untuk header beranda. Isi teks alternatif dengan deskripsi isi foto atau video.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -227,6 +267,7 @@ export interface SpaTreatment {
   title: string;
   summary?: string | null;
   description?: string | null;
+  categoryLabel?: string | null;
   durationMinutes?: number | null;
   priceLabel?: number | null;
   benefits?:
@@ -260,6 +301,22 @@ export interface WeddingPackage {
         id?: string | null;
       }[]
     | null;
+  category?: string | null;
+  schedule?:
+    | {
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Tampil di halaman detail paket setelah foto utama.
+   */
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
   featuredImage?: (number | null) | Media;
   slug: string;
   sortOrder?: number | null;
@@ -277,8 +334,33 @@ export interface ResortContent {
   summary?: string | null;
   description?: string | null;
   kind: 'facility' | 'dining' | 'experience' | 'nearby';
+  /**
+   * Menentukan kelompok di halaman Fasilitas.
+   */
+  facilityCategory?: ('Wellness' | 'Dining' | 'Family & Recreation' | 'Events' | 'Guest Services') | null;
+  /**
+   * Contoh: Wisata Alam & Bunga.
+   */
+  categoryLabel?: string | null;
   location?: string | null;
+  operatingHours?: string | null;
+  /**
+   * Contoh: 2 Jam.
+   */
+  duration?: string | null;
   distanceLabel?: string | null;
+  address?: string | null;
+  mapUrl?: string | null;
+  tips?: string | null;
+  /**
+   * Untuk restoran, isi dengan menu pilihan.
+   */
+  highlights?:
+    | {
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   featuredImage?: (number | null) | Media;
   slug: string;
   sortOrder?: number | null;
@@ -323,12 +405,23 @@ export interface JournalArticle {
     };
     [k: string]: unknown;
   };
+  /**
+   * Tampil sebagai kutipan besar di atas isi artikel.
+   */
+  quote?: string | null;
+  authorName?: string | null;
+  authorRole?: string | null;
+  authorAvatar?: (number | null) | Media;
   coverImage: number | Media;
   publishedAt?: string | null;
   seoTitle?: string | null;
   seoDescription?: string | null;
   slug: string;
   category?: string | null;
+  /**
+   * Contoh: 5 menit baca.
+   */
+  readTime?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -345,6 +438,17 @@ export interface Offer {
   validFrom?: string | null;
   validUntil?: string | null;
   terms?: string | null;
+  badge?: string | null;
+  /**
+   * Contoh: Berlaku hingga 31 Desember 2026. Kosongkan untuk memakai tanggal Berlaku Hingga.
+   */
+  validityLabel?: string | null;
+  inclusions?:
+    | {
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   featuredImage?: (number | null) | Media;
   slug: string;
   sortOrder?: number | null;
@@ -548,6 +652,7 @@ export interface SpaTreatmentsSelect<T extends boolean = true> {
   title?: T;
   summary?: T;
   description?: T;
+  categoryLabel?: T;
   durationMinutes?: T;
   priceLabel?: T;
   benefits?:
@@ -580,6 +685,19 @@ export interface WeddingPackagesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  category?: T;
+  schedule?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
   featuredImage?: T;
   slug?: T;
   sortOrder?: T;
@@ -596,8 +714,21 @@ export interface ResortContentSelect<T extends boolean = true> {
   summary?: T;
   description?: T;
   kind?: T;
+  facilityCategory?: T;
+  categoryLabel?: T;
   location?: T;
+  operatingHours?: T;
+  duration?: T;
   distanceLabel?: T;
+  address?: T;
+  mapUrl?: T;
+  tips?: T;
+  highlights?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
   featuredImage?: T;
   slug?: T;
   sortOrder?: T;
@@ -626,12 +757,17 @@ export interface JournalArticlesSelect<T extends boolean = true> {
   title?: T;
   excerpt?: T;
   content?: T;
+  quote?: T;
+  authorName?: T;
+  authorRole?: T;
+  authorAvatar?: T;
   coverImage?: T;
   publishedAt?: T;
   seoTitle?: T;
   seoDescription?: T;
   slug?: T;
   category?: T;
+  readTime?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -647,6 +783,14 @@ export interface OffersSelect<T extends boolean = true> {
   validFrom?: T;
   validUntil?: T;
   terms?: T;
+  badge?: T;
+  validityLabel?: T;
+  inclusions?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
   featuredImage?: T;
   slug?: T;
   sortOrder?: T;
@@ -770,6 +914,14 @@ export interface SiteSetting {
   instagramUrl?: string | null;
   facebookUrl?: string | null;
   tiktokUrl?: string | null;
+  /**
+   * Dibuka oleh tombol petunjuk arah. Salin dari tombol Bagikan di Google Maps.
+   */
+  googleMapsUrl?: string | null;
+  /**
+   * Di Google Maps pilih Bagikan, Sematkan peta, lalu salin hanya isi src="..." yang diawali https://www.google.com/maps/embed.
+   */
+  mapEmbedUrl?: string | null;
   defaultSeoTitle?: string | null;
   defaultSeoDescription?: string | null;
   defaultSeoImage?: (number | null) | Media;
@@ -778,25 +930,1112 @@ export interface SiteSetting {
   createdAt?: string | null;
 }
 /**
- * Foto besar di bagian atas tiap halaman. Kosongkan untuk memakai foto bawaan. Perubahan tampil di website sekitar 5 menit setelah disimpan.
+ * Logo, isi menu, dan footer yang tampil di semua halaman. Perubahan tampil di website paling lama 5 menit setelah disimpan.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "page-heroes".
+ * via the `definition` "site-layout".
  */
-export interface PageHero {
+export interface SiteLayout {
   id: number;
-  about?: (number | null) | Media;
-  events?: (number | null) | Media;
-  ballroom?: (number | null) | Media;
-  dining?: (number | null) | Media;
-  experiences?: (number | null) | Media;
-  facilities?: (number | null) | Media;
-  gallery?: (number | null) | Media;
-  nearby?: (number | null) | Media;
-  offers?: (number | null) | Media;
-  rooms?: (number | null) | Media;
-  spa?: (number | null) | Media;
-  wedding?: (number | null) | Media;
+  logos?: {
+    /**
+     * Tampil di atas foto header. PNG atau SVG dengan latar transparan.
+     */
+    header?: (number | null) | Media;
+    /**
+     * Aktifkan bila logo berwarna gelap agar terbaca di atas foto. Matikan bila logo sudah putih atau ingin warna asli.
+     */
+    headerWhite?: boolean | null;
+    /**
+     * Tampil di menu layar penuh yang berlatar putih.
+     */
+    menu?: (number | null) | Media;
+    /**
+     * Gambar persegi, minimal 512 x 512 px.
+     */
+    favicon?: (number | null) | Media;
+  };
+  header?: {
+    menuLabel?: string | null;
+    reserveLabel?: string | null;
+  };
+  menu?: {
+    categories?:
+      | {
+          label?: string | null;
+          href?: string | null;
+          /**
+           * Kosongkan bila kategori langsung membuka halaman.
+           */
+          links?:
+            | {
+                label?: string | null;
+                href?: string | null;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    quickLinks?:
+      | {
+          label?: string | null;
+          href?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    closeLabel?: string | null;
+    viewPageLabel?: string | null;
+    /**
+     * {nama} diganti nama kategori.
+     */
+    emptyCategoryText?: string | null;
+    visitPageLabel?: string | null;
+    whatsappMessage?: string | null;
+    weatherLocation?: string | null;
+    altitude?: string | null;
+    propertyHeading?: string | null;
+    frontDeskHeading?: string | null;
+    frontDeskLabel?: string | null;
+    serviceHeading?: string | null;
+    serviceHours?: string | null;
+    propertiesHeading?: string | null;
+    properties?:
+      | {
+          icon: 'hotel' | 'church' | 'dining' | 'pool' | 'park' | 'spa';
+          label?: string | null;
+          href?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  footer?: {
+    /**
+     * {tahun} diganti tahun berjalan.
+     */
+    copyright?: string | null;
+    legalLinks?:
+      | {
+          label?: string | null;
+          href?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    contactLabel?: string | null;
+    contactHref?: string | null;
+    directionsLabel?: string | null;
+    shareLabel?: string | null;
+    shareCopiedLabel?: string | null;
+  };
+  whatsapp?: {
+    label?: string | null;
+    message?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Teks pada tombol, label, dan template halaman detail yang dipakai berulang. Penanda dalam kurung kurawal seperti {nama} diisi otomatis. Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ui-text".
+ */
+export interface UiText {
+  id: number;
+  common?: {
+    scrollHint?: string | null;
+  };
+  roomCard?: {
+    fallbackDescription?: string | null;
+    sizeLabel?: string | null;
+    capacityLabel?: string | null;
+    bedLabel?: string | null;
+    amenitiesLabel?: string | null;
+    detailButton?: string | null;
+  };
+  roomDetail?: {
+    back?: string | null;
+    breadcrumb?: string | null;
+    fallbackDescription?: string | null;
+    availabilityEyebrow?: string | null;
+    reserveButton?: string | null;
+    capacityLabel?: string | null;
+    sizeLabel?: string | null;
+    bedLabel?: string | null;
+    viewLabel?: string | null;
+    unknownValue?: string | null;
+    defaultView?: string | null;
+    descriptionHeading?: string | null;
+    fallbackLongDescription?: string | null;
+    amenitiesHeading?: string | null;
+    amenitiesEmpty?: string | null;
+    checkEyebrow?: string | null;
+    checkTitle?: string | null;
+    checkInLabel?: string | null;
+    checkOutLabel?: string | null;
+    checkButton?: string | null;
+    whatsappButton?: string | null;
+    /**
+     * {nama} diganti nama kamar.
+     */
+    whatsappMessage?: string | null;
+    policyNote?: string | null;
+    relatedEyebrow?: string | null;
+    relatedTitle?: string | null;
+    viewAll?: string | null;
+  };
+  treatmentCard?: {
+    /**
+     * {menit} diganti durasi.
+     */
+    duration?: string | null;
+    benefitsHeading?: string | null;
+    bookButton?: string | null;
+  };
+  weddingDetail?: {
+    back?: string | null;
+    breadcrumb?: string | null;
+    eyebrow?: string | null;
+    consultEyebrow?: string | null;
+    consultButton?: string | null;
+    capacityLabel?: string | null;
+    capacityFallback?: string | null;
+    venueLabel?: string | null;
+    venueFallback?: string | null;
+    scheduleLabel?: string | null;
+    scheduleFallback?: string | null;
+    descriptionHeading?: string | null;
+    inclusionsHeading?: string | null;
+    ctaTitle?: string | null;
+    ctaBody?: string | null;
+    proposalButton?: string | null;
+    whatsappButton?: string | null;
+    /**
+     * {nama} diganti nama paket.
+     */
+    whatsappMessage?: string | null;
+  };
+  nearby?: {
+    /**
+     * {jarak} diganti jarak tempuh.
+     */
+    distanceCard?: string | null;
+    detailButton?: string | null;
+    directionsButton?: string | null;
+    back?: string | null;
+    breadcrumb?: string | null;
+    distanceBadge?: string | null;
+    mapsButton?: string | null;
+    stayButton?: string | null;
+    /**
+     * {nama} diganti nama destinasi.
+     */
+    aboutHeading?: string | null;
+    tipsHeading?: string | null;
+    infoEyebrow?: string | null;
+    distanceLabel?: string | null;
+    addressLabel?: string | null;
+    openMapsButton?: string | null;
+    bannerEyebrow?: string | null;
+    bannerTitle?: string | null;
+    bannerBody?: string | null;
+    bannerButton?: string | null;
+  };
+  journalDetail?: {
+    back?: string | null;
+    notFound?: string | null;
+    /**
+     * {nama} dan {peran} diganti data penulis.
+     */
+    byline?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Judul, label kolom, dan pesan pada jendela reservasi yang muncul dari tombol Reserve di semua halaman. Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-text".
+ */
+export interface FormText {
+  id: number;
+  reservationModal?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+    successTitle?: string | null;
+    successBody?: string | null;
+    /**
+     * {nama} diganti nama pemesan, {kode} diganti nomor referensi.
+     */
+    successGreeting?: string | null;
+    whatsappButton?: string | null;
+    whatsappMessage?: string | null;
+    closeButton?: string | null;
+    closeLabel?: string | null;
+    typeRoom?: string | null;
+    typeSpa?: string | null;
+    typeWedding?: string | null;
+    typeEvent?: string | null;
+    nameLabel?: string | null;
+    namePlaceholder?: string | null;
+    phoneLabel?: string | null;
+    phonePlaceholder?: string | null;
+    emailLabel?: string | null;
+    emailPlaceholder?: string | null;
+    checkInLabel?: string | null;
+    checkOutLabel?: string | null;
+    roomLabel?: string | null;
+    spaDateLabel?: string | null;
+    eventDateLabel?: string | null;
+    treatmentLabel?: string | null;
+    treatmentPlaceholder?: string | null;
+    venueLabel?: string | null;
+    venuePlaceholder?: string | null;
+    guestsLabel?: string | null;
+    notesLabel?: string | null;
+    notesPlaceholder?: string | null;
+    submitLabel?: string | null;
+    submittingLabel?: string | null;
+    errorMessage?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Isi halaman depan. Tulis {alamat} untuk menampilkan alamat dari Pengaturan Situs. Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-home".
+ */
+export interface PageHome {
+  id: number;
+  hero?: {
+    /**
+     * Video MP4 yang diputar otomatis tanpa suara. Kosongkan untuk memakai video bawaan.
+     */
+    video?: (number | null) | Media;
+    /**
+     * Kosongkan untuk memakai foto bawaan.
+     */
+    poster?: (number | null) | Media;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  intro?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  introLinkLabel?: string | null;
+  introLinkUrl?: string | null;
+  /**
+   * Urutan di sini menjadi urutan di beranda. Kosongkan untuk menampilkan tiga kamar pertama.
+   */
+  featuredRooms?:
+    | {
+        /**
+         * Lihat slug di menu Kamar, bagian Pengaturan teknis.
+         */
+        slug?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  roomsTitle?: string | null;
+  roomsIntro?: string | null;
+  roomsCardLabel?: string | null;
+  roomsButtonLabel?: string | null;
+  bestOfTitle?: string | null;
+  bestOf?:
+    | {
+        /**
+         * Kosongkan untuk memakai foto bawaan.
+         */
+        image?: (number | null) | Media;
+        title?: string | null;
+        href?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  location?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  mapsButtonLabel?: string | null;
+  directionsButtonLabel?: string | null;
+  directionsMessage?: string | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-about".
+ */
+export interface PageAbout {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  storyTitle?: string | null;
+  storyBody?: string | null;
+  pillars?:
+    | {
+        icon: 'compass' | 'letter' | 'heart' | 'leaf' | 'mountain';
+        title?: string | null;
+        body?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-rooms".
+ */
+export interface PageRoom {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  /**
+   * {jumlah} diganti jumlah kamar.
+   */
+  allFilterLabel?: string | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-spa".
+ */
+export interface PageSpa {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  menu?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-dining".
+ */
+export interface PageDining {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  menuHeading?: string | null;
+  reserveButtonLabel?: string | null;
+  /**
+   * {nama} diganti nama restoran.
+   */
+  reserveMessage?: string | null;
+  whatsappMessage?: string | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-experiences".
+ */
+export interface PageExperience {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  reserveButtonLabel?: string | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-facilities".
+ */
+export interface PageFacility {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  allFilterLabel?: string | null;
+  /**
+   * Fasilitas masuk ke kelompok sesuai Kategori Fasilitas di menu Info Resort.
+   */
+  groups?:
+    | {
+        category: 'Wellness' | 'Dining' | 'Family & Recreation' | 'Events' | 'Guest Services';
+        label?: string | null;
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  cta?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  ctaButtonLabel?: string | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-gallery".
+ */
+export interface PageGallery {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-nearby".
+ */
+export interface PageNearby {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-offers".
+ */
+export interface PageOffer {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  inclusionsHeading?: string | null;
+  reserveButtonLabel?: string | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-wedding".
+ */
+export interface PageWedding {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  packages?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  inclusionsHeading?: string | null;
+  detailButtonLabel?: string | null;
+  consultButtonLabel?: string | null;
+  venues?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  venueList?:
+    | {
+        /**
+         * Kosongkan untuk memakai foto bawaan.
+         */
+        image?: (number | null) | Media;
+        icon: 'church' | 'users' | 'map';
+        label?: string | null;
+        title?: string | null;
+        body?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-ballroom".
+ */
+export interface PageBallroom {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  /**
+   * Foto dan teks tampil bergantian kiri dan kanan.
+   */
+  spaces?:
+    | {
+        /**
+         * Kosongkan untuk memakai foto bawaan.
+         */
+        image?: (number | null) | Media;
+        imageAlt?: string | null;
+        eyebrow?: string | null;
+        title?: string | null;
+        body?: string | null;
+        features?:
+          | {
+              label?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        buttonLabel?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  whatsappMessage?: string | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-events".
+ */
+export interface PageEvent {
+  id: number;
+  hero?: {
+    /**
+     * Foto besar di bagian atas. Kosongkan untuk memakai foto bawaan.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Dibaca pembaca layar. Jelaskan isi foto.
+     */
+    imageAlt?: string | null;
+    title?: string | null;
+    subtitle?: string | null;
+    scrollLabel?: string | null;
+  };
+  cards?:
+    | {
+        eyebrow?: string | null;
+        title?: string | null;
+        body?: string | null;
+        buttonLabel?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  whatsappMessage?: string | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-journal".
+ */
+export interface PageJournal {
+  id: number;
+  hero?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  readMoreLabel?: string | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-contact".
+ */
+export interface PageContact {
+  id: number;
+  hero?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  location?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  addressCardTitle?: string | null;
+  whatsappEyebrow?: string | null;
+  whatsappTitle?: string | null;
+  whatsappBody?: string | null;
+  whatsappMessage?: string | null;
+  form?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  formLabels?: {
+    nameLabel?: string | null;
+    namePlaceholder?: string | null;
+    emailLabel?: string | null;
+    emailPlaceholder?: string | null;
+    phoneLabel?: string | null;
+    phonePlaceholder?: string | null;
+    subjectLabel?: string | null;
+    subjectPlaceholder?: string | null;
+    messageLabel?: string | null;
+    messagePlaceholder?: string | null;
+    submitLabel?: string | null;
+    submittingLabel?: string | null;
+    errorMessage?: string | null;
+  };
+  successTitle?: string | null;
+  successBody?: string | null;
+  sendAnotherLabel?: string | null;
+  map?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  mapButtonLabel?: string | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-reserve".
+ */
+export interface PageReserve {
+  id: number;
+  hero?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+  };
+  formLabels?: {
+    typeLabel?: string | null;
+    typeRoom?: string | null;
+    typeSpa?: string | null;
+    typeWedding?: string | null;
+    roomLabel?: string | null;
+    checkInLabel?: string | null;
+    checkOutLabel?: string | null;
+    guestsLabel?: string | null;
+    /**
+     * {jumlah} diganti angka.
+     */
+    guestsOption?: string | null;
+    targetDateLabel?: string | null;
+    nameLabel?: string | null;
+    namePlaceholder?: string | null;
+    phoneLabel?: string | null;
+    phonePlaceholder?: string | null;
+    emailLabel?: string | null;
+    emailPlaceholder?: string | null;
+    notesLabel?: string | null;
+    notesPlaceholder?: string | null;
+    submitLabel?: string | null;
+    submittingLabel?: string | null;
+    submitNote?: string | null;
+    errorMessage?: string | null;
+  };
+  successTitle?: string | null;
+  /**
+   * {nama} diganti nama pemesan, {kode} diganti kode referensi.
+   */
+  successBody?: string | null;
+  summaryService?: string | null;
+  summaryRoom?: string | null;
+  summaryStay?: string | null;
+  /**
+   * {masuk} dan {keluar} diganti tanggal.
+   */
+  summaryStayValue?: string | null;
+  summaryGuests?: string | null;
+  summaryDate?: string | null;
+  confirmButton?: string | null;
+  confirmMessage?: string | null;
+  newReservationButton?: string | null;
+  roomDetailLink?: string | null;
+  bedFallback?: string | null;
+  helpTitle?: string | null;
+  helpSubtitle?: string | null;
+  helpBody?: string | null;
+  helpHours?: string | null;
+  helpButtonLabel?: string | null;
+  helpMessage?: string | null;
+  benefitsTitle?: string | null;
+  benefits?:
+    | {
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-privacy".
+ */
+export interface PagePrivacy {
+  id: number;
+  title?: string | null;
+  updated?: string | null;
+  sections?:
+    | {
+        /**
+         * Kosongkan untuk paragraf tanpa subjudul.
+         */
+        heading?: string | null;
+        body?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-terms".
+ */
+export interface PageTerm {
+  id: number;
+  title?: string | null;
+  updated?: string | null;
+  sections?:
+    | {
+        /**
+         * Kosongkan untuk paragraf tanpa subjudul.
+         */
+        heading?: string | null;
+        body?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  seo?: {
+    /**
+     * Nama resor ditambahkan otomatis di belakang judul. Kosongkan untuk memakai judul bawaan situs.
+     */
+    title?: string | null;
+    /**
+     * Ideal 140 sampai 160 karakter.
+     */
+    description?: string | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -814,6 +2053,8 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   instagramUrl?: T;
   facebookUrl?: T;
   tiktokUrl?: T;
+  googleMapsUrl?: T;
+  mapEmbedUrl?: T;
   defaultSeoTitle?: T;
   defaultSeoDescription?: T;
   defaultSeoImage?: T;
@@ -824,21 +2065,914 @@ export interface SiteSettingsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "page-heroes_select".
+ * via the `definition` "site-layout_select".
  */
-export interface PageHeroesSelect<T extends boolean = true> {
-  about?: T;
-  events?: T;
-  ballroom?: T;
-  dining?: T;
-  experiences?: T;
-  facilities?: T;
-  gallery?: T;
-  nearby?: T;
-  offers?: T;
-  rooms?: T;
-  spa?: T;
-  wedding?: T;
+export interface SiteLayoutSelect<T extends boolean = true> {
+  logos?:
+    | T
+    | {
+        header?: T;
+        headerWhite?: T;
+        menu?: T;
+        favicon?: T;
+      };
+  header?:
+    | T
+    | {
+        menuLabel?: T;
+        reserveLabel?: T;
+      };
+  menu?:
+    | T
+    | {
+        categories?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              links?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        quickLinks?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+        closeLabel?: T;
+        viewPageLabel?: T;
+        emptyCategoryText?: T;
+        visitPageLabel?: T;
+        whatsappMessage?: T;
+        weatherLocation?: T;
+        altitude?: T;
+        propertyHeading?: T;
+        frontDeskHeading?: T;
+        frontDeskLabel?: T;
+        serviceHeading?: T;
+        serviceHours?: T;
+        propertiesHeading?: T;
+        properties?:
+          | T
+          | {
+              icon?: T;
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+      };
+  footer?:
+    | T
+    | {
+        copyright?: T;
+        legalLinks?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+        contactLabel?: T;
+        contactHref?: T;
+        directionsLabel?: T;
+        shareLabel?: T;
+        shareCopiedLabel?: T;
+      };
+  whatsapp?:
+    | T
+    | {
+        label?: T;
+        message?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ui-text_select".
+ */
+export interface UiTextSelect<T extends boolean = true> {
+  common?:
+    | T
+    | {
+        scrollHint?: T;
+      };
+  roomCard?:
+    | T
+    | {
+        fallbackDescription?: T;
+        sizeLabel?: T;
+        capacityLabel?: T;
+        bedLabel?: T;
+        amenitiesLabel?: T;
+        detailButton?: T;
+      };
+  roomDetail?:
+    | T
+    | {
+        back?: T;
+        breadcrumb?: T;
+        fallbackDescription?: T;
+        availabilityEyebrow?: T;
+        reserveButton?: T;
+        capacityLabel?: T;
+        sizeLabel?: T;
+        bedLabel?: T;
+        viewLabel?: T;
+        unknownValue?: T;
+        defaultView?: T;
+        descriptionHeading?: T;
+        fallbackLongDescription?: T;
+        amenitiesHeading?: T;
+        amenitiesEmpty?: T;
+        checkEyebrow?: T;
+        checkTitle?: T;
+        checkInLabel?: T;
+        checkOutLabel?: T;
+        checkButton?: T;
+        whatsappButton?: T;
+        whatsappMessage?: T;
+        policyNote?: T;
+        relatedEyebrow?: T;
+        relatedTitle?: T;
+        viewAll?: T;
+      };
+  treatmentCard?:
+    | T
+    | {
+        duration?: T;
+        benefitsHeading?: T;
+        bookButton?: T;
+      };
+  weddingDetail?:
+    | T
+    | {
+        back?: T;
+        breadcrumb?: T;
+        eyebrow?: T;
+        consultEyebrow?: T;
+        consultButton?: T;
+        capacityLabel?: T;
+        capacityFallback?: T;
+        venueLabel?: T;
+        venueFallback?: T;
+        scheduleLabel?: T;
+        scheduleFallback?: T;
+        descriptionHeading?: T;
+        inclusionsHeading?: T;
+        ctaTitle?: T;
+        ctaBody?: T;
+        proposalButton?: T;
+        whatsappButton?: T;
+        whatsappMessage?: T;
+      };
+  nearby?:
+    | T
+    | {
+        distanceCard?: T;
+        detailButton?: T;
+        directionsButton?: T;
+        back?: T;
+        breadcrumb?: T;
+        distanceBadge?: T;
+        mapsButton?: T;
+        stayButton?: T;
+        aboutHeading?: T;
+        tipsHeading?: T;
+        infoEyebrow?: T;
+        distanceLabel?: T;
+        addressLabel?: T;
+        openMapsButton?: T;
+        bannerEyebrow?: T;
+        bannerTitle?: T;
+        bannerBody?: T;
+        bannerButton?: T;
+      };
+  journalDetail?:
+    | T
+    | {
+        back?: T;
+        notFound?: T;
+        byline?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-text_select".
+ */
+export interface FormTextSelect<T extends boolean = true> {
+  reservationModal?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+        successTitle?: T;
+        successBody?: T;
+        successGreeting?: T;
+        whatsappButton?: T;
+        whatsappMessage?: T;
+        closeButton?: T;
+        closeLabel?: T;
+        typeRoom?: T;
+        typeSpa?: T;
+        typeWedding?: T;
+        typeEvent?: T;
+        nameLabel?: T;
+        namePlaceholder?: T;
+        phoneLabel?: T;
+        phonePlaceholder?: T;
+        emailLabel?: T;
+        emailPlaceholder?: T;
+        checkInLabel?: T;
+        checkOutLabel?: T;
+        roomLabel?: T;
+        spaDateLabel?: T;
+        eventDateLabel?: T;
+        treatmentLabel?: T;
+        treatmentPlaceholder?: T;
+        venueLabel?: T;
+        venuePlaceholder?: T;
+        guestsLabel?: T;
+        notesLabel?: T;
+        notesPlaceholder?: T;
+        submitLabel?: T;
+        submittingLabel?: T;
+        errorMessage?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-home_select".
+ */
+export interface PageHomeSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        video?: T;
+        poster?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  intro?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  introLinkLabel?: T;
+  introLinkUrl?: T;
+  featuredRooms?:
+    | T
+    | {
+        slug?: T;
+        id?: T;
+      };
+  roomsTitle?: T;
+  roomsIntro?: T;
+  roomsCardLabel?: T;
+  roomsButtonLabel?: T;
+  bestOfTitle?: T;
+  bestOf?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        href?: T;
+        id?: T;
+      };
+  location?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  mapsButtonLabel?: T;
+  directionsButtonLabel?: T;
+  directionsMessage?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-about_select".
+ */
+export interface PageAboutSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  storyTitle?: T;
+  storyBody?: T;
+  pillars?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        body?: T;
+        id?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-rooms_select".
+ */
+export interface PageRoomsSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  allFilterLabel?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-spa_select".
+ */
+export interface PageSpaSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  menu?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-dining_select".
+ */
+export interface PageDiningSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  menuHeading?: T;
+  reserveButtonLabel?: T;
+  reserveMessage?: T;
+  whatsappMessage?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-experiences_select".
+ */
+export interface PageExperiencesSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  reserveButtonLabel?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-facilities_select".
+ */
+export interface PageFacilitiesSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  allFilterLabel?: T;
+  groups?:
+    | T
+    | {
+        category?: T;
+        label?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  cta?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  ctaButtonLabel?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-gallery_select".
+ */
+export interface PageGallerySelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-nearby_select".
+ */
+export interface PageNearbySelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-offers_select".
+ */
+export interface PageOffersSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  inclusionsHeading?: T;
+  reserveButtonLabel?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-wedding_select".
+ */
+export interface PageWeddingSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  packages?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  inclusionsHeading?: T;
+  detailButtonLabel?: T;
+  consultButtonLabel?: T;
+  venues?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  venueList?:
+    | T
+    | {
+        image?: T;
+        icon?: T;
+        label?: T;
+        title?: T;
+        body?: T;
+        id?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-ballroom_select".
+ */
+export interface PageBallroomSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  spaces?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        eyebrow?: T;
+        title?: T;
+        body?: T;
+        features?:
+          | T
+          | {
+              label?: T;
+              id?: T;
+            };
+        buttonLabel?: T;
+        id?: T;
+      };
+  whatsappMessage?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-events_select".
+ */
+export interface PageEventsSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        image?: T;
+        imageAlt?: T;
+        title?: T;
+        subtitle?: T;
+        scrollLabel?: T;
+      };
+  cards?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        body?: T;
+        buttonLabel?: T;
+        id?: T;
+      };
+  whatsappMessage?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-journal_select".
+ */
+export interface PageJournalSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  readMoreLabel?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-contact_select".
+ */
+export interface PageContactSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  location?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  addressCardTitle?: T;
+  whatsappEyebrow?: T;
+  whatsappTitle?: T;
+  whatsappBody?: T;
+  whatsappMessage?: T;
+  form?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  formLabels?:
+    | T
+    | {
+        nameLabel?: T;
+        namePlaceholder?: T;
+        emailLabel?: T;
+        emailPlaceholder?: T;
+        phoneLabel?: T;
+        phonePlaceholder?: T;
+        subjectLabel?: T;
+        subjectPlaceholder?: T;
+        messageLabel?: T;
+        messagePlaceholder?: T;
+        submitLabel?: T;
+        submittingLabel?: T;
+        errorMessage?: T;
+      };
+  successTitle?: T;
+  successBody?: T;
+  sendAnotherLabel?: T;
+  map?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  mapButtonLabel?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-reserve_select".
+ */
+export interface PageReserveSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+      };
+  formLabels?:
+    | T
+    | {
+        typeLabel?: T;
+        typeRoom?: T;
+        typeSpa?: T;
+        typeWedding?: T;
+        roomLabel?: T;
+        checkInLabel?: T;
+        checkOutLabel?: T;
+        guestsLabel?: T;
+        guestsOption?: T;
+        targetDateLabel?: T;
+        nameLabel?: T;
+        namePlaceholder?: T;
+        phoneLabel?: T;
+        phonePlaceholder?: T;
+        emailLabel?: T;
+        emailPlaceholder?: T;
+        notesLabel?: T;
+        notesPlaceholder?: T;
+        submitLabel?: T;
+        submittingLabel?: T;
+        submitNote?: T;
+        errorMessage?: T;
+      };
+  successTitle?: T;
+  successBody?: T;
+  summaryService?: T;
+  summaryRoom?: T;
+  summaryStay?: T;
+  summaryStayValue?: T;
+  summaryGuests?: T;
+  summaryDate?: T;
+  confirmButton?: T;
+  confirmMessage?: T;
+  newReservationButton?: T;
+  roomDetailLink?: T;
+  bedFallback?: T;
+  helpTitle?: T;
+  helpSubtitle?: T;
+  helpBody?: T;
+  helpHours?: T;
+  helpButtonLabel?: T;
+  helpMessage?: T;
+  benefitsTitle?: T;
+  benefits?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-privacy_select".
+ */
+export interface PagePrivacySelect<T extends boolean = true> {
+  title?: T;
+  updated?: T;
+  sections?:
+    | T
+    | {
+        heading?: T;
+        body?: T;
+        id?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "page-terms_select".
+ */
+export interface PageTermsSelect<T extends boolean = true> {
+  title?: T;
+  updated?: T;
+  sections?:
+    | T
+    | {
+        heading?: T;
+        body?: T;
+        id?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

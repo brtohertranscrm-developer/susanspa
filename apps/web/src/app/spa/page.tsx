@@ -1,10 +1,15 @@
-import { getSpaTreatments, getPageHero } from '@/lib/cms';
+import type { Metadata } from 'next';
+import { spaPage } from '@susan/contracts/content';
+import { getSpaTreatments } from '@/lib/cms';
+import { getPageContent, seoMetadata } from '@/lib/content';
 import SpaPageClient from './SpaPageClient';
 
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent(spaPage);
+  return seoMetadata(content.seo);
+}
+
 export default async function SpaPage() {
-  const [treatments, heroImage] = await Promise.all([
-    getSpaTreatments(),
-    getPageHero('spa', 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/IMG_0174.avif?tr=w-1920'),
-  ]);
-  return <SpaPageClient treatments={treatments} heroImage={heroImage} />;
+  const [treatments, content] = await Promise.all([getSpaTreatments(), getPageContent(spaPage)]);
+  return <SpaPageClient treatments={treatments} content={content} />;
 }
