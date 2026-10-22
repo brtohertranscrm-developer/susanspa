@@ -13,6 +13,7 @@ import { Rooms } from './collections/Rooms'
 import { Users } from './collections/Users'
 import { contentPages, formText, siteLayout, uiText } from '@susan/contracts/content'
 import { contentGlobal } from './lib/contentFields'
+import { collapsiblesToTabs } from './lib/editorLayout'
 import { SiteSettings } from './globals/SiteSettings'
 import { Pages } from './collections/Pages'
 import { CARDS_PER_PAGE } from './lib/listCards'
@@ -114,6 +115,7 @@ export default buildConfig({
     const nav = NAV[collection.slug]
     return {
       ...collection,
+      fields: collapsiblesToTabs(collection.fields),
       labels:
         nav?.label && collection.labels
           ? { singular: nav.singular ?? collection.labels.singular, plural: nav.label }
