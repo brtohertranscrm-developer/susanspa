@@ -1,0 +1,277 @@
+/* Daftar koleksi sebagai kartu bergambar. Markup dari components/list/CardGrid.tsx. */
+
+/* Kartu tidak punya kolom, dan jumlah per halaman tetap 10, jadi kedua pengaturan tabel ini disembunyikan. */
+.collection-list:has(.susan-cards) .list-controls__toggle-columns,
+.collection-list:has(.susan-cards) .per-page {
+  display: none !important;
+}
+
+/* Bingkai tabel bawaan tidak dipakai untuk kartu. */
+.collection-list:has(.susan-cards) .collection-list__tables {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+.susan-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.susan-cards__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+}
+
+.susan-cards__select-all,
+.susan-cards__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cms-text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.susan-cards__select-all input,
+.susan-doc__check input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--cms-blue-600);
+  cursor: pointer;
+}
+
+.susan-cards__count {
+  margin: 0 auto 0 0;
+  color: var(--cms-text-muted);
+  font-size: 14px;
+}
+
+.susan-cards__select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.susan-cards__select svg {
+  position: absolute;
+  right: 10px;
+  color: var(--cms-text-muted);
+  pointer-events: none;
+}
+
+.susan-cards__select select {
+  min-height: 40px;
+  padding: 6px 34px 6px 12px;
+  border: 1px solid var(--cms-input-border);
+  border-radius: 8px;
+  background: var(--cms-surface);
+  color: var(--cms-text);
+  font: inherit;
+  font-size: 14px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.susan-cards__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.susan-doc {
+  position: relative;
+  display: flex;
+  border: 1px solid var(--cms-border);
+  border-radius: 14px;
+  background: var(--cms-surface);
+  box-shadow: var(--cms-shadow-subtle);
+  overflow: hidden;
+  transition:
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.susan-doc:hover {
+  border-color: var(--cms-blue-200);
+  box-shadow: var(--cms-shadow-card);
+  transform: translateY(-2px);
+}
+
+.susan-doc:focus-within {
+  outline: 2px solid var(--cms-blue-600);
+  outline-offset: 2px;
+}
+
+.susan-doc--selected {
+  border-color: var(--cms-blue-600);
+  box-shadow: 0 0 0 1px var(--cms-blue-600);
+}
+
+.susan-doc__check {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  display: inline-flex;
+  padding: 6px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--cms-shadow-subtle);
+  cursor: pointer;
+}
+
+.susan-doc__link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none !important;
+}
+
+.susan-doc__link:focus-visible {
+  outline: none;
+}
+
+.susan-doc__media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--cms-surface-muted);
+  border-bottom: 1px solid var(--cms-border-light);
+}
+
+.susan-doc__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.susan-doc__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--cms-text-muted);
+  font-size: 13px;
+}
+
+.susan-doc__initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--cms-navy-900);
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.susan-doc__status {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 10px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.susan-doc__status--success {
+  border-color: var(--cms-success-border);
+  background: var(--cms-success-bg);
+  color: var(--cms-success);
+}
+
+.susan-doc__status--warning {
+  border-color: var(--cms-warning-border);
+  background: var(--cms-warning-bg);
+  color: var(--cms-warning);
+}
+
+.susan-doc__status--neutral {
+  border-color: var(--cms-border);
+  background: var(--cms-neutral-bg);
+  color: var(--cms-neutral);
+}
+
+.susan-doc__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px 16px;
+}
+
+.susan-doc__title {
+  margin: 0;
+  color: var(--cms-text);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.susan-doc__link:hover .susan-doc__title {
+  color: var(--cms-blue-700);
+}
+
+.susan-doc__meta {
+  margin: 0;
+  color: var(--cms-text-secondary);
+  font-size: 13.5px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.susan-doc__time {
+  margin: auto 0 0;
+  padding-top: 6px;
+  color: var(--cms-text-muted);
+  font-size: 12.5px;
+}
+
+@media (max-width: 768px) {
+  .susan-cards__grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .susan-doc__body {
+    padding: 12px;
+  }
+
+  .susan-doc__title {
+    font-size: 15px;
+  }
+
+  .susan-doc__status {
+    top: 8px;
+    right: 8px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .susan-doc,
+  .susan-doc:hover {
+    transition: none;
+    transform: none;
+  }
+}

@@ -15,6 +15,7 @@ import { contentPages, formText, siteLayout, uiText } from '@susan/contracts/con
 import { contentGlobal } from './lib/contentFields'
 import { SiteSettings } from './globals/SiteSettings'
 import { Pages } from './collections/Pages'
+import { CARDS_PER_PAGE } from './lib/listCards'
 import { NAV } from './lib/navigation'
 
 const PAGE_PATHS: Record<string, string> = {
@@ -117,7 +118,20 @@ export default buildConfig({
         nav?.label && collection.labels
           ? { singular: nav.singular ?? collection.labels.singular, plural: nav.label }
           : collection.labels,
-      admin: { ...collection.admin, group: nav?.group ?? collection.admin?.group, hideAPIURL: true },
+      admin: {
+        ...collection.admin,
+        group: nav?.group ?? collection.admin?.group,
+        hideAPIURL: true,
+        // Semua daftar tampil sebagai kartu bergambar, 10 per halaman.
+        pagination: { defaultLimit: CARDS_PER_PAGE, limits: [CARDS_PER_PAGE] },
+        components: {
+          ...collection.admin?.components,
+          views: {
+            ...collection.admin?.components?.views,
+            list: { Component: '@/components/list/CardListView#CardListView' },
+          },
+        },
+      },
     }
   }),
   // Tab "API" berisi JSON mentah yang tidak dibutuhkan tim konten. Rutenya tetap ada untuk admin.
@@ -152,9 +166,7 @@ export default buildConfig({
   typescript: { outputFile: path.resolve(directory, 'payload-types.ts') },
   db: postgresAdapter({
     pool: {
-      connectionString:
-        process.env.DATABASE_URL ||
-        'postgres://susan_cms:susan_cms_local@127.0.0.1:5433/susan_cms',
+      connectionString: process.env.DATABASE_URL || 'postgres://susan_cms:susan_cms_local@127.0.0.1:5433/susan_cms',
     },
   }),
   sharp,

@@ -23,6 +23,7 @@ import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93
 import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { CardListView as CardListView_222aea13edae852f23f6435d6c40f414 } from '@/components/list/CardListView'
 import { SeoPreview as SeoPreview_e6dee50e8e53ec63de3824b9604d1b00 } from '@/components/seo/SeoPreview'
 import { ArrayRowLabel as ArrayRowLabel_d959508a9af4112312c6144edad7c9f3 } from '@/components/ArrayRowLabel'
 import { SidebarNav as SidebarNav_ef44d9c7f31de6b55854813e2129f5b3 } from '@/components/sidebar/SidebarNav'
@@ -59,6 +60,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/components/list/CardListView#CardListView": CardListView_222aea13edae852f23f6435d6c40f414,
   "@/components/seo/SeoPreview#SeoPreview": SeoPreview_e6dee50e8e53ec63de3824b9604d1b00,
   "@/components/ArrayRowLabel#ArrayRowLabel": ArrayRowLabel_d959508a9af4112312c6144edad7c9f3,
   "@/components/sidebar/SidebarNav#SidebarNav": SidebarNav_ef44d9c7f31de6b55854813e2129f5b3,
