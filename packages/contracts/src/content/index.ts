@@ -25,7 +25,7 @@ import {
   termsPage,
   weddingPage,
 } from './pages.js'
-import { uiText } from './ui-text.js'
+import { formText, uiText } from './ui-text.js'
 
 /** Semua halaman yang isinya diatur dari CMS, dalam urutan menu CMS. */
 export const contentPages = [
@@ -49,4 +49,4 @@ export const contentPages = [
   termsPage,
 ] as const
 
-export const contentGlobals = [siteLayout, uiText, ...contentPages] as const
+export const contentGlobals = [siteLayout, uiText, formText, ...contentPages] as const

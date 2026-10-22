@@ -3,7 +3,7 @@ import './globals.css';
 import { SiteConfigProvider } from '@/components/global/SiteConfigProvider';
 import { SiteContentProvider } from '@/components/global/SiteContentProvider';
 import { getSiteSettings } from '@/lib/site-config';
-import { getLayoutContent, getUiText } from '@/lib/content';
+import { getFormText, getLayoutContent, getUiText } from '@/lib/content';
 import { getRooms, getSpaTreatments } from '@/lib/cms';
 
 // Build di CI tidak punya CMS_API_URL. Tanpa ini, halaman yang membaca CMS terkunci di data saat build.
@@ -85,10 +85,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [{ site }, layout, ui, rooms, treatments] = await Promise.all([
+  const [{ site }, layout, ui, forms, rooms, treatments] = await Promise.all([
     getSiteSettings(),
     getLayoutContent(),
     getUiText(),
+    getFormText(),
     getRooms(),
     getSpaTreatments(),
   ]);
@@ -137,7 +138,7 @@ export default async function RootLayout({
       </head>
       <body className="antialiased selection:bg-champagne selection:text-forest-deep">
         <SiteConfigProvider value={site}>
-          <SiteContentProvider value={{ layout, ui, catalog }}>{children}</SiteContentProvider>
+          <SiteContentProvider value={{ layout, ui, forms, catalog }}>{children}</SiteContentProvider>
         </SiteConfigProvider>
       </body>
     </html>

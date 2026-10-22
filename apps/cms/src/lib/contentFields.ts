@@ -84,25 +84,36 @@ const toPayloadField = (field: ContentField): Field => {
   }
 }
 
+const countTexts = (fields: readonly ContentField[]): number =>
+  fields.reduce((total, field) => total + (field.kind === 'group' ? countTexts(field.fields) : field.kind === 'text' ? 1 : 0), 0)
+
+// Postgres menolak membaca lebih dari 100 kolom terjemahan sekaligus, jadi global yang terlalu besar harus dipecah.
+const MAX_TEXTS_PER_GLOBAL = 90
+
 export const contentGlobal = (
   spec: ContentPage,
   options: { group: string; previewPath?: string },
-): GlobalConfig => ({
-  slug: spec.slug,
-  label: spec.label,
-  admin: {
-    group: options.group,
-    description: [spec.description, 'Perubahan tampil di website paling lama 5 menit setelah disimpan.'].filter(Boolean).join(' '),
-    ...(options.previewPath
-      ? { preview: () => `${(process.env.WEB_URL || 'http://localhost:3000').replace(/\/$/, '')}${options.previewPath}` }
-      : {}),
-  },
-  access: {
-    read: () => true,
-    update: canManageContent,
-  },
-  fields: spec.fields.map(toPayloadField),
-})
+): GlobalConfig => {
+  if (countTexts(spec.fields) > MAX_TEXTS_PER_GLOBAL) {
+    throw new Error(`Global ${spec.slug} punya lebih dari ${MAX_TEXTS_PER_GLOBAL} teks di luar daftar. Pecah menjadi dua global.`)
+  }
+  return {
+    slug: spec.slug,
+    label: spec.label,
+    admin: {
+      group: options.group,
+      description: [spec.description, 'Perubahan tampil di website paling lama 5 menit setelah disimpan.'].filter(Boolean).join(' '),
+      ...(options.previewPath
+        ? { preview: () => `${(process.env.WEB_URL || 'http://localhost:3000').replace(/\/$/, '')}${options.previewPath}` }
+        : {}),
+    },
+    access: {
+      read: () => true,
+      update: canManageContent,
+    },
+    fields: spec.fields.map(toPayloadField),
+  }
+}
 
 /** Isi awal sebuah global: semua teks bawaan tanpa foto, karena foto memakai fallback di web. */
 export const initialData = (fields: readonly ContentField[]): Record<string, unknown> => {

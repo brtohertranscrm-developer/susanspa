@@ -12,6 +12,7 @@ import type { contactPage, PageContent } from '@susan/contracts/content';
 
 export default function ContactPageClient({ content }: { content: PageContent<typeof contactPage> }) {
   const site = useSiteConfig();
+  const labels = content.formLabels;
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -33,7 +34,7 @@ export default function ContactPageClient({ content }: { content: PageContent<ty
       });
       setSubmitted(true);
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : 'Pesan belum dapat dikirim.');
+      setSubmitError(error instanceof Error ? error.message : labels.errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -170,7 +171,7 @@ export default function ContactPageClient({ content }: { content: PageContent<ty
                   onClick={() => setSubmitted(false)}
                   className="mt-4 text-xs uppercase tracking-wider text-champagne underline hover:text-champagne-light"
                 >
-                  Kirim Pesan Lain
+                  {content.sendAnotherLabel}
                 </button>
               </div>
             ) : (
@@ -184,14 +185,14 @@ export default function ContactPageClient({ content }: { content: PageContent<ty
                 {/* Full Name */}
                 <div className="space-y-1">
                   <label htmlFor="contact-fullName" className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
-                    Nama Lengkap *
+                    {labels.nameLabel}
                   </label>
                   <input
                     id="contact-fullName"
                     type="text"
                     name="fullName"
                     required
-                    placeholder="Nama lengkap Anda"
+                    placeholder={labels.namePlaceholder}
                     className="w-full bg-forest border border-white/10 rounded-xl px-4 py-3 text-ivory placeholder:text-ivory/40 focus:border-champagne focus:outline-none"
                   />
                 </div>
@@ -199,14 +200,14 @@ export default function ContactPageClient({ content }: { content: PageContent<ty
                 {/* Email */}
                 <div className="space-y-1">
                   <label htmlFor="contact-email" className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
-                    Alamat Email *
+                    {labels.emailLabel}
                   </label>
                   <input
                     id="contact-email"
                     type="email"
                     name="email"
                     required
-                    placeholder="alamat@email.com"
+                    placeholder={labels.emailPlaceholder}
                     className="w-full bg-forest border border-white/10 rounded-xl px-4 py-3 text-ivory placeholder:text-ivory/40 focus:border-champagne focus:outline-none"
                   />
                 </div>
@@ -214,14 +215,14 @@ export default function ContactPageClient({ content }: { content: PageContent<ty
                 {/* Phone / WhatsApp */}
                 <div className="space-y-1">
                   <label htmlFor="contact-phone" className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
-                    Nomor Telepon / WhatsApp *
+                    {labels.phoneLabel}
                   </label>
                   <input
                     id="contact-phone"
                     type="tel"
                     name="phone"
                     required
-                    placeholder="+62 812 xxxx xxxx"
+                    placeholder={labels.phonePlaceholder}
                     className="w-full bg-forest border border-white/10 rounded-xl px-4 py-3 text-ivory placeholder:text-ivory/40 focus:border-champagne focus:outline-none"
                   />
                 </div>
@@ -229,13 +230,13 @@ export default function ContactPageClient({ content }: { content: PageContent<ty
                 {/* Subject */}
                 <div className="space-y-1">
                   <label htmlFor="contact-subject" className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
-                    Topik Pertanyaan / Keperluan
+                    {labels.subjectLabel}
                   </label>
                   <input
                     id="contact-subject"
                     type="text"
                     name="subject"
-                    placeholder="Contoh: Reservasi Kamar, Paket Wedding, Spa"
+                    placeholder={labels.subjectPlaceholder}
                     className="w-full bg-forest border border-white/10 rounded-xl px-4 py-3 text-ivory placeholder:text-ivory/40 focus:border-champagne focus:outline-none"
                   />
                 </div>
@@ -243,14 +244,14 @@ export default function ContactPageClient({ content }: { content: PageContent<ty
                 {/* Message */}
                 <div className="space-y-1">
                   <label htmlFor="contact-message" className="text-[10px] uppercase tracking-wider text-champagne/90 font-semibold block">
-                    Pesan / Detail Kebutuhan Anda *
+                    {labels.messageLabel}
                   </label>
                   <textarea
                     id="contact-message"
                     name="message"
                     required
                     rows={4}
-                    placeholder="Tuliskan pesan atau pertanyaan Anda di sini..."
+                    placeholder={labels.messagePlaceholder}
                     className="w-full bg-forest border border-white/10 rounded-xl px-4 py-3 text-ivory placeholder:text-ivory/40 focus:border-champagne focus:outline-none resize-none"
                   />
                 </div>
@@ -263,7 +264,7 @@ export default function ContactPageClient({ content }: { content: PageContent<ty
                     className="w-full bg-champagne hover:bg-champagne-light text-forest-deep font-bold uppercase tracking-[0.2em] text-xs py-3.5 rounded-full shadow-lg transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
                   >
                     <Send className="w-4 h-4" />
-                    <span>{submitting ? 'Sedang Mengirim...' : 'Kirim Pesan'}</span>
+                    <span>{submitting ? labels.submittingLabel : labels.submitLabel}</span>
                   </button>
                 </div>
               </form>

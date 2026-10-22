@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { cache } from 'react';
 import {
   defaultsOf,
+  formText,
   siteLayout,
   uiText,
   type ContentField,
@@ -88,9 +89,11 @@ export async function getPageContent<P extends ContentPage>(spec: P): Promise<Pa
 
 export type LayoutContent = PageContent<typeof siteLayout>;
 export type UiText = PageContent<typeof uiText>;
+export type FormText = PageContent<typeof formText>;
 
 export const getLayoutContent = () => getPageContent(siteLayout);
 export const getUiText = () => getPageContent(uiText);
+export const getFormText = () => getPageContent(formText);
 
 /** Judul dan deskripsi halaman dari bagian "SEO halaman". Field kosong memakai bawaan situs. */
 export function seoMetadata(seo: { title: string; description: string }): Metadata {

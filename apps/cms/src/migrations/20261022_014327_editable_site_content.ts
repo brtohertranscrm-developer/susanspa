@@ -304,13 +304,53 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"journal_detail_back" varchar DEFAULT 'Kembali ke Jurnal',
   	"journal_detail_not_found" varchar DEFAULT 'Artikel Tidak Ditemukan',
   	"journal_detail_byline" varchar DEFAULT 'Oleh {nama} ({peran})',
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"_locale" "_locales" NOT NULL,
+  	"_parent_id" integer NOT NULL
+  );
+  
+  CREATE TABLE "form_text" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"updated_at" timestamp(3) with time zone,
+  	"created_at" timestamp(3) with time zone
+  );
+  
+  CREATE TABLE "form_text_locales" (
   	"reservation_modal_eyebrow" varchar DEFAULT 'Layanan Reservasi & Informasi',
   	"reservation_modal_title" varchar DEFAULT 'Rencanakan Kunjungan Istimewa Anda',
   	"reservation_modal_intro" varchar DEFAULT 'Silakan lengkapi formulir di bawah ini. Tim concierge kami akan dengan senang hati memeriksa ketersediaan dan menghubungi Anda secara pribadi.',
   	"reservation_modal_success_title" varchar DEFAULT 'Permintaan Reservasi Telah Diterima',
   	"reservation_modal_success_body" varchar DEFAULT 'Tim concierge Susan Spa & Resort akan segera menghubungi Anda melalui WhatsApp atau email untuk konfirmasi ketersediaan kamar dan panduan pembayaran.',
+  	"reservation_modal_success_greeting" varchar DEFAULT 'Terima kasih, Bapak/Ibu {nama}. Permintaan Anda telah tercatat dengan nomor referensi: {kode}.',
   	"reservation_modal_whatsapp_button" varchar DEFAULT 'Hubungi WhatsApp Concierge',
+  	"reservation_modal_whatsapp_message" varchar DEFAULT 'Halo Susan Spa & Resort, saya telah mengirimkan permintaan reservasi dengan nomor referensi {kode} atas nama {nama}. Mohon konfirmasinya. Terima kasih.',
   	"reservation_modal_close_button" varchar DEFAULT 'Tutup Jendela',
+  	"reservation_modal_close_label" varchar DEFAULT 'Tutup jendela reservasi',
+  	"reservation_modal_type_room" varchar DEFAULT 'Kamar & Villa',
+  	"reservation_modal_type_spa" varchar DEFAULT 'Spa Ritual',
+  	"reservation_modal_type_wedding" varchar DEFAULT 'Pernikahan',
+  	"reservation_modal_type_event" varchar DEFAULT 'Acara / Meeting',
+  	"reservation_modal_name_label" varchar DEFAULT 'Nama Lengkap',
+  	"reservation_modal_name_placeholder" varchar DEFAULT 'Contoh: Bapak Hendra Kusuma',
+  	"reservation_modal_phone_label" varchar DEFAULT 'Nomor WhatsApp / Telepon',
+  	"reservation_modal_phone_placeholder" varchar DEFAULT 'Contoh: 08123456789',
+  	"reservation_modal_email_label" varchar DEFAULT 'Alamat Email',
+  	"reservation_modal_email_placeholder" varchar DEFAULT 'Contoh: hendra@email.com',
+  	"reservation_modal_check_in_label" varchar DEFAULT 'Tanggal Check-In',
+  	"reservation_modal_check_out_label" varchar DEFAULT 'Tanggal Check-Out',
+  	"reservation_modal_room_label" varchar DEFAULT 'Pilihan Akomodasi',
+  	"reservation_modal_spa_date_label" varchar DEFAULT 'Rencana Tanggal Perawatan',
+  	"reservation_modal_event_date_label" varchar DEFAULT 'Perkiraan Tanggal Acara',
+  	"reservation_modal_treatment_label" varchar DEFAULT 'Pilihan Perawatan Spa',
+  	"reservation_modal_treatment_placeholder" varchar DEFAULT 'Konsultasikan rekomendasi terbaik dengan terapis',
+  	"reservation_modal_venue_label" varchar DEFAULT 'Preferensi Venue / Lokasi',
+  	"reservation_modal_venue_placeholder" varchar DEFAULT 'Contoh: La Kana Chapel, Sky Garden Outdoor, Frangipani Ballroom...',
+  	"reservation_modal_guests_label" varchar DEFAULT 'Perkiraan Jumlah Tamu',
+  	"reservation_modal_notes_label" varchar DEFAULT 'Catatan Tambahan / Permintaan Khusus',
+  	"reservation_modal_notes_placeholder" varchar DEFAULT 'Contoh: Permintaan ranjang bayi, preferensi lantai, dsb.',
+  	"reservation_modal_submit_label" varchar DEFAULT 'Kirimkan Permintaan Reservasi',
+  	"reservation_modal_submitting_label" varchar DEFAULT 'Mengirimkan Permintaan...',
+  	"reservation_modal_error_message" varchar DEFAULT 'Permintaan reservasi belum dapat dikirim. Silakan coba kembali.',
   	"id" serial PRIMARY KEY NOT NULL,
   	"_locale" "_locales" NOT NULL,
   	"_parent_id" integer NOT NULL
@@ -772,8 +812,22 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"form_eyebrow" varchar DEFAULT 'FORMULIR PERTANYAAN & RESERVASI',
   	"form_title" varchar DEFAULT 'Kirim Pesan Kepada Kami',
   	"form_intro" varchar DEFAULT 'Silakan sampaikan pertanyaan atau rencana kunjungan Anda, tim concierge kami akan segera merespons dengan senang hati.',
+  	"form_labels_name_label" varchar DEFAULT 'Nama Lengkap *',
+  	"form_labels_name_placeholder" varchar DEFAULT 'Nama lengkap Anda',
+  	"form_labels_email_label" varchar DEFAULT 'Alamat Email *',
+  	"form_labels_email_placeholder" varchar DEFAULT 'alamat@email.com',
+  	"form_labels_phone_label" varchar DEFAULT 'Nomor Telepon / WhatsApp *',
+  	"form_labels_phone_placeholder" varchar DEFAULT '+62 812 xxxx xxxx',
+  	"form_labels_subject_label" varchar DEFAULT 'Topik Pertanyaan / Keperluan',
+  	"form_labels_subject_placeholder" varchar DEFAULT 'Contoh: Reservasi Kamar, Paket Wedding, Spa',
+  	"form_labels_message_label" varchar DEFAULT 'Pesan / Detail Kebutuhan Anda *',
+  	"form_labels_message_placeholder" varchar DEFAULT 'Tuliskan pesan atau pertanyaan Anda di sini...',
+  	"form_labels_submit_label" varchar DEFAULT 'Kirim Pesan',
+  	"form_labels_submitting_label" varchar DEFAULT 'Sedang Mengirim...',
+  	"form_labels_error_message" varchar DEFAULT 'Pesan belum dapat dikirim.',
   	"success_title" varchar DEFAULT 'Terima Kasih',
   	"success_body" varchar DEFAULT 'Pesan Anda telah berhasil kami terima. Tim reservasi kami akan merespons melalui Email atau WhatsApp segera.',
+  	"send_another_label" varchar DEFAULT 'Kirim Pesan Lain',
   	"map_eyebrow" varchar DEFAULT 'PETA LOKASI INTERAKTIF',
   	"map_title" varchar DEFAULT 'Petunjuk Arah Google Maps',
   	"map_intro" varchar DEFAULT '',
@@ -808,7 +862,41 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"hero_eyebrow" varchar DEFAULT 'LAYANAN RESERVASI RESMI',
   	"hero_title" varchar DEFAULT 'Rencanakan Kunjungan Anda di Susan Spa & Resort',
   	"hero_intro" varchar DEFAULT 'Ketinggian ±1.100 mdpl lereng Gunung Ungaran, Bandungan. Silakan lengkapi formulir reservasi di bawah ini atau hubungi tim reservasi kami secara langsung via WhatsApp.',
+  	"form_labels_type_label" varchar DEFAULT 'Pilih Kategori Reservasi',
+  	"form_labels_type_room" varchar DEFAULT 'Kamar & Villa',
+  	"form_labels_type_spa" varchar DEFAULT 'Spa & Wellness',
+  	"form_labels_type_wedding" varchar DEFAULT 'Pernikahan',
+  	"form_labels_room_label" varchar DEFAULT 'Pilihan Tipe Kamar / Villa *',
+  	"form_labels_check_in_label" varchar DEFAULT 'Check-In *',
+  	"form_labels_check_out_label" varchar DEFAULT 'Check-Out *',
+  	"form_labels_guests_label" varchar DEFAULT 'Jumlah Tamu *',
+  	"form_labels_guests_option" varchar DEFAULT '{jumlah} Tamu',
+  	"form_labels_target_date_label" varchar DEFAULT 'Rencana Tanggal Kunjungan *',
+  	"form_labels_name_label" varchar DEFAULT 'Nama Lengkap Anda *',
+  	"form_labels_name_placeholder" varchar DEFAULT 'Nama lengkap pemesan',
+  	"form_labels_phone_label" varchar DEFAULT 'Nomor WhatsApp Aktif *',
+  	"form_labels_phone_placeholder" varchar DEFAULT '+62 812 xxxx xxxx',
+  	"form_labels_email_label" varchar DEFAULT 'Alamat Email *',
+  	"form_labels_email_placeholder" varchar DEFAULT 'alamat@email.com',
+  	"form_labels_notes_label" varchar DEFAULT 'Permintaan Khusus / Catatan Tambahan (Opsional)',
+  	"form_labels_notes_placeholder" varchar DEFAULT 'Contoh: Permintaan early check-in, dekorasi khusus honeymoon, dll.',
+  	"form_labels_submit_label" varchar DEFAULT 'Kirim Permintaan Reservasi',
+  	"form_labels_submitting_label" varchar DEFAULT 'Memproses Reservasi...',
+  	"form_labels_submit_note" varchar DEFAULT 'Tim kami akan menghubungi Anda untuk konfirmasi ketersediaan dan detail instruksi pembayaran.',
+  	"form_labels_error_message" varchar DEFAULT 'Terjadi kendala saat mengirim reservasi.',
   	"success_title" varchar DEFAULT 'Permintaan Reservasi Berhasil Diterima',
+  	"success_body" varchar DEFAULT 'Terima kasih, Bapak/Ibu {nama}. Data permintaan Anda telah tercatat dengan kode referensi: {kode}.',
+  	"summary_service" varchar DEFAULT 'Layanan',
+  	"summary_room" varchar DEFAULT 'Akomodasi',
+  	"summary_stay" varchar DEFAULT 'Jadwal Menginap',
+  	"summary_stay_value" varchar DEFAULT '{masuk} s.d. {keluar}',
+  	"summary_guests" varchar DEFAULT 'Jumlah Tamu',
+  	"summary_date" varchar DEFAULT 'Rencana Tanggal',
+  	"confirm_button" varchar DEFAULT 'Konfirmasi via WhatsApp',
+  	"confirm_message" varchar DEFAULT 'Halo Susan Spa & Resort, saya telah mengirim formulir reservasi dengan kode ref: {kode} atas nama {nama}.',
+  	"new_reservation_button" varchar DEFAULT 'Buat Reservasi Baru',
+  	"room_detail_link" varchar DEFAULT 'Lihat Detail Lengkap Kamar',
+  	"bed_fallback" varchar DEFAULT 'Kasur Nyaman',
   	"help_title" varchar DEFAULT 'Butuh Bantuan Cepat?',
   	"help_subtitle" varchar DEFAULT 'Hubungi langsung staf concierge Susan Spa',
   	"help_body" varchar DEFAULT 'Untuk pertanyaan ketersediaan tanggal, promo grup, atau pengaturan pernikahan di La Kana, tim kami aktif melayani setiap hari:',
@@ -952,6 +1040,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "site_layout" ADD CONSTRAINT "site_layout_logos_favicon_id_media_id_fk" FOREIGN KEY ("logos_favicon_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "site_layout_locales" ADD CONSTRAINT "site_layout_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."site_layout"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "ui_text_locales" ADD CONSTRAINT "ui_text_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."ui_text"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "form_text_locales" ADD CONSTRAINT "form_text_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."form_text"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "page_home_featured_rooms" ADD CONSTRAINT "page_home_featured_rooms_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."page_home"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "page_home_featured_rooms_locales" ADD CONSTRAINT "page_home_featured_rooms_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."page_home_featured_rooms"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "page_home_best_of" ADD CONSTRAINT "page_home_best_of_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
@@ -1053,6 +1142,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "site_layout_logos_logos_favicon_idx" ON "site_layout" USING btree ("logos_favicon_id");
   CREATE UNIQUE INDEX "site_layout_locales_locale_parent_id_unique" ON "site_layout_locales" USING btree ("_locale","_parent_id");
   CREATE UNIQUE INDEX "ui_text_locales_locale_parent_id_unique" ON "ui_text_locales" USING btree ("_locale","_parent_id");
+  CREATE UNIQUE INDEX "form_text_locales_locale_parent_id_unique" ON "form_text_locales" USING btree ("_locale","_parent_id");
   CREATE INDEX "page_home_featured_rooms_order_idx" ON "page_home_featured_rooms" USING btree ("_order");
   CREATE INDEX "page_home_featured_rooms_parent_id_idx" ON "page_home_featured_rooms" USING btree ("_parent_id");
   CREATE UNIQUE INDEX "page_home_featured_rooms_locales_locale_parent_id_unique" ON "page_home_featured_rooms_locales" USING btree ("_locale","_parent_id");
@@ -1184,6 +1274,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   ALTER TABLE "site_layout_locales" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "ui_text" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "ui_text_locales" DISABLE ROW LEVEL SECURITY;
+  ALTER TABLE "form_text" DISABLE ROW LEVEL SECURITY;
+  ALTER TABLE "form_text_locales" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "page_home_featured_rooms" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "page_home_featured_rooms_locales" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "page_home_best_of" DISABLE ROW LEVEL SECURITY;
@@ -1270,6 +1362,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "site_layout_locales" CASCADE;
   DROP TABLE "ui_text" CASCADE;
   DROP TABLE "ui_text_locales" CASCADE;
+  DROP TABLE "form_text" CASCADE;
+  DROP TABLE "form_text_locales" CASCADE;
   DROP TABLE "page_home_featured_rooms" CASCADE;
   DROP TABLE "page_home_featured_rooms_locales" CASCADE;
   DROP TABLE "page_home_best_of" CASCADE;

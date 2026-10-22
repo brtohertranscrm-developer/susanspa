@@ -11833,55 +11833,6 @@
           "notNull": false,
           "default": "'Oleh {nama} ({peran})'"
         },
-        "reservation_modal_eyebrow": {
-          "name": "reservation_modal_eyebrow",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'Layanan Reservasi & Informasi'"
-        },
-        "reservation_modal_title": {
-          "name": "reservation_modal_title",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'Rencanakan Kunjungan Istimewa Anda'"
-        },
-        "reservation_modal_intro": {
-          "name": "reservation_modal_intro",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'Silakan lengkapi formulir di bawah ini. Tim concierge kami akan dengan senang hati memeriksa ketersediaan dan menghubungi Anda secara pribadi.'"
-        },
-        "reservation_modal_success_title": {
-          "name": "reservation_modal_success_title",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'Permintaan Reservasi Telah Diterima'"
-        },
-        "reservation_modal_success_body": {
-          "name": "reservation_modal_success_body",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'Tim concierge Susan Spa & Resort akan segera menghubungi Anda melalui WhatsApp atau email untuk konfirmasi ketersediaan kamar dan panduan pembayaran.'"
-        },
-        "reservation_modal_whatsapp_button": {
-          "name": "reservation_modal_whatsapp_button",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'Hubungi WhatsApp Concierge'"
-        },
-        "reservation_modal_close_button": {
-          "name": "reservation_modal_close_button",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'Tutup Jendela'"
-        },
         "id": {
           "name": "id",
           "type": "serial",
@@ -11930,6 +11881,350 @@
           "name": "ui_text_locales_parent_id_fk",
           "tableFrom": "ui_text_locales",
           "tableTo": "ui_text",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.form_text": {
+      "name": "form_text",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.form_text_locales": {
+      "name": "form_text_locales",
+      "schema": "",
+      "columns": {
+        "reservation_modal_eyebrow": {
+          "name": "reservation_modal_eyebrow",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Layanan Reservasi & Informasi'"
+        },
+        "reservation_modal_title": {
+          "name": "reservation_modal_title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Rencanakan Kunjungan Istimewa Anda'"
+        },
+        "reservation_modal_intro": {
+          "name": "reservation_modal_intro",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Silakan lengkapi formulir di bawah ini. Tim concierge kami akan dengan senang hati memeriksa ketersediaan dan menghubungi Anda secara pribadi.'"
+        },
+        "reservation_modal_success_title": {
+          "name": "reservation_modal_success_title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Permintaan Reservasi Telah Diterima'"
+        },
+        "reservation_modal_success_body": {
+          "name": "reservation_modal_success_body",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Tim concierge Susan Spa & Resort akan segera menghubungi Anda melalui WhatsApp atau email untuk konfirmasi ketersediaan kamar dan panduan pembayaran.'"
+        },
+        "reservation_modal_success_greeting": {
+          "name": "reservation_modal_success_greeting",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Terima kasih, Bapak/Ibu {nama}. Permintaan Anda telah tercatat dengan nomor referensi: {kode}.'"
+        },
+        "reservation_modal_whatsapp_button": {
+          "name": "reservation_modal_whatsapp_button",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Hubungi WhatsApp Concierge'"
+        },
+        "reservation_modal_whatsapp_message": {
+          "name": "reservation_modal_whatsapp_message",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Halo Susan Spa & Resort, saya telah mengirimkan permintaan reservasi dengan nomor referensi {kode} atas nama {nama}. Mohon konfirmasinya. Terima kasih.'"
+        },
+        "reservation_modal_close_button": {
+          "name": "reservation_modal_close_button",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Tutup Jendela'"
+        },
+        "reservation_modal_close_label": {
+          "name": "reservation_modal_close_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Tutup jendela reservasi'"
+        },
+        "reservation_modal_type_room": {
+          "name": "reservation_modal_type_room",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Kamar & Villa'"
+        },
+        "reservation_modal_type_spa": {
+          "name": "reservation_modal_type_spa",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Spa Ritual'"
+        },
+        "reservation_modal_type_wedding": {
+          "name": "reservation_modal_type_wedding",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Pernikahan'"
+        },
+        "reservation_modal_type_event": {
+          "name": "reservation_modal_type_event",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Acara / Meeting'"
+        },
+        "reservation_modal_name_label": {
+          "name": "reservation_modal_name_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Nama Lengkap'"
+        },
+        "reservation_modal_name_placeholder": {
+          "name": "reservation_modal_name_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Contoh: Bapak Hendra Kusuma'"
+        },
+        "reservation_modal_phone_label": {
+          "name": "reservation_modal_phone_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Nomor WhatsApp / Telepon'"
+        },
+        "reservation_modal_phone_placeholder": {
+          "name": "reservation_modal_phone_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Contoh: 08123456789'"
+        },
+        "reservation_modal_email_label": {
+          "name": "reservation_modal_email_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Alamat Email'"
+        },
+        "reservation_modal_email_placeholder": {
+          "name": "reservation_modal_email_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Contoh: hendra@email.com'"
+        },
+        "reservation_modal_check_in_label": {
+          "name": "reservation_modal_check_in_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Tanggal Check-In'"
+        },
+        "reservation_modal_check_out_label": {
+          "name": "reservation_modal_check_out_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Tanggal Check-Out'"
+        },
+        "reservation_modal_room_label": {
+          "name": "reservation_modal_room_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Pilihan Akomodasi'"
+        },
+        "reservation_modal_spa_date_label": {
+          "name": "reservation_modal_spa_date_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Rencana Tanggal Perawatan'"
+        },
+        "reservation_modal_event_date_label": {
+          "name": "reservation_modal_event_date_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Perkiraan Tanggal Acara'"
+        },
+        "reservation_modal_treatment_label": {
+          "name": "reservation_modal_treatment_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Pilihan Perawatan Spa'"
+        },
+        "reservation_modal_treatment_placeholder": {
+          "name": "reservation_modal_treatment_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Konsultasikan rekomendasi terbaik dengan terapis'"
+        },
+        "reservation_modal_venue_label": {
+          "name": "reservation_modal_venue_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Preferensi Venue / Lokasi'"
+        },
+        "reservation_modal_venue_placeholder": {
+          "name": "reservation_modal_venue_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Contoh: La Kana Chapel, Sky Garden Outdoor, Frangipani Ballroom...'"
+        },
+        "reservation_modal_guests_label": {
+          "name": "reservation_modal_guests_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Perkiraan Jumlah Tamu'"
+        },
+        "reservation_modal_notes_label": {
+          "name": "reservation_modal_notes_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Catatan Tambahan / Permintaan Khusus'"
+        },
+        "reservation_modal_notes_placeholder": {
+          "name": "reservation_modal_notes_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Contoh: Permintaan ranjang bayi, preferensi lantai, dsb.'"
+        },
+        "reservation_modal_submit_label": {
+          "name": "reservation_modal_submit_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Kirimkan Permintaan Reservasi'"
+        },
+        "reservation_modal_submitting_label": {
+          "name": "reservation_modal_submitting_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Mengirimkan Permintaan...'"
+        },
+        "reservation_modal_error_message": {
+          "name": "reservation_modal_error_message",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Permintaan reservasi belum dapat dikirim. Silakan coba kembali.'"
+        },
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "_locale": {
+          "name": "_locale",
+          "type": "_locales",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "form_text_locales_locale_parent_id_unique": {
+          "name": "form_text_locales_locale_parent_id_unique",
+          "columns": [
+            {
+              "expression": "_locale",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "form_text_locales_parent_id_fk": {
+          "name": "form_text_locales_parent_id_fk",
+          "tableFrom": "form_text_locales",
+          "tableTo": "form_text",
           "columnsFrom": [
             "_parent_id"
           ],
@@ -16288,6 +16583,97 @@
           "notNull": false,
           "default": "'Silakan sampaikan pertanyaan atau rencana kunjungan Anda, tim concierge kami akan segera merespons dengan senang hati.'"
         },
+        "form_labels_name_label": {
+          "name": "form_labels_name_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Nama Lengkap *'"
+        },
+        "form_labels_name_placeholder": {
+          "name": "form_labels_name_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Nama lengkap Anda'"
+        },
+        "form_labels_email_label": {
+          "name": "form_labels_email_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Alamat Email *'"
+        },
+        "form_labels_email_placeholder": {
+          "name": "form_labels_email_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'alamat@email.com'"
+        },
+        "form_labels_phone_label": {
+          "name": "form_labels_phone_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Nomor Telepon / WhatsApp *'"
+        },
+        "form_labels_phone_placeholder": {
+          "name": "form_labels_phone_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'+62 812 xxxx xxxx'"
+        },
+        "form_labels_subject_label": {
+          "name": "form_labels_subject_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Topik Pertanyaan / Keperluan'"
+        },
+        "form_labels_subject_placeholder": {
+          "name": "form_labels_subject_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Contoh: Reservasi Kamar, Paket Wedding, Spa'"
+        },
+        "form_labels_message_label": {
+          "name": "form_labels_message_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Pesan / Detail Kebutuhan Anda *'"
+        },
+        "form_labels_message_placeholder": {
+          "name": "form_labels_message_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Tuliskan pesan atau pertanyaan Anda di sini...'"
+        },
+        "form_labels_submit_label": {
+          "name": "form_labels_submit_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Kirim Pesan'"
+        },
+        "form_labels_submitting_label": {
+          "name": "form_labels_submitting_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Sedang Mengirim...'"
+        },
+        "form_labels_error_message": {
+          "name": "form_labels_error_message",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Pesan belum dapat dikirim.'"
+        },
         "success_title": {
           "name": "success_title",
           "type": "varchar",
@@ -16301,6 +16687,13 @@
           "primaryKey": false,
           "notNull": false,
           "default": "'Pesan Anda telah berhasil kami terima. Tim reservasi kami akan merespons melalui Email atau WhatsApp segera.'"
+        },
+        "send_another_label": {
+          "name": "send_another_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Kirim Pesan Lain'"
         },
         "map_eyebrow": {
           "name": "map_eyebrow",
@@ -16615,12 +17008,250 @@
           "notNull": false,
           "default": "'Ketinggian ±1.100 mdpl lereng Gunung Ungaran, Bandungan. Silakan lengkapi formulir reservasi di bawah ini atau hubungi tim reservasi kami secara langsung via WhatsApp.'"
         },
+        "form_labels_type_label": {
+          "name": "form_labels_type_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Pilih Kategori Reservasi'"
+        },
+        "form_labels_type_room": {
+          "name": "form_labels_type_room",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Kamar & Villa'"
+        },
+        "form_labels_type_spa": {
+          "name": "form_labels_type_spa",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Spa & Wellness'"
+        },
+        "form_labels_type_wedding": {
+          "name": "form_labels_type_wedding",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Pernikahan'"
+        },
+        "form_labels_room_label": {
+          "name": "form_labels_room_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Pilihan Tipe Kamar / Villa *'"
+        },
+        "form_labels_check_in_label": {
+          "name": "form_labels_check_in_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Check-In *'"
+        },
+        "form_labels_check_out_label": {
+          "name": "form_labels_check_out_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Check-Out *'"
+        },
+        "form_labels_guests_label": {
+          "name": "form_labels_guests_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Jumlah Tamu *'"
+        },
+        "form_labels_guests_option": {
+          "name": "form_labels_guests_option",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{jumlah} Tamu'"
+        },
+        "form_labels_target_date_label": {
+          "name": "form_labels_target_date_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Rencana Tanggal Kunjungan *'"
+        },
+        "form_labels_name_label": {
+          "name": "form_labels_name_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Nama Lengkap Anda *'"
+        },
+        "form_labels_name_placeholder": {
+          "name": "form_labels_name_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Nama lengkap pemesan'"
+        },
+        "form_labels_phone_label": {
+          "name": "form_labels_phone_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Nomor WhatsApp Aktif *'"
+        },
+        "form_labels_phone_placeholder": {
+          "name": "form_labels_phone_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'+62 812 xxxx xxxx'"
+        },
+        "form_labels_email_label": {
+          "name": "form_labels_email_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Alamat Email *'"
+        },
+        "form_labels_email_placeholder": {
+          "name": "form_labels_email_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'alamat@email.com'"
+        },
+        "form_labels_notes_label": {
+          "name": "form_labels_notes_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Permintaan Khusus / Catatan Tambahan (Opsional)'"
+        },
+        "form_labels_notes_placeholder": {
+          "name": "form_labels_notes_placeholder",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Contoh: Permintaan early check-in, dekorasi khusus honeymoon, dll.'"
+        },
+        "form_labels_submit_label": {
+          "name": "form_labels_submit_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Kirim Permintaan Reservasi'"
+        },
+        "form_labels_submitting_label": {
+          "name": "form_labels_submitting_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Memproses Reservasi...'"
+        },
+        "form_labels_submit_note": {
+          "name": "form_labels_submit_note",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Tim kami akan menghubungi Anda untuk konfirmasi ketersediaan dan detail instruksi pembayaran.'"
+        },
+        "form_labels_error_message": {
+          "name": "form_labels_error_message",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Terjadi kendala saat mengirim reservasi.'"
+        },
         "success_title": {
           "name": "success_title",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false,
           "default": "'Permintaan Reservasi Berhasil Diterima'"
+        },
+        "success_body": {
+          "name": "success_body",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Terima kasih, Bapak/Ibu {nama}. Data permintaan Anda telah tercatat dengan kode referensi: {kode}.'"
+        },
+        "summary_service": {
+          "name": "summary_service",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Layanan'"
+        },
+        "summary_room": {
+          "name": "summary_room",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Akomodasi'"
+        },
+        "summary_stay": {
+          "name": "summary_stay",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Jadwal Menginap'"
+        },
+        "summary_stay_value": {
+          "name": "summary_stay_value",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{masuk} s.d. {keluar}'"
+        },
+        "summary_guests": {
+          "name": "summary_guests",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Jumlah Tamu'"
+        },
+        "summary_date": {
+          "name": "summary_date",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Rencana Tanggal'"
+        },
+        "confirm_button": {
+          "name": "confirm_button",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Konfirmasi via WhatsApp'"
+        },
+        "confirm_message": {
+          "name": "confirm_message",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Halo Susan Spa & Resort, saya telah mengirim formulir reservasi dengan kode ref: {kode} atas nama {nama}.'"
+        },
+        "new_reservation_button": {
+          "name": "new_reservation_button",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Buat Reservasi Baru'"
+        },
+        "room_detail_link": {
+          "name": "room_detail_link",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Lihat Detail Lengkap Kamar'"
+        },
+        "bed_fallback": {
+          "name": "bed_fallback",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Kasur Nyaman'"
         },
         "help_title": {
           "name": "help_title",
@@ -17693,6 +18324,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "e2e98e85-3b49-4273-9ac3-881359e7e767",
+  "id": "8e087715-f910-4ddd-ba67-f248061f46a8",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

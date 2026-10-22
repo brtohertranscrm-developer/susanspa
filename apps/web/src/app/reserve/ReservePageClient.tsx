@@ -21,7 +21,8 @@ import { getDefaultStayDates } from '@/lib/dates';
 import { useSiteConfig } from '@/components/global/SiteConfigProvider';
 import { roomCapacity } from '@/lib/room-display';
 import type { InquiryReceipt } from '@susan/contracts';
-import type { PageContent, reservePage } from '@susan/contracts/content';
+import { fillTemplate, type PageContent, type reservePage } from '@susan/contracts/content';
+import { TemplateText } from '@/components/ui/TemplateText';
 import type { Room } from '@/types';
 
 type ServiceType = 'room' | 'spa' | 'wedding';
@@ -42,6 +43,10 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [receipt, setReceipt] = useState<InquiryReceipt | null>(null);
   const [submitError, setSubmitError] = useState('');
+
+  const labels = content.formLabels;
+  const serviceLabels = { room: labels.typeRoom, spa: labels.typeSpa, wedding: labels.typeWedding };
+  const referenceCode = receipt ? receipt.id.slice(0, 8).toUpperCase() : '';
 
   const currentRoom = useMemo(() => {
     return rooms.find((r) => r.slug === selectedRoom) || rooms[0];
@@ -72,11 +77,11 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
 
       const body = (await res.json()) as InquiryReceipt | { error?: string };
       if (!res.ok || !('id' in body)) {
-        throw new Error('error' in body ? body.error : 'Gagal mengirim formulir reservasi.');
+        throw new Error('error' in body ? body.error : labels.errorMessage);
       }
       setReceipt(body);
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Terjadi kendala saat mengirim reservasi.');
+      setSubmitError(err instanceof Error ? err.message : labels.errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -116,35 +121,42 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                     {content.successTitle}
                   </h2>
                   <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
-                    Terima kasih, Bapak/Ibu <strong className="text-forest-deep">{fullName}</strong>. Data permintaan Anda telah tercatat dengan kode referensi:{' '}
-                    <span className="font-mono font-bold text-terracotta">{receipt.id.slice(0, 8).toUpperCase()}</span>.
+                    <TemplateText
+                      template={content.successBody}
+                      values={{
+                        nama: <strong className="text-forest-deep">{fullName}</strong>,
+                        kode: <span className="font-mono font-bold text-terracotta">{referenceCode}</span>,
+                      }}
+                    />
                   </p>
                 </div>
 
                 <div className="bg-ivory/70 border border-stone-200 rounded-2xl p-5 text-left text-xs space-y-2 text-[#333D39]">
                   <div className="flex justify-between border-b border-stone-200/70 pb-2">
-                    <span className="text-stone-500 font-medium">Layanan</span>
-                    <span className="font-semibold text-forest-deep uppercase">{serviceType}</span>
+                    <span className="text-stone-500 font-medium">{content.summaryService}</span>
+                    <span className="font-semibold text-forest-deep uppercase">{serviceLabels[serviceType]}</span>
                   </div>
                   {serviceType === 'room' && (
                     <>
                       <div className="flex justify-between border-b border-stone-200/70 pb-2">
-                        <span className="text-stone-500 font-medium">Akomodasi</span>
+                        <span className="text-stone-500 font-medium">{content.summaryRoom}</span>
                         <span className="font-semibold text-forest-deep">{currentRoom.name}</span>
                       </div>
                       <div className="flex justify-between border-b border-stone-200/70 pb-2">
-                        <span className="text-stone-500 font-medium">Jadwal Menginap</span>
-                        <span className="font-semibold text-forest-deep">{checkIn} s.d. {checkOut}</span>
+                        <span className="text-stone-500 font-medium">{content.summaryStay}</span>
+                        <span className="font-semibold text-forest-deep">
+                          {fillTemplate(content.summaryStayValue, { masuk: checkIn, keluar: checkOut })}
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-stone-500 font-medium">Jumlah Tamu</span>
-                        <span className="font-semibold text-forest-deep">{guests} Tamu</span>
+                        <span className="text-stone-500 font-medium">{content.summaryGuests}</span>
+                        <span className="font-semibold text-forest-deep">{fillTemplate(labels.guestsOption, { jumlah: guests })}</span>
                       </div>
                     </>
                   )}
                   {serviceType !== 'room' && targetDate && (
                     <div className="flex justify-between">
-                      <span className="text-stone-500 font-medium">Rencana Tanggal</span>
+                      <span className="text-stone-500 font-medium">{content.summaryDate}</span>
                       <span className="font-semibold text-forest-deep">{targetDate}</span>
                     </div>
                   )}
@@ -153,20 +165,20 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                 <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
                   <a
                     href={`https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(
-                      `Halo Susan Spa & Resort, saya telah mengirim formulir reservasi dengan kode ref: ${receipt.id.slice(0, 8).toUpperCase()} atas nama ${fullName}.`
+                      fillTemplate(content.confirmMessage, { kode: referenceCode, nama: fullName })
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20ba5a] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors shadow-md"
                   >
                     <MessageCircle className="w-4 h-4" />
-                    <span>Konfirmasi via WhatsApp</span>
+                    <span>{content.confirmButton}</span>
                   </a>
                   <button
                     onClick={() => setReceipt(null)}
                     className="w-full sm:w-auto border border-stone-300 hover:border-forest text-forest-deep px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors"
                   >
-                    Buat Reservasi Baru
+                    {content.newReservationButton}
                   </button>
                 </div>
               </div>
@@ -175,7 +187,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                 {/* Service Selector Tabs */}
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-[0.2em] text-[#57635E] font-bold block">
-                    Pilih Kategori Reservasi
+                    {labels.typeLabel}
                   </label>
                   <div className="grid grid-cols-3 gap-2 p-1 bg-ivory rounded-2xl border border-stone-200">
                     <button
@@ -187,7 +199,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                           : 'text-stone-600 hover:text-forest-deep'
                       }`}
                     >
-                      Kamar & Villa
+                      {labels.typeRoom}
                     </button>
                     <button
                       type="button"
@@ -198,7 +210,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                           : 'text-stone-600 hover:text-forest-deep'
                       }`}
                     >
-                      Spa & Wellness
+                      {labels.typeSpa}
                     </button>
                     <button
                       type="button"
@@ -209,7 +221,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                           : 'text-stone-600 hover:text-forest-deep'
                       }`}
                     >
-                      Pernikahan
+                      {labels.typeWedding}
                     </button>
                   </div>
                 </div>
@@ -225,7 +237,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                   <div className="space-y-4 pt-2 border-t border-stone-100">
                     <div className="space-y-1">
                       <label htmlFor="reserve-room" className="text-[10px] uppercase tracking-wider text-[#57635E] font-bold block">
-                        Pilihan Tipe Kamar / Villa *
+                        {labels.roomLabel}
                       </label>
                       <select
                         id="reserve-room"
@@ -244,7 +256,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div className="space-y-1">
                         <label htmlFor="reserve-checkin" className="text-[10px] uppercase tracking-wider text-[#57635E] font-bold block">
-                          Check-In *
+                          {labels.checkInLabel}
                         </label>
                         <input
                           id="reserve-checkin"
@@ -257,7 +269,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                       </div>
                       <div className="space-y-1">
                         <label htmlFor="reserve-checkout" className="text-[10px] uppercase tracking-wider text-[#57635E] font-bold block">
-                          Check-Out *
+                          {labels.checkOutLabel}
                         </label>
                         <input
                           id="reserve-checkout"
@@ -270,7 +282,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                       </div>
                       <div className="space-y-1">
                         <label htmlFor="reserve-guests" className="text-[10px] uppercase tracking-wider text-[#57635E] font-bold block">
-                          Jumlah Tamu *
+                          {labels.guestsLabel}
                         </label>
                         <select
                           id="reserve-guests"
@@ -280,7 +292,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                         >
                           {[1, 2, 3, 4, 5, 6, 8, 10].map((num) => (
                             <option key={num} value={num}>
-                              {num} Tamu
+                              {fillTemplate(labels.guestsOption, { jumlah: num })}
                             </option>
                           ))}
                         </select>
@@ -291,7 +303,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                   <div className="space-y-4 pt-2 border-t border-stone-100">
                     <div className="space-y-1">
                       <label htmlFor="reserve-target-date" className="text-[10px] uppercase tracking-wider text-[#57635E] font-bold block">
-                        Rencana Tanggal Kunjungan *
+                        {labels.targetDateLabel}
                       </label>
                       <input
                         id="reserve-target-date"
@@ -309,13 +321,13 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                 <div className="space-y-3 pt-2 border-t border-stone-100">
                   <div className="space-y-1">
                     <label htmlFor="reserve-name" className="text-[10px] uppercase tracking-wider text-[#57635E] font-bold block">
-                      Nama Lengkap Anda *
+                      {labels.nameLabel}
                     </label>
                     <input
                       id="reserve-name"
                       type="text"
                       required
-                      placeholder="Nama lengkap pemesan"
+                      placeholder={labels.namePlaceholder}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       className="w-full bg-ivory/50 border border-stone-300 rounded-xl px-4 py-2.5 text-xs text-forest-deep placeholder:text-stone-400 focus:border-forest-deep focus:outline-none"
@@ -325,13 +337,13 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <label htmlFor="reserve-phone" className="text-[10px] uppercase tracking-wider text-[#57635E] font-bold block">
-                        Nomor WhatsApp Aktif *
+                        {labels.phoneLabel}
                       </label>
                       <input
                         id="reserve-phone"
                         type="tel"
                         required
-                        placeholder="+62 812 xxxx xxxx"
+                        placeholder={labels.phonePlaceholder}
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         className="w-full bg-ivory/50 border border-stone-300 rounded-xl px-4 py-2.5 text-xs text-forest-deep placeholder:text-stone-400 focus:border-forest-deep focus:outline-none"
@@ -339,13 +351,13 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                     </div>
                     <div className="space-y-1">
                       <label htmlFor="reserve-email" className="text-[10px] uppercase tracking-wider text-[#57635E] font-bold block">
-                        Alamat Email *
+                        {labels.emailLabel}
                       </label>
                       <input
                         id="reserve-email"
                         type="email"
                         required
-                        placeholder="alamat@email.com"
+                        placeholder={labels.emailPlaceholder}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full bg-ivory/50 border border-stone-300 rounded-xl px-4 py-2.5 text-xs text-forest-deep placeholder:text-stone-400 focus:border-forest-deep focus:outline-none"
@@ -355,12 +367,12 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
 
                   <div className="space-y-1">
                     <label htmlFor="reserve-notes" className="text-[10px] uppercase tracking-wider text-[#57635E] font-bold block">
-                      Permintaan Khusus / Catatan Tambahan (Opsional)
+                      {labels.notesLabel}
                     </label>
                     <textarea
                       id="reserve-notes"
                       rows={3}
-                      placeholder="Contoh: Permintaan early check-in, dekorasi khusus honeymoon, dll."
+                      placeholder={labels.notesPlaceholder}
                       value={specialRequests}
                       onChange={(e) => setSpecialRequests(e.target.value)}
                       className="w-full bg-ivory/50 border border-stone-300 rounded-xl px-4 py-2.5 text-xs text-forest-deep placeholder:text-stone-400 focus:border-forest-deep focus:outline-none resize-none"
@@ -376,16 +388,16 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                     className="w-full bg-forest-deep hover:bg-forest text-champagne hover:text-champagne-light py-4 rounded-xl text-xs font-bold uppercase tracking-[0.2em] shadow-lg transition-all flex items-center justify-center space-x-2 disabled:opacity-50"
                   >
                     {isSubmitting ? (
-                      <span>Memproses Reservasi...</span>
+                      <span>{labels.submittingLabel}</span>
                     ) : (
                       <>
                         <Calendar className="w-4 h-4" />
-                        <span>Kirim Permintaan Reservasi</span>
+                        <span>{labels.submitLabel}</span>
                       </>
                     )}
                   </button>
                   <p className="text-[11px] text-stone-500 text-center pt-2">
-                    Tim kami akan menghubungi Anda untuk konfirmasi ketersediaan dan detail instruksi pembayaran.
+                    {labels.submitNote}
                   </p>
                 </div>
               </form>
@@ -421,7 +433,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                 <div className="grid grid-cols-2 gap-2 py-3 border-y border-stone-100 text-xs text-forest-deep">
                   <div className="flex items-center space-x-2">
                     <BedDouble className="w-4 h-4 text-champagne-dark" />
-                    <span>{currentRoom.bedType || 'Kasur Nyaman'}</span>
+                    <span>{currentRoom.bedType || content.bedFallback}</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Users className="w-4 h-4 text-champagne-dark" />
@@ -433,7 +445,7 @@ export default function ReservePageClient({ rooms, content }: { rooms: Room[]; c
                   href={`/rooms/${currentRoom.slug}`}
                   className="inline-flex items-center space-x-1.5 text-xs text-forest-deep hover:text-botanical font-bold uppercase tracking-wider pt-1 transition-colors"
                 >
-                  <span>Lihat Detail Lengkap Kamar</span>
+                  <span>{content.roomDetailLink}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>

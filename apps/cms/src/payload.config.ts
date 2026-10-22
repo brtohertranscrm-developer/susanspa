@@ -11,7 +11,7 @@ import { Offers, ResortContent, SpaTreatments, WeddingPackages } from './collect
 import { lexicalId } from './i18n/id'
 import { Rooms } from './collections/Rooms'
 import { Users } from './collections/Users'
-import { contentPages, siteLayout, uiText } from '@susan/contracts/content'
+import { contentPages, formText, siteLayout, uiText } from '@susan/contracts/content'
 import { contentGlobal } from './lib/contentFields'
 import { SiteSettings } from './globals/SiteSettings'
 
@@ -112,6 +112,7 @@ export default buildConfig({
     SiteSettings,
     contentGlobal(siteLayout, { group: 'Tampilan situs' }),
     contentGlobal(uiText, { group: 'Tampilan situs' }),
+    contentGlobal(formText, { group: 'Tampilan situs' }),
     ...contentPages.map((spec) => contentGlobal(spec, { group: 'Halaman website', previewPath: PAGE_PATHS[spec.slug] })),
   ].map((global) => ({ ...global, admin: { ...global.admin, hideAPIURL: true } })),
   localization: {

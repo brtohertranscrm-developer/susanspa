@@ -107,6 +107,7 @@ export interface Config {
     'site-settings': SiteSetting;
     'site-layout': SiteLayout;
     'ui-text': UiText;
+    'form-text': FormText;
     'page-home': PageHome;
     'page-about': PageAbout;
     'page-rooms': PageRoom;
@@ -130,6 +131,7 @@ export interface Config {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'site-layout': SiteLayoutSelect<false> | SiteLayoutSelect<true>;
     'ui-text': UiTextSelect<false> | UiTextSelect<true>;
+    'form-text': FormTextSelect<false> | FormTextSelect<true>;
     'page-home': PageHomeSelect<false> | PageHomeSelect<true>;
     'page-about': PageAboutSelect<false> | PageAboutSelect<true>;
     'page-rooms': PageRoomsSelect<false> | PageRoomsSelect<true>;
@@ -1147,14 +1149,56 @@ export interface UiText {
      */
     byline?: string | null;
   };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Judul, label kolom, dan pesan pada jendela reservasi yang muncul dari tombol Reserve di semua halaman. Perubahan tampil di website paling lama 5 menit setelah disimpan.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-text".
+ */
+export interface FormText {
+  id: number;
   reservationModal?: {
     eyebrow?: string | null;
     title?: string | null;
     intro?: string | null;
     successTitle?: string | null;
     successBody?: string | null;
+    /**
+     * {nama} diganti nama pemesan, {kode} diganti nomor referensi.
+     */
+    successGreeting?: string | null;
     whatsappButton?: string | null;
+    whatsappMessage?: string | null;
     closeButton?: string | null;
+    closeLabel?: string | null;
+    typeRoom?: string | null;
+    typeSpa?: string | null;
+    typeWedding?: string | null;
+    typeEvent?: string | null;
+    nameLabel?: string | null;
+    namePlaceholder?: string | null;
+    phoneLabel?: string | null;
+    phonePlaceholder?: string | null;
+    emailLabel?: string | null;
+    emailPlaceholder?: string | null;
+    checkInLabel?: string | null;
+    checkOutLabel?: string | null;
+    roomLabel?: string | null;
+    spaDateLabel?: string | null;
+    eventDateLabel?: string | null;
+    treatmentLabel?: string | null;
+    treatmentPlaceholder?: string | null;
+    venueLabel?: string | null;
+    venuePlaceholder?: string | null;
+    guestsLabel?: string | null;
+    notesLabel?: string | null;
+    notesPlaceholder?: string | null;
+    submitLabel?: string | null;
+    submittingLabel?: string | null;
+    errorMessage?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1807,8 +1851,24 @@ export interface PageContact {
     title?: string | null;
     intro?: string | null;
   };
+  formLabels?: {
+    nameLabel?: string | null;
+    namePlaceholder?: string | null;
+    emailLabel?: string | null;
+    emailPlaceholder?: string | null;
+    phoneLabel?: string | null;
+    phonePlaceholder?: string | null;
+    subjectLabel?: string | null;
+    subjectPlaceholder?: string | null;
+    messageLabel?: string | null;
+    messagePlaceholder?: string | null;
+    submitLabel?: string | null;
+    submittingLabel?: string | null;
+    errorMessage?: string | null;
+  };
   successTitle?: string | null;
   successBody?: string | null;
+  sendAnotherLabel?: string | null;
   map?: {
     eyebrow?: string | null;
     title?: string | null;
@@ -1841,7 +1901,52 @@ export interface PageReserve {
     title?: string | null;
     intro?: string | null;
   };
+  formLabels?: {
+    typeLabel?: string | null;
+    typeRoom?: string | null;
+    typeSpa?: string | null;
+    typeWedding?: string | null;
+    roomLabel?: string | null;
+    checkInLabel?: string | null;
+    checkOutLabel?: string | null;
+    guestsLabel?: string | null;
+    /**
+     * {jumlah} diganti angka.
+     */
+    guestsOption?: string | null;
+    targetDateLabel?: string | null;
+    nameLabel?: string | null;
+    namePlaceholder?: string | null;
+    phoneLabel?: string | null;
+    phonePlaceholder?: string | null;
+    emailLabel?: string | null;
+    emailPlaceholder?: string | null;
+    notesLabel?: string | null;
+    notesPlaceholder?: string | null;
+    submitLabel?: string | null;
+    submittingLabel?: string | null;
+    submitNote?: string | null;
+    errorMessage?: string | null;
+  };
   successTitle?: string | null;
+  /**
+   * {nama} diganti nama pemesan, {kode} diganti kode referensi.
+   */
+  successBody?: string | null;
+  summaryService?: string | null;
+  summaryRoom?: string | null;
+  summaryStay?: string | null;
+  /**
+   * {masuk} dan {keluar} diganti tanggal.
+   */
+  summaryStayValue?: string | null;
+  summaryGuests?: string | null;
+  summaryDate?: string | null;
+  confirmButton?: string | null;
+  confirmMessage?: string | null;
+  newReservationButton?: string | null;
+  roomDetailLink?: string | null;
+  bedFallback?: string | null;
   helpTitle?: string | null;
   helpSubtitle?: string | null;
   helpBody?: string | null;
@@ -2158,6 +2263,15 @@ export interface UiTextSelect<T extends boolean = true> {
         notFound?: T;
         byline?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-text_select".
+ */
+export interface FormTextSelect<T extends boolean = true> {
   reservationModal?:
     | T
     | {
@@ -2166,8 +2280,36 @@ export interface UiTextSelect<T extends boolean = true> {
         intro?: T;
         successTitle?: T;
         successBody?: T;
+        successGreeting?: T;
         whatsappButton?: T;
+        whatsappMessage?: T;
         closeButton?: T;
+        closeLabel?: T;
+        typeRoom?: T;
+        typeSpa?: T;
+        typeWedding?: T;
+        typeEvent?: T;
+        nameLabel?: T;
+        namePlaceholder?: T;
+        phoneLabel?: T;
+        phonePlaceholder?: T;
+        emailLabel?: T;
+        emailPlaceholder?: T;
+        checkInLabel?: T;
+        checkOutLabel?: T;
+        roomLabel?: T;
+        spaDateLabel?: T;
+        eventDateLabel?: T;
+        treatmentLabel?: T;
+        treatmentPlaceholder?: T;
+        venueLabel?: T;
+        venuePlaceholder?: T;
+        guestsLabel?: T;
+        notesLabel?: T;
+        notesPlaceholder?: T;
+        submitLabel?: T;
+        submittingLabel?: T;
+        errorMessage?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -2675,8 +2817,26 @@ export interface PageContactSelect<T extends boolean = true> {
         title?: T;
         intro?: T;
       };
+  formLabels?:
+    | T
+    | {
+        nameLabel?: T;
+        namePlaceholder?: T;
+        emailLabel?: T;
+        emailPlaceholder?: T;
+        phoneLabel?: T;
+        phonePlaceholder?: T;
+        subjectLabel?: T;
+        subjectPlaceholder?: T;
+        messageLabel?: T;
+        messagePlaceholder?: T;
+        submitLabel?: T;
+        submittingLabel?: T;
+        errorMessage?: T;
+      };
   successTitle?: T;
   successBody?: T;
+  sendAnotherLabel?: T;
   map?:
     | T
     | {
@@ -2707,7 +2867,45 @@ export interface PageReserveSelect<T extends boolean = true> {
         title?: T;
         intro?: T;
       };
+  formLabels?:
+    | T
+    | {
+        typeLabel?: T;
+        typeRoom?: T;
+        typeSpa?: T;
+        typeWedding?: T;
+        roomLabel?: T;
+        checkInLabel?: T;
+        checkOutLabel?: T;
+        guestsLabel?: T;
+        guestsOption?: T;
+        targetDateLabel?: T;
+        nameLabel?: T;
+        namePlaceholder?: T;
+        phoneLabel?: T;
+        phonePlaceholder?: T;
+        emailLabel?: T;
+        emailPlaceholder?: T;
+        notesLabel?: T;
+        notesPlaceholder?: T;
+        submitLabel?: T;
+        submittingLabel?: T;
+        submitNote?: T;
+        errorMessage?: T;
+      };
   successTitle?: T;
+  successBody?: T;
+  summaryService?: T;
+  summaryRoom?: T;
+  summaryStay?: T;
+  summaryStayValue?: T;
+  summaryGuests?: T;
+  summaryDate?: T;
+  confirmButton?: T;
+  confirmMessage?: T;
+  newReservationButton?: T;
+  roomDetailLink?: T;
+  bedFallback?: T;
   helpTitle?: T;
   helpSubtitle?: T;
   helpBody?: T;
