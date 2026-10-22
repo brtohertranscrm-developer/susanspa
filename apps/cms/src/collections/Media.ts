@@ -49,7 +49,6 @@ export const Media: CollectionConfig = {
       'Unggah foto sekali, lalu pakai di kamar, spa, wedding, jurnal, galeri, dan halaman website. Video MP4 juga bisa diunggah untuk header beranda. Isi teks alternatif dengan deskripsi isi foto atau video.',
     defaultColumns: ['alt', 'filename', 'mimeType', 'filesize', 'createdAt'],
     listSearchableFields: ['filename', 'alt'],
-    pagination: { defaultLimit: 24, limits: [12, 24, 48, 96] },
   },
   access: {
     create: canManageContent,
