@@ -61,9 +61,7 @@ export default buildConfig({
       },
       beforeLogin: ['@/components/login/LoginIntro#LoginIntro'],
       afterLogin: ['@/components/login/LoginHelp#LoginHelp'],
-      beforeNav: ['@/components/navigation/BrandHeader#BrandHeader'],
-      beforeNavLinks: ['@/components/navigation/NavOverviewLink#NavOverviewLink'],
-      afterNavLinks: ['@/components/navigation/NavWebsiteLink#NavWebsiteLink'],
+      Nav: '@/components/sidebar/SidebarNav#SidebarNav',
       views: {
         dashboard: {
           Component: '@/components/dashboard/CustomDashboard#CustomDashboard',
