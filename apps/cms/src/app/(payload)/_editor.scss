@@ -1,0 +1,140 @@
+/* Editor dokumen: bagian-bagian tampil sebagai tab di dalam satu kartu. Tab dibuat di lib/editorLayout.ts. */
+
+.document-fields__main > .document-fields__edit > .render-fields > .tabs-field {
+  margin: 8px 0 24px !important;
+  border: 1px solid var(--cms-border);
+  border-radius: 14px;
+  background: var(--cms-surface);
+  box-shadow: var(--cms-shadow-subtle);
+}
+
+.tabs-field__tabs-wrap {
+  margin-bottom: 0 !important;
+  border-bottom: 1px solid var(--cms-border-light);
+  border-radius: 14px 14px 0 0;
+  background: var(--cms-surface-muted);
+}
+
+.tabs-field__tabs {
+  gap: 4px;
+  padding: 8px 8px 0;
+  border-bottom: none !important;
+}
+
+.tabs-field__tabs::before,
+.tabs-field__tabs::after {
+  display: none !important;
+}
+
+.tabs-field__tab-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 10px 16px !important;
+  border: none !important;
+  border-radius: 10px 10px 0 0;
+  background: transparent !important;
+  color: var(--cms-text-secondary) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tabs-field__tab-button:hover {
+  color: var(--cms-text) !important;
+  background: var(--cms-neutral-bg) !important;
+}
+
+/* Garis biru di bawah tab aktif, menyatu dengan isi kartu. */
+.tabs-field__tab-button--active {
+  color: var(--cms-blue-700) !important;
+  background: var(--cms-surface) !important;
+}
+
+.tabs-field__tab-button--active::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  bottom: 0;
+  left: 12px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--cms-blue-600);
+}
+
+.tabs-field__tab-button:focus-visible {
+  outline: 2px solid var(--cms-blue-600) !important;
+  outline-offset: -2px;
+}
+
+.tabs-field__tab-button--has-error {
+  color: var(--cms-danger) !important;
+}
+
+.tabs-field__content-wrap {
+  padding: 24px !important;
+}
+
+/* Isian pendek berdampingan dua kolom di layar lebar, isian panjang tetap selebar kartu. */
+@media (min-width: 1200px) {
+  .tabs-field__tab > .render-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: start;
+  }
+
+  .tabs-field__tab > .render-fields > * {
+    grid-column: 1 / -1;
+  }
+
+  .tabs-field__tab > .render-fields > .field-type.text,
+  .tabs-field__tab > .render-fields > .field-type.number,
+  .tabs-field__tab > .render-fields > .field-type.select,
+  .tabs-field__tab > .render-fields > .field-type.date-time-field,
+  .tabs-field__tab > .render-fields > .field-type.email {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .document-fields__main > .document-fields__edit > .render-fields > .tabs-field {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .tabs-field__tab-button {
+    min-height: 44px;
+    padding: 8px 12px !important;
+    font-size: 13.5px !important;
+  }
+
+  .tabs-field__content-wrap {
+    padding: 16px !important;
+  }
+
+  /* Bilah aksi di bawah layar cukup memuat tombol. Info waktu simpan membuat halaman bisa digeser ke samping. */
+  .doc-controls {
+    width: auto !important;
+    max-width: 100vw;
+  }
+
+  .doc-controls__wrapper,
+  .doc-controls__content {
+    min-width: 0 !important;
+  }
+
+  .doc-controls__meta {
+    display: none !important;
+  }
+
+  /* Jejak halaman yang panjang dipotong agar pilihan bahasa dan foto akun tetap muat di header. */
+  .app-header__step-nav-wrapper {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+}

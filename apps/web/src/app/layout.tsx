@@ -1,7 +1,15 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { getWebsiteImages } from '@/lib/cms';
+import { SiteConfigProvider } from '@/components/global/SiteConfigProvider';
+import { SiteContentProvider } from '@/components/global/SiteContentProvider';
+import { getSiteSettings } from '@/lib/site-config';
+import { getFormText, getLayoutContent, getUiText } from '@/lib/content';
 import { WebsiteImagesProvider } from '@/components/global/WebsiteImages';
+import { getRooms, getSpaTreatments, getWebsiteImages } from '@/lib/cms';
+
+export const dynamic = 'force-dynamic';
+
+const DEFAULT_SHARE_IMAGE = 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200';
 
 const baseMetadata: Metadata = {
   metadataBase: new URL('https://www.susansparesort.com'),
@@ -32,7 +40,7 @@ const baseMetadata: Metadata = {
       'Kesejukan udara pegunungan di ketinggian ±1.100 mdpl. Akomodasi suite & villa yang nyaman, spa on the sky, dan kapel pernikahan ikonik La Kana di Bandungan.',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200',
+        url: DEFAULT_SHARE_IMAGE,
         width: 1200,
         height: 630,
         alt: 'Susan Spa & Resort Bandungan',
@@ -43,18 +51,32 @@ const baseMetadata: Metadata = {
     card: 'summary_large_image',
     title: 'Susan Spa & Resort: Peristirahatan Menenangkan di Lereng Bandungan',
     description: 'Kesejukan udara pegunungan di ketinggian ±1.100 mdpl lereng Gunung Ungaran, Bandungan, Jawa Tengah.',
-    images: ['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200'],
+    images: [DEFAULT_SHARE_IMAGE],
   },
 };
 
+// Judul, deskripsi, dan gambar saat dibagikan mengikuti Pengaturan Situs di CMS bila sudah diisi.
 export async function generateMetadata(): Promise<Metadata> {
-  const images = await getWebsiteImages();
-  if (!images.socialImage) return baseMetadata;
-  const socialImage = { url: images.socialImage.url, alt: images.socialImage.alt || 'Susan Spa & Resort Bandungan' };
+  const [{ seo }, layout] = await Promise.all([getSiteSettings(), getLayoutContent()]);
+  const image = seo.imageUrl ?? DEFAULT_SHARE_IMAGE;
+
   return {
     ...baseMetadata,
-    openGraph: { ...baseMetadata.openGraph, images: [socialImage] },
-    twitter: { ...baseMetadata.twitter, images: [socialImage.url] },
+    icons: { icon: layout.logos.favicon },
+    title: seo.title ? { default: seo.title, template: '%s | Susan Spa & Resort' } : baseMetadata.title,
+    description: seo.description ?? baseMetadata.description,
+    openGraph: {
+      ...baseMetadata.openGraph,
+      title: seo.title ?? baseMetadata.openGraph?.title,
+      description: seo.description ?? baseMetadata.openGraph?.description,
+      images: [{ url: image, width: 1200, height: 630, alt: 'Susan Spa & Resort Bandungan' }],
+    },
+    twitter: {
+      ...baseMetadata.twitter,
+      title: seo.title ?? baseMetadata.twitter?.title,
+      description: seo.description ?? baseMetadata.twitter?.description,
+      images: [image],
+    },
   };
 }
 
@@ -63,19 +85,32 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const images = await getWebsiteImages();
+  const [{ site, seo }, layout, ui, forms, rooms, treatments, images] = await Promise.all([
+    getSiteSettings(),
+    getLayoutContent(),
+    getUiText(),
+    getFormText(),
+    getRooms(),
+    getSpaTreatments(),
+    getWebsiteImages(),
+  ]);
+  const catalog = {
+    rooms: rooms.map(({ id, slug, name, category }) => ({ id, slug, name, category })),
+    treatments: treatments.map(({ id, title }) => ({ id, title })),
+  };
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Resort',
-    name: 'Susan Spa & Resort',
-    image: images.socialImage?.url || 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200',
+    name: site.name,
+    image: seo.imageUrl ?? DEFAULT_SHARE_IMAGE,
     '@id': 'https://www.susansparesort.com/',
     url: 'https://www.susansparesort.com/',
-    telephone: '+62298711111',
+    telephone: site.contact.phone,
     priceRange: 'IDR 1,650,000 - IDR 4,800,000',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Dusun Piyoto',
+      streetAddress: site.address.lines[0],
       addressLocality: 'Bandungan',
       addressRegion: 'Central Java',
       postalCode: '50614',
@@ -103,7 +138,11 @@ export default async function RootLayout({
         />
       </head>
       <body className="antialiased selection:bg-champagne selection:text-forest-deep">
-        <WebsiteImagesProvider images={images}>{children}</WebsiteImagesProvider>
+        <SiteConfigProvider value={site}>
+          <SiteContentProvider value={{ layout, ui, forms, catalog }}>
+            <WebsiteImagesProvider images={images}>{children}</WebsiteImagesProvider>
+          </SiteContentProvider>
+        </SiteConfigProvider>
       </body>
     </html>
   );

@@ -1,7 +1,9 @@
 import { Facility } from '@/types';
 
 export interface FacilityGroup {
-  category: 'Wellness' | 'Dining' | 'Family & Recreation' | 'Events' | 'Guest Services';
+  category: string;
+  /** Teks tombol filter. */
+  label: string;
   title: string;
   description: string;
   items: Facility[];
@@ -206,39 +208,6 @@ export const FACILITIES: Facility[] = [
     image: 'https://images.unsplash.com/photo-1508962914676-134849a727f0?q=80&w=1600&auto=format&fit=crop',
     highlights: ['Panggilan bangun pagi tepat waktu', 'Bantuan ramah dari resepsionis', 'Mendukung jadwal agenda Anda'],
     iconName: 'Bell',
-  },
-];
-
-export const FACILITY_GROUPS: FacilityGroup[] = [
-  {
-    category: 'Wellness',
-    title: 'Wellness & Relaksasi Holistik',
-    description: 'Fasilitas pemulihan kebugaran tubuh dan ketenangan pikiran di atas awan lereng Gunung Ungaran.',
-    items: FACILITIES.filter((f) => f.category === 'Wellness'),
-  },
-  {
-    category: 'Dining',
-    title: 'Santapan & Minuman Segar',
-    description: 'Kelezatan kuliner Nusantara dan internasional dengan latar panorama pegunungan yang menyejukkan.',
-    items: FACILITIES.filter((f) => f.category === 'Dining'),
-  },
-  {
-    category: 'Family & Recreation',
-    title: 'Keluarga & Rekreasi Alam',
-    description: 'Aktivitas menyenangkan dan sarana rekreasi untuk menciptakan momen berharga bersama keluarga tercinta.',
-    items: FACILITIES.filter((f) => f.category === 'Family & Recreation'),
-  },
-  {
-    category: 'Events',
-    title: 'Pernikahan & Acara Spesial',
-    description: 'Venue berkelas dan tertata anggun untuk ikrar pernikahan sakral, perayaan pribadi, serta pertemuan bisnis.',
-    items: FACILITIES.filter((f) => f.category === 'Events'),
-  },
-  {
-    category: 'Guest Services',
-    title: 'Layanan Keramahan Tamu',
-    description: 'Kenyamanan, keamanan, dan kemudahan istirahat Anda senantiasa didukung layanan prima staf kami selama 24 jam.',
-    items: FACILITIES.filter((f) => f.category === 'Guest Services'),
   },
 ];
 

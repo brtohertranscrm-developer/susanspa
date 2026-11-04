@@ -87,6 +87,30 @@ textarea:focus-visible {
 }
 
 @layer components {
+  /* Isi teks halaman tambahan dari editor CMS. */
+  .rich-text {
+    @apply space-y-4 text-sm sm:text-base text-charcoal/85 leading-relaxed;
+  }
+  .rich-text h2 {
+    @apply font-serif text-2xl sm:text-3xl text-forest-deep pt-4;
+  }
+  .rich-text h3,
+  .rich-text h4 {
+    @apply font-serif text-xl sm:text-2xl text-forest-deep pt-2;
+  }
+  .rich-text ul {
+    @apply list-disc pl-5 space-y-1.5;
+  }
+  .rich-text ol {
+    @apply list-decimal pl-5 space-y-1.5;
+  }
+  .rich-text blockquote {
+    @apply font-serif text-lg sm:text-xl italic text-forest-deep text-center px-4;
+  }
+  .rich-text a {
+    @apply text-forest-deep underline underline-offset-2 hover:text-terracotta;
+  }
+
   .field {
     @apply w-full bg-forest border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-ivory focus:border-champagne focus:outline-none;
   }

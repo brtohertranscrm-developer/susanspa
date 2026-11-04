@@ -8,6 +8,8 @@ import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
+import { fillTemplate } from '@susan/contracts/content';
+import { useUiText } from '@/components/global/SiteContentProvider';
 import type { NearbyDestination } from '@/types';
 
 interface NearbyDetailTemplateProps {
@@ -15,6 +17,7 @@ interface NearbyDetailTemplateProps {
 }
 
 export default function NearbyDetailTemplate({ destination }: NearbyDetailTemplateProps) {
+  const { nearby: text } = useUiText();
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   return (
@@ -29,10 +32,10 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
             className="inline-flex items-center space-x-2 text-champagne hover:text-champagne-light transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Kembali ke Wisata Sekitar</span>
+            <span>{text.back}</span>
           </Link>
           <span className="text-ivory/60 hidden sm:inline">
-            Wisata Bandungan / {destination.name}
+            {text.breadcrumb} / {destination.name}
           </span>
         </div>
       </div>
@@ -53,7 +56,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 space-y-4 text-center">
           <div className="inline-flex items-center space-x-2 bg-forest-deep/90 text-champagne text-xs uppercase tracking-[0.2em] px-4 py-1.5 rounded-full border border-champagne/30 font-semibold">
             <MapPin className="w-3.5 h-3.5" />
-            <span>{destination.distance} dari Susan Spa & Resort</span>
+            <span>{fillTemplate(text.distanceBadge, { jarak: destination.distance })}</span>
           </div>
 
           <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">
@@ -73,7 +76,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
                 className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-lg transition-transform hover:scale-105 inline-flex items-center space-x-2"
               >
                 <Navigation className="w-4 h-4" />
-                <span>Petunjuk Arah (Google Maps)</span>
+                <span>{text.mapsButton}</span>
               </a>
             )}
 
@@ -82,7 +85,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
               className="border border-champagne/50 hover:bg-forest text-champagne px-8 py-3.5 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors inline-flex items-center space-x-2"
             >
               <Hotel className="w-4 h-4" />
-              <span>Menginap di Susan Spa & Resort</span>
+              <span>{text.stayButton}</span>
             </button>
           </div>
         </div>
@@ -105,7 +108,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
 
             <div className="space-y-4">
               <h2 className="font-serif text-2xl sm:text-3xl text-forest-deep">
-                Tentang {destination.name}
+                {fillTemplate(text.aboutHeading, { nama: destination.name })}
               </h2>
               <p className="text-sm sm:text-base text-charcoal/85 leading-relaxed font-normal">
                 {destination.description}
@@ -117,7 +120,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
                 <Lightbulb className="w-5 h-5 text-champagne shrink-0 mt-0.5" />
                 <div className="space-y-1 text-xs">
                   <strong className="text-forest-deep block font-semibold uppercase tracking-wider">
-                    Tips Kunjungan & Kenyamanan
+                    {text.tipsHeading}
                   </strong>
                   <p className="text-charcoal/80 leading-relaxed">{destination.tips}</p>
                 </div>
@@ -130,7 +133,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
             <div className="bg-forest-deep text-ivory p-8 rounded-3xl border border-champagne/30 space-y-6 shadow-xl sticky top-28">
               <div className="space-y-1">
                 <span className="text-[10px] uppercase tracking-wider text-champagne block font-semibold">
-                  INFORMASI DESTINASI
+                  {text.infoEyebrow}
                 </span>
                 <h3 className="font-serif text-2xl text-ivory">{destination.name}</h3>
               </div>
@@ -138,7 +141,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
               <div className="space-y-3 text-xs border-y border-white/10 py-4 text-ivory/80">
                 <div>
                   <span className="text-[10px] uppercase text-champagne/80 font-semibold block">
-                    Jarak Tempuh
+                    {text.distanceLabel}
                   </span>
                   <span className="font-serif text-lg text-ivory font-medium">
                     {destination.distance}
@@ -148,7 +151,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
                 {destination.address && (
                   <div>
                     <span className="text-[10px] uppercase text-champagne/80 font-semibold block">
-                      Alamat Lokasi
+                      {text.addressLabel}
                     </span>
                     <span className="text-xs text-ivory/80 leading-relaxed block">
                       {destination.address}
@@ -166,7 +169,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
                     className="w-full bg-champagne hover:bg-champagne-light text-forest-deep py-3.5 rounded-full font-bold uppercase tracking-wider text-xs shadow-lg transition-colors flex items-center justify-center space-x-2 text-center"
                   >
                     <Navigation className="w-4 h-4" />
-                    <span>Buka Petunjuk Arah</span>
+                    <span>{text.openMapsButton}</span>
                   </a>
                 )}
 
@@ -175,7 +178,7 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
                   className="w-full border border-champagne/50 text-champagne hover:bg-forest py-3.5 rounded-full font-semibold uppercase tracking-wider text-xs transition-colors flex items-center justify-center space-x-2 text-center"
                 >
                   <Hotel className="w-4 h-4" />
-                  <span>Menginap di Susan Spa & Resort</span>
+                  <span>{text.stayButton}</span>
                 </button>
               </div>
             </div>
@@ -185,20 +188,20 @@ export default function NearbyDetailTemplate({ destination }: NearbyDetailTempla
         {/* Bottom Banner */}
         <div className="bg-forest-deep text-ivory rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-champagne/30 shadow-2xl">
           <span className="text-xs uppercase tracking-[0.25em] text-champagne font-bold block">
-            LIBURAN PEGUNUNGAN NYAMAN
+            {text.bannerEyebrow}
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl text-ivory max-w-2xl mx-auto">
-            Istirahat Nyaman di Susan Spa & Resort
+            {text.bannerTitle}
           </h2>
           <p className="text-sm text-ivory/75 max-w-xl mx-auto">
-            Jadikan Susan Spa & Resort sebagai tempat peristirahatan sempurna setelah seharian menjelajahi keindahan Bandungan.
+            {text.bannerBody}
           </p>
           <div className="pt-2 flex justify-center gap-4">
             <Link
               href="/rooms"
               className="bg-champagne hover:bg-champagne-light text-forest-deep px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-lg transition-transform hover:scale-105 inline-flex items-center space-x-2"
             >
-              <span>Pilihan Kamar & Villa</span>
+              <span>{text.bannerButton}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

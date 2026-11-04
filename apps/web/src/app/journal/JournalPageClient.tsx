@@ -8,9 +8,16 @@ import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
 import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
+import type { journalPage, PageContent } from '@susan/contracts/content';
 import type { JournalArticle } from '@/types';
 
-export default function JournalPageClient({ articles }: { articles: JournalArticle[] }) {
+export default function JournalPageClient({
+  articles,
+  content,
+}: {
+  articles: JournalArticle[];
+  content: PageContent<typeof journalPage>;
+}) {
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   return (
@@ -19,9 +26,9 @@ export default function JournalPageClient({ articles }: { articles: JournalArtic
 
       <section className="pt-32 pb-16 bg-forest-deep text-ivory text-center">
         <div className="max-w-4xl mx-auto px-4 space-y-3">
-          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">ARTIKEL & INSPIRASI</span>
-          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">Jurnal Susan Spa & Resort</h1>
-          <p className="text-sm text-ivory/80 max-w-xl mx-auto">Inspirasi kebugaran alami, panduan pernikahan impian, dan kisah perjalanan di lereng pegunungan Bandungan.</p>
+          <span className="text-xs uppercase tracking-[0.25em] text-champagne font-semibold block">{content.hero.eyebrow}</span>
+          <h1 className="font-serif text-4xl sm:text-6xl text-ivory font-normal">{content.hero.title}</h1>
+          <p className="text-sm text-ivory/80 max-w-xl mx-auto">{content.hero.intro}</p>
         </div>
       </section>
 
@@ -40,8 +47,12 @@ export default function JournalPageClient({ articles }: { articles: JournalArtic
                 <div className="space-y-2">
                   <div className="flex items-center space-x-3 text-[10px] text-champagne">
                     <span>{article.publishedAt}</span>
-                    <span>•</span>
-                    <span>{article.readTime}</span>
+                    {article.readTime && (
+                      <>
+                        <span>•</span>
+                        <span>{article.readTime}</span>
+                      </>
+                    )}
                   </div>
                   <h3 className="font-serif text-xl text-ivory leading-snug">{article.title}</h3>
                   <p className="text-xs text-ivory/70 line-clamp-3 leading-relaxed">{article.excerpt}</p>
@@ -51,7 +62,7 @@ export default function JournalPageClient({ articles }: { articles: JournalArtic
                   href={`/journal/${article.slug}`}
                   className="inline-flex items-center space-x-2 text-xs uppercase tracking-wider text-champagne hover:text-champagne-light font-semibold pt-2 border-t border-white/10"
                 >
-                  <span>Baca Selengkapnya</span>
+                  <span>{content.readMoreLabel}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>

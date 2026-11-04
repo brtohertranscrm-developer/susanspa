@@ -1,9 +1,12 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Users, Maximize2, BedDouble, CheckCircle2, ArrowUpRight } from 'lucide-react';
 import { Room } from '@/types';
 import { roomCapacity, roomCategoryLabel } from '@/lib/room-display';
+import { useUiText } from '@/components/global/SiteContentProvider';
 
 interface RoomCardProps {
   room: Room;
@@ -11,6 +14,7 @@ interface RoomCardProps {
 }
 
 export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
+  const { roomCard: text } = useUiText();
   return (
     <div className="group bg-white border border-stone-200/90 hover:border-champagne/80 overflow-hidden transition-all duration-500 flex flex-col h-full hover:-translate-y-1">
       {/* Image Container */}
@@ -39,7 +43,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
             {room.name}
           </h3>
           <p className="text-xs text-[#4A5852] line-clamp-2 leading-relaxed font-normal">
-            {room.description || room.tagline || 'Kenyamanan eksklusif di dataran tinggi Bandungan.'}
+            {room.description || room.tagline || text.fallbackDescription}
           </p>
         </div>
 
@@ -47,7 +51,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
         <div className="grid grid-cols-3 gap-2 py-3 border-y border-stone-200/70 text-[11px] text-[#333D39] text-center">
           <div className="space-y-1">
             <Maximize2 className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-            <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-semibold">Luas Kamar</span>
+            <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-semibold">{text.sizeLabel}</span>
             <span className="font-semibold text-forest-deep">
               {room.sizeSqm ? `${room.sizeSqm} m²` : '-'}
             </span>
@@ -55,7 +59,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
 
           <div className="space-y-1 border-x border-stone-200/60 px-1">
             <Users className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-            <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-semibold">Kapasitas</span>
+            <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-semibold">{text.capacityLabel}</span>
             <span className="font-semibold text-forest-deep">
               {roomCapacity(room)}
             </span>
@@ -63,7 +67,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
 
           <div className="space-y-1">
             <BedDouble className="w-3.5 h-3.5 text-champagne-dark mx-auto" />
-            <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-semibold">Tipe Kasur</span>
+            <span className="text-[10px] text-[#57635E] uppercase block tracking-wider font-semibold">{text.bedLabel}</span>
             <span className="font-semibold text-forest-deep line-clamp-1">
               {room.bedType || '-'}
             </span>
@@ -74,7 +78,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
         {room.amenities.length > 0 && (
           <div className="space-y-1.5 pt-1">
             <span className="text-[10px] uppercase tracking-wider text-botanical font-bold block">
-              Fasilitas Kamar
+              {text.amenitiesLabel}
             </span>
             <div className="flex flex-wrap gap-1.5">
               {room.amenities.slice(0, 3).map((facility, idx) => (
@@ -96,7 +100,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onInquire }) => {
             href={`/rooms/${room.slug}`}
             className="flex-1 border border-stone-300 hover:border-forest text-forest hover:bg-forest hover:text-ivory text-xs uppercase tracking-wider font-semibold py-2.5 rounded-full text-center transition-all duration-300 flex items-center justify-center space-x-1"
           >
-            <span>Detail Kamar</span>
+            <span>{text.detailButton}</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </Link>
 

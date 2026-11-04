@@ -39,9 +39,9 @@ Tanggal: 4 November 2026. Cakupan: sumber gambar di seluruh route dan komponen w
 | Logo header dan menu | Pengaturan Situs > Gambar Website > Logo |
 | Open Graph, Twitter, gambar resort JSON-LD | Pengaturan Situs > Default SEO & Social Share > Default Open Graph Image |
 
-Urutan sumber banner: pilihan khusus di Pengaturan Situs, lalu foto pertama dari daftar konten terbit yang terkait, lalu gambar bawaan. Banner About, Events, foto dekoratif wedding, logo, dan poster video tidak memiliki sumber daftar konten otomatis, sehingga tetap memakai gambar bawaan saat pengaturannya kosong.
+Urutan sumber banner setelah penggabungan dengan main terbaru: pilihan khusus di Pengaturan Situs, lalu gambar pada editor halaman terkait, lalu gambar bawaan editor. Logo mengikuti Tata Letak Situs jika pilihan khusus kosong. Kartu Best of mengikuti daftar pada editor Beranda. Gambar Ballroom dan blok Halaman Tambahan mengikuti editor masing-masing. Semua jalur media memakai normalisasi URL dan versi berkas yang sama.
 
-Foto kartu/detail tidak ditimpa pengaturan banner. Galeri kamar tetap memakai urutan foto kamar di CMS. Video utama beranda tetap memakai `/videos/hero.mp4`: kontrol gambar hanya mengganti posternya, bukan video yang sedang diputar. Avatar testimoni belum ditampilkan di route aktif; komponen menerima data melalui props dan tidak ditambahkan ke halaman oleh perubahan ini.
+Foto kartu/detail tidak ditimpa pengaturan banner. Galeri kamar tetap memakai urutan foto kamar di CMS. Video utama beranda mengikuti editor Beranda, dengan `/videos/hero.mp4` sebagai bawaan. Pilihan khusus homePoster hanya mengganti poster, bukan video yang sedang diputar. Avatar testimoni belum ditampilkan di route aktif; komponen menerima data melalui props dan tidak ditambahkan ke halaman oleh perubahan ini.
 
 ## Cara mengganti gambar
 
@@ -65,7 +65,7 @@ Mengunggah foto baru tidak otomatis mengganti seluruh posisi yang memakai foto l
 
 Tes lokal dengan mock CMS membuktikan pemetaan dan kebijakan cache kode, bukan membuktikan deployment, konfigurasi CDN produksi, atau data editor di CMS aktif.
 
-## Hasil validasi lokal
+## Hasil validasi lokal sebelum penggabungan main
 
 - 12 tes lulus: 4 tes katalog kamar dan 8 tes pemetaan media, cache, gambar pengaturan situs, kategori galeri, serta fallback CMS.
 - Typecheck website dan CMS lulus. Build produksi website lulus.
@@ -74,3 +74,16 @@ Tes lokal dengan mock CMS membuktikan pemetaan dan kebijakan cache kode, bukan m
 - Tujuh path gambar lokal yang ditemukan di kode tersedia. Dari 59 URL gambar eksternal unik yang diperiksa, 58 merespons HTTP 200 dan satu merespons 404; satu tautan fallback 404 tersebut dihapus, bukan diganti dengan gambar yang tidak terverifikasi.
 - Lint website: tidak ada error, tersisa dua warning import tidak terpakai pada Header/Footer. Lint CMS masih menemukan 18 error dan dua warning pada `scripts/seed.ts` dan `src/components/dashboard/CustomDashboard.tsx`, yang tidak diubah dalam perbaikan gambar ini.
 - Migrasi baru dibuat dan ditinjau, tetapi belum dieksekusi terhadap database. Deployment CMS/website dan uji editor pada CMS aktif belum dilakukan.
+
+## Penggabungan main terbaru
+
+Pembaruan editor halaman, Tata Letak Situs, teks formulir, SEO, visibilitas halaman, halaman Ballroom, Halaman Tambahan, dan tampilan CMS dari remote dipertahankan. Perbaikan cache no-store, draft=false, serta versi URL media diterapkan juga pada jalur editor baru. Migrasi gambar dijalankan setelah seluruh migrasi remote; snapshot skema mencakup tabel remote, bukan menggantinya dengan snapshot lama. Tes regresi mencakup blok gambar halaman tambahan, logo, video/poster, SEO, dan field detail jurnal/wedding dari editor terbaru. Validasi sebelum penggabungan di atas bukan bukti pengujian versi gabungan atau produksi.
+
+Validasi versi gabungan:
+
+- 14 tes lulus: 4 katalog kamar dan 10 media/CMS, termasuk dua regresi integrasi editor terbaru.
+- Build contracts, website, dan CMS lulus; typecheck website/CMS lulus; lint website tanpa error maupun warning.
+- Browser dengan mock CMS: 17 route desktop dan 10 pemeriksaan route mobile lulus tanpa overflow horizontal atau error runtime. Lima pemeriksaan mobile tambahan mencakup Ballroom, Contact, Privacy, Terms, dan satu Halaman Tambahan.
+- Penggantian versi gambar pada record media yang sama tampil setelah refresh dan gambar teroptimasi berhasil dimuat.
+- Pemeriksaan snapshot memastikan seluruh tabel, kolom, indeks, dan foreign key remote tetap utuh; hanya 40 kolom gambar ditambahkan pada pengaturan situs dan versi drafnya.
+- Database kerja/produksi tidak disentuh oleh validasi ini. Push ke main memicu workflow deployment yang sudah ada; keberhasilan migrasi dan deployment produksi harus dikonfirmasi terpisah.

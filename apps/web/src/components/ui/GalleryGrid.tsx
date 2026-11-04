@@ -3,13 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
-import type { GalleryItem } from '@/types';
 import {
   GALLERY_CATEGORIES,
   type GalleryCategory,
+  type GalleryItem,
 } from '@/data/gallery';
 
-export const GalleryGrid = ({ items }: { items: GalleryItem[] }) => {
+export const GalleryGrid: React.FC<{ items: GalleryItem[] }> = ({ items }) => {
   const [activeCategory, setActiveCategory] = useState<GalleryCategory>('Semua');
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState<number>(12);

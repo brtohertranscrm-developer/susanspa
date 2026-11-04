@@ -91,3 +91,72 @@ test('CMS failure preserves existing images instead of empty image sources', asy
     globalThis.fetch = originalFetch;
   }
 });
+
+test('merged CMS catalog retains editable detail fields and versions secondary images', async () => {
+  const cms = await cmsPromise;
+  const originalFetch = globalThis.fetch;
+  const media = { url: '/media/detail.jpg', updatedAt: 'revision-2' };
+  globalThis.fetch = async () => Response.json({ docs: [{
+    id: 88, slug: 'editable-detail', title: 'Editable detail', category: 'Weddings',
+    featuredImage: media, coverImage: media, gallery: [{ image: media }],
+    schedule: [{ label: 'Ceremony' }], quote: 'Editorial quote', readTime: '7 min',
+    seoTitle: 'CMS SEO title', seoDescription: 'CMS SEO description',
+    authorName: 'Editor', authorRole: 'Writer', authorAvatar: media,
+    content: { root: { children: [{ type: 'paragraph', children: [{ text: 'Article content' }] }] } },
+  }] });
+  try {
+    const expected = 'https://media.example.test/media/detail.jpg?v=revision-2';
+    const wedding = (await cms.getWeddingPackages())[0];
+    assert.deepEqual(wedding.schedule, ['Ceremony']);
+    assert.deepEqual(wedding.images, [expected, expected]);
+    const article = (await cms.getJournalArticles())[0];
+    assert.equal(article.seoTitle, 'CMS SEO title');
+    assert.equal(article.quote, 'Editorial quote');
+    assert.equal(article.author.avatar, expected);
+    assert.equal(article.readTime, '7 min');
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('page editor, layout, social images and custom page blocks bypass cache and version media', async () => {
+  const { getPageContent, getLayoutContent } = await import('../src/lib/content');
+  const { getSiteSettings } = await import('../src/lib/site-config');
+  const { getCustomPage, getCustomPageSlugs } = await import('../src/lib/custom-pages');
+  const { homePage } = await import('@susan/contracts/content');
+  const originalFetch = globalThis.fetch;
+  const media = { url: '/media/editor.jpg', alt: 'Editor photo', updatedAt: 'revision-3' };
+  const requests: URL[] = [];
+  globalThis.fetch = async (input, init) => {
+    const url = new URL(String(input));
+    requests.push(url);
+    assert.equal(init?.cache, 'no-store');
+    assert.equal(url.searchParams.get('draft'), 'false');
+    if (url.pathname === '/api/pages') {
+      assert.equal(url.searchParams.get('where[_status][equals]'), 'published');
+      return Response.json({ docs: [{ slug: 'custom', heroImage: media, sections: [
+        { blockType: 'imageText', image: media },
+        { blockType: 'gallery', images: [{ image: media }] },
+        { blockType: 'cards', cards: [{ image: media }] },
+      ] }] });
+    }
+    return Response.json({ hero: { poster: media, video: media }, logos: { header: media, menu: media }, defaultSeoImage: media });
+  };
+  try {
+    const expected = 'https://media.example.test/media/editor.jpg?v=revision-3';
+    const content = await getPageContent(homePage);
+    assert.equal(content.hero.poster, expected);
+    assert.equal(content.hero.video, expected);
+    assert.equal((await getLayoutContent()).logos.header, expected);
+    assert.equal((await getSiteSettings()).seo.imageUrl, expected);
+    const page = await getCustomPage('custom');
+    assert.equal(page?.heroImage?.url, expected);
+    assert.equal(page?.sections[0].blockType === 'imageText' && page.sections[0].image?.url, expected);
+    assert.equal(page?.sections[1].blockType === 'gallery' && page.sections[1].images[0].image?.url, expected);
+    assert.equal(page?.sections[2].blockType === 'cards' && page.sections[2].cards[0].image?.url, expected);
+    assert.deepEqual(await getCustomPageSlugs(), [{ slug: 'custom', updatedAt: undefined }]);
+    assert.equal(requests.length, 5);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});

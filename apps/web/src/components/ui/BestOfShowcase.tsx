@@ -4,52 +4,16 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from '@/components/global/WebsiteImages';
 import type { WebsiteImageSlot } from '@susan/contracts';
-
-export type ShowcaseImages = { spa?: string; wedding?: string; dining?: string; offers?: string };
 import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 
 interface ShowcaseItem {
-  id: string;
   title: string;
-  category: string;
   image: string;
   href: string;
-  slot: WebsiteImageSlot;
-  source: keyof ShowcaseImages;
+  slot?: WebsiteImageSlot;
 }
 
-const BEST_OF_ITEMS: ShowcaseItem[] = [
-  {
-    id: 'spa-sanctuary', slot: 'showcaseSpa', source: 'spa',
-    title: 'Spa on the Sky Sanctuary',
-    category: 'WELLNESS & SPA',
-    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_4476.avif?tr=w-1200',
-    href: '/spa',
-  },
-  {
-    id: 'la-kana-wedding', slot: 'showcaseWedding', source: 'wedding',
-    title: 'Momen Pernikahan di La Kana',
-    category: 'WEDDING & CHAPEL',
-    image: '/images/wedding/wedding-chapel-1.jpg',
-    href: '/wedding',
-  },
-  {
-    id: 'sky-garden-dining', slot: 'showcaseDining', source: 'dining',
-    title: 'Sky Garden Dining & Panorama',
-    category: 'CULINARY & SCENIC',
-    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_4164%20copy.avif?tr=w-1200',
-    href: '/dining',
-  },
-  {
-    id: 'special-offers', slot: 'showcaseOffers', source: 'offers',
-    title: 'Paket Liburan & Penawaran',
-    category: 'OFFERS & RETREATS',
-    image: 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/MNP_3499%20copy%202.avif?tr=w-1200',
-    href: '/offers',
-  },
-];
-
-export const BestOfShowcase = ({ images }: { images: ShowcaseImages }) => {
+export const BestOfShowcase: React.FC<{ title: string; items: ShowcaseItem[] }> = ({ title, items }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
@@ -69,9 +33,9 @@ export const BestOfShowcase = ({ images }: { images: ShowcaseImages }) => {
     if (cardEl) {
       const cardWidth = cardEl.offsetWidth + 24;
       const index = Math.round(scrollLeft / cardWidth);
-      setActiveIndex(Math.min(Math.max(0, index), BEST_OF_ITEMS.length - 1));
+      setActiveIndex(Math.min(Math.max(0, index), items.length - 1));
     }
-  }, []);
+  }, [items.length]);
 
   useEffect(() => {
     const el = sliderRef.current;
@@ -106,7 +70,7 @@ export const BestOfShowcase = ({ images }: { images: ShowcaseImages }) => {
   };
 
   const handleNext = () => {
-    const nextIdx = Math.min(BEST_OF_ITEMS.length - 1, activeIndex + 1);
+    const nextIdx = Math.min(items.length - 1, activeIndex + 1);
     scrollToIndex(nextIdx);
   };
 
@@ -116,7 +80,7 @@ export const BestOfShowcase = ({ images }: { images: ShowcaseImages }) => {
         {/* Centered Large Serif Heading (Nihi Style) */}
         <div className="text-center">
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-forest-deep font-normal tracking-tight">
-            The Best of Susan Spa
+            {title}
           </h2>
         </div>
 
@@ -151,9 +115,9 @@ export const BestOfShowcase = ({ images }: { images: ShowcaseImages }) => {
             ref={sliderRef}
             className="flex gap-5 lg:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-2"
           >
-            {BEST_OF_ITEMS.map((item) => (
+            {items.map((item, index) => (
               <div
-                key={item.id}
+                key={index}
                 className="w-[72vw] sm:w-[280px] md:w-[calc(25%-18px)] shrink-0 snap-start"
               >
                 <Link
@@ -162,8 +126,8 @@ export const BestOfShowcase = ({ images }: { images: ShowcaseImages }) => {
                 >
                   {/* Tall Portrait Photo Container */}
                   <div className="relative aspect-[9/15] w-full overflow-hidden rounded-sm bg-stone-100 shadow-sm transition-all duration-500 group-hover:shadow-md">
-                    <Image
-                      slot={item.slot} src={images[item.source] || item.image}
+                    <Image slot={item.slot}
+                      src={item.image}
                       alt={item.title}
                       fill
                       sizes="(max-width: 640px) 72vw, (max-width: 1024px) 280px, 25vw"
@@ -195,7 +159,7 @@ export const BestOfShowcase = ({ images }: { images: ShowcaseImages }) => {
 
         {/* Dot Indicators */}
         <div className="flex items-center justify-center space-x-2 pt-2">
-          {BEST_OF_ITEMS.map((_, i) => (
+          {items.map((_, i) => (
             <button
               key={i}
               onClick={() => scrollToIndex(i)}

@@ -127,85 +127,85 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
    ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_home_poster_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_rooms_hero_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_spa_hero_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_dining_hero_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_facilities_hero_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_wedding_hero_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_wedding_venue_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_wedding_celebration_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_gallery_hero_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_offers_hero_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_experiences_hero_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_nearby_hero_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_about_hero_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_events_hero_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_showcase_spa_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_showcase_wedding_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_showcase_dining_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_showcase_offers_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_logo_gold_id_media_id_fk";
-  
+
   ALTER TABLE "site_settings" DROP CONSTRAINT "site_settings_website_images_logo_dark_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_home_poster_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_rooms_hero_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_spa_hero_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_dining_hero_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_facilities_hero_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_wedding_hero_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_wedding_venue_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_wedding_celebration_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_gallery_hero_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_offers_hero_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_experiences_hero_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_nearby_hero_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_about_hero_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_events_hero_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_showcase_spa_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_showcase_wedding_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_showcase_dining_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_showcase_offers_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_logo_gold_id_media_id_fk";
-  
+
   ALTER TABLE "_site_settings_v" DROP CONSTRAINT "_site_settings_v_version_website_images_logo_dark_id_media_id_fk";
-  
+
   DROP INDEX "site_settings_website_images_website_images_home_poster_idx";
   DROP INDEX "site_settings_website_images_website_images_rooms_hero_idx";
   DROP INDEX "site_settings_website_images_website_images_spa_hero_idx";

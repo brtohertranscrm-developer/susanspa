@@ -1,10 +1,10 @@
-import { notFound } from 'next/navigation';
 import { getJournalArticles } from '@/lib/cms';
 import JournalDetailClient from './JournalDetailClient';
 
-export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+type Props = { params: Promise<{ slug: string }> };
+
+export default async function JournalDetailPage({ params }: Props) {
   const { slug } = await params;
-  const article = (await getJournalArticles()).find((item) => item.slug === slug);
-  if (!article) notFound();
-  return <JournalDetailClient article={article} />;
+  const articles = await getJournalArticles();
+  return <JournalDetailClient article={articles.find((item) => item.slug === slug) ?? null} />;
 }

@@ -1,0 +1,299 @@
+/* Kepala editor: judul, tab Edit/Versi, dan bilah status serta tombol Terbitkan. */
+
+/* Garis pemisah bawaan diganti jarak, bilah aksi sudah tampil sebagai kartu sendiri. */
+.doc-header {
+  padding-bottom: 4px !important;
+}
+
+.doc-header::after {
+  display: none !important;
+}
+
+.doc-controls__divider {
+  display: none !important;
+}
+
+.doc-header__title {
+  margin: 0 !important;
+}
+
+/* Tab Edit dan Versi sebagai tombol segmen. */
+.doc-tabs__tabs {
+  gap: 4px !important;
+  padding: 4px !important;
+  border: 1px solid var(--cms-border) !important;
+  border-radius: 12px !important;
+  background: var(--cms-neutral-bg) !important;
+}
+
+.doc-tabs__tabs .doc-tab {
+  min-height: 38px !important;
+  padding: 6px 16px !important;
+  border-radius: 9px !important;
+  background: transparent !important;
+  color: var(--cms-text-secondary) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.doc-tabs__tabs .doc-tab:hover {
+  color: var(--cms-text) !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+
+.doc-tabs__tabs .doc-tab--active {
+  background: var(--cms-surface) !important;
+  box-shadow: var(--cms-shadow-subtle) !important;
+  color: var(--cms-text) !important;
+  opacity: 1 !important;
+}
+
+.doc-tabs__tabs .doc-tab::before,
+.doc-tabs__tabs .doc-tab::after {
+  display: none !important;
+}
+
+.pill-version-count {
+  margin-left: 6px;
+  padding: 1px 8px !important;
+  border-radius: 999px !important;
+  background: var(--cms-blue-100) !important;
+  color: var(--cms-blue-700) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+/* Bilah aksi sebagai kartu: status di kiri, tombol di kanan. */
+@media (min-width: 769px) {
+  .doc-controls__wrapper {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    height: auto !important;
+    min-height: 64px;
+    padding: 12px 12px 12px 18px !important;
+    border: 1px solid var(--cms-border);
+    border-radius: 14px;
+    background: var(--cms-surface);
+    box-shadow: var(--cms-shadow-subtle);
+  }
+
+  .doc-controls__content {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0 !important;
+  }
+
+  .doc-controls__meta {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 6px 18px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .doc-controls__list-item {
+    margin: 0 !important;
+  }
+
+  /* Penanda simpan otomatis kosong di antara penyimpanan, jadi tidak perlu memakan jarak. */
+  .doc-controls__list-item:has(> .autosave:empty) {
+    display: none !important;
+  }
+
+  /* Baris pertama status, baris kedua waktu simpan dan perubahan sebagai teks kecil yang tidak terpotong. */
+  .doc-controls__status {
+    flex-basis: 100%;
+  }
+
+  .doc-controls__value-wrap {
+    display: flex !important;
+    gap: 4px;
+    max-width: none !important;
+  }
+
+  .doc-controls__label,
+  .doc-controls__value,
+  .doc-controls .autosave {
+    margin: 0 !important;
+    color: var(--cms-text-muted) !important;
+    font-size: 12.5px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  .doc-controls__value {
+    color: var(--cms-text-secondary) !important;
+  }
+
+  .doc-controls__controls-wrapper {
+    display: flex !important;
+    flex-shrink: 0;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+}
+
+/* Payload menumpuk bilah aksi di layar 1024 px ke bawah dengan gaya sendiri. Di tablet dan laptop kecil
+   kartunya tetap sama: status dan waktu di atas, tombol rata kanan di bawahnya. */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .doc-controls.gutter {
+    top: 0 !important;
+  }
+
+  .doc-controls__wrapper {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    height: auto !important;
+  }
+
+  .doc-controls__content {
+    flex-basis: 100% !important;
+    padding: 0 !important;
+  }
+
+  .doc-controls__meta::after {
+    display: none !important;
+  }
+
+  .doc-controls__controls-wrapper {
+    justify-content: flex-end !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+    border-top: none !important;
+    background: transparent !important;
+  }
+
+  .doc-controls__controls {
+    padding-left: 0 !important;
+  }
+
+  .doc-controls__controls::after {
+    display: none !important;
+  }
+}
+
+.status__value-wrap {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center !important;
+  gap: 6px 12px;
+}
+
+/* "Status:" sudah jelas dari bentuk pil. */
+.status__label {
+  display: none !important;
+}
+
+.status__value {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 10px;
+  border: 1px solid var(--cms-border);
+  border-radius: 999px;
+  background: var(--cms-neutral-bg);
+  color: var(--cms-neutral) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  white-space: nowrap;
+}
+
+.status__value::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Warna mengikuti teks status di terjemahan payload.config.ts (version.published dan version.changed). */
+.status[title*='Tayang di website'] .status__value {
+  border-color: var(--cms-success-border);
+  background: var(--cms-success-bg);
+  color: var(--cms-success) !important;
+}
+
+.status:has(.status__action) .status__value {
+  border-color: var(--cms-warning-border);
+  background: var(--cms-warning-bg);
+  color: var(--cms-warning) !important;
+}
+
+/* Kembalikan ke versi tayang: tautan sekunder, bukan tombol utama. */
+.status__value-wrap {
+  font-size: 0;
+}
+
+.status__value,
+.status__action {
+  font-size: 13px !important;
+}
+
+.btn.status__action {
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 2px 0 !important;
+  border: none !important;
+  background: transparent !important;
+  color: var(--cms-blue-700) !important;
+  font-weight: 600 !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.btn.status__action:hover {
+  color: var(--cms-text) !important;
+}
+
+/* Tombol Terbitkan dan panah pilihan menyatu dalam satu warna. */
+.doc-controls .btn--style-primary.btn--withPopup > .btn,
+.doc-controls .form-submit .btn.btn--style-primary {
+  margin: 0 !important;
+  border-radius: 10px 0 0 10px !important;
+  background-color: var(--cms-blue-600) !important;
+  color: #ffffff !important;
+}
+
+.doc-controls .form-submit .btn.btn--style-primary {
+  border-radius: 10px !important;
+}
+
+.doc-controls .btn--style-primary.btn--withPopup .popup-button {
+  min-height: 42px;
+  padding: 0 12px !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 0 10px 10px 0 !important;
+  background-color: var(--cms-blue-600) !important;
+  color: #ffffff !important;
+}
+
+.doc-controls .btn--style-primary.btn--withPopup > .btn:hover,
+.doc-controls .form-submit .btn.btn--style-primary:hover,
+.doc-controls .btn--style-primary.btn--withPopup .popup-button:hover {
+  background-color: var(--cms-blue-700) !important;
+}
+
+.doc-controls .btn--style-primary.btn--withPopup .popup-button .stroke {
+  stroke: #ffffff !important;
+}
+
+/* Menu titik tiga sebagai tombol bergaris, sejajar tinggi tombol Terbitkan. */
+.doc-controls__popup .popup-button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--cms-border) !important;
+  border-radius: 10px !important;
+  background: var(--cms-surface) !important;
+}
+
+.doc-controls__popup .popup-button:hover {
+  background: var(--cms-neutral-bg) !important;
+}

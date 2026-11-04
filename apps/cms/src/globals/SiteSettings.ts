@@ -6,7 +6,6 @@ export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Pengaturan Situs',
   admin: {
-    group: 'Settings',
   },
   access: {
     read: () => true,
@@ -19,7 +18,7 @@ export const SiteSettings: GlobalConfig = {
       type: 'group',
       label: 'Gambar Website (Banner, Beranda & Logo)',
       admin: {
-        description: 'Pilih foto untuk posisi yang ingin diganti, lalu terbitkan pengaturan situs. Jika kosong, banner mengikuti foto konten terkait atau gambar bawaan. Foto kartu dan detail tetap dikelola di kontennya masing-masing.',
+        description: 'Pilihan khusus ini mengalahkan gambar pada editor halaman dan Tata Letak Situs. Kosongkan untuk mengikuti gambar dari editor tersebut. Setelah mengganti pilihan, terbitkan pengaturan situs. Foto kartu dan detail tetap dikelola di kontennya masing-masing.',
       },
       fields: websiteImageSlots.map(({ name, label }) => ({
         name,
@@ -50,13 +49,42 @@ export const SiteSettings: GlobalConfig = {
             { name: 'email', type: 'email', label: 'Email Resmi' },
           ],
         },
+        {
+          name: 'reservationEmail',
+          type: 'email',
+          label: 'Email Reservasi',
+          admin: { description: 'Alamat tujuan permintaan reservasi dari website.' },
+        },
         { name: 'instagramUrl', type: 'text', label: 'URL Instagram' },
         { name: 'facebookUrl', type: 'text', label: 'URL Facebook' },
+        { name: 'tiktokUrl', type: 'text', label: 'URL TikTok' },
       ],
     },
     {
       type: 'collapsible',
-      label: 'Default SEO & Social Share',
+      label: 'Peta lokasi',
+      admin: { initCollapsed: true },
+      fields: [
+        {
+          name: 'googleMapsUrl',
+          type: 'text',
+          label: 'Tautan Google Maps',
+          admin: { description: 'Dibuka oleh tombol petunjuk arah. Salin dari tombol Bagikan di Google Maps.' },
+        },
+        {
+          name: 'mapEmbedUrl',
+          type: 'text',
+          label: 'Alamat peta sematan',
+          admin: {
+            description:
+              'Di Google Maps pilih Bagikan, Sematkan peta, lalu salin hanya isi src="..." yang diawali https://www.google.com/maps/embed.',
+          },
+        },
+      ],
+    },
+    {
+      type: 'collapsible',
+      label: 'SEO & tampilan saat dibagikan',
       admin: { initCollapsed: true },
       fields: [
         {
@@ -68,9 +96,9 @@ export const SiteSettings: GlobalConfig = {
             },
           },
         },
-        { name: 'defaultSeoTitle', type: 'text', localized: true, label: 'Default SEO Title' },
-        { name: 'defaultSeoDescription', type: 'textarea', localized: true, label: 'Default Meta Description' },
-        { name: 'defaultSeoImage', type: 'upload', relationTo: 'media', label: 'Default Open Graph Image' },
+        { name: 'defaultSeoTitle', type: 'text', localized: true, label: 'Judul SEO bawaan' },
+        { name: 'defaultSeoDescription', type: 'textarea', localized: true, label: 'Deskripsi SEO bawaan' },
+        { name: 'defaultSeoImage', type: 'upload', relationTo: 'media', label: 'Gambar saat dibagikan' },
       ],
     },
   ],
