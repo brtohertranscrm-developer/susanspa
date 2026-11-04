@@ -1,9 +1,6 @@
 import { ROOMS } from '@/data/rooms';
 import type { Room } from '@/types';
-
-interface CmsMedia {
-  url?: string | null;
-}
+import { resolveCmsMedia, type CmsMedia } from './cms-media';
 
 export interface CmsRoom {
   id: string | number;
@@ -25,18 +22,13 @@ export interface CmsRoom {
 }
 
 export function resolveRoomCatalog(documents: CmsRoom[], cmsApiUrl?: string): Room[] {
-  function absoluteCmsUrl(pathname: string) {
-    if (/^https?:\/\//.test(pathname) || !cmsApiUrl) return pathname;
-    return `${cmsApiUrl.replace(/\/$/, '')}${pathname.startsWith('/') ? '' : '/'}${pathname}`;
-  }
-
   // Retire only the known demo entries; keep all other published CMS additions.
   // No CMS records or booking history are deleted by this presentation change.
   const retiredDemoSlugs = new Set(['grand-villa', 'royal-suite', 'jacuzzi-villa', 'family-suite', 'deluxe-mountain']);
   const cmsRooms = documents.filter((document) => !retiredDemoSlugs.has(document.slug)).map((document) => {
     const referenceRoom = ROOMS.find((room) => room.slug === document.slug);
     const images = (document.images || [])
-      .map(({ image }) => (typeof image === 'object' && image?.url ? absoluteCmsUrl(image.url) : null))
+      .map(({ image }) => resolveCmsMedia(image, '', cmsApiUrl))
       .filter((url): url is string => Boolean(url));
     const amenities = (document.amenities || [])
       .map(({ label }) => label)

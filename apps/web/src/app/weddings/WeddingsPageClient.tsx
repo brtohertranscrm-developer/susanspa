@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
+import Image from '@/components/global/WebsiteImages';
 import { CheckCircle2, Send , ChevronDown} from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
@@ -48,7 +48,7 @@ export default function WeddingsPageClient({ packages }: { packages: WeddingPack
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="/images/wedding/wedding-chapel-1.jpg"
+            slot="weddingHero" src={packages[0]?.image || '/images/wedding/wedding-chapel-1.jpg'}
             alt="La Kana Chapel Wedding"
             fill
             className="object-cover "
@@ -102,7 +102,7 @@ export default function WeddingsPageClient({ packages }: { packages: WeddingPack
 
         <div className="relative aspect-[4/3] overflow-hidden shadow-2xl border border-stone/30">
           <Image
-            src="/images/wedding/wedding-chapel-2.jpg"
+            slot="weddingCelebration" src="/images/wedding/wedding-chapel-2.jpg"
             alt="La Kana Chapel Entrance"
             fill
             className="object-cover"

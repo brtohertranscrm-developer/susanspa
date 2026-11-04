@@ -169,6 +169,7 @@ export interface GalleryItem {
   image: string;
   width?: number;
   height?: number;
+  aspectRatio?: 'square' | 'wide' | 'tall';
 }
 
 export type Offer = SpecialOffer;

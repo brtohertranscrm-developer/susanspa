@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { NEARBY_DESTINATIONS } from '@/data/nearby';
+import { getNearbyDestinations } from '@/lib/cms';
 import NearbyDetailTemplate from './NearbyDetailTemplate';
 import { Metadata } from 'next';
 
@@ -7,7 +7,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const dest = NEARBY_DESTINATIONS.find((d) => d.slug === slug);
+  const dest = (await getNearbyDestinations()).find((d) => d.slug === slug);
   if (!dest) return { title: 'Destinasi Tidak Ditemukan | Susan Spa & Resort' };
 
   return {
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function NearbyDetailPage({ params }: Props) {
   const { slug } = await params;
-  const destination = NEARBY_DESTINATIONS.find((item) => item.slug === slug);
+  const destination = (await getNearbyDestinations()).find((item) => item.slug === slug);
   if (!destination) notFound();
 
   return <NearbyDetailTemplate destination={destination} />;

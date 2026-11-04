@@ -2,7 +2,7 @@
 
 import { ChevronDown } from 'lucide-react';
 import React, { useState } from 'react';
-import Image from 'next/image';
+import Image from '@/components/global/WebsiteImages';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
 import { ReservationModal } from '@/components/global/ReservationModal';
@@ -18,7 +18,7 @@ export default function EventsPage() {
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2000&auto=format&fit=crop"
+            slot="eventsHero" src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2000&auto=format&fit=crop"
             alt="Meetings and Events"
             fill
             className="object-cover "

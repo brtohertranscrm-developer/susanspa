@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -14,25 +14,9 @@ import { ReservationModal } from '@/components/global/ReservationModal';
 import { FeaturedRoomsCarousel } from '@/components/ui/FeaturedRoomsCarousel';
 import { BestOfShowcase } from '@/components/ui/BestOfShowcase';
 import { SITE_CONFIG } from '@/data/site';
+import { WebsiteVideo } from '@/components/global/WebsiteImages';
+import type { ShowcaseImages } from '@/components/ui/BestOfShowcase';
 import type { Room } from '@/types';
-
-const HERO_SLIDES = [
-  {
-    image: '/images/hero/hero-facade.jpg',
-    title: 'Kesejukan Lereng Gunung Ungaran',
-    subtitle: 'Menikmati Panorama Pegunungan yang Menenangkan & Asri di Ketinggian ±1.100 mdpl',
-  },
-  {
-    image: '/images/hero/hero-drone.jpg',
-    title: 'Panorama Udara Susan Spa & Resort',
-    subtitle: 'Pemandangan Spektakuler Lembah & Alam Pegunungan dari Ketinggian ±1.100 mdpl',
-  },
-  {
-    image: '/images/hero/hero-resort.jpg',
-    title: 'Kenyamanan Menginap di Atas Awan',
-    subtitle: 'Harmoni Kebugaran Tradisional, Akomodasi Nyaman, dan Udara Sejuk Pegunungan',
-  },
-];
 
 // Featured rooms to display on homepage (Top 3 flagship categories)
 const FEATURED_ROOM_SLUGS = [
@@ -41,7 +25,7 @@ const FEATURED_ROOM_SLUGS = [
   'villa-4-bedrooms',
 ];
 
-export default function HomePageClient({ rooms }: { rooms: Room[] }) {
+export default function HomePageClient({ rooms, showcaseImages }: { rooms: Room[]; showcaseImages: ShowcaseImages }) {
   const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
   const [modalRoomSlug, setModalRoomSlug] = useState<string | undefined>();
   const [modalType, setModalType] = useState<'room' | 'spa' | 'wedding' | 'event'>('room');
@@ -75,7 +59,8 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       >
         {/* Background Video with Calibrated Gradient Overlay */}
         <div className="absolute inset-0 z-0 bg-forest-deep pointer-events-none">
-          <video
+          <WebsiteVideo
+            slot="homePoster"
             autoPlay
             loop
             muted
@@ -84,7 +69,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
             className="w-full h-full object-cover pointer-events-none"
           >
             <source src="/videos/hero.mp4" type="video/mp4" />
-          </video>
+          </WebsiteVideo>
           <div className="absolute inset-0 bg-black/30 pointer-events-none" />
         </div>
 
@@ -158,7 +143,7 @@ export default function HomePageClient({ rooms }: { rooms: Room[] }) {
       {/* 04: SECTION: THE BEST OF SUSAN SPA (Curated Luxury Showcase - Nihi Style) */}
       {/* ========================================================================= */}
       <div id="destinations">
-        <BestOfShowcase />
+        <BestOfShowcase images={showcaseImages} />
       </div>
 
       {/* ========================================================================= */}

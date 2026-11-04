@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
+import Image from '@/components/global/WebsiteImages';
 import { ChevronDown } from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
@@ -21,7 +21,7 @@ export default function SpaPageClient({ treatments }: { treatments: SpaTreatment
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/IMG_0174.avif?tr=w-1920"
+            slot="spaHero" src={treatments[0]?.image || 'https://ik.imagekit.io/ro8484nadw/SUSAN%20SPA/update%20konten%20susan%20spa/IMG_0174.avif?tr=w-1920'}
             alt="Susan Spa Wellness Sanctuary"
             fill
             priority

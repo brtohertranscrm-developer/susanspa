@@ -756,6 +756,31 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface SiteSetting {
   id: number;
+  /**
+   * Pilih foto untuk posisi yang ingin diganti, lalu terbitkan pengaturan situs. Jika kosong, banner mengikuti foto konten terkait atau gambar bawaan. Foto kartu dan detail tetap dikelola di kontennya masing-masing.
+   */
+  websiteImages?: {
+    homePoster?: (number | null) | Media;
+    roomsHero?: (number | null) | Media;
+    spaHero?: (number | null) | Media;
+    diningHero?: (number | null) | Media;
+    facilitiesHero?: (number | null) | Media;
+    weddingHero?: (number | null) | Media;
+    weddingVenue?: (number | null) | Media;
+    weddingCelebration?: (number | null) | Media;
+    galleryHero?: (number | null) | Media;
+    offersHero?: (number | null) | Media;
+    experiencesHero?: (number | null) | Media;
+    nearbyHero?: (number | null) | Media;
+    aboutHero?: (number | null) | Media;
+    eventsHero?: (number | null) | Media;
+    showcaseSpa?: (number | null) | Media;
+    showcaseWedding?: (number | null) | Media;
+    showcaseDining?: (number | null) | Media;
+    showcaseOffers?: (number | null) | Media;
+    logoGold?: (number | null) | Media;
+    logoDark?: (number | null) | Media;
+  };
   resortName: string;
   address?: string | null;
   phone?: string | null;
@@ -775,6 +800,30 @@ export interface SiteSetting {
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
+  websiteImages?:
+    | T
+    | {
+        homePoster?: T;
+        roomsHero?: T;
+        spaHero?: T;
+        diningHero?: T;
+        facilitiesHero?: T;
+        weddingHero?: T;
+        weddingVenue?: T;
+        weddingCelebration?: T;
+        galleryHero?: T;
+        offersHero?: T;
+        experiencesHero?: T;
+        nearbyHero?: T;
+        aboutHero?: T;
+        eventsHero?: T;
+        showcaseSpa?: T;
+        showcaseWedding?: T;
+        showcaseDining?: T;
+        showcaseOffers?: T;
+        logoGold?: T;
+        logoDark?: T;
+      };
   resortName?: T;
   address?: T;
   phone?: T;

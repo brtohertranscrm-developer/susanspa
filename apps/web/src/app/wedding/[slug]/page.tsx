@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { WEDDING_PACKAGES } from '@/data/weddings';
+import { getWeddingPackages } from '@/lib/cms';
 import WeddingDetailTemplate from './WeddingDetailTemplate';
 import { Metadata } from 'next';
 
@@ -7,7 +7,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const pkg = WEDDING_PACKAGES.find((p) => p.slug === slug);
+  const pkg = (await getWeddingPackages()).find((p) => p.slug === slug);
   if (!pkg) return { title: 'Wedding Package Not Found | Susan Spa & Resort' };
 
   return {
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function WeddingDetailPage({ params }: Props) {
   const { slug } = await params;
-  const pkg = WEDDING_PACKAGES.find((item) => item.slug === slug);
+  const pkg = (await getWeddingPackages()).find((item) => item.slug === slug);
   if (!pkg) notFound();
 
   return <WeddingDetailTemplate pkg={pkg} />;

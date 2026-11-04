@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+import { websiteImageSlots } from '@susan/contracts'
 import { canManageContent } from '../access'
 
 export const SiteSettings: GlobalConfig = {
@@ -13,6 +14,20 @@ export const SiteSettings: GlobalConfig = {
   },
   versions: { drafts: true, max: 25 },
   fields: [
+    {
+      name: 'websiteImages',
+      type: 'group',
+      label: 'Gambar Website (Banner, Beranda & Logo)',
+      admin: {
+        description: 'Pilih foto untuk posisi yang ingin diganti, lalu terbitkan pengaturan situs. Jika kosong, banner mengikuti foto konten terkait atau gambar bawaan. Foto kartu dan detail tetap dikelola di kontennya masing-masing.',
+      },
+      fields: websiteImageSlots.map(({ name, label }) => ({
+        name,
+        label,
+        type: 'upload' as const,
+        relationTo: 'media' as const,
+      })),
+    },
     {
       type: 'collapsible',
       label: 'Informasi Utama Resor',

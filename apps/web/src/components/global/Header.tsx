@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from '@/components/global/WebsiteImages';
 import { Menu } from 'lucide-react';
 import { SITE_CONFIG } from '@/data/site';
 import { cn } from '@/lib/utils';
@@ -59,7 +59,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenReserve }) => {
           <div className="flex items-center justify-center">
             <Link href="/" className="flex items-center group py-1">
               <Image
-                src="/images/susan-spa-logo-gold.png"
+                slot="logoGold" src="/images/susan-spa-logo-gold.png"
                 alt={SITE_CONFIG.name}
                 width={170}
                 height={75}

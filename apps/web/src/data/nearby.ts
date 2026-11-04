@@ -72,7 +72,6 @@ export const NEARBY_DESTINATIONS: NearbyDestination[] = [
     image: 'https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?q=80&w=1600&auto=format&fit=crop',
     images: [
       'https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?q=80&w=1600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1515165562839-97840182415c?q=80&w=1600&auto=format&fit=crop',
     ],
     tips: 'Saran kami: Pilih tiket terusan agar Anda dan keluarga dapat menikmati seluruh wahana dengan leluasa tanpa antrean pembelian ulang.',
     mapUrl: 'https://maps.google.com/?q=Saloka+Theme+Park',

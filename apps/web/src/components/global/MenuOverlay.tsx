@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from '@/components/global/WebsiteImages';
 import { usePathname } from 'next/navigation';
 import {
   X,
@@ -298,7 +298,7 @@ export const MenuOverlay: React.FC<MenuOverlayProps> = ({
             className="flex items-center group py-1 focus-visible:ring-2 focus-visible:ring-champagne focus-visible:outline-none rounded-md"
           >
             <Image
-              src="/images/susan-spa-logo-dark.png"
+              slot="logoDark" src="/images/susan-spa-logo-dark.png"
               alt={SITE_CONFIG.name}
               width={160}
               height={70}

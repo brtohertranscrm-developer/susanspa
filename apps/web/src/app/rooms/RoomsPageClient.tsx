@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
+import Image from '@/components/global/WebsiteImages';
 import { ChevronDown } from 'lucide-react';
 import { Header } from '@/components/global/Header';
 import { Footer } from '@/components/global/Footer';
@@ -36,7 +36,7 @@ export default function RoomsPageClient({ rooms }: { rooms: Room[] }) {
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="/images/rooms/room-1.jpg"
+            slot="roomsHero" src={rooms[0]?.images[0] || '/images/rooms/room-1.jpg'}
             alt="Susan Spa Rooms & Suites"
             fill
             priority

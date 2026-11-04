@@ -1,3 +1,7 @@
+const cmsImageOrigins = [...new Set([process.env.CMS_API_URL, process.env.CMS_PUBLIC_URL]
+  .filter(Boolean)
+  .map((url) => new URL(url).origin))];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -5,6 +9,10 @@ const nextConfig = {
   transpilePackages: ['@susan/contracts'],
   images: {
     remotePatterns: [
+      ...cmsImageOrigins.map((origin) => {
+        const url = new URL(origin);
+        return { protocol: url.protocol.slice(0, -1), hostname: url.hostname, port: url.port };
+      }),
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
@@ -45,7 +53,7 @@ const nextConfig = {
               scriptPolicy,
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com data:",
-              "img-src 'self' data: blob: https://images.unsplash.com https://www.susansparesort.com https://dksw6vf0i66fe.cloudfront.net https://ik.imagekit.io http://localhost:3001",
+              `img-src 'self' data: blob: https://images.unsplash.com https://www.susansparesort.com https://dksw6vf0i66fe.cloudfront.net https://ik.imagekit.io http://localhost:3001 ${cmsImageOrigins.join(' ')}`,
               "media-src 'self' https://ik.imagekit.io",
               "connect-src 'self' http://localhost:3001 http://localhost:4000",
               "frame-src 'self' https://www.google.com https://maps.google.com",

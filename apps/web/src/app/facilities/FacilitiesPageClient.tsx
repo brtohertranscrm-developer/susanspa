@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
+import Image from '@/components/global/WebsiteImages';
 import {
   Flower2,
   Utensils,
@@ -44,7 +44,7 @@ export default function FacilitiesPageClient({ facilityGroups }: { facilityGroup
       <section className="relative h-screen min-h-screen flex flex-col justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 z-0 bg-forest-deep">
           <Image
-            src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop"
+            slot="facilitiesHero" src={facilityGroups[0]?.items[0]?.image || 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop'}
             alt="Susan Spa Facilities"
             fill
             priority

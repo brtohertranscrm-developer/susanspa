@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { getWebsiteImages } from '@/lib/cms';
+import { WebsiteImagesProvider } from '@/components/global/WebsiteImages';
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL('https://www.susansparesort.com'),
   title: {
     default: 'Susan Spa & Resort: Peristirahatan Menenangkan di Lereng Bandungan',
@@ -45,16 +47,28 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export async function generateMetadata(): Promise<Metadata> {
+  const images = await getWebsiteImages();
+  if (!images.socialImage) return baseMetadata;
+  const socialImage = { url: images.socialImage.url, alt: images.socialImage.alt || 'Susan Spa & Resort Bandungan' };
+  return {
+    ...baseMetadata,
+    openGraph: { ...baseMetadata.openGraph, images: [socialImage] },
+    twitter: { ...baseMetadata.twitter, images: [socialImage.url] },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const images = await getWebsiteImages();
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Resort',
     name: 'Susan Spa & Resort',
-    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200',
+    image: images.socialImage?.url || 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200',
     '@id': 'https://www.susansparesort.com/',
     url: 'https://www.susansparesort.com/',
     telephone: '+62298711111',
@@ -85,11 +99,11 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
         />
       </head>
       <body className="antialiased selection:bg-champagne selection:text-forest-deep">
-        {children}
+        <WebsiteImagesProvider images={images}>{children}</WebsiteImagesProvider>
       </body>
     </html>
   );
