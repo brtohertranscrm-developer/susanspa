@@ -107,6 +107,7 @@ export interface JournalArticle {
   readTime: string;
   excerpt: string;
   content: string[];
+  richText?: import('@/components/ui/RichText').RichTextRoot;
   author: {
     name: string;
     role: string;

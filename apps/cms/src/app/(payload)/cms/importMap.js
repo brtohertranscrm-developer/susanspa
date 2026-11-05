@@ -30,6 +30,7 @@ import { SidebarNav as SidebarNav_ef44d9c7f31de6b55854813e2129f5b3 } from '@/com
 import { LoginBrand as LoginBrand_42bd523c174171af70f081dc1ed96329 } from '@/components/login/LoginBrand'
 import { LoginHelp as LoginHelp_7a0ce9e34a88aa2584a4d0c7f650e345 } from '@/components/login/LoginHelp'
 import { LoginIntro as LoginIntro_c88167ed543a33b8842d9691ade687f5 } from '@/components/login/LoginIntro'
+import { ForgotPasswordView as ForgotPasswordView_5a9d61f9a046a39ab40dd4036b2f8530 } from '@/components/login/ForgotPasswordView'
 import { CustomDashboard as CustomDashboard_3d66ce261c69291b5c7569666f36cdcc } from '@/components/dashboard/CustomDashboard'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
@@ -67,6 +68,7 @@ export const importMap = {
   "@/components/login/LoginBrand#LoginBrand": LoginBrand_42bd523c174171af70f081dc1ed96329,
   "@/components/login/LoginHelp#LoginHelp": LoginHelp_7a0ce9e34a88aa2584a4d0c7f650e345,
   "@/components/login/LoginIntro#LoginIntro": LoginIntro_c88167ed543a33b8842d9691ade687f5,
+  "@/components/login/ForgotPasswordView#ForgotPasswordView": ForgotPasswordView_5a9d61f9a046a39ab40dd4036b2f8530,
   "@/components/dashboard/CustomDashboard#CustomDashboard": CustomDashboard_3d66ce261c69291b5c7569666f36cdcc,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

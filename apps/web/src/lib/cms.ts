@@ -5,6 +5,7 @@ import { websiteImageSlots } from '@susan/contracts';
 import { resolveCmsMedia, type CmsMedia } from './cms-media';
 import type { WebsiteImages } from '@/components/global/WebsiteImages';
 import { richTextParagraphs } from './cms-richtext';
+import { offerIsVisible } from './offer-schedule';
 
 import { resolveRoomCatalog, type CmsRoom } from '@/lib/room-catalog';
 import { SPA_TREATMENTS } from '@/data/spa';
@@ -24,6 +25,8 @@ import type {
 
 interface CmsListResponse<T> {
   docs: T[];
+  hasNextPage?: boolean;
+  nextPage?: number | null;
 }
 
 interface CmsContent {
@@ -42,6 +45,8 @@ interface CmsContent {
   capacity?: number | null;
   venue?: string | null;
   validUntil?: string | null;
+  validFrom?: string | null;
+  scheduleEnabled?: boolean | null;
   terms?: string | null;
   kind?: string | null;
   location?: string | null;
@@ -103,11 +108,13 @@ const formatPublishedAt = (value?: string | null) => {
 const labels = (rows: unknown): string[] =>
   Array.isArray(rows) ? rows.map((row) => row?.label).filter((label): label is string => typeof label === 'string' && Boolean(label.trim())) : [];
 
+export function getCmsCollection<T>(collection: string, fallback: T[], options?: { locale?: 'id' | 'en'; limit?: number; depth?: number }): Promise<T[]>;
+export function getCmsCollection<T>(collection: string, fallback: null, options?: { locale?: 'id' | 'en'; limit?: number; depth?: number }): Promise<T[] | null>;
 export async function getCmsCollection<T>(
   collection: string,
-  fallback: T[],
+  fallback: T[] | null,
   options: { locale?: 'id' | 'en'; limit?: number; depth?: number } = {},
-): Promise<T[]> {
+): Promise<T[] | null> {
   if (!cmsApiUrl) return fallback;
 
   const query = new URLSearchParams({
@@ -120,17 +127,26 @@ export async function getCmsCollection<T>(
   });
 
   try {
-    const response = await fetch(`${cmsApiUrl}/api/${collection}?${query}`, {
-      cache: 'no-store',
-      headers: { Accept: 'application/json' },
-      signal: AbortSignal.timeout(4000),
-    });
-    if (!response.ok) {
-      console.warn(`Koleksi ${collection} dari CMS gagal dimuat: HTTP ${response.status}`);
-      return fallback;
+    const documents: T[] = [];
+    let page = 1;
+    while (true) {
+      query.set('page', String(page));
+      const response = await fetch(`${cmsApiUrl}/api/${collection}?${query}`, {
+        cache: 'no-store',
+        headers: { Accept: 'application/json' },
+        signal: AbortSignal.timeout(4000),
+      });
+      if (!response.ok) {
+        console.warn(`Koleksi ${collection} dari CMS gagal dimuat: HTTP ${response.status}`);
+        return fallback;
+      }
+      const data = (await response.json()) as CmsListResponse<T>;
+      if (!Array.isArray(data.docs)) throw new Error('Invalid CMS collection response');
+      documents.push(...data.docs);
+      if (!data.hasNextPage) return documents;
+      if (!Number.isInteger(data.nextPage) || data.nextPage! <= page) throw new Error('Invalid CMS pagination');
+      page = data.nextPage!;
     }
-    const data = (await response.json()) as CmsListResponse<T>;
-    return data.docs.length > 0 ? data.docs : fallback;
   } catch (error) {
     console.warn(`Koleksi ${collection} dari CMS tidak bisa dihubungi:`, error);
     return fallback;
@@ -138,13 +154,13 @@ export async function getCmsCollection<T>(
 }
 
 export async function getRooms(locale: 'id' | 'en' = 'id'): Promise<Room[]> {
-  const documents = await getCmsCollection<CmsRoom>('rooms', [], { locale, depth: 2 });
+  const documents = await getCmsCollection<CmsRoom>('rooms', null, { locale, depth: 2 });
   return resolveRoomCatalog(documents, cmsMediaUrl);
 }
 
 export async function getSpaTreatments(locale: 'id' | 'en' = 'id'): Promise<SpaTreatment[]> {
-  const docs = await getCmsCollection<CmsContent>('spa-treatments', [], { locale, depth: 1 });
-  if (!docs || docs.length === 0) return SPA_TREATMENTS;
+  const docs = await getCmsCollection<CmsContent>('spa-treatments', null, { locale, depth: 1 });
+  if (docs === null) return SPA_TREATMENTS;
   return docs.map((doc: CmsContent) => ({
     id: doc.slug,
     slug: doc.slug,
@@ -161,8 +177,8 @@ export async function getSpaTreatments(locale: 'id' | 'en' = 'id'): Promise<SpaT
 }
 
 export async function getWeddingPackages(locale: 'id' | 'en' = 'id'): Promise<WeddingPackage[]> {
-  const docs = await getCmsCollection<CmsContent>('wedding-packages', [], { locale, depth: 1 });
-  if (!docs || docs.length === 0) return WEDDING_PACKAGES;
+  const docs = await getCmsCollection<CmsContent>('wedding-packages', null, { locale, depth: 1 });
+  if (docs === null) return WEDDING_PACKAGES;
   return docs.map((doc: CmsContent) => {
     // Field yang belum diisi di CMS diambil dari data bawaan dengan slug yang sama.
     const reference = WEDDING_PACKAGES.find((item) => item.slug === doc.slug);
@@ -191,9 +207,9 @@ export async function getWeddingPackages(locale: 'id' | 'en' = 'id'): Promise<We
 }
 
 export async function getOffers(locale: 'id' | 'en' = 'id'): Promise<Offer[]> {
-  const docs = await getCmsCollection<CmsContent>('offers', [], { locale, depth: 1 });
-  if (!docs || docs.length === 0) return OFFERS;
-  return docs.map((doc: CmsContent) => ({
+  const docs = await getCmsCollection<CmsContent>('offers', null, { locale, depth: 1 });
+  if (docs === null) return OFFERS;
+  return docs.filter(doc => offerIsVisible(doc)).map((doc: CmsContent) => ({
     id: doc.slug,
     slug: doc.slug,
     title: doc.title,
@@ -211,9 +227,9 @@ export async function getOffers(locale: 'id' | 'en' = 'id'): Promise<Offer[]> {
 }
 
 export async function getFacilities(locale: 'id' | 'en' = 'id'): Promise<ResortFacility[]> {
-  const docs = await getCmsCollection<CmsContent>('resort-content', [], { locale, depth: 1 });
+  const docs = await getCmsCollection<CmsContent>('resort-content', null, { locale, depth: 1 });
+  if (docs === null) return FACILITIES;
   const facilities = docs.filter((document: CmsContent) => document.kind === 'facility');
-  if (!facilities || facilities.length === 0) return FACILITIES;
   return facilities.map((doc: CmsContent) => {
     const reference = FACILITIES.find((item) => item.id === doc.slug);
     const highlights = labels(doc.highlights);
@@ -230,8 +246,8 @@ export async function getFacilities(locale: 'id' | 'en' = 'id'): Promise<ResortF
 }
 
 export async function getGalleryItems(locale: 'id' | 'en' = 'id'): Promise<GalleryItem[]> {
-  const docs = await getCmsCollection<CmsContent>('gallery-items', [], { locale, depth: 1 });
-  if (!docs || docs.length === 0) return GALLERY_ITEMS;
+  const docs = await getCmsCollection<CmsContent>('gallery-items', null, { locale, depth: 1 });
+  if (docs === null) return GALLERY_ITEMS;
   return docs.map((doc: CmsContent) => ({
     id: String(doc.id),
     title: doc.title || '',
@@ -244,9 +260,9 @@ export async function getGalleryItems(locale: 'id' | 'en' = 'id'): Promise<Galle
 }
 
 export async function getDining(locale: 'id' | 'en' = 'id'): Promise<DiningVenue[]> {
-  const docs = await getCmsCollection<CmsContent>('resort-content', [], { locale, depth: 1 });
+  const docs = await getCmsCollection<CmsContent>('resort-content', null, { locale, depth: 1 });
+  if (docs === null) return DINING_VENUES;
   const dining = docs.filter((document: CmsContent) => document.kind === 'dining');
-  if (!dining || dining.length === 0) return DINING_VENUES;
   return dining.map((doc: CmsContent) => {
     const reference = DINING_VENUES.find((item) => item.id === doc.slug);
     const highlights = labels(doc.highlights);
@@ -265,9 +281,9 @@ export async function getDining(locale: 'id' | 'en' = 'id'): Promise<DiningVenue
 }
 
 export async function getExperiences(locale: 'id' | 'en' = 'id'): Promise<Experience[]> {
-  const docs = await getCmsCollection<CmsContent>('resort-content', [], { locale, depth: 1 });
+  const docs = await getCmsCollection<CmsContent>('resort-content', null, { locale, depth: 1 });
+  if (docs === null) return EXPERIENCES;
   const experiences = docs.filter((document: CmsContent) => document.kind === 'experience');
-  if (!experiences || experiences.length === 0) return EXPERIENCES;
   return experiences.map((doc: CmsContent) => {
     const reference = EXPERIENCES.find((item) => item.slug === doc.slug);
     const highlights = labels(doc.highlights);
@@ -286,9 +302,9 @@ export async function getExperiences(locale: 'id' | 'en' = 'id'): Promise<Experi
 }
 
 export async function getNearbyDestinations(locale: 'id' | 'en' = 'id'): Promise<NearbyDestination[]> {
-  const docs = await getCmsCollection<CmsContent>('resort-content', [], { locale, depth: 1 });
+  const docs = await getCmsCollection<CmsContent>('resort-content', null, { locale, depth: 1 });
+  if (docs === null) return NEARBY_DESTINATIONS;
   const nearby = docs.filter((document: CmsContent) => document.kind === 'nearby');
-  if (!nearby || nearby.length === 0) return NEARBY_DESTINATIONS;
   return nearby.map((doc: CmsContent) => {
     // Alamat, tips, dan tautan peta belum ada di CMS, jadi diambil dari data bawaan dengan slug yang sama.
     const reference = NEARBY_DESTINATIONS.find((item) => item.slug === doc.slug);
@@ -311,8 +327,8 @@ export async function getNearbyDestinations(locale: 'id' | 'en' = 'id'): Promise
 }
 
 export async function getJournalArticles(locale: 'id' | 'en' = 'id'): Promise<JournalArticle[]> {
-  const docs = await getCmsCollection<CmsContent>('journal-articles', [], { locale, depth: 1 });
-  if (!docs || docs.length === 0) return JOURNAL_ARTICLES;
+  const docs = await getCmsCollection<CmsContent>('journal-articles', null, { locale, depth: 1 });
+  if (docs === null) return JOURNAL_ARTICLES;
   return docs.map((doc: CmsContent) => {
     // Kutipan dan data penulis belum ada di CMS, jadi diambil dari data bawaan dengan slug yang sama.
     const reference = JOURNAL_ARTICLES.find((article) => article.slug === doc.slug);
@@ -331,6 +347,7 @@ export async function getJournalArticles(locale: 'id' | 'en' = 'id'): Promise<Jo
       seoDescription: doc.seoDescription || undefined,
       excerpt: doc.excerpt || reference?.excerpt || '',
       content: content.length > 0 ? content : (reference?.content ?? []),
+      richText: doc.content?.root ? doc.content : undefined,
       author: {
         name: doc.authorName || reference?.author.name || 'Susan Spa',
         role: doc.authorRole || reference?.author.role || 'Editorial',

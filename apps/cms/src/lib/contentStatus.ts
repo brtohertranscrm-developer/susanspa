@@ -191,21 +191,30 @@ export interface ContentStatus {
 
 const RECENT_DAYS = 30
 
+async function findAll(payload: BasePayload, options: Parameters<BasePayload['find']>[0]): Promise<{ docs: Doc[] }> {
+  const docs: Doc[] = []
+  let page = 1
+  while (true) {
+    const result = await payload.find({ ...options, page, limit: 200 })
+    docs.push(...result.docs as unknown as Doc[])
+    if (!result.hasNextPage) return { docs }
+    if (!Number.isInteger(result.nextPage) || result.nextPage! <= page) throw new Error('Invalid CMS pagination')
+    page = result.nextPage!
+  }
+}
+
 /** Status semua konten untuk dasbor dan angka di sidebar. Dihitung sekali per permintaan. */
 export const getContentStatus = cache(async (payload: BasePayload): Promise<ContentStatus> => {
   const now = Date.now()
   const results = await Promise.all(
     SOURCES.map(async (source) => {
       const [current, english] = await Promise.all([
-        payload
-          .find({ collection: source.collection, draft: true, depth: 1, limit: 200, locale: 'id', overrideAccess: true })
+        findAll(payload, { collection: source.collection, draft: true, depth: 1, locale: 'id', overrideAccess: true })
           .catch(() => ({ docs: [] as Doc[] })),
-        payload
-          .find({
+        findAll(payload, {
             collection: source.collection,
             draft: true,
             depth: 0,
-            limit: 200,
             locale: 'en',
             fallbackLocale: false,
             overrideAccess: true,

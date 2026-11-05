@@ -1,7 +1,12 @@
+import { imageKitImageUrl } from '@susan/contracts';
+
 export interface CmsMedia {
   url?: string | null;
   updatedAt?: string | null;
   alt?: string | null;
+  width?: number | null;
+  height?: number | null;
+  mimeType?: string | null;
 }
 
 export function resolveCmsMedia(
@@ -16,7 +21,7 @@ export function resolveCmsMedia(
     const url = new URL(pathname, cmsApiUrl);
     if (!['http:', 'https:'].includes(url.protocol)) return fallback;
     if (media.updatedAt) url.searchParams.set('v', media.updatedAt);
-    return url.toString();
+    return media.mimeType?.startsWith('video/') ? url.toString() : imageKitImageUrl(url.toString(), media);
   } catch {
     return fallback;
   }

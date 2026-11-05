@@ -1,5 +1,6 @@
 import { z } from 'zod'
 export { websiteImageSlots, type WebsiteImageSlot } from './website-images.js'
+export { imageKitImageUrl, type MediaDimensions } from './media.js'
 
 export const inquiryTypes = ['room', 'spa', 'wedding', 'event', 'general'] as const
 

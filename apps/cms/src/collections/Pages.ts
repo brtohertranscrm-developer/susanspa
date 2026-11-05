@@ -2,7 +2,7 @@ import { RESERVED_PAGE_SLUGS } from '@susan/contracts/content'
 import type { Block, CollectionConfig } from 'payload'
 import { canManageContent, publicPublishedOrEditor } from '../access'
 import { slugField } from '../lib/fields'
-import { webUrl } from '../lib/publicLinks'
+import { pagePreviewEndpoint, pagePreviewUrl } from '../lib/pagePreview'
 
 const link = (prefix: string, label: string) =>
   [
@@ -130,7 +130,7 @@ export const Pages: CollectionConfig = {
     defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
     description:
       'Buat halaman baru tanpa bantuan programmer, atau hapus halaman yang tidak dipakai. Setelah diterbitkan, tambahkan tautannya di Header, Menu & Footer agar pengunjung bisa menemukannya.',
-    preview: (doc) => (doc?.slug ? `${webUrl}/${doc.slug}` : null),
+    preview: pagePreviewUrl,
   },
   access: {
     create: canManageContent,
@@ -139,6 +139,7 @@ export const Pages: CollectionConfig = {
     delete: canManageContent,
   },
   versions: { drafts: { autosave: true }, maxPerDoc: 25 },
+  endpoints: [pagePreviewEndpoint],
   fields: [
     {
       type: 'collapsible',

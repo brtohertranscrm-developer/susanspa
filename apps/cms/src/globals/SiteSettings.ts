@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { websiteImageSlots } from '@susan/contracts'
-import { canManageContent } from '../access'
+import { canManageContent, publicPublishedOrEditor } from '../access'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
@@ -8,7 +8,7 @@ export const SiteSettings: GlobalConfig = {
   admin: {
   },
   access: {
-    read: () => true,
+    read: publicPublishedOrEditor,
     update: canManageContent,
   },
   versions: { drafts: true, max: 25 },

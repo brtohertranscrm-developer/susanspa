@@ -1,5 +1,6 @@
-import { getPayload } from 'payload'
+import { getPayload, type BasePayload, type RequiredDataFromCollectionSlug } from 'payload'
 import config from '../src/payload.config'
+import { getOrCreateSeedMedia } from '../src/lib/seedMedia'
 
 // Import all static data
 import { ROOMS } from '../../web/src/data/rooms'
@@ -7,13 +8,14 @@ import { SPA_TREATMENTS } from '../../web/src/data/spa'
 import { WEDDING_PACKAGES } from '../../web/src/data/weddings'
 import { OFFERS } from '../../web/src/data/offers'
 import { FACILITIES } from '../../web/src/data/facilities'
-import { GALLERY_ITEMS } from '../../web/src/data/gallery'
 import { DINING_VENUES } from '../../web/src/data/dining'
 import { EXPERIENCES } from '../../web/src/data/experiences'
 import { NEARBY_DESTINATIONS } from '../../web/src/data/nearby'
 import { JOURNAL_ARTICLES } from '../../web/src/data/journal'
 
-async function upsertBySlug(payload: any, collection: string, slug: string, data: any) {
+type SeedCollection = 'rooms' | 'spa-treatments' | 'wedding-packages' | 'offers' | 'resort-content' | 'journal-articles'
+
+async function upsertBySlug(payload: BasePayload, collection: SeedCollection, slug: string, data: RequiredDataFromCollectionSlug<SeedCollection>) {
   const existing = await payload.find({
     collection,
     where: {
@@ -38,24 +40,6 @@ async function upsertBySlug(payload: any, collection: string, slug: string, data
   })
 }
 
-async function getOrCreateMedia(payload: any, url: string, alt: string) {
-  const existing = await payload.find({
-    collection: 'media',
-    where: { url: { equals: url } },
-    limit: 1,
-  })
-  
-  if (existing.docs.length > 0) {
-    return existing.docs[0].id
-  }
-  
-  const created = await payload.create({
-    collection: 'media',
-    data: { alt, url },
-  })
-  return created.id
-}
-
 function parseIndonesianDate(dateStr: string) {
   const months: Record<string, string> = {
     'Januari': '01', 'Februari': '02', 'Maret': '03', 'April': '04',
@@ -74,7 +58,7 @@ function parseIndonesianDate(dateStr: string) {
   return new Date().toISOString()
 }
 
-async function seedAll(payload: any) {
+async function seedAll(payload: BasePayload) {
   console.log('Seeding Rooms...')
   for (const room of ROOMS) {
     await upsertBySlug(payload, 'rooms', room.slug, {
@@ -117,7 +101,7 @@ async function seedAll(payload: any) {
       summary: wedding.tagline || '',
       description: wedding.description,
       venue: typeof wedding.venue === 'string' ? wedding.venue : (wedding.venue?.[0] || ''),
-      capacity: parseInt(wedding.guestCapacity || (wedding as any).capacity || '100', 10) || 100,
+      capacity: parseInt(wedding.guestCapacity || wedding.capacity || '100', 10) || 100,
       priceLabel: wedding.priceStartingIdr || 0,
       inclusions: wedding.inclusions.map((i: string) => ({ label: i })),
       _status: 'published',
@@ -185,7 +169,7 @@ async function seedAll(payload: any) {
 
   console.log('Seeding Journal Articles...')
   for (const article of JOURNAL_ARTICLES) {
-    const coverImageId = await getOrCreateMedia(payload, article.coverImage, article.title)
+    const coverImageId = await getOrCreateSeedMedia(payload, article.coverImage, article.title)
     const publishedAt = parseIndonesianDate(article.publishedAt)
 
     await upsertBySlug(payload, 'journal-articles', article.slug, {
@@ -247,9 +231,9 @@ async function main() {
     console.error('Seeding failed:', error)
     process.exitCode = 1
     throw error
+  } finally {
+    await payload.destroy()
   }
 }
 
-main().catch(() => {
-  process.exitCode = 1
-})
+main().then(() => process.exit(0)).catch(() => process.exit(1))

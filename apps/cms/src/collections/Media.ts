@@ -1,39 +1,24 @@
-import ImageKit from '@imagekit/nodejs'
+import { imageKitImageUrl } from '@susan/contracts'
 import { APIError, type CollectionConfig } from 'payload'
 import { canManageContent, isContentAdmin } from '../access'
-
-let imagekit: ImageKit | null = null
-
-// Kunci hanya dibaca dari environment. Klien dibuat saat dibutuhkan agar CMS tetap bisa berjalan tanpa kunci.
-// baseURL sengaja tidak diisi. Isi dengan URL pengiriman (ik.imagekit.io) membuat SDK mengirim upload ke host
-// yang tidak menerima upload. Tanpa baseURL, SDK memakai upload.imagekit.io dan api.imagekit.io sendiri.
-const getImageKit = () => {
-  const privateKey = process.env.IMAGEKIT_PRIVATE_KEY
-  if (!privateKey) {
-    throw new APIError(
-      'Unggah foto belum bisa dipakai karena IMAGEKIT_PRIVATE_KEY belum diatur di server.',
-      500,
-      undefined,
-      true,
-    )
-  }
-  imagekit ??= new ImageKit({ privateKey })
-  return imagekit
-}
-
-// ImageKit tidak bisa mengubah ukuran foto di atas 25 megapixel. Foto seperti itu ditampilkan apa adanya.
-const IMAGEKIT_TRANSFORM_MAX_PIXELS = 25_000_000
+import { getImageKit } from '../lib/imagekit'
+import { queueMediaCleanup } from '../lib/mediaCleanup'
 
 // Pustaka menampilkan versi 320 px dari ImageKit agar foto asli beresolusi tinggi tidak diunduh untuk setiap kotak.
 const thumbnailUrl = ({ doc }: { doc: Record<string, unknown> }) => {
   const url = typeof doc.url === 'string' ? doc.url : null
   if (!url) return null
-  if (!url.includes('ik.imagekit.io')) return url
-  if (String(doc.mimeType ?? '').startsWith('video/')) return `${url}/ik-thumbnail.jpg`
-  const width = Number(doc.width)
-  const height = Number(doc.height)
-  const tooLarge = width > 0 && height > 0 && width * height > IMAGEKIT_TRANSFORM_MAX_PIXELS
-  return tooLarge ? url : `${url}${url.includes('?') ? '&' : '?'}tr=w-320`
+  if (String(doc.mimeType ?? '').startsWith('video/')) {
+    try {
+      const parsed = new URL(url)
+      if (parsed.hostname !== 'ik.imagekit.io') return url
+      parsed.pathname += '/ik-thumbnail.jpg'
+      return parsed.toString()
+    } catch {
+      return url
+    }
+  }
+  return imageKitImageUrl(url, {}, 320)
 }
 
 export const Media: CollectionConfig = {
@@ -57,6 +42,13 @@ export const Media: CollectionConfig = {
     delete: canManageContent,
   },
   fields: [
+    {
+      name: 'seedSource',
+      type: 'text',
+      unique: true,
+      admin: { hidden: true },
+      access: { create: () => false, update: () => false, read: ({ req }) => isContentAdmin(req.user) },
+    },
     {
       type: 'collapsible',
       label: 'Informasi foto',
@@ -91,8 +83,8 @@ export const Media: CollectionConfig = {
         condition: (_data, _siblingData, { user }) => isContentAdmin(user),
       },
       fields: [
-        { name: 'url', type: 'text', admin: { readOnly: true }, label: 'URL Publik' },
-        { name: 'imagekitFileId', type: 'text', admin: { readOnly: true }, label: 'ImageKit File ID' },
+        { name: 'url', type: 'text', access: { create: () => false, update: () => false }, admin: { readOnly: true }, label: 'URL Publik' },
+        { name: 'imagekitFileId', type: 'text', access: { create: () => false, update: () => false }, admin: { readOnly: true }, label: 'ImageKit File ID' },
       ],
     },
   ],
@@ -105,6 +97,15 @@ export const Media: CollectionConfig = {
     adminThumbnail: thumbnailUrl,
   },
   hooks: {
+    afterRead: [
+      ({ doc }) => {
+        if (typeof doc.url === 'string' && String(doc.mimeType ?? '').startsWith('image/')) {
+          doc.url = imageKitImageUrl(doc.url, { width: Number(doc.width), height: Number(doc.height) })
+        }
+        doc.thumbnailURL = thumbnailUrl({ doc })
+        return doc
+      },
+    ],
     beforeChange: [
       async ({ data, req }) => {
         if (req.file && req.file.data) {
@@ -127,6 +128,19 @@ export const Media: CollectionConfig = {
               true,
             )
           }
+          if (!response.fileId || !response.url) {
+            throw new APIError('ImageKit tidak mengembalikan ID dan URL berkas yang valid.', 502, undefined, true)
+          }
+          try {
+            await queueMediaCleanup(req.payload, response.fileId)
+          } catch (error) {
+            try {
+              await client.files.delete(response.fileId)
+            } catch (cleanupError) {
+              req.payload.logger.error({ err: cleanupError, fileId: response.fileId, msg: 'Upload batal; file ImageKit perlu dibersihkan secara manual' })
+            }
+            throw error
+          }
           data.url = response.url
           data.imagekitFileId = response.fileId
           // Nama dari ImageKit sudah unik. Nama asli dari pengunggah bisa bentrok dengan foto lain di database.
@@ -139,15 +153,17 @@ export const Media: CollectionConfig = {
         return data
       },
     ],
-    afterDelete: [
-      async ({ doc }) => {
-        if (doc.imagekitFileId) {
-          try {
-            await getImageKit().files.delete(doc.imagekitFileId)
-          } catch (e) {
-            console.error('Failed to delete imagekit file', e)
-          }
+    afterChange: [
+      async ({ doc, previousDoc, req }) => {
+        if (previousDoc?.imagekitFileId && previousDoc.imagekitFileId !== doc.imagekitFileId) {
+          await queueMediaCleanup(req.payload, previousDoc.imagekitFileId, req)
         }
+        return doc
+      },
+    ],
+    afterDelete: [
+      async ({ doc, req }) => {
+        if (doc.imagekitFileId) await queueMediaCleanup(req.payload, doc.imagekitFileId, req)
       },
     ],
   },

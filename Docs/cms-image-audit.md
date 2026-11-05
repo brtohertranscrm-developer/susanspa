@@ -87,3 +87,13 @@ Validasi versi gabungan:
 - Penggantian versi gambar pada record media yang sama tampil setelah refresh dan gambar teroptimasi berhasil dimuat.
 - Pemeriksaan snapshot memastikan seluruh tabel, kolom, indeks, dan foreign key remote tetap utuh; hanya 40 kolom gambar ditambahkan pada pengaturan situs dan versi drafnya.
 - Database kerja/produksi tidak disentuh oleh validasi ini. Push ke main memicu workflow deployment yang sudah ada; keberhasilan migrasi dan deployment produksi harus dikonfirmasi terpisah.
+
+## Foto AVIF besar yang gagal, 5 November 2026
+
+Foto `MNP_3585_copy_7Y6wLDF6m.avif` berukuran 8114 x 5406 piksel. Permintaan URL asli merespons HTTP 400 dengan header `ik-error: ELIMIT - Exceeds image resolution limit of 25.0 MP`. Permintaan berkas yang sama dengan `tr=w-320` dan `tr=w-2560` merespons HTTP 200. Kondisi thumbnail sebelumnya justru melewati resize untuk foto di atas 25 megapiksel dan mengirim URL asli yang gagal tersebut.
+
+- Helper bersama membentuk thumbnail ImageKit 320 piksel dan URL tampilan 2560 piksel untuk foto besar yang belum memiliki transformasi. URL transformasi yang sudah dipilih tetap dipertahankan.
+- Hook baca Media memperbaiki URL respons dan thumbnail pada record lama tanpa migrasi atau penggantian berkas. File asli dan ID ImageKit tidak dihapus.
+- Normalisasi website juga menangani metadata foto besar dari respons CMS lama, mempertahankan versi URL, serta tidak menambahkan transformasi gambar ke video.
+- Pemeriksaan baca-saja terhadap 11 record media publik menemukan 5 foto di atas 25 megapiksel. URL tampilan dan thumbnail yang dihasilkan untuk kelimanya merespons HTTP 200.
+- Tes regresi mencakup foto yang dilaporkan, batas ukuran, transformasi lama, origin lain, versi URL, dan video. Perbaikan ini memerlukan rilis kode CMS dan website agar terlihat pada situs aktif; hasil HTTP di atas memverifikasi sumber gambar, bukan deployment.

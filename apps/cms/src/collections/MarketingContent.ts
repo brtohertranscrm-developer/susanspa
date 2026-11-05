@@ -1,4 +1,4 @@
-import type { ArrayField, CollectionConfig, Field } from 'payload'
+import { APIError, type ArrayField, type CollectionConfig, type Field } from 'payload'
 import { FACILITY_CATEGORIES } from '@susan/contracts/content'
 import { canManageContent, publicPublishedOrEditor } from '../access'
 
@@ -110,14 +110,30 @@ export const WeddingPackages = buildContentCollection('wedding-packages', 'Paket
   },
 ])
 
-export const Offers = buildContentCollection('offers', 'Promo', 'Promo', [
-  { name: 'validFrom', type: 'date', label: 'Berlaku Mulai' },
-  { name: 'validUntil', type: 'date', label: 'Berlaku Hingga' },
-  { name: 'terms', type: 'textarea', localized: true, label: 'Syarat & Ketentuan' },
-  { name: 'badge', type: 'text', localized: true, defaultValue: 'Special Offer', label: 'Label di pojok foto' },
-  { name: 'validityLabel', type: 'text', localized: true, label: 'Keterangan masa berlaku', admin: { description: 'Contoh: Berlaku hingga 31 Desember 2026. Kosongkan untuk memakai tanggal Berlaku Hingga.' } },
-  listOf('inclusions', 'Isi paket', 'Inklusi'),
-])
+export const Offers: CollectionConfig = {
+  ...buildContentCollection('offers', 'Promo', 'Promo', [
+    { name: 'scheduleEnabled', type: 'checkbox', defaultValue: false, label: 'Batasi tayang sesuai jadwal', admin: { description: 'Jika aktif, promo terbit hanya tampil antara waktu mulai dan selesai. Jika nonaktif, editor mengatur tayang lewat Terbitkan dan Tarik dari website.' } },
+    { name: 'validFrom', type: 'date', label: 'Berlaku Mulai', admin: { date: { pickerAppearance: 'dayAndTime' } } },
+    { name: 'validUntil', type: 'date', label: 'Berlaku Hingga', admin: { date: { pickerAppearance: 'dayAndTime' } } },
+    { name: 'terms', type: 'textarea', localized: true, label: 'Syarat & Ketentuan' },
+    { name: 'badge', type: 'text', localized: true, defaultValue: 'Special Offer', label: 'Label di pojok foto' },
+    { name: 'validityLabel', type: 'text', localized: true, label: 'Keterangan masa berlaku', admin: { description: 'Contoh: Berlaku hingga 31 Desember 2026. Kosongkan untuk memakai tanggal Berlaku Hingga.' } },
+    listOf('inclusions', 'Isi paket', 'Inklusi'),
+  ]),
+  hooks: {
+    beforeValidate: [({ data, originalDoc }) => {
+      const schedule = { ...originalDoc, ...data }
+      if (schedule.scheduleEnabled) {
+        const start = schedule.validFrom ? Date.parse(schedule.validFrom) : -Infinity
+        const end = schedule.validUntil ? Date.parse(schedule.validUntil) : Infinity
+        if (Number.isNaN(start) || Number.isNaN(end) || end < start) {
+          throw new APIError('Jadwal promo tidak valid: waktu selesai harus setelah atau sama dengan waktu mulai.', 400, undefined, true)
+        }
+      }
+      return data
+    }],
+  },
+}
 
 export const ResortContent = buildContentCollection('resort-content', 'Info Resort', 'Info Resort', [
   {

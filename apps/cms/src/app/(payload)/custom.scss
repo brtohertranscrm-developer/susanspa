@@ -610,11 +610,6 @@ label.field-label {
   font-size: 15px;
 }
 
-/* Tautan bawaan "Lupa kata sandi?" butuh layanan email yang belum dipasang. Penggantinya ada di LoginHelp. */
-.template-minimal.login a[href$='/forgot'] {
-  display: none !important;
-}
-
 .susan-login-help {
   margin-top: 28px;
   display: flex;

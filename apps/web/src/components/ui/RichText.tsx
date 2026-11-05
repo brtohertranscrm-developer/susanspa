@@ -58,7 +58,8 @@ function renderNode(node: RichTextNode, key: React.Key): React.ReactNode {
       return <blockquote key={key}>{renderChildren(node.children)}</blockquote>;
     case 'link':
     case 'autolink': {
-      const href = node.fields?.url ?? node.url ?? '#';
+      const candidate = node.fields?.url ?? node.url ?? '#';
+      const href = /^(https?:|mailto:|tel:)/i.test(candidate) || /^(\/(?!\/)|#|\?)/.test(candidate) ? candidate : '#';
       const newTab = node.fields?.newTab || /^https?:\/\//.test(href);
       return (
         <a key={key} href={href} {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>

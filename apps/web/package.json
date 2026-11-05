@@ -8,7 +8,8 @@
     "start": "next start -p 3000",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test:rooms": "node --import tsx --test tests/room-catalog.test.ts",
+    "test:rooms": "node --conditions=import --import tsx --test tests/room-catalog.test.ts",
+    "test:richtext": "node --import tsx --test tests/rich-text.test.tsx",
     "test:cms": "TSX_TSCONFIG_PATH=tsconfig.json node --conditions=react-server --conditions=import --import tsx --test tests/cms-media.test.ts tests/cms.test.ts"
   },
   "dependencies": {

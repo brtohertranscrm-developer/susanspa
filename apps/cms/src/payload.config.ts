@@ -18,6 +18,8 @@ import { SiteSettings } from './globals/SiteSettings'
 import { Pages } from './collections/Pages'
 import { CARDS_PER_PAGE } from './lib/listCards'
 import { NAV } from './lib/navigation'
+import { deleteImageKitFile, MEDIA_CLEANUP_QUEUE } from './lib/mediaCleanup'
+import { cmsEmail } from './lib/email'
 
 const PAGE_PATHS: Record<string, string> = {
   'page-home': '/',
@@ -46,6 +48,25 @@ const cmsUrl = process.env.CMS_PUBLIC_URL || 'http://localhost:3001'
 const webUrl = process.env.WEB_URL || 'http://localhost:3000'
 
 export default buildConfig({
+  email: cmsEmail(),
+  jobs: {
+    tasks: [deleteImageKitFile],
+    jobsCollectionOverrides: ({ defaultJobsCollection }) => ({
+      ...defaultJobsCollection,
+      access: {
+        create: () => false,
+        read: ({ req }) => Boolean(req.user?.roles?.includes('content-admin')),
+        update: () => false,
+        delete: ({ req }) => Boolean(req.user?.roles?.includes('content-admin')),
+      },
+    }),
+    autoRun: [{ cron: '* * * * *', queue: MEDIA_CLEANUP_QUEUE, limit: 25 }],
+    access: {
+      queue: () => false,
+      run: ({ req }) => Boolean(req.user?.roles?.includes('content-admin')),
+      cancel: ({ req }) => Boolean(req.user?.roles?.includes('content-admin')),
+    },
+  },
   serverURL: cmsUrl,
   routes: { admin: '/cms' },
   admin: {
@@ -65,6 +86,9 @@ export default buildConfig({
       afterLogin: ['@/components/login/LoginHelp#LoginHelp'],
       Nav: '@/components/sidebar/SidebarNav#SidebarNav',
       views: {
+        forgot: {
+          Component: '@/components/login/ForgotPasswordView#ForgotPasswordView',
+        },
         dashboard: {
           Component: '@/components/dashboard/CustomDashboard#CustomDashboard',
         },

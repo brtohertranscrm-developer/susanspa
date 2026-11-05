@@ -22,6 +22,8 @@ import { getJournalArticles, getRooms } from '@/lib/cms';
 import { getPageContent } from '@/lib/content';
 import { getCustomPageSlugs } from '@/lib/custom-pages';
 
+export const dynamic = 'force-dynamic';
+
 // Halaman bawaan yang bisa dimatikan dari CMS. Beranda selalu tampil.
 const SWITCHABLE_PAGES = [
   ['/rooms', roomsPage],

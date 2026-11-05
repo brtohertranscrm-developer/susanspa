@@ -117,7 +117,22 @@ async function fetchPages(query: string): Promise<Record<string, unknown>[]> {
       console.warn(`Halaman tambahan dari CMS gagal dimuat: HTTP ${response.status}`);
       return [];
     }
-    return ((await response.json()) as { docs: Record<string, unknown>[] }).docs;
+    const docs: Record<string, unknown>[] = [];
+    let page = 1;
+    let current = response;
+    while (true) {
+      const data = await current.json() as { docs: Record<string, unknown>[]; hasNextPage?: boolean; nextPage?: number | null };
+      if (!Array.isArray(data.docs)) throw new Error('Invalid CMS pages response');
+      docs.push(...data.docs);
+      if (!data.hasNextPage) return docs;
+      if (!Number.isInteger(data.nextPage) || data.nextPage! <= page) throw new Error('Invalid CMS pagination');
+      page = data.nextPage!;
+      parameters.set('page', String(page));
+      current = await fetch(`${cmsApiUrl}/api/pages?${parameters}`, {
+        cache: 'no-store', headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(4000),
+      });
+      if (!current.ok) throw new Error(`CMS pages HTTP ${current.status}`);
+    }
   } catch (error) {
     console.warn('Halaman tambahan dari CMS tidak bisa dihubungi:', error);
     return [];
@@ -129,11 +144,31 @@ export async function getCustomPage(slug: string): Promise<CustomPage | null> {
   const query = new URLSearchParams({ 'where[slug][equals]': slug, locale: 'id', depth: '1', limit: '1' });
   const [doc] = await fetchPages(query.toString());
   if (!doc) return null;
+  return normalizePage(doc);
+}
+
+function normalizePage(doc: Record<string, unknown>): CustomPage {
   return {
     ...(doc as unknown as CustomPage),
     heroImage: toImage(doc.heroImage),
     sections: ((doc.sections as Record<string, unknown>[] | undefined) ?? []).map(normalizeSection),
   };
+}
+
+export async function getCustomPagePreview(id: string, token: string, locale = 'id'): Promise<CustomPage | null> {
+  if (!cmsApiUrl || !/^\d+$/.test(id) || !/^\d+\.[A-Za-z0-9_-]{43}$/.test(token)) return null;
+  try {
+    const query = new URLSearchParams({ locale: locale === 'en' ? 'en' : 'id' });
+    const response = await fetch(`${cmsApiUrl}/api/pages/${encodeURIComponent(id)}/preview?${query}`, {
+      cache: 'no-store',
+      headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!response.ok) return null;
+    return normalizePage(await response.json() as Record<string, unknown>);
+  } catch {
+    return null;
+  }
 }
 
 export async function getCustomPageSlugs(): Promise<{ slug: string; updatedAt?: string }[]> {

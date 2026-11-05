@@ -21,7 +21,8 @@ export interface CmsRoom {
   sortOrder?: number | null;
 }
 
-export function resolveRoomCatalog(documents: CmsRoom[], cmsApiUrl?: string): Room[] {
+export function resolveRoomCatalog(documents: CmsRoom[] | null, cmsApiUrl?: string): Room[] {
+  if (documents === null) return ROOMS;
   // Retire only the known demo entries; keep all other published CMS additions.
   // No CMS records or booking history are deleted by this presentation change.
   const retiredDemoSlugs = new Set(['grand-villa', 'royal-suite', 'jacuzzi-villa', 'family-suite', 'deluxe-mountain']);
@@ -60,9 +61,5 @@ export function resolveRoomCatalog(documents: CmsRoom[], cmsApiUrl?: string): Ro
     };
   });
 
-  // A partially populated CMS must not hide the remaining official room types.
-  return [
-    ...ROOMS.map((room) => cmsRooms.find((entry) => entry.slug === room.slug) || room),
-    ...cmsRooms.filter((room) => !ROOMS.some((entry) => entry.slug === room.slug)),
-  ];
+  return cmsRooms;
 }

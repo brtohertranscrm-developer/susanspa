@@ -8,6 +8,20 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    services:
+      cms-test-db:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: susan_test
+          POSTGRES_PASSWORD: isolated_test_only
+          POSTGRES_DB: susan_cms_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U susan_test -d susan_cms_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
 
     steps:
       - name: Checkout Repository
@@ -29,6 +43,14 @@ jobs:
         run: |
           echo "Building contracts and booking-api..."
           npm run build -w @susan/contracts
+          echo "Running CMS regression tests..."
+          npm run test -w @susan/cms
+          npm run typecheck:seed -w @susan/cms
+          DATABASE_URL=postgres://susan_test:isolated_test_only@127.0.0.1:5432/susan_cms_test PAYLOAD_SECRET=isolated-ci-migration-secret npm run payload -w @susan/cms -- migrate
+          CMS_TEST_DATABASE_URL=postgres://susan_test:isolated_test_only@127.0.0.1:5432/susan_cms_test npm run test:integration -w @susan/cms
+          npm run test:cms -w @susan/web
+          npm run test:rooms -w @susan/web
+          npm run test:richtext -w @susan/web
           npm run build -w @susan/booking-api
 
           echo "Building web application..."

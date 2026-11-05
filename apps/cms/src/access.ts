@@ -19,6 +19,6 @@ export const canManageContent: Access = ({ req }) =>
 export const contentAdminOnly: Access = ({ req }) => Boolean(req.user && isContentAdmin(req.user))
 
 export const publicPublishedOrEditor: Access = ({ req }) => {
-  if (req.user) return true
+  if (req.user && (getRoles(req.user).includes('content-admin') || getRoles(req.user).includes('content-editor'))) return true
   return { _status: { equals: 'published' } }
 }

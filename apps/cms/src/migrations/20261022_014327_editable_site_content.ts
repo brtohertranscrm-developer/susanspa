@@ -4,7 +4,7 @@ import { initialData } from '../lib/contentFields'
 
 const OLD_HERO_KEYS = ['about', 'events', 'ballroom', 'dining', 'experiences', 'facilities', 'gallery', 'nearby', 'offers', 'rooms', 'spa', 'wedding']
 
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+export async function up({ db }: MigrateUpArgs): Promise<void> {
   // Foto hero yang sudah dipilih di global lama dipindahkan ke header halaman yang baru.
   const oldHeroes = await db.execute(sql`SELECT * FROM "page_heroes" LIMIT 1`)
   const oldHero = (oldHeroes.rows[0] ?? {}) as Record<string, number | null>
@@ -1216,17 +1216,18 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "journal_articles_author_avatar_idx" ON "journal_articles" USING btree ("author_avatar_id");
   CREATE INDEX "_journal_articles_v_version_version_author_avatar_idx" ON "_journal_articles_v" USING btree ("version_author_avatar_id");`)
 
-  // Teks yang sekarang tampil di website diisikan ke CMS agar editor langsung melihat dan bisa mengubahnya.
+  await db.execute(sql`CREATE TABLE "cms_content_backfill" ("slug" varchar PRIMARY KEY, "data" jsonb NOT NULL)`)
   for (const spec of contentGlobals) {
     const data = initialData(spec.fields)
     const key = spec.slug.replace(/^page-/, '')
     const heroImage = OLD_HERO_KEYS.includes(key) ? oldHero[`${key}_id`] : null
     if (heroImage) (data.hero as Record<string, unknown>).image = heroImage
-    await payload.updateGlobal({ slug: spec.slug as never, data: data as never, locale: 'id', req })
+    await db.execute(sql`INSERT INTO "cms_content_backfill" ("slug", "data") VALUES (${spec.slug}, ${JSON.stringify(data)}::jsonb)`)
   }
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+  await db.execute(sql`DROP TABLE IF EXISTS "cms_content_backfill"`)
   await db.execute(sql`
    CREATE TABLE "page_heroes" (
   	"id" serial PRIMARY KEY NOT NULL,

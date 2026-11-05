@@ -11,6 +11,7 @@ import { WhatsAppCTA } from '@/components/global/WhatsAppCTA';
 import { fillTemplate } from '@susan/contracts/content';
 import { useUiText } from '@/components/global/SiteContentProvider';
 import type { JournalArticle } from '@/types';
+import { RichText } from '@/components/ui/RichText';
 
 export default function JournalDetailClient({ article }: { article: JournalArticle | null }) {
   const { journalDetail: text } = useUiText();
@@ -68,7 +69,7 @@ export default function JournalDetailClient({ article }: { article: JournalArtic
         )}
 
         <div className="space-y-6 text-sm text-charcoal/80 leading-relaxed font-normal pt-4">
-          {article.content.map((p, idx) => (
+          {article.richText ? <RichText content={article.richText} className="space-y-6 [&_h2]:font-serif [&_h2]:text-2xl [&_h3]:text-xl [&_a]:underline [&_ol]:list-decimal [&_ul]:list-disc [&_li]:ml-6" /> : article.content.map((p, idx) => (
             <p key={idx}>{p}</p>
           ))}
         </div>

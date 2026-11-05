@@ -15,6 +15,7 @@ export const RESERVED_PAGE_SLUGS = [
   'news-and-event',
   'offers',
   'privacy',
+  'preview',
   'reserve',
   'robots.txt',
   'rooms',

@@ -5,6 +5,65 @@ process.env.CMS_API_URL = 'https://cms.example.test';
 process.env.CMS_PUBLIC_URL = 'https://media.example.test';
 const cmsPromise = import('../src/lib/cms');
 
+test('offers loader excludes future and expired scheduled offers but preserves manual offers', async () => {
+  const cms = await cmsPromise;
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => Response.json({ docs: [
+    { id: 1, slug: 'future', title: 'Future', scheduleEnabled: true, validFrom: '2099-01-01T00:00:00Z' },
+    { id: 2, slug: 'expired', title: 'Expired', scheduleEnabled: true, validUntil: '2000-01-01T00:00:00Z' },
+    { id: 3, slug: 'manual', title: 'Manual', scheduleEnabled: false, validUntil: '2000-01-01T00:00:00Z' },
+    { id: 4, slug: 'active', title: 'Active', scheduleEnabled: true },
+  ] });
+  try {
+    assert.deepEqual((await cms.getOffers()).map(offer => offer.slug), ['manual', 'active']);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('offer scheduling is opt-in and respects exact time boundaries', async () => {
+  const { offerIsVisible } = await import('../src/lib/offer-schedule');
+  const start = '2026-11-05T08:00:00+07:00';
+  const end = '2026-11-05T09:00:00+07:00';
+  const offer = { scheduleEnabled: true, validFrom: start, validUntil: end };
+  assert.equal(offerIsVisible(offer, Date.parse(start) - 1), false);
+  assert.equal(offerIsVisible(offer, Date.parse(start)), true);
+  assert.equal(offerIsVisible(offer, Date.parse(end)), true);
+  assert.equal(offerIsVisible(offer, Date.parse(end) + 1), false);
+  assert.equal(offerIsVisible({ ...offer, scheduleEnabled: false }, Date.parse(end) + 1), true);
+  assert.equal(offerIsVisible({ scheduleEnabled: true }), true);
+  assert.equal(offerIsVisible({ scheduleEnabled: true, validFrom: 'invalid' }), false);
+});
+
+test('sitemap is dynamic, excludes disabled pages and uses published CMS catalogs', async () => {
+  const { default: sitemap, dynamic } = await import('../src/app/sitemap');
+  assert.equal(dynamic, 'force-dynamic');
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (input, init) => {
+    const url = new URL(String(input));
+    assert.equal(init?.cache, 'no-store');
+    assert.equal(url.searchParams.get('draft'), 'false');
+    if (url.pathname.includes('/globals/')) {
+      return Response.json({ enabled: url.pathname !== '/api/globals/page-spa' });
+    }
+    assert.equal(url.searchParams.get('where[_status][equals]'), 'published');
+    if (url.pathname === '/api/pages') return Response.json({ docs: [{ slug: 'published-custom', updatedAt: '2026-11-05T00:00:00Z' }] });
+    return Response.json({ docs: [] });
+  };
+  try {
+    const entries = await sitemap();
+    const urls = entries.map(entry => entry.url);
+    assert.ok(urls.includes('https://www.susansparesort.com'));
+    assert.ok(urls.includes('https://www.susansparesort.com/rooms'));
+    assert.ok(urls.includes('https://www.susansparesort.com/published-custom'));
+    assert.ok(!urls.includes('https://www.susansparesort.com/spa'));
+    assert.ok(!urls.some(url => url.includes('/rooms/') || url.includes('/journal/') || url.includes('/preview/')));
+    assert.equal(entries.find(entry => entry.url.endsWith('/published-custom'))?.lastModified?.toString(), new Date('2026-11-05T00:00:00Z').toString());
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test('every collection bypasses cache and requests published content', async () => {
   const cms = await cmsPromise;
   const originalFetch = globalThis.fetch;
@@ -20,6 +79,88 @@ test('every collection bypasses cache and requests published content', async () 
   try {
     await Promise.all([cms.getRooms(), cms.getSpaTreatments(), cms.getWeddingPackages(), cms.getDining(), cms.getFacilities(), cms.getGalleryItems(), cms.getOffers(), cms.getExperiences(), cms.getNearbyDestinations(), cms.getJournalArticles()]);
     assert.equal(requests.length, 10);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('successful empty published collections stay empty rather than resurrecting defaults', async () => {
+  const cms = await cmsPromise;
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => Response.json({ docs: [] });
+  try {
+    for (const getter of [cms.getRooms, cms.getSpaTreatments, cms.getWeddingPackages, cms.getOffers, cms.getFacilities, cms.getDining, cms.getExperiences, cms.getNearbyDestinations, cms.getGalleryItems, cms.getJournalArticles]) {
+      assert.deepEqual(await getter(), []);
+    }
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('collection pagination returns all pages and never returns a partial catalog after a failure', async () => {
+  const cms = await cmsPromise;
+  const originalFetch = globalThis.fetch;
+  const pages: number[] = [];
+  globalThis.fetch = async (input) => {
+    const page = Number(new URL(String(input)).searchParams.get('page'));
+    pages.push(page);
+    return Response.json({ docs: [{ id: page }], hasNextPage: page < 3, nextPage: page < 3 ? page + 1 : null });
+  };
+  try {
+    assert.deepEqual(await cms.getCmsCollection('offers', []), [{ id: 1 }, { id: 2 }, { id: 3 }]);
+    assert.deepEqual(pages, [1, 2, 3]);
+    globalThis.fetch = async (input) => Number(new URL(String(input)).searchParams.get('page')) === 1
+      ? Response.json({ docs: [{ id: 1 }], hasNextPage: true, nextPage: 2 })
+      : new Response(null, { status: 503 });
+    assert.equal(await cms.getCmsCollection('offers', null), null);
+    globalThis.fetch = async () => Response.json({ docs: [], hasNextPage: true, nextPage: 1 });
+    assert.equal(await cms.getCmsCollection('offers', null), null);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('journal mapping preserves the original rich-text tree', async () => {
+  const cms = await cmsPromise;
+  const originalFetch = globalThis.fetch;
+  const content = { root: { children: [
+    { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Heading' }] },
+    { type: 'paragraph', children: [{ type: 'link', fields: { url: 'https://example.test' }, children: [{ type: 'text', text: 'Link', format: 1 }] }] },
+  ] } };
+  globalThis.fetch = async () => Response.json({ docs: [{ id: 1, slug: 'article', title: 'Article', content }] });
+  try {
+    assert.deepEqual((await cms.getJournalArticles())[0].richText, content);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('custom page sitemap follows pagination and preview forwards only its scoped bearer token', async () => {
+  const { getCustomPageSlugs, getCustomPagePreview } = await import('../src/lib/custom-pages');
+  const originalFetch = globalThis.fetch;
+  const token = `1900000000.${'a'.repeat(43)}`;
+  let calls = 0;
+  globalThis.fetch = async (input, init) => {
+    calls += 1;
+    const url = new URL(String(input));
+    assert.equal(init?.cache, 'no-store');
+    if (url.pathname.endsWith('/preview')) {
+      assert.equal(url.pathname, '/api/pages/42/preview');
+      assert.equal(new Headers(init?.headers).get('authorization'), `Bearer ${token}`);
+      assert.equal(url.searchParams.has('token'), false);
+      return Response.json({ slug: 'draft-page', title: 'Draft title', sections: [] });
+    }
+    const page = Number(url.searchParams.get('page') || 1);
+    assert.equal(url.searchParams.get('draft'), 'false');
+    return Response.json({ docs: [{ slug: `page-${page}` }], hasNextPage: page === 1, nextPage: page === 1 ? 2 : null });
+  };
+  try {
+    assert.deepEqual((await getCustomPageSlugs()).map(page => page.slug), ['page-1', 'page-2']);
+    assert.equal((await getCustomPagePreview('42', token))?.title, 'Draft title');
+    assert.equal(await getCustomPagePreview('42', 'invalid-token'), null);
+    assert.equal(calls, 3);
+    globalThis.fetch = async () => new Response(null, { status: 403 });
+    assert.equal(await getCustomPagePreview('42', token), null);
   } finally {
     globalThis.fetch = originalFetch;
   }
