@@ -257,6 +257,48 @@ test('isolated CMS REST permissions, publishing, localization, versions and medi
       assert.equal((await api('offers', 'POST', data, token)).status, 400)
       assert.equal((await api('offers', 'POST', { ...data, scheduleEnabled: false }, token)).status, 201)
     })
+
+    await suite.test('reconciliation registers provider metadata without uploading, is repeatable, and rolls back partial imports', async () => {
+      const { applyMediaReconciliation, planMediaReconciliation } = await import('../src/lib/mediaReconciliation')
+      const mediaConfig = payload.collections.media.config
+      assert.ok(mediaConfig.upload)
+      const required = mediaConfig.upload.filesRequiredOnCreate
+      const beforeUploads = uploadCount
+      const beforeDeletes = deletedFiles.length
+      const original = await payload.find({ collection: 'media', pagination: false, depth: 0, sort: 'id' })
+      const file = {
+        type: 'file' as const, fileId: `inventory-${suffix}`, name: `inventory-${suffix}.avif`,
+        filePath: `/SUSAN SPA/inventory-${suffix}.avif`, url: `https://ik.imagekit.io/test/SUSAN%20SPA/inventory-${suffix}.avif`,
+        mime: 'image/avif', size: 1024, width: 8000, height: 6000, isPrivateFile: false, isPublished: true,
+      }
+      const plan = planMediaReconciliation([file], original.docs, 'https://ik.imagekit.io/test/')
+      mediaConfig.upload.filesRequiredOnCreate = false
+      try {
+        const conflicting = { ...plan.candidates[0], imagekitFileId: `conflict-${suffix}`, filename: original.docs[0].filename! }
+        await assert.rejects(applyMediaReconciliation(payload, { ...plan, candidates: [...plan.candidates, conflicting] }), /Media conflict/)
+        assert.equal((await payload.count({ collection: 'media' })).totalDocs, original.totalDocs)
+        assert.equal((await payload.find({ collection: 'media', where: { imagekitFileId: { equals: file.fileId } } })).totalDocs, 0)
+        const imported = await applyMediaReconciliation(payload, plan)
+        assert.equal(imported.length, 1)
+        const registered = await payload.findByID({ collection: 'media', id: imported[0], locale: 'en', fallbackLocale: 'id' })
+        assert.equal(registered.imagekitFileId, file.fileId)
+        assert.equal(registered.filename, file.name)
+        assert.match(registered.url!, /tr=w-2560/)
+        assert.match(registered.thumbnailURL!, /w-320/)
+        assert.ok(registered.alt)
+        const after = await payload.find({ collection: 'media', pagination: false, depth: 0 })
+        assert.equal(planMediaReconciliation([file], after.docs, 'https://ik.imagekit.io/test/').candidates.length, 0)
+        for (const previous of original.docs) {
+          const current = after.docs.find(doc => doc.id === previous.id)!
+          assert.equal(current.imagekitFileId, previous.imagekitFileId)
+          assert.equal(current.updatedAt, previous.updatedAt)
+        }
+        assert.equal(uploadCount, beforeUploads)
+        assert.equal(deletedFiles.length, beforeDeletes)
+      } finally {
+        mediaConfig.upload.filesRequiredOnCreate = required
+      }
+    })
   } finally {
     await payload.destroy()
     await payload.db.pool.end()

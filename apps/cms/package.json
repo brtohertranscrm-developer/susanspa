@@ -10,6 +10,7 @@
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "typecheck": "tsc --noEmit",
     "typecheck:seed": "tsc --project tsconfig.seed.json",
+    "media:reconcile": "TSX_TSCONFIG_PATH=tsconfig.json node --import tsx scripts/reconcile-media.ts",
     "test": "node --import tsx --test tests/*.test.ts",
     "test:integration": "TSX_TSCONFIG_PATH=tsconfig.json node --import tsx --test tests/integration.test.ts",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",

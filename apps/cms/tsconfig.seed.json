@@ -3,6 +3,6 @@
   "compilerOptions": {
     "incremental": false
   },
-  "include": ["scripts/seed.ts", "src/payload-types.ts"],
+  "include": ["scripts/seed.ts", "scripts/reconcile-media.ts", "src/payload-types.ts"],
   "exclude": ["node_modules"]
 }
